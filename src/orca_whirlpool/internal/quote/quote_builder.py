@@ -2,7 +2,7 @@ from .increase_liquidity import IncreaseLiquidityQuote, IncreaseLiquidityQuotePa
 from .decrease_liquidity import DecreaseLiquidityQuote, DecreaseLiquidityQuoteParams, decrease_liquidity_quote_by_liquidity_with_params
 from .collect_fees_and_rewards import CollectFeesQuote, CollectFeesQuoteParams, collect_fees_quote
 from .collect_fees_and_rewards import CollectRewardsQuote, CollectRewardsQuoteParams, collect_rewards_quote
-from .swap.swap_manager import SwapQuote, SwapQuoteParams, swap_quote_with_params
+from .swap import SwapQuote, SwapQuoteParams, swap_quote_with_params
 
 
 class QuoteBuilder:

@@ -28,7 +28,7 @@ from orca_whirlpool.utils import DecimalUtil, PriceMath, SwapUtil, PDAUtil, Toke
 from orca_whirlpool.constants import ORCA_WHIRLPOOL_PROGRAM_ID
 from orca_whirlpool.instruction import WhirlpoolIx, SwapParams
 from orca_whirlpool.transaction import TransactionBuilder
-from orca_whirlpool.quote import QuoteBuilder, SwapQuote, SwapQuoteParams
+from orca_whirlpool.quote import QuoteBuilder, SwapQuoteParams
 from orca_whirlpool.types import Percentage, KeyedTickArray, SwapDirection, SpecifiedAmount
 
 load_dotenv()
@@ -111,13 +111,18 @@ async def main():
         slippage_tolerance=acceptable_slippage,
     ))
     print(quote)
+    print("amount", quote.amount)
+    print("other_amount_threshold", quote.other_amount_threshold)
+    print("slippage", acceptable_slippage)
+    print("direction", quote.direction)
+    print("specified_amount", quote.specified_amount)
 
     # execute transaction
     ix = WhirlpoolIx.swap(
         ctx.program_id,
         SwapParams(
-            amount=amount,
-            other_amount_threshold=other_amount_threshold,
+            amount=quote.amount,
+            other_amount_threshold=quote.other_amount_threshold,
             sqrt_price_limit=sqrt_price_limit,
             amount_specified_is_input=specified_amount.is_swap_input,
             a_to_b=direction.is_a_to_b,
@@ -127,9 +132,9 @@ async def main():
             token_vault_a=whirlpool.token_vault_a,
             token_owner_account_b=token_account_b,
             token_vault_b=whirlpool.token_vault_b,
-            tick_array_0=pubkeys[0],
-            tick_array_1=pubkeys[1],
-            tick_array_2=pubkeys[2],
+            tick_array_0=quote.tick_array_0,
+            tick_array_1=quote.tick_array_1,
+            tick_array_2=quote.tick_array_2,
             oracle=oracle,
         )
     )

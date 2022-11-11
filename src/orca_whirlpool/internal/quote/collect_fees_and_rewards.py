@@ -129,30 +129,30 @@ def collect_rewards_quote(
             rewards.append(None)
             continue
 
-        global_i_delta = u128_checked_mul_div_or_zero(
+        global_ri_delta = u128_checked_mul_div_or_zero(
             reward_info.emissions_per_second_x64,
             timestamp_delta,
             params.whirlpool.liquidity
         )
 
-        global_i = reward_info.growth_global_x64 + global_i_delta
-        lower_i = params.tick_lower.reward_growths_outside[i]
-        upper_i = params.tick_upper.reward_growths_outside[i]
-        invariant(lower_i <= global_i, "tick_lower.reward_growth_outside <= reward_info.growth_global")
-        invariant(upper_i <= global_i, "tick_upper.reward_growth_outside <= reward_info.growth_global")
+        global_ri = reward_info.growth_global_x64 + global_ri_delta
+        lower_ri = params.tick_lower.reward_growths_outside[i]
+        upper_ri = params.tick_upper.reward_growths_outside[i]
+        invariant(lower_ri <= global_ri, "tick_lower.reward_growth_outside <= reward_info.growth_global")
+        invariant(upper_ri <= global_ri, "tick_upper.reward_growth_outside <= reward_info.growth_global")
 
-        below_i = lower_i
+        below_ri = lower_ri
         if status == PositionStatus.PriceIsBelowRange:
-            below_i = global_i - lower_i
-        above_i = upper_i
+            below_ri = global_ri - lower_ri
+        above_ri = upper_ri
         if status == PositionStatus.PriceIsAboveRange:
-            above_i = global_i - above_i
+            above_ri = global_ri - above_ri
 
-        inside_i = u128_modular_subtraction(u128_modular_subtraction(global_i, below_i), above_i)
-        delta_i = u128_modular_subtraction(inside_i, position.reward_infos[i].growth_inside_checkpoint)
+        inside_ri = u128_modular_subtraction(u128_modular_subtraction(global_ri, below_ri), above_ri)
+        delta_ri = u128_modular_subtraction(inside_ri, position.reward_infos[i].growth_inside_checkpoint)
 
-        reward_owed_i_delta = Q64FixedPointMath.x64int_to_int(delta_i * position.liquidity)
+        reward_owed_ri_delta = Q64FixedPointMath.x64int_to_int(delta_ri * position.liquidity)
 
-        rewards.append(position.reward_infos[i].amount_owed + reward_owed_i_delta)
+        rewards.append(position.reward_infos[i].amount_owed + reward_owed_ri_delta)
 
     return CollectRewardsQuote(rewards)

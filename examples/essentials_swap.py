@@ -29,16 +29,11 @@ from orca_whirlpool.constants import ORCA_WHIRLPOOL_PROGRAM_ID
 from orca_whirlpool.instruction import WhirlpoolIx, SwapParams
 from orca_whirlpool.transaction import TransactionBuilder
 from orca_whirlpool.quote import QuoteBuilder, SwapQuoteParams
-from orca_whirlpool.types import Percentage, KeyedTickArray, SwapDirection, SpecifiedAmount
+from orca_whirlpool.types import Percentage, SwapDirection, SpecifiedAmount
 
 load_dotenv()
 RPC_ENDPOINT_URL = os.getenv("RPC_ENDPOINT_URL")
 SAMO_USDC_WHIRLPOOL_PUBKEY = PublicKey("9vqYJjDUFecLL2xPUC4Rc7hyCtZ6iJ4mDiVZX7aFXoAe")
-
-
-async def get_tick_arrays(ctx: WhirlpoolContext, pubkeys: List[PublicKey]) -> List[KeyedTickArray]:
-    fetched = await ctx.fetcher.list_tick_arrays(pubkeys, True)
-    return [KeyedTickArray(pubkey, data) for pubkey, data in zip(pubkeys, fetched)]
 
 
 async def main():
@@ -72,8 +67,8 @@ async def main():
     direction = SwapDirection.BtoA
     specified_amount = SpecifiedAmount.SwapInput
     other_amount_threshold = 0
-    sqrt_price_limit = SwapUtil.get_default_sqrt_price_limit(direction.is_a_to_b)
-    acceptable_slippage = Percentage.from_fraction(0, 100)  # 0% = exact
+    sqrt_price_limit = SwapUtil.get_default_sqrt_price_limit(direction)
+    acceptable_slippage = Percentage.from_fraction(1, 100)  # 1%
 
     # get ATA (not considering WSOL and creation of ATA)
     token_account_a = TokenUtil.derive_ata(keypair.public_key, whirlpool.token_mint_a)
@@ -85,7 +80,7 @@ async def main():
     pubkeys = SwapUtil.get_tick_array_pubkeys(
         whirlpool.tick_current_index,
         whirlpool.tick_spacing,
-        direction.is_a_to_b,
+        direction,
         ctx.program_id,
         whirlpool_pubkey
     )
@@ -96,8 +91,7 @@ async def main():
     print("oracle", oracle)
 
     # get quote
-    keyed_tick_arrays = await get_tick_arrays(ctx, pubkeys)
-
+    tick_arrays = await ctx.fetcher.list_tick_arrays(pubkeys)
     quote = QuoteBuilder.swap(SwapQuoteParams(
         whirlpool=whirlpool,
         amount=amount,
@@ -105,9 +99,9 @@ async def main():
         sqrt_price_limit=sqrt_price_limit,
         direction=direction,
         specified_amount=specified_amount,
-        tick_array_0=keyed_tick_arrays[0],
-        tick_array_1=keyed_tick_arrays[1],
-        tick_array_2=keyed_tick_arrays[2],
+        tick_array_0=tick_arrays[0],
+        tick_array_1=tick_arrays[1],
+        tick_array_2=tick_arrays[2],
         slippage_tolerance=acceptable_slippage,
     ))
     print(quote)

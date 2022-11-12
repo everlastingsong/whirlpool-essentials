@@ -4,9 +4,11 @@ import pathlib
 import base64
 from typing import Optional, List
 from solana.publickey import PublicKey
+from solana.keypair import Keypair
 from solders.account import Account
 from solders.pubkey import Pubkey
-from solders.rpc.responses import GetAccountInfoResp, GetMultipleAccountsResp, RpcResponseContext, GetLatestBlockhashResp, GetBlockTimeResp
+from solders.hash import Hash
+from solders.rpc.responses import GetAccountInfoResp, GetMultipleAccountsResp, RpcResponseContext, GetLatestBlockhashResp, GetBlockTimeResp, GetMinimumBalanceForRentExemptionResp, RpcBlockhash
 from solana.rpc.async_api import AsyncClient
 from solana.rpc import types
 from solana.rpc.core import Commitment
@@ -38,7 +40,7 @@ def load_account_json(json_filepath: str) -> (PublicKey, Account):
 
 class AsyncClientStub(AsyncClient):
     def __init__(self, account_json_filenames: List[str], block_slot: int = 0, block_timestamp: int = 0):
-        super().__init__(DUMMY_RPC)
+        #super().__init__(DUMMY_RPC)
 
         # make cache from file
         dir = pathlib.Path(ACCOUNT_JSON_FILES_DIR)
@@ -84,13 +86,21 @@ class AsyncClientStub(AsyncClient):
         )
 
     async def get_latest_blockhash(self, commitment: Optional[Commitment] = None) -> GetLatestBlockhashResp:
-        return GetLatestBlockhashResp(None, RpcResponseContext(self.block_slot))
+        return GetLatestBlockhashResp(
+            RpcBlockhash(Hash(bytes(Keypair.generate().public_key)), self.block_slot),
+            RpcResponseContext(self.block_slot)
+        )
 
     async def get_block_time(self, slot: int) -> GetBlockTimeResp:
         return GetBlockTimeResp(self.block_timestamp)
 
+    async def get_minimum_balance_for_rent_exemption(
+        self, usize: int, commitment: Optional[Commitment] = None
+    ) -> GetMinimumBalanceForRentExemptionResp:
+        return GetMinimumBalanceForRentExemptionResp(2039280)  # for TokenAccount
 
-class AccountFetcherAndAccountParserTestCase(unittest.TestCase):
+
+class AccountFetcherAndParserAndKeyedConverterTestCase(unittest.IsolatedAsyncioTestCase):
     async def test_get_whirlpools_config_01(self):
         client = AsyncClientStub(["whirlpools_config.2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ.json"])
         fetcher = AccountFetcher(client)
@@ -98,8 +108,9 @@ class AccountFetcherAndAccountParserTestCase(unittest.TestCase):
         self.assertEqual(1, client.get_account_info_called)
         self.assertEqual(0, client.get_multiple_accounts_called)
 
+        self.assertEqual(PublicKey("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ"), result.pubkey)
         self.assertEqual(PublicKey("3Pi4tc4SxZyKZivKxWnYfGNxeqFJJxPc8xRw1VnvXpbb"), result.fee_authority)
-        self.assertEqual(PublicKey("3Pi4tc4SxZyKZivKxWnYfGNxeqFJJxPc8xRw1VnvXpbb"),result.collect_protocol_fees_authority)
+        self.assertEqual(PublicKey("3Pi4tc4SxZyKZivKxWnYfGNxeqFJJxPc8xRw1VnvXpbb"), result.collect_protocol_fees_authority)
         self.assertEqual(PublicKey("DjDsi34mSB66p2nhBL6YvhbcLtZbkGfNybFeLDjJqxJW"), result.reward_emissions_super_authority)
         self.assertEqual(300, result.default_protocol_fee_rate)
 
@@ -110,9 +121,10 @@ class AccountFetcherAndAccountParserTestCase(unittest.TestCase):
         self.assertEqual(1, client.get_account_info_called)
         self.assertEqual(0, client.get_multiple_accounts_called)
 
+        self.assertEqual(PublicKey("HT55NVGVTjWmWLjV7BrSMPVZ7ppU8T2xE5nCAZ6YaGad"), result.pubkey)
         self.assertEqual(PublicKey("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ"), result.whirlpools_config)
         self.assertEqual(64, result.tick_spacing)
-        self.assertEqual(3000, result.default_fee_rate)
+        self.assertEqual(2000, result.default_fee_rate)  # old fee rate
 
     async def test_get_whirlpool_01(self):
         client = AsyncClientStub(["sol_usdc_wp_whirlpool.HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ.json"])
@@ -121,6 +133,7 @@ class AccountFetcherAndAccountParserTestCase(unittest.TestCase):
         self.assertEqual(1, client.get_account_info_called)
         self.assertEqual(0, client.get_multiple_accounts_called)
 
+        self.assertEqual(PublicKey("HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ"), result.pubkey)
         self.assertEqual(PublicKey("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ"), result.whirlpools_config)
         self.assertEqual([255], result.whirlpool_bump)
         self.assertEqual(64, result.tick_spacing)
@@ -165,6 +178,7 @@ class AccountFetcherAndAccountParserTestCase(unittest.TestCase):
         self.assertEqual(1, client.get_account_info_called)
         self.assertEqual(0, client.get_multiple_accounts_called)
 
+        self.assertEqual(PublicKey("CHVTbSXJ3W1XEjQXx7BhV2ZSfzmQcbZzKTGZa6ph6BoH"), result.pubkey)
         self.assertEqual(PublicKey("9vqYJjDUFecLL2xPUC4Rc7hyCtZ6iJ4mDiVZX7aFXoAe"), result.whirlpool)
         self.assertEqual(-112640, result.start_tick_index)
 
@@ -211,6 +225,7 @@ class AccountFetcherAndAccountParserTestCase(unittest.TestCase):
         self.assertEqual(1, client.get_account_info_called)
         self.assertEqual(0, client.get_multiple_accounts_called)
 
+        self.assertEqual(PublicKey("5j3szbi2vnydYoyALNgttPD9YhCNwshUGkhzmzaP4WF7"), result.pubkey)
         self.assertEqual(PublicKey("HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ"), result.whirlpool)
         self.assertEqual(PublicKey("AuB2UXTArEWXCUaNxYPCGKoigjD6cX5BMbXPs8qsEe39"), result.position_mint)
         self.assertEqual(50496375, result.liquidity)
@@ -237,11 +252,12 @@ class AccountFetcherAndAccountParserTestCase(unittest.TestCase):
         self.assertEqual(1, client.get_account_info_called)
         self.assertEqual(0, client.get_multiple_accounts_called)
 
+        self.assertEqual(PublicKey("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE"), result.pubkey)
         self.assertEqual(PublicKey("8DzsCSvbvBDYxGB4ytNF698zi6Dyo9dUBVRNjZQFHSUt"), result.mint_authority)
         self.assertEqual(99999990272788, result.supply)
         self.assertEqual(6, result.decimals)
         self.assertEqual(True, result.is_initialized)
-        self.assertEqual(PublicKey("11111111111111111111111111111111"), result.freeze_authority)
+        self.assertIsNone(result.freeze_authority)  # no freeze authority
 
     async def test_get_token_account_01(self):
         client = AsyncClientStub(["user_ata_orca.7B8yNHX62NLvRswD86ttbGcV5TYxUsDNxEg2ZRMZLPRt.json"])
@@ -250,13 +266,14 @@ class AccountFetcherAndAccountParserTestCase(unittest.TestCase):
         self.assertEqual(1, client.get_account_info_called)
         self.assertEqual(0, client.get_multiple_accounts_called)
 
+        self.assertEqual(PublicKey("7B8yNHX62NLvRswD86ttbGcV5TYxUsDNxEg2ZRMZLPRt"), result.pubkey)
         self.assertEqual(PublicKey("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE"), result.mint)
         self.assertEqual(PublicKey("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6"), result.owner)
         self.assertEqual(58875, result.amount)
-        self.assertEqual(PublicKey("11111111111111111111111111111111"), result.delegate)
+        self.assertIsNone(result.delegate)  # no delegation
         self.assertEqual(False, result.is_native)
         self.assertEqual(0, result.delegated_amount)
-        self.assertEqual(PublicKey("11111111111111111111111111111111"), result.close_authority)
+        self.assertIsNone(result.close_authority)  # no celose authority
 
     async def test_list_token_mints_01(self):
         client = AsyncClientStub([
@@ -275,9 +292,12 @@ class AccountFetcherAndAccountParserTestCase(unittest.TestCase):
         self.assertEqual(1, client.get_multiple_accounts_called)
         self.assertEqual(4, len(client.get_multiple_accounts_history))
 
+        self.assertEqual(PublicKey("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE"), result[0].pubkey)
         self.assertEqual(PublicKey("8DzsCSvbvBDYxGB4ytNF698zi6Dyo9dUBVRNjZQFHSUt"), result[0].mint_authority)
-        self.assertEqual(PublicKey("samohexDip23Xe39eKrndWG25QWSnnckUa2Yc3iEe9v"), result[1].mint_authority)
+        self.assertEqual(PublicKey("7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU"), result[1].pubkey)
+        self.assertIsNone(result[1].mint_authority)  # no mint authority
         self.assertIsNone(result[2])
+        self.assertEqual(PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"), result[3].pubkey)
         self.assertEqual(PublicKey("2wmVCSfPxGPjrnMMn7rchp4uaeoTqN39mXFC2zhPdri9"), result[3].mint_authority)
 
     async def test_list_token_accounts_01(self):
@@ -299,10 +319,14 @@ class AccountFetcherAndAccountParserTestCase(unittest.TestCase):
         self.assertEqual(1, client.get_multiple_accounts_called)
         self.assertEqual(5, len(client.get_multiple_accounts_history))
 
+        self.assertEqual(PublicKey("3xxgYc3jXPdjqpMdrRyKtcddh4ZdtqpaN33fwaWJ2Wbh"), result[0].pubkey)
         self.assertEqual(PublicKey("7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU"), result[0].mint)
+        self.assertEqual(PublicKey("8xKCx3SGwWR6BUr9mZFm3xwZmCVMuLjXn9iLEU6784FS"), result[1].pubkey)
         self.assertEqual(PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"), result[1].mint)
         self.assertIsNone(result[2])
+        self.assertEqual(PublicKey("3YQm7ujtXWJU2e9jhp2QGHpnn1ShXn12QjvzMvDgabpX"), result[3].pubkey)
         self.assertEqual(PublicKey("So11111111111111111111111111111111111111112"), result[3].mint)
+        self.assertEqual(PublicKey("2JTw1fE2wz1SymWUQ7UqpVtrTuKjcd6mWwYwUJUCh2rq"), result[4].pubkey)
         self.assertEqual(PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"), result[4].mint)
 
     async def test_list_whirlpools_01(self):
@@ -319,7 +343,9 @@ class AccountFetcherAndAccountParserTestCase(unittest.TestCase):
         self.assertEqual(1, client.get_multiple_accounts_called)
         self.assertEqual(2, len(client.get_multiple_accounts_history))
 
+        self.assertEqual(PublicKey("HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ"), result[0].pubkey)
         self.assertEqual(PublicKey("So11111111111111111111111111111111111111112"), result[0].token_mint_a)
+        self.assertEqual(PublicKey("9vqYJjDUFecLL2xPUC4Rc7hyCtZ6iJ4mDiVZX7aFXoAe"), result[1].pubkey)
         self.assertEqual(PublicKey("7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU"), result[1].token_mint_a)
 
     async def test_list_positions_01(self):
@@ -336,7 +362,9 @@ class AccountFetcherAndAccountParserTestCase(unittest.TestCase):
         self.assertEqual(1, client.get_multiple_accounts_called)
         self.assertEqual(2, len(client.get_multiple_accounts_history))
 
+        self.assertEqual(PublicKey("B66pRzGcKMmxRJ16KMkJMJoQWWhmyk4na4DPcv6X5ZRD"), result[0].pubkey)
         self.assertEqual(PublicKey("9vqYJjDUFecLL2xPUC4Rc7hyCtZ6iJ4mDiVZX7aFXoAe"), result[0].whirlpool)
+        self.assertEqual(PublicKey("5j3szbi2vnydYoyALNgttPD9YhCNwshUGkhzmzaP4WF7"), result[1].pubkey)
         self.assertEqual(PublicKey("HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ"), result[1].whirlpool)
 
     async def test_list_tick_arrays_01(self):
@@ -362,6 +390,14 @@ class AccountFetcherAndAccountParserTestCase(unittest.TestCase):
         self.assertEqual(0, client.get_account_info_called)
         self.assertEqual(1, client.get_multiple_accounts_called)
         self.assertEqual(7, len(client.get_multiple_accounts_history))
+
+        self.assertEqual(PublicKey("C9ahCpEXEysPgA3NGZVqZcVViBoXpoS68tbo2pC4FNHH"), result[0].pubkey)
+        self.assertEqual(PublicKey("HpuNjdx9vTLYTAsxH3N6HCkguEkG9mCEpkrRugqyCPwF"), result[1].pubkey)
+        self.assertEqual(PublicKey("EE9AbRXbCKRGMeN6qAxxMUTEEPd1tQo67oYBQKkUNrfJ"), result[2].pubkey)
+        self.assertEqual(PublicKey("CHVTbSXJ3W1XEjQXx7BhV2ZSfzmQcbZzKTGZa6ph6BoH"), result[3].pubkey)
+        self.assertEqual(PublicKey("4xM1zPj8ihLFUs2DvptGVZKkdACSZgNaa8zpBTApNk9G"), result[4].pubkey)
+        self.assertEqual(PublicKey("Gad6jpBXSxFmSqcPSPTE9jABp9ragNc2VsdUCNWLEAMT"), result[5].pubkey)
+        self.assertEqual(PublicKey("ArnRmfQ49b2otrns9Kjug8fZXS8UdmKtxR2arpaevtxq"), result[6].pubkey)
 
         self.assertEqual(-95744, result[0].start_tick_index)
         self.assertEqual(-101376, result[1].start_tick_index)
@@ -488,17 +524,17 @@ class AccountFetcherAndAccountParserTestCase(unittest.TestCase):
         self.assertEqual(9, len(client.get_multiple_accounts_history))
 
         result6 = await fetcher.get_tick_array(PublicKey("EE9AbRXbCKRGMeN6qAxxMUTEEPd1tQo67oYBQKkUNrfJ"))
-        self.assertEqual(1, client.get_account_info_called)
+        self.assertEqual(0, client.get_account_info_called)
         self.assertEqual(3, client.get_multiple_accounts_called)
         self.assertEqual(9, len(client.get_multiple_accounts_history))
 
         result7 = await fetcher.get_tick_array(PublicKey("Gad6jpBXSxFmSqcPSPTE9jABp9ragNc2VsdUCNWLEAMT"))
-        self.assertEqual(2, client.get_account_info_called)
+        self.assertEqual(1, client.get_account_info_called)
         self.assertEqual(3, client.get_multiple_accounts_called)
         self.assertEqual(9, len(client.get_multiple_accounts_history))
 
         result8 = await fetcher.get_tick_array(PublicKey("ArnRmfQ49b2otrns9Kjug8fZXS8UdmKtxR2arpaevtxq"))
-        self.assertEqual(3, client.get_account_info_called)
+        self.assertEqual(2, client.get_account_info_called)
         self.assertEqual(3, client.get_multiple_accounts_called)
         self.assertEqual(9, len(client.get_multiple_accounts_history))
 
@@ -511,12 +547,12 @@ class AccountFetcherAndAccountParserTestCase(unittest.TestCase):
             PublicKey("Gad6jpBXSxFmSqcPSPTE9jABp9ragNc2VsdUCNWLEAMT"),
             PublicKey("ArnRmfQ49b2otrns9Kjug8fZXS8UdmKtxR2arpaevtxq"),
         ], False)
-        self.assertEqual(3, client.get_account_info_called)
+        self.assertEqual(2, client.get_account_info_called)
         self.assertEqual(3, client.get_multiple_accounts_called)
         self.assertEqual(9, len(client.get_multiple_accounts_history))
 
-        result10 = await fetcher.get_tick_array(PublicKey("ArnRmfQ49b2otrns9Kjug8fZXS8UdmKtxR2arpaevtxq"))
-        self.assertEqual(4, client.get_account_info_called)
+        result10 = await fetcher.get_tick_array(PublicKey("ArnRmfQ49b2otrns9Kjug8fZXS8UdmKtxR2arpaevtxq"), True)
+        self.assertEqual(3, client.get_account_info_called)
         self.assertEqual(3, client.get_multiple_accounts_called)
         self.assertEqual(9, len(client.get_multiple_accounts_history))
 
@@ -588,7 +624,7 @@ class AccountFetcherAndAccountParserTestCase(unittest.TestCase):
         self.assertEqual(ASYNC_CLIENT_STUB_BLOCK_TIMESTAMP+1, block_timestamp.timestamp)
 
 
-class TokeUtilTestCase(unittest.TestCase):
+class TokenUtilTestCase(unittest.IsolatedAsyncioTestCase):
     def test_derive_ata_01(self):
         owner = PublicKey("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6")
         mint = PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v")

@@ -1,6 +1,5 @@
 import dataclasses
 from solana.publickey import PublicKey
-from ..anchor.accounts import TickArray
 from ..transaction.types import Instruction
 
 
@@ -26,9 +25,3 @@ class PublicKeyWithInstruction:
 class BlockTimestamp:
     slot: int
     timestamp: int
-
-
-@dataclasses.dataclass(frozen=True)
-class KeyedTickArray:
-    pubkey: PublicKey
-    data: TickArray

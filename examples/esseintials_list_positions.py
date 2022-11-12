@@ -21,7 +21,7 @@ from spl.token.constants import TOKEN_PROGRAM_ID
 # ported functions from whirlpools-sdk and common-sdk
 from orca_whirlpool.constants import ORCA_WHIRLPOOL_PROGRAM_ID
 from orca_whirlpool.context import WhirlpoolContext
-from orca_whirlpool.utils import TokenUtil, LiquidityMath, PriceMath, PDAUtil
+from orca_whirlpool.utils import TokenUtil, LiquidityMath, PriceMath, PDAUtil, PositionUtil
 
 load_dotenv()
 RPC_ENDPOINT_URL = os.getenv("RPC_ENDPOINT_URL")
@@ -76,6 +76,12 @@ async def main():
             PriceMath.tick_index_to_sqrt_price_x64(position.tick_upper_index),
             False
         )
+        # get status
+        status = PositionUtil.get_position_status(
+            whirlpool.tick_current_index,
+            position.tick_lower_index,
+            position.tick_upper_index
+        )
 
         print("POSITION")
         print("  mint:", accounts.mint)
@@ -87,6 +93,7 @@ async def main():
         print("  liquidity:", position.liquidity)
         print("  token_a(u64):", amounts.token_a)
         print("  token_b(u64):", amounts.token_b)
+        print("  status:", status)
 
 asyncio.run(main())
 

@@ -1,4 +1,4 @@
-from ..anchor.accounts import TickArray
+from ..accounts.types import TickArray
 from ..anchor.types import Tick
 from ..constants import TICK_ARRAY_SIZE
 from ..invariant import invariant

@@ -2,9 +2,8 @@ import dataclasses
 from typing import List
 from solana.publickey import PublicKey
 from ...errors import WhirlpoolError, SwapErrorCode
-from ...types.types import KeyedTickArray
+from ...accounts.types import TickArray
 from ...types.enums import SwapDirection
-from ...anchor.accounts import TickArray
 from ...anchor.types import Tick
 from ...constants import MIN_TICK_INDEX, MAX_TICK_INDEX, TICK_ARRAY_SIZE
 
@@ -18,11 +17,11 @@ class InitializedTick:
 
 class TickArraySequence:
     def __init__(
-            self,
-            keyed_tick_arrays: List[KeyedTickArray],
-            tick_current_index: int,
-            tick_spacing: int,
-            direction: SwapDirection
+        self,
+        tick_arrays: List[TickArray],
+        tick_current_index: int,
+        tick_spacing: int,
+        direction: SwapDirection
     ):
         self.tick_spacing = tick_spacing
         self.direction = direction
@@ -30,9 +29,11 @@ class TickArraySequence:
         self.pubkeys = []
         self.tick_arrays = []
         self.touched = []
-        for kta in keyed_tick_arrays:
-            self.pubkeys.append(None if kta is None else kta.pubkey)
-            self.tick_arrays.append(None if kta is None else kta.data)
+
+        # TODO: need to truncate after the first None
+        for ta in tick_arrays:
+            self.pubkeys.append(None if ta is None else ta.pubkey)
+            self.tick_arrays.append(None if ta is None else ta)
             self.touched.append(False)
 
         if len(self.tick_arrays) == 0 or self.tick_arrays[0] is None:
@@ -59,10 +60,10 @@ class TickArraySequence:
 
     @staticmethod
     def is_valid_tick_array_0(
-            tick_array: TickArray,
-            tick_current_index: int,
-            tick_spacing: int,
-            direction: SwapDirection,
+        tick_array: TickArray,
+        tick_current_index: int,
+        tick_spacing: int,
+        direction: SwapDirection,
     ) -> bool:
         lower = tick_array.start_tick_index
         upper = tick_array.start_tick_index + tick_spacing * TICK_ARRAY_SIZE
@@ -73,11 +74,11 @@ class TickArraySequence:
 
     @staticmethod
     def get_initialized_ticks(
-            tick_array: TickArray,
-            tick_array_index: int,
-            tick_spacing: int,
-            direction: SwapDirection,
-            has_next: bool
+        tick_array: TickArray,
+        tick_array_index: int,
+        tick_spacing: int,
+        direction: SwapDirection,
+        has_next: bool
     ) -> List[InitializedTick]:
         start_tick_index = tick_array.start_tick_index
         last_tick_index_appended = False

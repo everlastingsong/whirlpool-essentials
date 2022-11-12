@@ -1,6 +1,6 @@
-from typing import Union
-from spl.token.core import MintInfo, AccountInfo
-from ..anchor.accounts import Whirlpool, WhirlpoolsConfig, TickArray, Position, FeeTier
+from typing import Optional
+from spl.token.core import AccountInfo as SolanapyAccountInfo, MintInfo as SolanapyMintInfo
+from ..anchor.accounts import WhirlpoolsConfig as AnchorWhirlpoolsConfig, FeeTier as AnchorFeeTier, Whirlpool as AnchorWhirlpool, TickArray as AnchorTickArray, Position as AnchorPosition
 from ..utils.token_util import TokenUtil
 
 
@@ -14,29 +14,29 @@ def safe_decode(decode, data):
 
 class AccountParser:
     @staticmethod
-    def parse_fee_tier(data: bytes) -> Union[FeeTier, None]:
-        return safe_decode(FeeTier.decode, data)
+    def parse_fee_tier(data: bytes) -> Optional[AnchorFeeTier]:
+        return safe_decode(AnchorFeeTier.decode, data)
 
     @staticmethod
-    def parse_position(data: bytes) -> Union[Position, None]:
-        return safe_decode(Position.decode, data)
+    def parse_position(data: bytes) -> Optional[AnchorPosition]:
+        return safe_decode(AnchorPosition.decode, data)
 
     @staticmethod
-    def parse_tick_array(data: bytes) -> Union[TickArray, None]:
-        return safe_decode(TickArray.decode, data)
+    def parse_tick_array(data: bytes) -> Optional[AnchorTickArray]:
+        return safe_decode(AnchorTickArray.decode, data)
 
     @staticmethod
-    def parse_whirlpool(data: bytes) -> Union[Whirlpool, None]:
-        return safe_decode(Whirlpool.decode, data)
+    def parse_whirlpool(data: bytes) -> Optional[AnchorWhirlpool]:
+        return safe_decode(AnchorWhirlpool.decode, data)
 
     @staticmethod
-    def parse_whirlpools_config(data: bytes) -> Union[WhirlpoolsConfig, None]:
-        return safe_decode(WhirlpoolsConfig.decode, data)
+    def parse_whirlpools_config(data: bytes) -> Optional[AnchorWhirlpoolsConfig]:
+        return safe_decode(AnchorWhirlpoolsConfig.decode, data)
 
     @staticmethod
-    def parse_token_mint(data: bytes) -> Union[MintInfo, None]:
+    def parse_token_mint(data: bytes) -> Optional[SolanapyMintInfo]:
         return safe_decode(TokenUtil.deserialize_mint, data)
 
     @staticmethod
-    def parse_token_account(data: bytes) -> Union[AccountInfo, None]:
+    def parse_token_account(data: bytes) -> Optional[SolanapyAccountInfo]:
         return safe_decode(TokenUtil.deserialize_account, data)

@@ -1,11 +1,11 @@
-from typing import List, Union
+from typing import List, Optional
 from solders.account import Account
 from solana.publickey import PublicKey
 from solana.rpc.async_api import AsyncClient
-from spl.token.core import MintInfo, AccountInfo
-from ..anchor.accounts import Whirlpool, WhirlpoolsConfig, FeeTier, Position, TickArray
 from ..types.types import BlockTimestamp
+from .types import WhirlpoolsConfig, FeeTier, Whirlpool, TickArray, Position, MintInfo, AccountInfo
 from .account_parser import AccountParser
+from .keyed_account_converter import KeyedAccountConverter
 
 
 BULK_FETCH_CHUNK_SIZE = 100
@@ -17,7 +17,7 @@ class AccountFetcher:
         self._connection = connection
         self._cache = {}
 
-    async def _get(self, pubkey: PublicKey, parser, refresh: bool):
+    async def _get(self, pubkey: PublicKey, parser, keyed_converter, refresh: bool):
         key = str(pubkey)
         if not refresh and key in self._cache:
             return self._cache[key]
@@ -29,11 +29,12 @@ class AccountFetcher:
         parsed = parser(res.value.data)
         if parsed is None:
             return None
+        keyed = keyed_converter(pubkey, parsed)
 
-        self._cache[key] = parsed
-        return parsed
+        self._cache[key] = keyed
+        return keyed
 
-    async def _list(self, pubkeys: List[PublicKey], parser, refresh: bool):
+    async def _list(self, pubkeys: List[PublicKey], parser, keyed_converter, refresh: bool):
         fetch_needed = list(filter(lambda p: refresh or str(p) not in self._cache, pubkeys))
 
         if len(fetch_needed) > 0:
@@ -44,11 +45,12 @@ class AccountFetcher:
                 parsed = parser(fetched[i].data)
                 if parsed is None:
                     continue
-                self._cache[str(fetch_needed[i])] = parsed
+                keyed = keyed_converter(fetch_needed[i], parsed)
+                self._cache[str(fetch_needed[i])] = keyed
 
         return list(map(lambda p: self._cache.get(str(p)), pubkeys))
 
-    async def _bulk_fetch(self, pubkeys: List[PublicKey]) -> List[Union[Account, None]]:
+    async def _bulk_fetch(self, pubkeys: List[PublicKey]) -> List[Optional[Account]]:
         accounts = []
         for i in range(0, len(pubkeys), BULK_FETCH_CHUNK_SIZE):
             chunk = pubkeys[i:(i+BULK_FETCH_CHUNK_SIZE)]
@@ -56,41 +58,41 @@ class AccountFetcher:
             accounts.extend(fetched.value)
         return accounts
 
-    async def get_whirlpool(self, pubkey: PublicKey, refresh: bool = False) -> Whirlpool:
-        return await self._get(pubkey, AccountParser.parse_whirlpool, refresh)
+    async def get_whirlpool(self, pubkey: PublicKey, refresh: bool = False) -> Optional[Whirlpool]:
+        return await self._get(pubkey, AccountParser.parse_whirlpool, KeyedAccountConverter.to_keyed_whirlpool, refresh)
 
-    async def get_whirlpools_config(self, pubkey: PublicKey, refresh: bool = False) -> WhirlpoolsConfig:
-        return await self._get(pubkey, AccountParser.parse_whirlpools_config, refresh)
+    async def get_whirlpools_config(self, pubkey: PublicKey, refresh: bool = False) -> Optional[WhirlpoolsConfig]:
+        return await self._get(pubkey, AccountParser.parse_whirlpools_config, KeyedAccountConverter.to_keyed_whirlpools_config, refresh)
 
-    async def get_fee_tier(self, pubkey: PublicKey, refresh: bool = False) -> FeeTier:
-        return await self._get(pubkey, AccountParser.parse_fee_tier, refresh)
+    async def get_fee_tier(self, pubkey: PublicKey, refresh: bool = False) -> Optional[FeeTier]:
+        return await self._get(pubkey, AccountParser.parse_fee_tier, KeyedAccountConverter.to_keyed_fee_tier, refresh)
 
-    async def get_position(self, pubkey: PublicKey, refresh: bool = False) -> Position:
-        return await self._get(pubkey, AccountParser.parse_position, refresh)
+    async def get_position(self, pubkey: PublicKey, refresh: bool = False) -> Optional[Position]:
+        return await self._get(pubkey, AccountParser.parse_position, KeyedAccountConverter.to_keyed_position, refresh)
 
-    async def get_tick_array(self, pubkey: PublicKey, refresh: bool = False) -> TickArray:
-        return await self._get(pubkey, AccountParser.parse_tick_array, refresh)
+    async def get_tick_array(self, pubkey: PublicKey, refresh: bool = False) -> Optional[TickArray]:
+        return await self._get(pubkey, AccountParser.parse_tick_array, KeyedAccountConverter.to_keyed_tick_array, refresh)
 
-    async def get_token_account(self, pubkey: PublicKey, refresh: bool = False) -> AccountInfo:
-        return await self._get(pubkey, AccountParser.parse_token_account, refresh)
+    async def get_token_account(self, pubkey: PublicKey, refresh: bool = False) -> Optional[AccountInfo]:
+        return await self._get(pubkey, AccountParser.parse_token_account, KeyedAccountConverter.to_keyed_token_account, refresh)
 
-    async def get_token_mint(self, pubkey: PublicKey, refresh: bool = False) -> MintInfo:
-        return await self._get(pubkey, AccountParser.parse_token_mint, refresh)
+    async def get_token_mint(self, pubkey: PublicKey, refresh: bool = False) -> Optional[MintInfo]:
+        return await self._get(pubkey, AccountParser.parse_token_mint, KeyedAccountConverter.to_keyed_token_mint, refresh)
 
-    async def list_whirlpools(self, pubkeys: List[PublicKey], refresh: bool = False) -> List[Whirlpool]:
-        return await self._list(pubkeys, AccountParser.parse_whirlpool, refresh)
+    async def list_whirlpools(self, pubkeys: List[PublicKey], refresh: bool = False) -> List[Optional[Whirlpool]]:
+        return await self._list(pubkeys, AccountParser.parse_whirlpool, KeyedAccountConverter.to_keyed_whirlpool, refresh)
 
-    async def list_positions(self, pubkeys: List[PublicKey], refresh: bool = False) -> List[Position]:
-        return await self._list(pubkeys, AccountParser.parse_position, refresh)
+    async def list_positions(self, pubkeys: List[PublicKey], refresh: bool = False) -> List[Optional[Position]]:
+        return await self._list(pubkeys, AccountParser.parse_position, KeyedAccountConverter.to_keyed_position, refresh)
 
-    async def list_tick_arrays(self, pubkeys: List[PublicKey], refresh: bool = False) -> List[TickArray]:
-        return await self._list(pubkeys, AccountParser.parse_tick_array, refresh)
+    async def list_tick_arrays(self, pubkeys: List[PublicKey], refresh: bool = False) -> List[Optional[TickArray]]:
+        return await self._list(pubkeys, AccountParser.parse_tick_array, KeyedAccountConverter.to_keyed_tick_array, refresh)
 
-    async def list_token_accounts(self, pubkeys: List[PublicKey], refresh: bool = False) -> List[AccountInfo]:
-        return await self._list(pubkeys, AccountParser.parse_token_account, refresh)
+    async def list_token_accounts(self, pubkeys: List[PublicKey], refresh: bool = False) -> List[Optional[AccountInfo]]:
+        return await self._list(pubkeys, AccountParser.parse_token_account, KeyedAccountConverter.to_keyed_token_account, refresh)
 
-    async def list_token_mints(self, pubkeys: List[PublicKey], refresh: bool = False) -> List[MintInfo]:
-        return await self._list(pubkeys, AccountParser.parse_token_mint, refresh)
+    async def list_token_mints(self, pubkeys: List[PublicKey], refresh: bool = False) -> List[Optional[MintInfo]]:
+        return await self._list(pubkeys, AccountParser.parse_token_mint, KeyedAccountConverter.to_keyed_token_mint, refresh)
 
     async def get_latest_block_timestamp(self) -> BlockTimestamp:
         res1 = await self._connection.get_latest_blockhash()

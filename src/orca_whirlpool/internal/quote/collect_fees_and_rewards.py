@@ -2,7 +2,7 @@
 
 import dataclasses
 from typing import List, Optional
-from ..anchor.accounts import Whirlpool, Position
+from ..accounts.types import Whirlpool, Position
 from ..anchor.types import Tick
 from ..types.enums import PositionStatus
 from ..invariant import invariant

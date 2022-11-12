@@ -3,7 +3,6 @@ from .internal.types.types import (
     TokenAmounts,
     BlockTimestamp,
     PublicKeyWithInstruction,
-    KeyedTickArray,
 )
 from .internal.types.enums import (
     SpecifiedAmount,

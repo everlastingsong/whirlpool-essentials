@@ -4,8 +4,7 @@ from solana.rpc.async_api import AsyncClient
 from solana.keypair import Keypair
 from solana.publickey import PublicKey
 
-# TODO: default pubkey
-from orca_whirlpool.internal.constants import ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG, MIN_TICK_INDEX, MAX_TICK_INDEX, MIN_SQRT_PRICE, MAX_SQRT_PRICE, U64_MAX, TICK_ARRAY_SIZE, FEE_RATE_MUL_VALUE, PROTOCOL_FEE_RATE_MUL_VALUE, NUM_REWARDS, MAX_SWAP_TICK_ARRAYS, METAPLEX_METADATA_PROGRAM_ID
+from orca_whirlpool.internal.constants import ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG, MIN_TICK_INDEX, MAX_TICK_INDEX, MIN_SQRT_PRICE, MAX_SQRT_PRICE, U64_MAX, TICK_ARRAY_SIZE, FEE_RATE_MUL_VALUE, PROTOCOL_FEE_RATE_MUL_VALUE, NUM_REWARDS, MAX_SWAP_TICK_ARRAYS, METAPLEX_METADATA_PROGRAM_ID, ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY, DEFAULT_PUBKEY
 from orca_whirlpool.internal.utils.pool_util import PoolUtil
 from orca_whirlpool.internal.utils.position_util import PositionUtil
 from orca_whirlpool.internal.utils.price_math import PriceMath
@@ -16,8 +15,7 @@ from orca_whirlpool.internal.utils.liquidity_math import LiquidityMath
 from orca_whirlpool.internal.context import WhirlpoolContext
 from orca_whirlpool.internal.accounts.account_fetcher import AccountFetcher
 from orca_whirlpool.internal.types.types import TokenAmounts
-# TODO: swapdirection, specified
-from orca_whirlpool.internal.types.enums import PositionStatus
+from orca_whirlpool.internal.types.enums import PositionStatus, SpecifiedAmount, SwapDirection
 from orca_whirlpool.internal.anchor.types import WhirlpoolRewardInfo
 
 
@@ -27,6 +25,12 @@ class ConstantsTestCase(unittest.TestCase):
 
     def test_ORCA_WHIRLPOOLS_CONFIG(self):
         self.assertEqual(PublicKey("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ"), ORCA_WHIRLPOOLS_CONFIG)
+
+    def test_ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY(self):
+        self.assertEqual(PublicKey("3axbTs2z5GBy6usVbNVoqEgZMng3vZvMnAoX29BFfwhr"), ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY)
+
+    def test_DEFAULT_PUBKEY(self):
+        self.assertEqual(PublicKey("11111111111111111111111111111111"), DEFAULT_PUBKEY)
 
     def test_NUM_REWARDS(self):
         self.assertEqual(3, NUM_REWARDS)
@@ -403,26 +407,22 @@ class TickUtilTestCase(unittest.TestCase):
 
 class SwapUtilTestCase(unittest.TestCase):
     def test_get_default_sqrt_price_limit_01(self):
-        a_to_b = True
-        result = SwapUtil.get_default_sqrt_price_limit(a_to_b)
+        result = SwapUtil.get_default_sqrt_price_limit(SwapDirection.AtoB)
         expected = MIN_SQRT_PRICE
         self.assertEqual(expected, result)
 
     def test_get_default_sqrt_price_limit_02(self):
-        a_to_b = False
-        result = SwapUtil.get_default_sqrt_price_limit(a_to_b)
+        result = SwapUtil.get_default_sqrt_price_limit(SwapDirection.BtoA)
         expected = MAX_SQRT_PRICE
         self.assertEqual(expected, result)
 
     def test_get_default_other_amount_threshold_01(self):
-        amount_specified_is_input = True
-        result = SwapUtil.get_default_other_amount_threshold(amount_specified_is_input)
+        result = SwapUtil.get_default_other_amount_threshold(SpecifiedAmount.SwapInput)
         expected = 0
         self.assertEqual(expected, result)
 
     def test_get_default_other_amount_threshold_02(self):
-        amount_specified_is_input = False
-        result = SwapUtil.get_default_other_amount_threshold(amount_specified_is_input)
+        result = SwapUtil.get_default_other_amount_threshold(SpecifiedAmount.SwapOutput)
         expected = U64_MAX
         self.assertEqual(expected, result)
 
@@ -834,6 +834,58 @@ class WhirlpoolContextTestCase(unittest.TestCase):
         self.assertEqual(connection, ctx.connection)
         self.assertEqual(wallet, ctx.wallet)
         self.assertEqual(fetcher, ctx.fetcher)
+
+
+class SwapDirectionTestCase(unittest.TestCase):
+    def test_a_to_b_01(self):
+        self.assertEqual("SwapDirection.AtoB", str(SwapDirection.AtoB))
+
+    def test_a_to_b_02(self):
+        self.assertTrue(SwapDirection.AtoB.is_a_to_b)
+        self.assertFalse(SwapDirection.AtoB.is_b_to_a)
+
+    def test_a_to_b_03(self):
+        self.assertTrue(SwapDirection.AtoB.is_price_down)
+        self.assertFalse(SwapDirection.AtoB.is_price_up)
+
+    def test_b_to_a_01(self):
+        self.assertEqual("SwapDirection.BtoA", str(SwapDirection.BtoA))
+
+    def test_b_to_a_02(self):
+        self.assertFalse(SwapDirection.BtoA.is_a_to_b)
+        self.assertTrue(SwapDirection.BtoA.is_b_to_a)
+
+    def test_b_to_a_03(self):
+        self.assertFalse(SwapDirection.BtoA.is_price_down)
+        self.assertTrue(SwapDirection.BtoA.is_price_up)
+
+
+class SpecifiedAmountTestCase(unittest.TestCase):
+    def test_swap_input_01(self):
+        self.assertEqual("SpecifiedAmount.SwapInput", str(SpecifiedAmount.SwapInput))
+
+    def test_swap_input_02(self):
+        self.assertTrue(SpecifiedAmount.SwapInput.is_swap_input)
+        self.assertFalse(SpecifiedAmount.SwapInput.is_swap_output)
+
+    def test_swap_input_03(self):
+        self.assertTrue(SpecifiedAmount.SwapInput.is_a(SwapDirection.AtoB))
+        self.assertFalse(SpecifiedAmount.SwapInput.is_b(SwapDirection.AtoB))
+        self.assertFalse(SpecifiedAmount.SwapInput.is_a(SwapDirection.BtoA))
+        self.assertTrue(SpecifiedAmount.SwapInput.is_b(SwapDirection.BtoA))
+
+    def test_swap_output_01(self):
+        self.assertEqual("SpecifiedAmount.SwapOutput", str(SpecifiedAmount.SwapOutput))
+
+    def test_swap_output_02(self):
+        self.assertFalse(SpecifiedAmount.SwapOutput.is_swap_input)
+        self.assertTrue(SpecifiedAmount.SwapOutput.is_swap_output)
+
+    def test_swap_input_03(self):
+        self.assertFalse(SpecifiedAmount.SwapOutput.is_a(SwapDirection.AtoB))
+        self.assertTrue(SpecifiedAmount.SwapOutput.is_b(SwapDirection.AtoB))
+        self.assertTrue(SpecifiedAmount.SwapOutput.is_a(SwapDirection.BtoA))
+        self.assertFalse(SpecifiedAmount.SwapOutput.is_b(SwapDirection.BtoA))
 
 
 if __name__ == "__main__":

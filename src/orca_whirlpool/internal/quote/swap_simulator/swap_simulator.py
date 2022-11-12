@@ -1,7 +1,7 @@
 import dataclasses
 from ...errors import WhirlpoolError, SwapErrorCode
 from ...types.enums import SwapDirection, SpecifiedAmount
-from ...anchor.accounts import Whirlpool
+from ...accounts.types import Whirlpool
 from ...utils.price_math import PriceMath
 from ...constants import MIN_SQRT_PRICE, MAX_SQRT_PRICE, MAX_SWAP_TICK_ARRAYS
 from .tick_array_sequence import TickArraySequence

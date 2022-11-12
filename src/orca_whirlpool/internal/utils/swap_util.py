@@ -1,7 +1,5 @@
 from typing import List
 from solana.publickey import PublicKey
-from ..accounts.account_fetcher import AccountFetcher
-from ..anchor.accounts import TickArray
 from ..constants import U64_MAX, MIN_SQRT_PRICE, MAX_SQRT_PRICE, MAX_SWAP_TICK_ARRAYS
 from ..types.enums import SwapDirection, SpecifiedAmount
 from ..invariant import InvaliantFailedError
@@ -24,7 +22,6 @@ class SwapUtil:
 
     # https://orca-so.github.io/whirlpools/classes/SwapUtils.html#getTickArrayPublicKeys
     # https://github.com/orca-so/whirlpools/blob/2df89bb/sdk/src/utils/public/swap-utils.ts#L75
-    # https://github.com/orca-so/whirlpools/blob/7b9ec351e2048c5504ffc8894c0ec5a9e78dc113/programs/whirlpool/src/state/tick.rs#L299
     @staticmethod
     def get_tick_array_pubkeys(
         tick_current_index: int,
@@ -33,7 +30,9 @@ class SwapUtil:
         program_id: PublicKey,
         whirlpool_pubkey: PublicKey,
     ) -> List[PublicKey]:
+        # https://github.com/orca-so/whirlpools/blob/7b9ec351e2048c5504ffc8894c0ec5a9e78dc113/programs/whirlpool/src/state/tick.rs#L299
         shifted = 0 if direction.is_price_down else tick_spacing
+
         offset = 0
         pubkeys = []
         for i in range(MAX_SWAP_TICK_ARRAYS):

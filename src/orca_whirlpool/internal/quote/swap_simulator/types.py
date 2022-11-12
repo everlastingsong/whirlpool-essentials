@@ -1,9 +1,7 @@
 import dataclasses
 from solana.publickey import PublicKey
-from ...types.types import KeyedTickArray
-from ...types.enums import SwapDirection
-from ...anchor.accounts import Whirlpool
-from ...types.enums import SpecifiedAmount
+from ...accounts.types import TickArray, Whirlpool
+from ...types.enums import SwapDirection, SpecifiedAmount
 from ...types.percentage import Percentage
 
 
@@ -15,9 +13,9 @@ class SwapQuoteParams:
     sqrt_price_limit: int
     direction: SwapDirection
     specified_amount: SpecifiedAmount
-    tick_array_0: KeyedTickArray
-    tick_array_1: KeyedTickArray
-    tick_array_2: KeyedTickArray
+    tick_array_0: TickArray
+    tick_array_1: TickArray
+    tick_array_2: TickArray
     slippage_tolerance: Percentage
 
 

@@ -28,7 +28,7 @@ from orca_whirlpool.constants import ORCA_WHIRLPOOL_PROGRAM_ID
 from orca_whirlpool.instruction import WhirlpoolIx, SwapParams
 from orca_whirlpool.transaction import TransactionBuilder
 from orca_whirlpool.quote import QuoteBuilder, SwapQuoteParams
-from orca_whirlpool.types import Percentage, SwapDirection, SpecifiedAmount
+from orca_whirlpool.types import Percentage, SwapDirection, SpecifiedAmount, TickArrayReduction
 
 load_dotenv()
 RPC_ENDPOINT_URL = os.getenv("RPC_ENDPOINT_URL")
@@ -100,13 +100,14 @@ async def main():
         specified_amount=specified_amount,
         tick_arrays=tick_arrays,
         slippage_tolerance=acceptable_slippage,
-    ))
+    ), TickArrayReduction.Conservative)
     print(quote)
     print("amount", quote.amount)
     print("other_amount_threshold", quote.other_amount_threshold)
     print("slippage", acceptable_slippage)
     print("direction", quote.direction)
     print("specified_amount", quote.specified_amount)
+    print("tick_arrays", quote.tick_array_0, quote.tick_array_1, quote.tick_array_2)
 
     # execute transaction
     ix = WhirlpoolIx.swap(

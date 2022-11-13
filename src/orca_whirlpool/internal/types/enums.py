@@ -45,3 +45,9 @@ class SpecifiedAmount(str, Enum):
 
     def is_b(self, direction: SwapDirection) -> bool:
         return not self.is_a(direction)
+
+
+class TickArrayReduction(str, Enum):
+    No = "No"
+    Conservative = "Conservative"
+    Aggressive = "Aggressive"

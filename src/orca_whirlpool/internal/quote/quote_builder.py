@@ -1,3 +1,4 @@
+from ..types.enums import TickArrayReduction
 from .increase_liquidity import IncreaseLiquidityQuote, IncreaseLiquidityQuoteParams, increase_liquidity_quote_by_input_token_with_params
 from .decrease_liquidity import DecreaseLiquidityQuote, DecreaseLiquidityQuoteParams, decrease_liquidity_quote_by_liquidity_with_params
 from .collect_fees_and_rewards import CollectFeesQuote, CollectFeesQuoteParams, collect_fees_quote
@@ -7,8 +8,8 @@ from .swap import SwapQuote, SwapQuoteParams, swap_quote_with_params
 
 class QuoteBuilder:
     @staticmethod
-    def swap(params: SwapQuoteParams) -> SwapQuote:
-        return swap_quote_with_params(params)
+    def swap(params: SwapQuoteParams, tick_array_reduction: TickArrayReduction = TickArrayReduction.No) -> SwapQuote:
+        return swap_quote_with_params(params, tick_array_reduction)
 
     @staticmethod
     def increase_liquidity_by_input_token(params: IncreaseLiquidityQuoteParams) -> IncreaseLiquidityQuote:

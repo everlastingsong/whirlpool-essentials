@@ -4,7 +4,7 @@ from solana.publickey import PublicKey
 from ...invariant import invariant
 from ...errors import WhirlpoolError, SwapErrorCode
 from ...accounts.types import TickArray
-from ...types.enums import SwapDirection
+from ...types.enums import SwapDirection, TickArrayReduction
 from ...anchor.types import Tick
 from ...constants import MIN_TICK_INDEX, MAX_TICK_INDEX, TICK_ARRAY_SIZE
 from ...utils.swap_util import SwapUtil
@@ -13,6 +13,7 @@ from ...utils.swap_util import SwapUtil
 @dataclasses.dataclass(frozen=True)
 class InitializedTick:
     tick_index: int
+    tick_array_index: int
     data: Tick
 
 
@@ -32,6 +33,7 @@ def is_consecutive_tick_arrays(
 
 def get_initialized_ticks(
     tick_array: TickArray,
+    tick_array_index: int,
     tick_spacing: int,
     direction: SwapDirection,
     has_next: bool
@@ -50,12 +52,12 @@ def get_initialized_ticks(
     for i, tick in ticks:
         if tick.initialized:
             tick_index = start_tick_index + i*tick_spacing
-            initialized_ticks.append(InitializedTick(tick_index, tick))
+            initialized_ticks.append(InitializedTick(tick_index, tick_array_index, tick))
             if tick_index == last_tick_index:
                 last_tick_index_appended = True
 
     if not has_next and not last_tick_index_appended:
-        initialized_ticks.append(InitializedTick(last_tick_index, Tick(False, 0, 0, 0, 0, [])))
+        initialized_ticks.append(InitializedTick(last_tick_index, tick_array_index, Tick(False, 0, 0, 0, 0, [])))
 
     return initialized_ticks
 
@@ -91,11 +93,13 @@ class TickArraySequence:
                 self.direction):
             raise WhirlpoolError(SwapErrorCode.TickArraySequenceInvalid)
 
+        self.max_touched_tick_array_index = 0
         self.initialized_ticks = []
-        for i, tick_array in enumerate(self.tick_arrays):
-            has_next = i+1 < len(self.tick_arrays)
+        for tick_array_index, tick_array in enumerate(self.tick_arrays):
+            has_next = tick_array_index+1 < len(self.tick_arrays)
             self.initialized_ticks.extend(get_initialized_ticks(
                 tick_array,
+                tick_array_index,
                 self.tick_spacing,
                 self.direction,
                 has_next,
@@ -104,8 +108,10 @@ class TickArraySequence:
     def get_next_initialized_tick_index(self, current_tick_index: int) -> int:
         for tick in self.initialized_ticks:
             if self.direction.is_price_up and tick.tick_index > current_tick_index:  # not inclusive
+                self.max_touched_tick_array_index = max(self.max_touched_tick_array_index, tick.tick_array_index)
                 return tick.tick_index
             if self.direction.is_price_down and tick.tick_index <= current_tick_index:  # inclusive
+                self.max_touched_tick_array_index = max(self.max_touched_tick_array_index, tick.tick_array_index)
                 return tick.tick_index
         raise WhirlpoolError(SwapErrorCode.TickArraySequenceInvalid)
 
@@ -115,8 +121,18 @@ class TickArraySequence:
                 return tick.data
         invariant(False, "unreachable - tick_index is not in initialized_ticks")
 
-    def get_tick_array_pubkeys(self) -> List[PublicKey]:
-        result = [ta.pubkey for ta in self.tick_arrays]
+    def get_tick_array_pubkeys(self, reduction: TickArrayReduction) -> List[PublicKey]:
+        # reduction
+        max_touched = self.max_touched_tick_array_index
+        if reduction == TickArrayReduction.Aggressive:
+            end = max_touched + 1
+        elif reduction == TickArrayReduction.Conservative:
+            end = max_touched + 1 + 1
+        else:
+            end = self.max_swap_tick_arrays
+        result = [ta.pubkey for ta in self.tick_arrays[0:end]]
+
+        # padding
         last = result[-1]
         while len(result) < self.max_swap_tick_arrays:
             result.append(last)

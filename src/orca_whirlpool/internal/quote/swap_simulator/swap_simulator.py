@@ -1,6 +1,6 @@
 import dataclasses
 from ...errors import WhirlpoolError, SwapErrorCode
-from ...types.enums import SwapDirection, SpecifiedAmount
+from ...types.enums import SwapDirection, SpecifiedAmount, TickArrayReduction
 from ...accounts.types import Whirlpool
 from ...utils.price_math import PriceMath
 from ...constants import MIN_SQRT_PRICE, MAX_SQRT_PRICE, MAX_SWAP_TICK_ARRAYS
@@ -94,7 +94,7 @@ def compute_swap(
     )
 
 
-def simulate_swap(params: SwapQuoteParams) -> SwapQuote:
+def simulate_swap(params: SwapQuoteParams, tick_array_reduction: TickArrayReduction) -> SwapQuote:
     whirlpool = params.whirlpool
     amount = params.amount
     sqrt_price_limit = params.sqrt_price_limit
@@ -145,7 +145,7 @@ def simulate_swap(params: SwapQuoteParams) -> SwapQuote:
         estimated_amount_in = result.amount_b
         estimated_amount_out = result.amount_a
 
-    tick_array_pubkeys = tick_array_sequence.get_tick_array_pubkeys()
+    tick_array_pubkeys = tick_array_sequence.get_tick_array_pubkeys(tick_array_reduction)
 
     return SwapQuote(
         estimated_amount_in=estimated_amount_in,

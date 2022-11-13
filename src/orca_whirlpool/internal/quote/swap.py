@@ -1,11 +1,13 @@
+from ..types.enums import TickArrayReduction
 from .swap_simulator.types import SwapQuote, SwapQuoteParams
 from .swap_simulator.swap_simulator import simulate_swap
 
 
 def swap_quote_with_params(
-    params: SwapQuoteParams
+    params: SwapQuoteParams,
+    tick_array_reduction: TickArrayReduction,
 ) -> SwapQuote:
-    quote = simulate_swap(params)
+    quote = simulate_swap(params, tick_array_reduction)
 
     if params.specified_amount.is_swap_input:
         other_amount_threshold = params.slippage_tolerance.adjust_sub(quote.estimated_amount_out)

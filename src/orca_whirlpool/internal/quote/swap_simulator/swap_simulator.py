@@ -113,10 +113,11 @@ def simulate_swap(params: SwapQuoteParams) -> SwapQuote:
         raise WhirlpoolError(SwapErrorCode.ZeroTradableAmount)
 
     tick_array_sequence = TickArraySequence(
-        [params.tick_array_0, params.tick_array_1, params.tick_array_2],
+        params.tick_arrays,
         whirlpool.tick_current_index,
         whirlpool.tick_spacing,
         direction,
+        MAX_SWAP_TICK_ARRAYS,
     )
 
     result = compute_swap(
@@ -144,7 +145,7 @@ def simulate_swap(params: SwapQuoteParams) -> SwapQuote:
         estimated_amount_in = result.amount_b
         estimated_amount_out = result.amount_a
 
-    touched_tick_array_pubkeys = tick_array_sequence.get_touched_tick_array_pubkeys(MAX_SWAP_TICK_ARRAYS)
+    tick_array_pubkeys = tick_array_sequence.get_tick_array_pubkeys()
 
     return SwapQuote(
         estimated_amount_in=estimated_amount_in,
@@ -157,7 +158,7 @@ def simulate_swap(params: SwapQuoteParams) -> SwapQuote:
         sqrt_price_limit=params.sqrt_price_limit,
         specified_amount=params.specified_amount,
         direction=params.direction,
-        tick_array_0=touched_tick_array_pubkeys[0],
-        tick_array_1=touched_tick_array_pubkeys[1],
-        tick_array_2=touched_tick_array_pubkeys[2],
+        tick_array_0=tick_array_pubkeys[0],
+        tick_array_1=tick_array_pubkeys[1],
+        tick_array_2=tick_array_pubkeys[2],
     )

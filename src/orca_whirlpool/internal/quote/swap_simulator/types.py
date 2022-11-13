@@ -1,4 +1,5 @@
 import dataclasses
+from typing import List, Optional
 from solana.publickey import PublicKey
 from ...accounts.types import TickArray, Whirlpool
 from ...types.enums import SwapDirection, SpecifiedAmount
@@ -13,9 +14,7 @@ class SwapQuoteParams:
     sqrt_price_limit: int
     direction: SwapDirection
     specified_amount: SpecifiedAmount
-    tick_array_0: TickArray
-    tick_array_1: TickArray
-    tick_array_2: TickArray
+    tick_arrays: List[Optional[TickArray]]
     slippage_tolerance: Percentage
 
 

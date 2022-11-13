@@ -15,7 +15,6 @@ import asyncio
 import json
 import os
 from dotenv import load_dotenv
-from typing import List
 from decimal import Decimal
 from pathlib import Path
 from solana.rpc.async_api import AsyncClient
@@ -99,9 +98,7 @@ async def main():
         sqrt_price_limit=sqrt_price_limit,
         direction=direction,
         specified_amount=specified_amount,
-        tick_array_0=tick_arrays[0],
-        tick_array_1=tick_arrays[1],
-        tick_array_2=tick_arrays[2],
+        tick_arrays=tick_arrays,
         slippage_tolerance=acceptable_slippage,
     ))
     print(quote)

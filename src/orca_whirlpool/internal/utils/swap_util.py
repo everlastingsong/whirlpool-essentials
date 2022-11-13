@@ -1,8 +1,9 @@
 from typing import List
 from solana.publickey import PublicKey
-from ..constants import U64_MAX, MIN_SQRT_PRICE, MAX_SQRT_PRICE, MAX_SWAP_TICK_ARRAYS
+from ..constants import U64_MAX, MIN_SQRT_PRICE, MAX_SQRT_PRICE, MAX_SWAP_TICK_ARRAYS, TICK_ARRAY_SIZE
 from ..types.enums import SwapDirection, SpecifiedAmount
 from ..invariant import InvaliantFailedError
+from ..accounts.types import TickArray
 from .tick_util import TickUtil
 from .pda_util import PDAUtil
 
@@ -45,3 +46,17 @@ class SwapUtil:
             pubkeys.append(tick_array_pubkey)
             offset += -1 if direction.is_price_down else +1
         return pubkeys
+
+    @staticmethod
+    def is_valid_tick_array_0(
+        tick_array: TickArray,
+        tick_current_index: int,
+        tick_spacing: int,
+        direction: SwapDirection,
+    ) -> bool:
+        lower = tick_array.start_tick_index
+        upper = tick_array.start_tick_index + tick_spacing * TICK_ARRAY_SIZE
+        if direction.is_price_up:  # shifted
+            lower -= tick_spacing
+            upper -= tick_spacing
+        return lower <= tick_current_index < upper

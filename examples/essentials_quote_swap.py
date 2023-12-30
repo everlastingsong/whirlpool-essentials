@@ -1,16 +1,3 @@
-# ATTENTION!
-#
-# to use this script, you need to create wallet.json
-# and it holds some USDC (>= 0.1) and SAMO (>= 1)
-#
-# solana related library:
-#   - solders   ( == 0.18.1  )
-#   - solana    ( == 0.30.2 )
-#   - anchorpy  ( == 0.18.0 )
-#
-# NOTE!
-# whirlpool_essentials is in a very early stage and is subject to change, including breaking changes.
-#
 import asyncio
 import os
 from dotenv import load_dotenv
@@ -19,7 +6,6 @@ from solana.rpc.async_api import AsyncClient
 from solders.pubkey import Pubkey
 from solders.keypair import Keypair
 
-# ported functions from whirlpools-sdk and common-sdk
 from orca_whirlpool.context import WhirlpoolContext
 from orca_whirlpool.utils import DecimalUtil, PriceMath, SwapUtil, PDAUtil, TokenUtil
 from orca_whirlpool.constants import ORCA_WHIRLPOOL_PROGRAM_ID

@@ -14,4 +14,5 @@ from .internal.constants import (
     PROTOCOL_FEE_RATE_MUL_VALUE,
     TICK_ARRAY_SIZE,
     U64_MAX,
+    POSITION_BUNDLE_SIZE,
 )

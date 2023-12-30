@@ -1,13 +1,3 @@
-# ATTENTION!
-#
-# solana related library:
-#   - solders   ( == 0.18.1  )
-#   - solana    ( == 0.30.2 )
-#   - anchorpy  ( == 0.18.0 )
-#
-# NOTE!
-# whirlpool_essentials is in a very early stage and is subject to change, including breaking changes.
-#
 import asyncio
 import os
 from dotenv import load_dotenv
@@ -18,7 +8,6 @@ from solders.pubkey import Pubkey
 from solders.keypair import Keypair
 from spl.token.constants import TOKEN_PROGRAM_ID
 
-# ported functions from whirlpools-sdk and common-sdk
 from orca_whirlpool.constants import ORCA_WHIRLPOOL_PROGRAM_ID
 from orca_whirlpool.context import WhirlpoolContext
 from orca_whirlpool.utils import TokenUtil, LiquidityMath, PriceMath, PDAUtil, PositionUtil

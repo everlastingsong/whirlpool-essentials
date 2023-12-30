@@ -1,6 +1,9 @@
+from typing import Tuple
+from solders.pubkey import Pubkey
 from ..types.percentage import Percentage
 from ..constants import FEE_RATE_MUL_VALUE, PROTOCOL_FEE_RATE_MUL_VALUE, DEFAULT_PUBKEY
 from ..anchor.types import WhirlpoolRewardInfo
+from ..invariant import invariant
 
 
 class PoolUtil:
@@ -23,3 +26,12 @@ class PoolUtil:
     @staticmethod
     def get_protocol_fee_rate(protocol_fee_rate: int) -> Percentage:
         return Percentage.from_fraction(protocol_fee_rate, PROTOCOL_FEE_RATE_MUL_VALUE)
+
+    @staticmethod
+    def order_mints(mint_x: Pubkey, mint_y: Pubkey) -> Tuple[Pubkey, Pubkey]:
+        for x, y in zip(bytes(mint_x), bytes(mint_y)):
+            if x < y:
+                return mint_x, mint_y
+            elif x > y:
+                return mint_y, mint_x
+        invariant(False, "mint_x and mint_y must be different")

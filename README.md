@@ -1,5 +1,6 @@
-# Whirlpool Essentials
+![DALL·E 2023-12-31 02 44 53 - A cute manga-style illustration in a 16_9 aspect ratio, featuring a whirlpool and an orca, representing the Python programming language  The whirlpool](https://github.com/everlastingsong/whirlpool-essentials/assets/98769788/801912c7-c35b-43a2-8e9e-280f4ff66cf7)
 
+# Whirlpool Essentials
 Whirlpool Essentials is a core library to interacting with Orca Whirlpool Program in Python.
 
 ## Documentation

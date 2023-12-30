@@ -2,6 +2,7 @@ from typing import Optional
 from solders.keypair import Keypair
 from solders.transaction import Transaction
 from solders.signature import Signature
+from solders import compute_budget
 from solana.rpc.async_api import AsyncClient
 from solana.rpc.commitment import Commitment, Confirmed
 from .types import Instruction, TransactionPayload
@@ -17,6 +18,20 @@ class TransactionBuilder:
         self._fee_payer = fee_payer
         self._instructions = []
         self._signers = []
+
+    def set_compute_unit_limit(self, units: int):
+        self._instructions.insert(0, Instruction(
+            instructions=[compute_budget.set_compute_unit_limit(units)],
+            cleanup_instructions=[],
+            signers=[]
+        ))
+
+    def set_compute_unit_price(self, micro_lamports: int):
+        self._instructions.insert(0, Instruction(
+            instructions=[compute_budget.set_compute_unit_price(micro_lamports)],
+            cleanup_instructions=[],
+            signers=[]
+        ))
 
     def add_instruction(self, instruction: Instruction) -> "TransactionBuilder":
         if not is_empty_instruction(instruction):

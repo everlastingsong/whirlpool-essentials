@@ -1,7 +1,7 @@
 from solana.rpc.async_api import AsyncClient
-from solana.publickey import PublicKey
-from solana.keypair import Keypair
-from solana import system_program
+from solders.pubkey import Pubkey
+from solders.keypair import Keypair
+from solders import system_program
 from spl.token.instructions import get_associated_token_address
 from spl.token.core import MintInfo, AccountInfo
 from spl.token._layouts import MINT_LAYOUT, ACCOUNT_LAYOUT
@@ -19,15 +19,15 @@ class TokenUtil:
     def deserialize_account(data: bytes):
         decoded_data = ACCOUNT_LAYOUT.parse(data)
 
-        mint = PublicKey(decoded_data.mint)
-        owner = PublicKey(decoded_data.owner)
+        mint = Pubkey(decoded_data.mint)
+        owner = Pubkey(decoded_data.owner)
         amount = decoded_data.amount
 
         if decoded_data.delegate_option == 0:
             delegate = None
             delegated_amount = 0
         else:
-            delegate = PublicKey(decoded_data.delegate)
+            delegate = Pubkey(decoded_data.delegate)
             delegated_amount = decoded_data.delegated_amount
 
         is_initialized = decoded_data.state != 0
@@ -43,7 +43,7 @@ class TokenUtil:
         if decoded_data.close_authority_option == 0:
             close_authority = None
         else:
-            close_authority = PublicKey(decoded_data.owner)
+            close_authority = Pubkey(decoded_data.owner)
 
         return AccountInfo(
             mint,
@@ -67,7 +67,7 @@ class TokenUtil:
         if decoded_data.mint_authority_option == 0:
             mint_authority = None
         else:
-            mint_authority = PublicKey(decoded_data.mint_authority)
+            mint_authority = Pubkey(decoded_data.mint_authority)
 
         supply = decoded_data.supply
         is_initialized = decoded_data.is_initialized != 0
@@ -75,21 +75,21 @@ class TokenUtil:
         if decoded_data.freeze_authority_option == 0:
             freeze_authority = None
         else:
-            freeze_authority = PublicKey(decoded_data.freeze_authority)
+            freeze_authority = Pubkey(decoded_data.freeze_authority)
 
         return MintInfo(mint_authority, supply, decimals, is_initialized, freeze_authority)
 
     @staticmethod
-    def derive_ata(owner: PublicKey, mint: PublicKey) -> PublicKey:
+    def derive_ata(owner: Pubkey, mint: Pubkey) -> Pubkey:
         return get_associated_token_address(owner, mint)
 
     @staticmethod
     async def resolve_or_create_ata(
         connection: AsyncClient,
-        owner: PublicKey,
-        mint: PublicKey,
+        owner: Pubkey,
+        mint: Pubkey,
         wrapped_sol_amount: int = 0,
-        funder: PublicKey = None
+        funder: Pubkey = None
     ) -> PublicKeyWithInstruction:
         if funder is None:
             funder = owner
@@ -123,41 +123,41 @@ class TokenUtil:
     @staticmethod
     async def prepare_wrapped_sol_token_account(
         connection: AsyncClient,
-        owner: PublicKey,
+        owner: Pubkey,
         lamports: int,
-        funder: PublicKey = None,
+        funder: Pubkey = None,
     ) -> PublicKeyWithInstruction:
         if funder is None:
             funder = owner
 
-        wsol_token_account = Keypair.generate()
+        wsol_token_account = Keypair()
         rent_lamports = (await connection.get_minimum_balance_for_rent_exemption(ACCOUNT_LEN)).value
 
         create_account_ix = system_program.create_account(system_program.CreateAccountParams(
             from_pubkey=funder,
-            new_account_pubkey=wsol_token_account.public_key,
+            to_pubkey=wsol_token_account.pubkey(),
             lamports=rent_lamports + lamports,
             space=ACCOUNT_LEN,
-            program_id=TOKEN_PROGRAM_ID
+            owner=TOKEN_PROGRAM_ID
         ))
 
         initialize_account_ix = token_program.initialize_account(token_program.InitializeAccountParams(
             program_id=TOKEN_PROGRAM_ID,
-            account=wsol_token_account.public_key,
+            account=wsol_token_account.pubkey(),
             mint=WRAPPED_SOL_MINT,
             owner=owner
         ))
 
         close_account_ix = token_program.close_account(token_program.CloseAccountParams(
             program_id=TOKEN_PROGRAM_ID,
-            account=wsol_token_account.public_key,
+            account=wsol_token_account.pubkey(),
             dest=funder,
             owner=owner,
             signers=[]
         ))
 
         return PublicKeyWithInstruction(
-            pubkey=wsol_token_account.public_key,
+            pubkey=wsol_token_account.pubkey(),
             instruction=Instruction(
                 instructions=[create_account_ix, initialize_account_ix],  # create instructions
                 cleanup_instructions=[close_account_ix],  # delete instructions

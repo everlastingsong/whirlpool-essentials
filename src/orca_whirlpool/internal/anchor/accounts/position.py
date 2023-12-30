@@ -1,7 +1,6 @@
 import typing
 from dataclasses import dataclass
-from base64 import b64decode
-from solana.publickey import PublicKey
+from solders.pubkey import Pubkey
 from solana.rpc.async_api import AsyncClient
 from solana.rpc.commitment import Commitment
 import borsh_construct as borsh
@@ -41,8 +40,8 @@ class Position:
         "fee_owed_b" / borsh.U64,
         "reward_infos" / types.position_reward_info.PositionRewardInfo.layout[3],
     )
-    whirlpool: PublicKey
-    position_mint: PublicKey
+    whirlpool: Pubkey
+    position_mint: Pubkey
     liquidity: int
     tick_lower_index: int
     tick_upper_index: int
@@ -56,26 +55,26 @@ class Position:
     async def fetch(
         cls,
         conn: AsyncClient,
-        address: PublicKey,
+        address: Pubkey,
         commitment: typing.Optional[Commitment] = None,
-        program_id: PublicKey = PROGRAM_ID,
+        program_id: Pubkey = PROGRAM_ID,
     ) -> typing.Optional["Position"]:
         resp = await conn.get_account_info(address, commitment=commitment)
-        info = resp["result"]["value"]
+        info = resp.value
         if info is None:
             return None
-        if info["owner"] != str(program_id):
+        if info.owner != program_id:
             raise ValueError("Account does not belong to this program")
-        bytes_data = b64decode(info["data"][0])
+        bytes_data = info.data
         return cls.decode(bytes_data)
 
     @classmethod
     async def fetch_multiple(
         cls,
         conn: AsyncClient,
-        addresses: list[PublicKey],
+        addresses: list[Pubkey],
         commitment: typing.Optional[Commitment] = None,
-        program_id: PublicKey = PROGRAM_ID,
+        program_id: Pubkey = PROGRAM_ID,
     ) -> typing.List[typing.Optional["Position"]]:
         infos = await get_multiple_accounts(conn, addresses, commitment=commitment)
         res: typing.List[typing.Optional["Position"]] = []
@@ -132,8 +131,8 @@ class Position:
     @classmethod
     def from_json(cls, obj: PositionJSON) -> "Position":
         return cls(
-            whirlpool=PublicKey(obj["whirlpool"]),
-            position_mint=PublicKey(obj["position_mint"]),
+            whirlpool=Pubkey.from_string(obj["whirlpool"]),
+            position_mint=Pubkey.from_string(obj["position_mint"]),
             liquidity=obj["liquidity"],
             tick_lower_index=obj["tick_lower_index"],
             tick_upper_index=obj["tick_upper_index"],

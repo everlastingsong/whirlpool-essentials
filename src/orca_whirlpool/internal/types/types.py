@@ -1,5 +1,5 @@
 import dataclasses
-from solana.publickey import PublicKey
+from solders.pubkey import Pubkey
 from ..transaction.types import Instruction
 
 
@@ -11,13 +11,13 @@ class TokenAmounts:
 
 @dataclasses.dataclass(frozen=True)
 class PDA:
-    pubkey: PublicKey
+    pubkey: Pubkey
     bump: int
 
 
 @dataclasses.dataclass(frozen=True)
 class PublicKeyWithInstruction:
-    pubkey: PublicKey
+    pubkey: Pubkey
     instruction: Instruction
 
 

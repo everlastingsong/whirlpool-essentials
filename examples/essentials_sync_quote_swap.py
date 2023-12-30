@@ -4,9 +4,9 @@
 # and it holds some USDC (>= 0.1) and SAMO (>= 1)
 #
 # solana related library:
-#   - solders   ( >= 0.9.3  )
-#   - solana    ( >= 0.27.2 )
-#   - anchorpy  ( >= 0.11.0 )
+#   - solders   ( == 0.18.1  )
+#   - solana    ( == 0.30.2 )
+#   - anchorpy  ( == 0.18.0 )
 #
 # NOTE!
 # whirlpool_essentials is in a very early stage and is subject to change, including breaking changes.
@@ -15,8 +15,8 @@ import os
 from dotenv import load_dotenv
 from decimal import Decimal
 from solana.rpc.api import Client
-from solana.publickey import PublicKey
-from solana.keypair import Keypair
+from solders.pubkey import Pubkey
+from solders.keypair import Keypair
 
 # ported functions from whirlpools-sdk and common-sdk
 from sync_account_fetcher import SyncAccountFetcher
@@ -27,12 +27,12 @@ from orca_whirlpool.types import Percentage, SwapDirection, SpecifiedAmount, Tic
 
 load_dotenv()
 RPC_ENDPOINT_URL = os.getenv("RPC_ENDPOINT_URL")
-SAMO_USDC_WHIRLPOOL_PUBKEY = PublicKey("9vqYJjDUFecLL2xPUC4Rc7hyCtZ6iJ4mDiVZX7aFXoAe")
+SAMO_USDC_WHIRLPOOL_PUBKEY = Pubkey.from_string("9vqYJjDUFecLL2xPUC4Rc7hyCtZ6iJ4mDiVZX7aFXoAe")
 
 
 def main():
     # use dummy wallet
-    keypair = Keypair.generate();
+    keypair = Keypair()
 
     # create Anchor client
     connection = Client(RPC_ENDPOINT_URL)
@@ -92,6 +92,7 @@ def main():
     print("tick_arrays", quote.tick_array_0, quote.tick_array_1, quote.tick_array_2)
     print("price before trade", PriceMath.sqrt_price_x64_to_price(whirlpool.sqrt_price, token_a_decimal, token_b_decimal))
     print("price after trade", PriceMath.sqrt_price_x64_to_price(quote.estimated_end_sqrt_price, token_a_decimal, token_b_decimal))
+
 
 main()
 

@@ -1,6 +1,6 @@
 import dataclasses
 from typing import List, Optional
-from solana.publickey import PublicKey
+from solders.pubkey import Pubkey
 from ...invariant import invariant
 from ...errors import WhirlpoolError, SwapErrorCode
 from ...accounts.types import TickArray
@@ -121,7 +121,7 @@ class TickArraySequence:
                 return tick.data
         invariant(False, "unreachable - tick_index is not in initialized_ticks")
 
-    def get_tick_array_pubkeys(self, reduction: TickArrayReduction) -> List[PublicKey]:
+    def get_tick_array_pubkeys(self, reduction: TickArrayReduction) -> List[Pubkey]:
         # reduction
         max_touched = self.max_touched_tick_array_index
         if reduction == TickArrayReduction.Aggressive:

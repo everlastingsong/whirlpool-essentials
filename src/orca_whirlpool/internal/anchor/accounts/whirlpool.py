@@ -1,7 +1,6 @@
 import typing
 from dataclasses import dataclass
-from base64 import b64decode
-from solana.publickey import PublicKey
+from solders.pubkey import Pubkey
 from solana.rpc.async_api import AsyncClient
 from solana.rpc.commitment import Commitment
 import borsh_construct as borsh
@@ -59,7 +58,7 @@ class Whirlpool:
         "reward_last_updated_timestamp" / borsh.U64,
         "reward_infos" / types.whirlpool_reward_info.WhirlpoolRewardInfo.layout[3],
     )
-    whirlpools_config: PublicKey
+    whirlpools_config: Pubkey
     whirlpool_bump: list[int]
     tick_spacing: int
     tick_spacing_seed: list[int]
@@ -70,11 +69,11 @@ class Whirlpool:
     tick_current_index: int
     protocol_fee_owed_a: int
     protocol_fee_owed_b: int
-    token_mint_a: PublicKey
-    token_vault_a: PublicKey
+    token_mint_a: Pubkey
+    token_vault_a: Pubkey
     fee_growth_global_a: int
-    token_mint_b: PublicKey
-    token_vault_b: PublicKey
+    token_mint_b: Pubkey
+    token_vault_b: Pubkey
     fee_growth_global_b: int
     reward_last_updated_timestamp: int
     reward_infos: list[types.whirlpool_reward_info.WhirlpoolRewardInfo]
@@ -83,26 +82,26 @@ class Whirlpool:
     async def fetch(
         cls,
         conn: AsyncClient,
-        address: PublicKey,
+        address: Pubkey,
         commitment: typing.Optional[Commitment] = None,
-        program_id: PublicKey = PROGRAM_ID,
+        program_id: Pubkey = PROGRAM_ID,
     ) -> typing.Optional["Whirlpool"]:
         resp = await conn.get_account_info(address, commitment=commitment)
-        info = resp["result"]["value"]
+        info = resp.value
         if info is None:
             return None
-        if info["owner"] != str(program_id):
+        if info.owner != program_id:
             raise ValueError("Account does not belong to this program")
-        bytes_data = b64decode(info["data"][0])
+        bytes_data = info.data
         return cls.decode(bytes_data)
 
     @classmethod
     async def fetch_multiple(
         cls,
         conn: AsyncClient,
-        addresses: list[PublicKey],
+        addresses: list[Pubkey],
         commitment: typing.Optional[Commitment] = None,
-        program_id: PublicKey = PROGRAM_ID,
+        program_id: Pubkey = PROGRAM_ID,
     ) -> typing.List[typing.Optional["Whirlpool"]]:
         infos = await get_multiple_accounts(conn, addresses, commitment=commitment)
         res: typing.List[typing.Optional["Whirlpool"]] = []
@@ -177,7 +176,7 @@ class Whirlpool:
     @classmethod
     def from_json(cls, obj: WhirlpoolJSON) -> "Whirlpool":
         return cls(
-            whirlpools_config=PublicKey(obj["whirlpools_config"]),
+            whirlpools_config=Pubkey.from_string(obj["whirlpools_config"]),
             whirlpool_bump=obj["whirlpool_bump"],
             tick_spacing=obj["tick_spacing"],
             tick_spacing_seed=obj["tick_spacing_seed"],
@@ -188,11 +187,11 @@ class Whirlpool:
             tick_current_index=obj["tick_current_index"],
             protocol_fee_owed_a=obj["protocol_fee_owed_a"],
             protocol_fee_owed_b=obj["protocol_fee_owed_b"],
-            token_mint_a=PublicKey(obj["token_mint_a"]),
-            token_vault_a=PublicKey(obj["token_vault_a"]),
+            token_mint_a=Pubkey.from_string(obj["token_mint_a"]),
+            token_vault_a=Pubkey.from_string(obj["token_vault_a"]),
             fee_growth_global_a=obj["fee_growth_global_a"],
-            token_mint_b=PublicKey(obj["token_mint_b"]),
-            token_vault_b=PublicKey(obj["token_vault_b"]),
+            token_mint_b=Pubkey.from_string(obj["token_mint_b"]),
+            token_vault_b=Pubkey.from_string(obj["token_vault_b"]),
             fee_growth_global_b=obj["fee_growth_global_b"],
             reward_last_updated_timestamp=obj["reward_last_updated_timestamp"],
             reward_infos=list(

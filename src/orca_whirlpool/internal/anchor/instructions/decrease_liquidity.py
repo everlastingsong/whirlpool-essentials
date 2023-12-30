@@ -1,7 +1,8 @@
 from __future__ import annotations
 import typing
-from solana.publickey import PublicKey
-from solana.transaction import TransactionInstruction, AccountMeta
+from solders.pubkey import Pubkey
+from spl.token.constants import TOKEN_PROGRAM_ID
+from solders.instruction import Instruction, AccountMeta
 import borsh_construct as borsh
 from ..program_id import PROGRAM_ID
 
@@ -20,30 +21,27 @@ layout = borsh.CStruct(
 
 
 class DecreaseLiquidityAccounts(typing.TypedDict):
-    whirlpool: PublicKey
-    token_program: PublicKey
-    position_authority: PublicKey
-    position: PublicKey
-    position_token_account: PublicKey
-    token_owner_account_a: PublicKey
-    token_owner_account_b: PublicKey
-    token_vault_a: PublicKey
-    token_vault_b: PublicKey
-    tick_array_lower: PublicKey
-    tick_array_upper: PublicKey
+    whirlpool: Pubkey
+    position_authority: Pubkey
+    position: Pubkey
+    position_token_account: Pubkey
+    token_owner_account_a: Pubkey
+    token_owner_account_b: Pubkey
+    token_vault_a: Pubkey
+    token_vault_b: Pubkey
+    tick_array_lower: Pubkey
+    tick_array_upper: Pubkey
 
 
 def decrease_liquidity(
     args: DecreaseLiquidityArgs,
     accounts: DecreaseLiquidityAccounts,
-    program_id: PublicKey = PROGRAM_ID,
+    program_id: Pubkey = PROGRAM_ID,
     remaining_accounts: typing.Optional[typing.List[AccountMeta]] = None,
-) -> TransactionInstruction:
+) -> Instruction:
     keys: list[AccountMeta] = [
         AccountMeta(pubkey=accounts["whirlpool"], is_signer=False, is_writable=True),
-        AccountMeta(
-            pubkey=accounts["token_program"], is_signer=False, is_writable=False
-        ),
+        AccountMeta(pubkey=TOKEN_PROGRAM_ID, is_signer=False, is_writable=False),
         AccountMeta(
             pubkey=accounts["position_authority"], is_signer=True, is_writable=False
         ),
@@ -83,4 +81,4 @@ def decrease_liquidity(
         }
     )
     data = identifier + encoded_args
-    return TransactionInstruction(keys, program_id, data)
+    return Instruction(program_id, data, keys)

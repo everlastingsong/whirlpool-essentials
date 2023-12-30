@@ -11,23 +11,19 @@ from anchorpy.borsh_extension import BorshPubkey
 from ..program_id import PROGRAM_ID
 
 
-class FeeTierJSON(typing.TypedDict):
-    whirlpools_config: str
-    tick_spacing: int
-    default_fee_rate: int
+class PositionBundleJSON(typing.TypedDict):
+    position_bundle_mint: str
+    position_bitmap: list[int]
 
 
 @dataclass
-class FeeTier:
-    discriminator: typing.ClassVar = b"8K\x9fL\x8eD\xbei"
+class PositionBundle:
+    discriminator: typing.ClassVar = b"\x81\xa9\xafA\xb9_ d"
     layout: typing.ClassVar = borsh.CStruct(
-        "whirlpools_config" / BorshPubkey,
-        "tick_spacing" / borsh.U16,
-        "default_fee_rate" / borsh.U16,
+        "position_bundle_mint" / BorshPubkey, "position_bitmap" / borsh.U8[32]
     )
-    whirlpools_config: Pubkey
-    tick_spacing: int
-    default_fee_rate: int
+    position_bundle_mint: Pubkey
+    position_bitmap: list[int]
 
     @classmethod
     async def fetch(
@@ -36,7 +32,7 @@ class FeeTier:
         address: Pubkey,
         commitment: typing.Optional[Commitment] = None,
         program_id: Pubkey = PROGRAM_ID,
-    ) -> typing.Optional["FeeTier"]:
+    ) -> typing.Optional["PositionBundle"]:
         resp = await conn.get_account_info(address, commitment=commitment)
         info = resp.value
         if info is None:
@@ -53,9 +49,9 @@ class FeeTier:
         addresses: list[Pubkey],
         commitment: typing.Optional[Commitment] = None,
         program_id: Pubkey = PROGRAM_ID,
-    ) -> typing.List[typing.Optional["FeeTier"]]:
+    ) -> typing.List[typing.Optional["PositionBundle"]]:
         infos = await get_multiple_accounts(conn, addresses, commitment=commitment)
-        res: typing.List[typing.Optional["FeeTier"]] = []
+        res: typing.List[typing.Optional["PositionBundle"]] = []
         for info in infos:
             if info is None:
                 res.append(None)
@@ -66,29 +62,26 @@ class FeeTier:
         return res
 
     @classmethod
-    def decode(cls, data: bytes) -> "FeeTier":
+    def decode(cls, data: bytes) -> "PositionBundle":
         if data[:ACCOUNT_DISCRIMINATOR_SIZE] != cls.discriminator:
             raise AccountInvalidDiscriminator(
                 "The discriminator for this account is invalid"
             )
-        dec = FeeTier.layout.parse(data[ACCOUNT_DISCRIMINATOR_SIZE:])
+        dec = PositionBundle.layout.parse(data[ACCOUNT_DISCRIMINATOR_SIZE:])
         return cls(
-            whirlpools_config=dec.whirlpools_config,
-            tick_spacing=dec.tick_spacing,
-            default_fee_rate=dec.default_fee_rate,
+            position_bundle_mint=dec.position_bundle_mint,
+            position_bitmap=dec.position_bitmap,
         )
 
-    def to_json(self) -> FeeTierJSON:
+    def to_json(self) -> PositionBundleJSON:
         return {
-            "whirlpools_config": str(self.whirlpools_config),
-            "tick_spacing": self.tick_spacing,
-            "default_fee_rate": self.default_fee_rate,
+            "position_bundle_mint": str(self.position_bundle_mint),
+            "position_bitmap": self.position_bitmap,
         }
 
     @classmethod
-    def from_json(cls, obj: FeeTierJSON) -> "FeeTier":
+    def from_json(cls, obj: PositionBundleJSON) -> "PositionBundle":
         return cls(
-            whirlpools_config=Pubkey.from_string(obj["whirlpools_config"]),
-            tick_spacing=obj["tick_spacing"],
-            default_fee_rate=obj["default_fee_rate"],
+            position_bundle_mint=Pubkey.from_string(obj["position_bundle_mint"]),
+            position_bitmap=obj["position_bitmap"],
         )

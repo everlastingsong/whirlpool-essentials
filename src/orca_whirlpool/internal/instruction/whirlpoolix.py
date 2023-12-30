@@ -1,12 +1,12 @@
 import dataclasses
 from typing import List
 
-from solana.transaction import TransactionInstruction
-from solana.publickey import PublicKey
-from solana.keypair import Keypair
-from solana.sysvar import SYSVAR_RENT_PUBKEY
-from solana.system_program import SYS_PROGRAM_ID
-from spl.token.constants import TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID
+from solders.instruction import Instruction as TransactionInstruction
+from solders.pubkey import Pubkey
+from solders.keypair import Keypair
+# from solders.sysvar import RENT
+# from solders.system_program import ID as SYS_PROGRAM_ID
+# from spl.token.constants import TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID
 from ..anchor import instructions
 from ..anchor import types
 from ..constants import METAPLEX_METADATA_PROGRAM_ID, ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY
@@ -35,16 +35,16 @@ class SwapParams:
     sqrt_price_limit: int
     amount_specified_is_input: bool
     a_to_b: bool
-    token_authority: PublicKey
-    whirlpool: PublicKey
-    token_owner_account_a: PublicKey
-    token_vault_a: PublicKey
-    token_owner_account_b: PublicKey
-    token_vault_b: PublicKey
-    tick_array_0: PublicKey
-    tick_array_1: PublicKey
-    tick_array_2: PublicKey
-    oracle: PublicKey
+    token_authority: Pubkey
+    whirlpool: Pubkey
+    token_owner_account_a: Pubkey
+    token_vault_a: Pubkey
+    token_owner_account_b: Pubkey
+    token_vault_b: Pubkey
+    tick_array_0: Pubkey
+    tick_array_1: Pubkey
+    tick_array_2: Pubkey
+    oracle: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
@@ -52,11 +52,11 @@ class OpenPositionParams:
     tick_lower_index: int
     tick_upper_index: int
     position_pda: PDA
-    funder: PublicKey
-    owner: PublicKey
-    position_mint: PublicKey
-    position_token_account: PublicKey
-    whirlpool: PublicKey
+    funder: Pubkey
+    owner: Pubkey
+    position_mint: Pubkey
+    position_token_account: Pubkey
+    whirlpool: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
@@ -65,11 +65,11 @@ class OpenPositionWithMetadataParams:
     tick_upper_index: int
     position_pda: PDA
     metadata_pda: PDA
-    funder: PublicKey
-    owner: PublicKey
-    position_mint: PublicKey
-    position_token_account: PublicKey
-    whirlpool: PublicKey
+    funder: Pubkey
+    owner: Pubkey
+    position_mint: Pubkey
+    position_token_account: Pubkey
+    whirlpool: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
@@ -77,16 +77,16 @@ class IncreaseLiquidityParams:
     liquidity_amount: int
     token_max_a: int
     token_max_b: int
-    whirlpool: PublicKey
-    position_authority: PublicKey
-    position: PublicKey
-    position_token_account: PublicKey
-    token_owner_account_a: PublicKey
-    token_owner_account_b: PublicKey
-    token_vault_a: PublicKey
-    token_vault_b: PublicKey
-    tick_array_lower: PublicKey
-    tick_array_upper: PublicKey
+    whirlpool: Pubkey
+    position_authority: Pubkey
+    position: Pubkey
+    position_token_account: Pubkey
+    token_owner_account_a: Pubkey
+    token_owner_account_b: Pubkey
+    token_vault_a: Pubkey
+    token_vault_b: Pubkey
+    tick_array_lower: Pubkey
+    tick_array_upper: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
@@ -94,84 +94,84 @@ class DecreaseLiquidityParams:
     liquidity_amount: int
     token_min_a: int
     token_min_b: int
-    whirlpool: PublicKey
-    position_authority: PublicKey
-    position: PublicKey
-    position_token_account: PublicKey
-    token_owner_account_a: PublicKey
-    token_owner_account_b: PublicKey
-    token_vault_a: PublicKey
-    token_vault_b: PublicKey
-    tick_array_lower: PublicKey
-    tick_array_upper: PublicKey
+    whirlpool: Pubkey
+    position_authority: Pubkey
+    position: Pubkey
+    position_token_account: Pubkey
+    token_owner_account_a: Pubkey
+    token_owner_account_b: Pubkey
+    token_vault_a: Pubkey
+    token_vault_b: Pubkey
+    tick_array_lower: Pubkey
+    tick_array_upper: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class UpdateFeesAndRewardsParams:
-    whirlpool: PublicKey
-    position: PublicKey
-    tick_array_lower: PublicKey
-    tick_array_upper: PublicKey
+    whirlpool: Pubkey
+    position: Pubkey
+    tick_array_lower: Pubkey
+    tick_array_upper: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class CollectFeesParams:
-    whirlpool: PublicKey
-    position_authority: PublicKey
-    position: PublicKey
-    position_token_account: PublicKey
-    token_owner_account_a: PublicKey
-    token_vault_a: PublicKey
-    token_owner_account_b: PublicKey
-    token_vault_b: PublicKey
+    whirlpool: Pubkey
+    position_authority: Pubkey
+    position: Pubkey
+    position_token_account: Pubkey
+    token_owner_account_a: Pubkey
+    token_vault_a: Pubkey
+    token_owner_account_b: Pubkey
+    token_vault_b: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class CollectRewardParams:
     reward_index: int
-    whirlpool: PublicKey
-    position_authority: PublicKey
-    position: PublicKey
-    position_token_account: PublicKey
-    reward_owner_account: PublicKey
-    reward_vault: PublicKey
+    whirlpool: Pubkey
+    position_authority: Pubkey
+    position: Pubkey
+    position_token_account: Pubkey
+    reward_owner_account: Pubkey
+    reward_vault: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class ClosePositionParams:
-    position_authority: PublicKey
-    receiver: PublicKey
-    position: PublicKey
-    position_mint: PublicKey
-    position_token_account: PublicKey
+    position_authority: Pubkey
+    receiver: Pubkey
+    position: Pubkey
+    position_mint: Pubkey
+    position_token_account: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class InitializeTickArrayParams:
     start_tick_index: int
-    whirlpool: PublicKey
-    funder: PublicKey
-    tick_array: PublicKey
+    whirlpool: Pubkey
+    funder: Pubkey
+    tick_array: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class InitializeConfigParams:
     default_protocol_fee_rate: int
-    fee_authority: PublicKey
-    collect_protocol_fees_authority: PublicKey
-    reward_emissions_super_authority: PublicKey
-    config: PublicKey
-    funder: PublicKey
+    fee_authority: Pubkey
+    collect_protocol_fees_authority: Pubkey
+    reward_emissions_super_authority: Pubkey
+    config: Pubkey
+    funder: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class InitializeFeeTierParams:
     tick_spacing: int
     default_fee_rate: int
-    config: PublicKey
-    fee_tier: PublicKey
-    funder: PublicKey
-    fee_authority: PublicKey
+    config: Pubkey
+    fee_tier: Pubkey
+    funder: Pubkey
+    fee_authority: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
@@ -179,117 +179,117 @@ class InitializePoolParams:
     tick_spacing: int
     initial_sqrt_price: int
     whirlpool_pda: PDA
-    whirlpools_config: PublicKey
-    token_mint_a: PublicKey
-    token_mint_b: PublicKey
-    funder: PublicKey
-    token_vault_a: PublicKey
-    token_vault_b: PublicKey
-    fee_tier: PublicKey
+    whirlpools_config: Pubkey
+    token_mint_a: Pubkey
+    token_mint_b: Pubkey
+    funder: Pubkey
+    token_vault_a: Pubkey
+    token_vault_b: Pubkey
+    fee_tier: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class InitializeRewardParams:
     reward_index: int
-    reward_authority: PublicKey
-    funder: PublicKey
-    whirlpool: PublicKey
-    reward_mint: PublicKey
-    reward_vault: PublicKey
+    reward_authority: Pubkey
+    funder: Pubkey
+    whirlpool: Pubkey
+    reward_mint: Pubkey
+    reward_vault: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class CollectProtocolFeesParams:
-    whirlpools_config: PublicKey
-    whirlpool: PublicKey
-    collect_protocol_fees_authority: PublicKey
-    token_vault_a: PublicKey
-    token_vault_b: PublicKey
-    token_destination_a: PublicKey
-    token_destination_b: PublicKey
+    whirlpools_config: Pubkey
+    whirlpool: Pubkey
+    collect_protocol_fees_authority: Pubkey
+    token_vault_a: Pubkey
+    token_vault_b: Pubkey
+    token_destination_a: Pubkey
+    token_destination_b: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class SetCollectProtocolFeesAuthorityParams:
-    whirlpools_config: PublicKey
-    collect_protocol_fees_authority: PublicKey
-    new_collect_protocol_fees_authority: PublicKey
+    whirlpools_config: Pubkey
+    collect_protocol_fees_authority: Pubkey
+    new_collect_protocol_fees_authority: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class SetDefaultFeeRateParams:
     default_fee_rate: int
-    whirlpools_config: PublicKey
-    fee_tier: PublicKey
-    fee_authority: PublicKey
+    whirlpools_config: Pubkey
+    fee_tier: Pubkey
+    fee_authority: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class SetDefaultProtocolFeeRateParams:
     default_protocol_fee_rate: int
-    whirlpools_config: PublicKey
-    fee_authority: PublicKey
+    whirlpools_config: Pubkey
+    fee_authority: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class SetFeeAuthorityParams:
-    whirlpools_config: PublicKey
-    fee_authority: PublicKey
-    new_fee_authority: PublicKey
+    whirlpools_config: Pubkey
+    fee_authority: Pubkey
+    new_fee_authority: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class SetFeeRateParams:
     fee_rate: int
-    whirlpools_config: PublicKey
-    whirlpool: PublicKey
-    fee_authority: PublicKey
+    whirlpools_config: Pubkey
+    whirlpool: Pubkey
+    fee_authority: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class SetProtocolFeeRateParams:
     protocol_fee_rate: int
-    whirlpools_config: PublicKey
-    whirlpool: PublicKey
-    fee_authority: PublicKey
+    whirlpools_config: Pubkey
+    whirlpool: Pubkey
+    fee_authority: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class SetRewardAuthorityParams:
     reward_index: int
-    whirlpool: PublicKey
-    reward_authority: PublicKey
-    new_reward_authority: PublicKey
+    whirlpool: Pubkey
+    reward_authority: Pubkey
+    new_reward_authority: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class SetRewardAuthorityBySuperAuthorityParams:
     reward_index: int
-    whirlpools_config: PublicKey
-    whirlpool: PublicKey
-    reward_emissions_super_authority: PublicKey
-    new_reward_authority: PublicKey
+    whirlpools_config: Pubkey
+    whirlpool: Pubkey
+    reward_emissions_super_authority: Pubkey
+    new_reward_authority: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class SetRewardEmissionsParams:
     reward_index: int
     emissions_per_second_x64: int
-    whirlpool: PublicKey
-    reward_authority: PublicKey
-    reward_vault: PublicKey
+    whirlpool: Pubkey
+    reward_authority: Pubkey
+    reward_vault: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class SetRewardEmissionsSuperAuthorityParams:
-    whirlpools_config: PublicKey
-    reward_emissions_super_authority: PublicKey
-    new_reward_emissions_super_authority: PublicKey
+    whirlpools_config: Pubkey
+    reward_emissions_super_authority: Pubkey
+    new_reward_emissions_super_authority: Pubkey
 
 
 class WhirlpoolIx:
     @staticmethod
-    def swap(program_id: PublicKey, params: SwapParams):
+    def swap(program_id: Pubkey, params: SwapParams):
         ix = instructions.swap(
             instructions.SwapArgs(
                 amount=params.amount,
@@ -299,7 +299,7 @@ class WhirlpoolIx:
                 a_to_b=params.a_to_b,
             ),
             instructions.SwapAccounts(
-                token_program=TOKEN_PROGRAM_ID,
+                # token_program=TOKEN_PROGRAM_ID,
                 token_authority=params.token_authority,
                 whirlpool=params.whirlpool,
                 token_owner_account_a=params.token_owner_account_a,
@@ -316,7 +316,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def open_position(program_id: PublicKey, params: OpenPositionParams):
+    def open_position(program_id: Pubkey, params: OpenPositionParams):
         ix = instructions.open_position(
             instructions.OpenPositionArgs(
                 tick_lower_index=params.tick_lower_index,
@@ -330,17 +330,17 @@ class WhirlpoolIx:
                 position_mint=params.position_mint,
                 position_token_account=params.position_token_account,
                 whirlpool=params.whirlpool,
-                token_program=TOKEN_PROGRAM_ID,
-                system_program=SYS_PROGRAM_ID,
-                rent=SYSVAR_RENT_PUBKEY,
-                associated_token_program=ASSOCIATED_TOKEN_PROGRAM_ID,
+                # token_program=TOKEN_PROGRAM_ID,
+                # system_program=SYS_PROGRAM_ID,
+                # rent=RENT,
+                # associated_token_program=ASSOCIATED_TOKEN_PROGRAM_ID,
             ),
             program_id
         )
         return to_instruction([ix])
 
     @staticmethod
-    def open_position_with_metadata(program_id: PublicKey, params: OpenPositionWithMetadataParams):
+    def open_position_with_metadata(program_id: Pubkey, params: OpenPositionWithMetadataParams):
         ix = instructions.open_position_with_metadata(
             instructions.OpenPositionWithMetadataArgs(
                 tick_lower_index=params.tick_lower_index,
@@ -358,10 +358,10 @@ class WhirlpoolIx:
                 position_metadata_account=params.metadata_pda.pubkey,
                 position_token_account=params.position_token_account,
                 whirlpool=params.whirlpool,
-                token_program=TOKEN_PROGRAM_ID,
-                system_program=SYS_PROGRAM_ID,
-                rent=SYSVAR_RENT_PUBKEY,
-                associated_token_program=ASSOCIATED_TOKEN_PROGRAM_ID,
+                # token_program=TOKEN_PROGRAM_ID,
+                # system_program=SYS_PROGRAM_ID,
+                # rent=RENT,
+                # associated_token_program=ASSOCIATED_TOKEN_PROGRAM_ID,
                 metadata_program=METAPLEX_METADATA_PROGRAM_ID,
                 metadata_update_auth=ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY,
             ),
@@ -370,7 +370,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def increase_liquidity(program_id: PublicKey, params: IncreaseLiquidityParams):
+    def increase_liquidity(program_id: Pubkey, params: IncreaseLiquidityParams):
         ix = instructions.increase_liquidity(
             instructions.IncreaseLiquidityArgs(
                 liquidity_amount=params.liquidity_amount,
@@ -379,7 +379,7 @@ class WhirlpoolIx:
             ),
             instructions.IncreaseLiquidityAccounts(
                 whirlpool=params.whirlpool,
-                token_program=TOKEN_PROGRAM_ID,
+                # token_program=TOKEN_PROGRAM_ID,
                 position_authority=params.position_authority,
                 position=params.position,
                 position_token_account=params.position_token_account,
@@ -395,7 +395,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def decrease_liquidity(program_id: PublicKey, params: DecreaseLiquidityParams):
+    def decrease_liquidity(program_id: Pubkey, params: DecreaseLiquidityParams):
         ix = instructions.decrease_liquidity(
             instructions.DecreaseLiquidityArgs(
                 liquidity_amount=params.liquidity_amount,
@@ -404,7 +404,7 @@ class WhirlpoolIx:
             ),
             instructions.DecreaseLiquidityAccounts(
                 whirlpool=params.whirlpool,
-                token_program=TOKEN_PROGRAM_ID,
+                # token_program=TOKEN_PROGRAM_ID,
                 position_authority=params.position_authority,
                 position=params.position,
                 position_token_account=params.position_token_account,
@@ -420,7 +420,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def update_fees_and_rewards(program_id: PublicKey, params: UpdateFeesAndRewardsParams):
+    def update_fees_and_rewards(program_id: Pubkey, params: UpdateFeesAndRewardsParams):
         ix = instructions.update_fees_and_rewards(
             instructions.UpdateFeesAndRewardsAccounts(
                 whirlpool=params.whirlpool,
@@ -433,7 +433,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def collect_fees(program_id: PublicKey, params: CollectFeesParams):
+    def collect_fees(program_id: Pubkey, params: CollectFeesParams):
         ix = instructions.collect_fees(
             instructions.CollectFeesAccounts(
                 whirlpool=params.whirlpool,
@@ -444,14 +444,14 @@ class WhirlpoolIx:
                 token_vault_a=params.token_vault_a,
                 token_owner_account_b=params.token_owner_account_b,
                 token_vault_b=params.token_vault_b,
-                token_program=TOKEN_PROGRAM_ID,
+                # token_program=TOKEN_PROGRAM_ID,
             ),
             program_id
         )
         return to_instruction([ix])
 
     @staticmethod
-    def collect_reward(program_id: PublicKey, params: CollectRewardParams):
+    def collect_reward(program_id: Pubkey, params: CollectRewardParams):
         ix = instructions.collect_reward(
             instructions.CollectRewardArgs(
                 reward_index=params.reward_index,
@@ -463,14 +463,14 @@ class WhirlpoolIx:
                 position_token_account=params.position_token_account,
                 reward_owner_account=params.reward_owner_account,
                 reward_vault=params.reward_vault,
-                token_program=TOKEN_PROGRAM_ID,
+                # token_program=TOKEN_PROGRAM_ID,
             ),
             program_id
         )
         return to_instruction([ix])
 
     @staticmethod
-    def close_position(program_id: PublicKey, params: ClosePositionParams):
+    def close_position(program_id: Pubkey, params: ClosePositionParams):
         ix = instructions.close_position(
             instructions.ClosePositionAccounts(
                 position_authority=params.position_authority,
@@ -478,14 +478,14 @@ class WhirlpoolIx:
                 position=params.position,
                 position_mint=params.position_mint,
                 position_token_account=params.position_token_account,
-                token_program=TOKEN_PROGRAM_ID,
+                # token_program=TOKEN_PROGRAM_ID,
             ),
             program_id
         )
         return to_instruction([ix])
 
     @staticmethod
-    def initialize_tick_array(program_id: PublicKey, params: InitializeTickArrayParams):
+    def initialize_tick_array(program_id: Pubkey, params: InitializeTickArrayParams):
         ix = instructions.initialize_tick_array(
             instructions.InitializeTickArrayArgs(
                 start_tick_index=params.start_tick_index,
@@ -494,14 +494,14 @@ class WhirlpoolIx:
                 whirlpool=params.whirlpool,
                 funder=params.funder,
                 tick_array=params.tick_array,
-                system_program=SYS_PROGRAM_ID,
+                # system_program=SYS_PROGRAM_ID,
             ),
             program_id
         )
         return to_instruction([ix])
 
     @staticmethod
-    def initialize_config(program_id: PublicKey, params: InitializeConfigParams):
+    def initialize_config(program_id: Pubkey, params: InitializeConfigParams):
         ix = instructions.initialize_config(
             instructions.InitializeConfigArgs(
                 default_protocol_fee_rate=params.default_protocol_fee_rate,
@@ -512,14 +512,14 @@ class WhirlpoolIx:
             instructions.InitializeConfigAccounts(
                 config=params.config,
                 funder=params.funder,
-                system_program=SYS_PROGRAM_ID,
+                # system_program=SYS_PROGRAM_ID,
             ),
             program_id
         )
         return to_instruction([ix])
 
     @staticmethod
-    def initialize_fee_tier(program_id: PublicKey, params: InitializeFeeTierParams):
+    def initialize_fee_tier(program_id: Pubkey, params: InitializeFeeTierParams):
         ix = instructions.initialize_fee_tier(
             instructions.InitializeFeeTierArgs(
                 tick_spacing=params.tick_spacing,
@@ -530,14 +530,14 @@ class WhirlpoolIx:
                 fee_tier=params.fee_tier,
                 funder=params.funder,
                 fee_authority=params.fee_authority,
-                system_program=SYS_PROGRAM_ID,
+                # system_program=SYS_PROGRAM_ID,
             ),
             program_id
         )
         return to_instruction([ix])
 
     @staticmethod
-    def initialize_pool(program_id: PublicKey, params: InitializePoolParams):
+    def initialize_pool(program_id: Pubkey, params: InitializePoolParams):
         ix = instructions.initialize_pool(
             instructions.InitializePoolArgs(
                 tick_spacing=params.tick_spacing,
@@ -553,16 +553,16 @@ class WhirlpoolIx:
                 token_vault_a=params.token_vault_a,
                 token_vault_b=params.token_vault_b,
                 fee_tier=params.fee_tier,
-                token_program=TOKEN_PROGRAM_ID,
-                system_program=SYS_PROGRAM_ID,
-                rent=SYSVAR_RENT_PUBKEY,
+                # token_program=TOKEN_PROGRAM_ID,
+                # system_program=SYS_PROGRAM_ID,
+                # rent=RENT,
             ),
             program_id
         )
         return to_instruction([ix])
 
     @staticmethod
-    def initialize_reward(program_id: PublicKey, params: InitializeRewardParams):
+    def initialize_reward(program_id: Pubkey, params: InitializeRewardParams):
         ix = instructions.initialize_reward(
             instructions.InitializeRewardArgs(
                 reward_index=params.reward_index,
@@ -573,16 +573,16 @@ class WhirlpoolIx:
                 whirlpool=params.whirlpool,
                 reward_mint=params.reward_mint,
                 reward_vault=params.reward_vault,
-                token_program=TOKEN_PROGRAM_ID,
-                system_program=SYS_PROGRAM_ID,
-                rent=SYSVAR_RENT_PUBKEY,
+                # token_program=TOKEN_PROGRAM_ID,
+                # system_program=SYS_PROGRAM_ID,
+                # rent=RENT,
             ),
             program_id
         )
         return to_instruction([ix])
 
     @staticmethod
-    def collect_protocol_fees(program_id: PublicKey, params: CollectProtocolFeesParams):
+    def collect_protocol_fees(program_id: Pubkey, params: CollectProtocolFeesParams):
         ix = instructions.collect_protocol_fees(
             instructions.CollectProtocolFeesAccounts(
                 whirlpools_config=params.whirlpools_config,
@@ -592,14 +592,14 @@ class WhirlpoolIx:
                 token_vault_b=params.token_vault_b,
                 token_destination_a=params.token_destination_a,
                 token_destination_b=params.token_destination_b,
-                token_program=TOKEN_PROGRAM_ID,
+                # token_program=TOKEN_PROGRAM_ID,
             ),
             program_id
         )
         return to_instruction([ix])
 
     @staticmethod
-    def set_collect_protocol_fees_authority(program_id: PublicKey, params: SetCollectProtocolFeesAuthorityParams):
+    def set_collect_protocol_fees_authority(program_id: Pubkey, params: SetCollectProtocolFeesAuthorityParams):
         ix = instructions.set_collect_protocol_fees_authority(
             instructions.SetCollectProtocolFeesAuthorityAccounts(
                 whirlpools_config=params.whirlpools_config,
@@ -611,7 +611,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def set_default_fee_rate(program_id: PublicKey, params: SetDefaultFeeRateParams):
+    def set_default_fee_rate(program_id: Pubkey, params: SetDefaultFeeRateParams):
         ix = instructions.set_default_fee_rate(
             instructions.SetDefaultFeeRateArgs(
                 default_fee_rate=params.default_fee_rate,
@@ -626,7 +626,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def set_default_protocol_fee_rate(program_id: PublicKey, params: SetDefaultProtocolFeeRateParams):
+    def set_default_protocol_fee_rate(program_id: Pubkey, params: SetDefaultProtocolFeeRateParams):
         ix = instructions.set_default_protocol_fee_rate(
             instructions.SetDefaultProtocolFeeRateArgs(
                 default_protocol_fee_rate=params.default_protocol_fee_rate,
@@ -640,7 +640,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def set_fee_authority(program_id: PublicKey, params: SetFeeAuthorityParams):
+    def set_fee_authority(program_id: Pubkey, params: SetFeeAuthorityParams):
         ix = instructions.set_fee_authority(
             instructions.SetFeeAuthorityAccounts(
                 whirlpools_config=params.whirlpools_config,
@@ -652,7 +652,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def set_fee_rate(program_id: PublicKey, params: SetFeeRateParams):
+    def set_fee_rate(program_id: Pubkey, params: SetFeeRateParams):
         ix = instructions.set_fee_rate(
             instructions.SetFeeRateArgs(
                 fee_rate=params.fee_rate,
@@ -667,7 +667,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def set_protocol_fee_rate(program_id: PublicKey, params: SetProtocolFeeRateParams):
+    def set_protocol_fee_rate(program_id: Pubkey, params: SetProtocolFeeRateParams):
         ix = instructions.set_protocol_fee_rate(
             instructions.SetProtocolFeeRateArgs(
                 protocol_fee_rate=params.protocol_fee_rate,
@@ -682,7 +682,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def set_reward_authority(program_id: PublicKey, params: SetRewardAuthorityParams):
+    def set_reward_authority(program_id: Pubkey, params: SetRewardAuthorityParams):
         ix = instructions.set_reward_authority(
             instructions.SetRewardAuthorityArgs(
                 reward_index=params.reward_index
@@ -697,7 +697,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def set_reward_authority_by_super_authority(program_id: PublicKey, params: SetRewardAuthorityBySuperAuthorityParams):
+    def set_reward_authority_by_super_authority(program_id: Pubkey, params: SetRewardAuthorityBySuperAuthorityParams):
         ix = instructions.set_reward_authority_by_super_authority(
             instructions.SetRewardAuthorityBySuperAuthorityArgs(
                 reward_index=params.reward_index
@@ -713,7 +713,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def set_reward_emissions(program_id: PublicKey, params: SetRewardEmissionsParams):
+    def set_reward_emissions(program_id: Pubkey, params: SetRewardEmissionsParams):
         ix = instructions.set_reward_emissions(
             instructions.SetRewardEmissionsArgs(
                 reward_index=params.reward_index,
@@ -729,7 +729,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def set_reward_emissions_super_authority(program_id: PublicKey, params: SetRewardEmissionsSuperAuthorityParams):
+    def set_reward_emissions_super_authority(program_id: Pubkey, params: SetRewardEmissionsSuperAuthorityParams):
         ix = instructions.set_reward_emissions_super_authority(
             instructions.SetRewardEmissionsSuperAuthorityAccounts(
                 whirlpools_config=params.whirlpools_config,

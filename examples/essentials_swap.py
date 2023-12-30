@@ -4,9 +4,9 @@
 # and it holds some USDC (>= 0.1) and SAMO (>= 1)
 #
 # solana related library:
-#   - solders   ( >= 0.9.3  )
-#   - solana    ( >= 0.27.2 )
-#   - anchorpy  ( >= 0.11.0 )
+#   - solders   ( == 0.18.1  )
+#   - solana    ( == 0.30.2 )
+#   - anchorpy  ( == 0.18.0 )
 #
 # NOTE!
 # whirlpool_essentials is in a very early stage and is subject to change, including breaking changes.
@@ -18,8 +18,8 @@ from dotenv import load_dotenv
 from decimal import Decimal
 from pathlib import Path
 from solana.rpc.async_api import AsyncClient
-from solana.publickey import PublicKey
-from solana.keypair import Keypair
+from solders.pubkey import Pubkey
+from solders.keypair import Keypair
 
 # ported functions from whirlpools-sdk and common-sdk
 from orca_whirlpool.context import WhirlpoolContext
@@ -32,7 +32,7 @@ from orca_whirlpool.types import Percentage, SwapDirection, SpecifiedAmount, Tic
 
 load_dotenv()
 RPC_ENDPOINT_URL = os.getenv("RPC_ENDPOINT_URL")
-SAMO_USDC_WHIRLPOOL_PUBKEY = PublicKey("9vqYJjDUFecLL2xPUC4Rc7hyCtZ6iJ4mDiVZX7aFXoAe")
+SAMO_USDC_WHIRLPOOL_PUBKEY = Pubkey.from_string("9vqYJjDUFecLL2xPUC4Rc7hyCtZ6iJ4mDiVZX7aFXoAe")
 
 
 async def main():
@@ -40,8 +40,8 @@ async def main():
     # - how to create: solana-keygen new -o wallet.json
     # - need some USDC and SAMO
     with Path("wallet.json").open() as f:
-        keypair = Keypair.from_secret_key(bytes(json.load(f)))
-    print("wallet pubkey", keypair.public_key)
+        keypair = Keypair.from_bytes(bytes(json.load(f)))
+    print("wallet pubkey", keypair.pubkey())
 
     # create Anchor client
     connection = AsyncClient(RPC_ENDPOINT_URL)
@@ -70,8 +70,8 @@ async def main():
     acceptable_slippage = Percentage.from_fraction(1, 100)  # 1%
 
     # get ATA (not considering WSOL and creation of ATA)
-    token_account_a = TokenUtil.derive_ata(keypair.public_key, whirlpool.token_mint_a)
-    token_account_b = TokenUtil.derive_ata(keypair.public_key, whirlpool.token_mint_b)
+    token_account_a = TokenUtil.derive_ata(keypair.pubkey(), whirlpool.token_mint_a)
+    token_account_b = TokenUtil.derive_ata(keypair.pubkey(), whirlpool.token_mint_b)
     print("token_account_a", token_account_a)
     print("token_account_b", token_account_b)
 
@@ -118,7 +118,7 @@ async def main():
             sqrt_price_limit=sqrt_price_limit,
             amount_specified_is_input=specified_amount.is_swap_input,
             a_to_b=direction.is_a_to_b,
-            token_authority=keypair.public_key,
+            token_authority=keypair.pubkey(),
             whirlpool=whirlpool_pubkey,
             token_owner_account_a=token_account_a,
             token_vault_a=whirlpool.token_vault_a,

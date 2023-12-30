@@ -1,7 +1,10 @@
 from __future__ import annotations
 import typing
-from solana.publickey import PublicKey
-from solana.transaction import TransactionInstruction, AccountMeta
+from solders.pubkey import Pubkey
+from solders.system_program import ID as SYS_PROGRAM_ID
+from solders.sysvar import RENT
+from spl.token.constants import TOKEN_PROGRAM_ID
+from solders.instruction import Instruction, AccountMeta
 import borsh_construct as borsh
 from .. import types
 from ..program_id import PROGRAM_ID
@@ -21,25 +24,22 @@ layout = borsh.CStruct(
 
 
 class InitializePoolAccounts(typing.TypedDict):
-    whirlpools_config: PublicKey
-    token_mint_a: PublicKey
-    token_mint_b: PublicKey
-    funder: PublicKey
-    whirlpool: PublicKey
-    token_vault_a: PublicKey
-    token_vault_b: PublicKey
-    fee_tier: PublicKey
-    token_program: PublicKey
-    system_program: PublicKey
-    rent: PublicKey
+    whirlpools_config: Pubkey
+    token_mint_a: Pubkey
+    token_mint_b: Pubkey
+    funder: Pubkey
+    whirlpool: Pubkey
+    token_vault_a: Pubkey
+    token_vault_b: Pubkey
+    fee_tier: Pubkey
 
 
 def initialize_pool(
     args: InitializePoolArgs,
     accounts: InitializePoolAccounts,
-    program_id: PublicKey = PROGRAM_ID,
+    program_id: Pubkey = PROGRAM_ID,
     remaining_accounts: typing.Optional[typing.List[AccountMeta]] = None,
-) -> TransactionInstruction:
+) -> Instruction:
     keys: list[AccountMeta] = [
         AccountMeta(
             pubkey=accounts["whirlpools_config"], is_signer=False, is_writable=False
@@ -55,13 +55,9 @@ def initialize_pool(
         AccountMeta(pubkey=accounts["token_vault_a"], is_signer=True, is_writable=True),
         AccountMeta(pubkey=accounts["token_vault_b"], is_signer=True, is_writable=True),
         AccountMeta(pubkey=accounts["fee_tier"], is_signer=False, is_writable=False),
-        AccountMeta(
-            pubkey=accounts["token_program"], is_signer=False, is_writable=False
-        ),
-        AccountMeta(
-            pubkey=accounts["system_program"], is_signer=False, is_writable=False
-        ),
-        AccountMeta(pubkey=accounts["rent"], is_signer=False, is_writable=False),
+        AccountMeta(pubkey=TOKEN_PROGRAM_ID, is_signer=False, is_writable=False),
+        AccountMeta(pubkey=SYS_PROGRAM_ID, is_signer=False, is_writable=False),
+        AccountMeta(pubkey=RENT, is_signer=False, is_writable=False),
     ]
     if remaining_accounts is not None:
         keys += remaining_accounts
@@ -74,4 +70,4 @@ def initialize_pool(
         }
     )
     data = identifier + encoded_args
-    return TransactionInstruction(keys, program_id, data)
+    return Instruction(program_id, data, keys)

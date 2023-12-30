@@ -1,5 +1,5 @@
 from typing import Optional
-from solana.publickey import PublicKey
+from solders.pubkey import Pubkey
 from spl.token.core import AccountInfo as SolanapyAccountInfo, MintInfo as SolanapyMintInfo
 from ..anchor.accounts import WhirlpoolsConfig as AnchorWhirlpoolsConfig, FeeTier as AnchorFeeTier, Whirlpool as AnchorWhirlpool, TickArray as AnchorTickArray, Position as AnchorPosition
 from .types import WhirlpoolsConfig, FeeTier, Whirlpool, TickArray, Position, AccountInfo, MintInfo
@@ -7,7 +7,7 @@ from .types import WhirlpoolsConfig, FeeTier, Whirlpool, TickArray, Position, Ac
 
 class KeyedAccountConverter:
     @staticmethod
-    def to_keyed_fee_tier(pubkey: PublicKey, account: Optional[AnchorFeeTier]) -> Optional[FeeTier]:
+    def to_keyed_fee_tier(pubkey: Pubkey, account: Optional[AnchorFeeTier]) -> Optional[FeeTier]:
         if account is None:
             return None
         return FeeTier(
@@ -18,7 +18,7 @@ class KeyedAccountConverter:
         )
 
     @staticmethod
-    def to_keyed_position(pubkey: PublicKey, account: Optional[AnchorPosition]) -> Optional[Position]:
+    def to_keyed_position(pubkey: Pubkey, account: Optional[AnchorPosition]) -> Optional[Position]:
         if account is None:
             return None
         return Position(
@@ -36,7 +36,7 @@ class KeyedAccountConverter:
         )
 
     @staticmethod
-    def to_keyed_tick_array(pubkey: PublicKey, account: Optional[AnchorTickArray]) -> Optional[TickArray]:
+    def to_keyed_tick_array(pubkey: Pubkey, account: Optional[AnchorTickArray]) -> Optional[TickArray]:
         if account is None:
             return None
         return TickArray(
@@ -47,7 +47,7 @@ class KeyedAccountConverter:
         )
 
     @staticmethod
-    def to_keyed_whirlpool(pubkey: PublicKey, account: Optional[AnchorWhirlpool]) -> Optional[Whirlpool]:
+    def to_keyed_whirlpool(pubkey: Pubkey, account: Optional[AnchorWhirlpool]) -> Optional[Whirlpool]:
         if account is None:
             return None
         return Whirlpool(
@@ -74,7 +74,7 @@ class KeyedAccountConverter:
         )
 
     @staticmethod
-    def to_keyed_whirlpools_config(pubkey: PublicKey, account: Optional[AnchorWhirlpoolsConfig]) -> Optional[WhirlpoolsConfig]:
+    def to_keyed_whirlpools_config(pubkey: Pubkey, account: Optional[AnchorWhirlpoolsConfig]) -> Optional[WhirlpoolsConfig]:
         if account is None:
             return None
         return WhirlpoolsConfig(
@@ -86,7 +86,7 @@ class KeyedAccountConverter:
         )
 
     @staticmethod
-    def to_keyed_token_mint(pubkey: PublicKey, account: Optional[SolanapyMintInfo]) -> Optional[MintInfo]:
+    def to_keyed_token_mint(pubkey: Pubkey, account: Optional[SolanapyMintInfo]) -> Optional[MintInfo]:
         if account is None:
             return None
         return MintInfo(
@@ -99,7 +99,7 @@ class KeyedAccountConverter:
         )
 
     @staticmethod
-    def to_keyed_token_account(pubkey: PublicKey, account: Optional[SolanapyAccountInfo]) -> Optional[AccountInfo]:
+    def to_keyed_token_account(pubkey: Pubkey, account: Optional[SolanapyAccountInfo]) -> Optional[AccountInfo]:
         if account is None:
             return None
         return AccountInfo(

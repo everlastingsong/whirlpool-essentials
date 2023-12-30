@@ -1,12 +1,12 @@
-from solana.publickey import PublicKey
+from solders.pubkey import Pubkey
 
-DEFAULT_PUBKEY = PublicKey('11111111111111111111111111111111')
+DEFAULT_PUBKEY = Pubkey.from_string("11111111111111111111111111111111")
 
 # https://github.com/orca-so/whirlpools/blob/7b9ec35/sdk/src/types/public/constants.ts
-ORCA_WHIRLPOOL_PROGRAM_ID = PublicKey("whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc")
-ORCA_WHIRLPOOLS_CONFIG = PublicKey("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ")
-ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY = PublicKey("3axbTs2z5GBy6usVbNVoqEgZMng3vZvMnAoX29BFfwhr")
-METAPLEX_METADATA_PROGRAM_ID = PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s")
+ORCA_WHIRLPOOL_PROGRAM_ID = Pubkey.from_string("whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc")
+ORCA_WHIRLPOOLS_CONFIG = Pubkey.from_string("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ")
+ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY = Pubkey.from_string("3axbTs2z5GBy6usVbNVoqEgZMng3vZvMnAoX29BFfwhr")
+METAPLEX_METADATA_PROGRAM_ID = Pubkey.from_string("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s")
 
 NUM_REWARDS = 3
 TICK_ARRAY_SIZE = 88

@@ -1,7 +1,7 @@
 # https://github.com/orca-so/whirlpools/blob/main/sdk/src/quotes/public/increase-liquidity-quote.ts
 
 import dataclasses
-from solana.publickey import PublicKey
+from solders.pubkey import Pubkey
 from ..types.percentage import Percentage
 from ..invariant import invariant
 from ..utils.tick_util import TickUtil
@@ -13,9 +13,9 @@ from ..utils.price_math import PriceMath
 @dataclasses.dataclass(frozen=True)
 class IncreaseLiquidityQuoteParams:
     input_token_amount: int
-    input_token_mint: PublicKey
-    token_mint_a: PublicKey
-    token_mint_b: PublicKey
+    input_token_mint: Pubkey
+    token_mint_a: Pubkey
+    token_mint_b: Pubkey
     tick_current_index: int
     sqrt_price: int
     tick_lower_index: int

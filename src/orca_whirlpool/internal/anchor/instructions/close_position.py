@@ -1,24 +1,24 @@
 from __future__ import annotations
 import typing
-from solana.publickey import PublicKey
-from solana.transaction import TransactionInstruction, AccountMeta
+from solders.pubkey import Pubkey
+from spl.token.constants import TOKEN_PROGRAM_ID
+from solders.instruction import Instruction, AccountMeta
 from ..program_id import PROGRAM_ID
 
 
 class ClosePositionAccounts(typing.TypedDict):
-    position_authority: PublicKey
-    receiver: PublicKey
-    position: PublicKey
-    position_mint: PublicKey
-    position_token_account: PublicKey
-    token_program: PublicKey
+    position_authority: Pubkey
+    receiver: Pubkey
+    position: Pubkey
+    position_mint: Pubkey
+    position_token_account: Pubkey
 
 
 def close_position(
     accounts: ClosePositionAccounts,
-    program_id: PublicKey = PROGRAM_ID,
+    program_id: Pubkey = PROGRAM_ID,
     remaining_accounts: typing.Optional[typing.List[AccountMeta]] = None,
-) -> TransactionInstruction:
+) -> Instruction:
     keys: list[AccountMeta] = [
         AccountMeta(
             pubkey=accounts["position_authority"], is_signer=True, is_writable=False
@@ -31,13 +31,11 @@ def close_position(
         AccountMeta(
             pubkey=accounts["position_token_account"], is_signer=False, is_writable=True
         ),
-        AccountMeta(
-            pubkey=accounts["token_program"], is_signer=False, is_writable=False
-        ),
+        AccountMeta(pubkey=TOKEN_PROGRAM_ID, is_signer=False, is_writable=False),
     ]
     if remaining_accounts is not None:
         keys += remaining_accounts
     identifier = b"{\x86Q\x001Dbb"
     encoded_args = b""
     data = identifier + encoded_args
-    return TransactionInstruction(keys, program_id, data)
+    return Instruction(program_id, data, keys)

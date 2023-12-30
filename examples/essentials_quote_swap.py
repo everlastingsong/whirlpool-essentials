@@ -4,9 +4,9 @@
 # and it holds some USDC (>= 0.1) and SAMO (>= 1)
 #
 # solana related library:
-#   - solders   ( >= 0.9.3  )
-#   - solana    ( >= 0.27.2 )
-#   - anchorpy  ( >= 0.11.0 )
+#   - solders   ( == 0.18.1  )
+#   - solana    ( == 0.30.2 )
+#   - anchorpy  ( == 0.18.0 )
 #
 # NOTE!
 # whirlpool_essentials is in a very early stage and is subject to change, including breaking changes.
@@ -16,8 +16,8 @@ import os
 from dotenv import load_dotenv
 from decimal import Decimal
 from solana.rpc.async_api import AsyncClient
-from solana.publickey import PublicKey
-from solana.keypair import Keypair
+from solders.pubkey import Pubkey
+from solders.keypair import Keypair
 
 # ported functions from whirlpools-sdk and common-sdk
 from orca_whirlpool.context import WhirlpoolContext
@@ -28,12 +28,12 @@ from orca_whirlpool.types import Percentage, SwapDirection, SpecifiedAmount, Tic
 
 load_dotenv()
 RPC_ENDPOINT_URL = os.getenv("RPC_ENDPOINT_URL")
-SAMO_USDC_WHIRLPOOL_PUBKEY = PublicKey("9vqYJjDUFecLL2xPUC4Rc7hyCtZ6iJ4mDiVZX7aFXoAe")
+SAMO_USDC_WHIRLPOOL_PUBKEY = Pubkey.from_string("9vqYJjDUFecLL2xPUC4Rc7hyCtZ6iJ4mDiVZX7aFXoAe")
 
 
 async def main():
     # use dummy wallet
-    keypair = Keypair.generate();
+    keypair = Keypair();
 
     # create Anchor client
     connection = AsyncClient(RPC_ENDPOINT_URL)

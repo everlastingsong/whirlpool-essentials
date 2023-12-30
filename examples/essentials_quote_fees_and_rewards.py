@@ -4,9 +4,9 @@
 # and it holds some USDC (>= 0.1) and SAMO (>= 1)
 #
 # solana related library:
-#   - solders   ( >= 0.9.3  )
-#   - solana    ( >= 0.27.2 )
-#   - anchorpy  ( >= 0.11.0 )
+#   - solders   ( == 0.18.1  )
+#   - solana    ( == 0.30.2 )
+#   - anchorpy  ( == 0.18.0 )
 #
 # NOTE!
 # whirlpool_essentials is in a very early stage and is subject to change, including breaking changes.
@@ -15,8 +15,8 @@ import asyncio
 import os
 from dotenv import load_dotenv
 from solana.rpc.async_api import AsyncClient
-from solana.publickey import PublicKey
-from solana.keypair import Keypair
+from solders.pubkey import Pubkey
+from solders.keypair import Keypair
 
 # ported functions from whirlpools-sdk and common-sdk
 from orca_whirlpool.context import WhirlpoolContext
@@ -27,13 +27,13 @@ from orca_whirlpool.quote import QuoteBuilder, CollectFeesQuoteParams, CollectRe
 
 load_dotenv()
 RPC_ENDPOINT_URL = os.getenv("RPC_ENDPOINT_URL")
-POSITION_PUBKEY = PublicKey("2R17mPuvuZcryzUuqqnzxd1ZTRA5gFvhfcjM9Xwk6TqM")
+POSITION_PUBKEY = Pubkey.from_string("2R17mPuvuZcryzUuqqnzxd1ZTRA5gFvhfcjM9Xwk6TqM")
 
 
 async def main():
     # create Anchor client
     connection = AsyncClient(RPC_ENDPOINT_URL)
-    ctx = WhirlpoolContext(ORCA_WHIRLPOOL_PROGRAM_ID, connection, Keypair.generate())
+    ctx = WhirlpoolContext(ORCA_WHIRLPOOL_PROGRAM_ID, connection, Keypair())
 
     # get position
     position = await ctx.fetcher.get_position(POSITION_PUBKEY)

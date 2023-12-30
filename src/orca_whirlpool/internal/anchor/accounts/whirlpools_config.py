@@ -1,7 +1,6 @@
 import typing
 from dataclasses import dataclass
-from base64 import b64decode
-from solana.publickey import PublicKey
+from solders.pubkey import Pubkey
 from solana.rpc.async_api import AsyncClient
 from solana.rpc.commitment import Commitment
 import borsh_construct as borsh
@@ -28,35 +27,35 @@ class WhirlpoolsConfig:
         "reward_emissions_super_authority" / BorshPubkey,
         "default_protocol_fee_rate" / borsh.U16,
     )
-    fee_authority: PublicKey
-    collect_protocol_fees_authority: PublicKey
-    reward_emissions_super_authority: PublicKey
+    fee_authority: Pubkey
+    collect_protocol_fees_authority: Pubkey
+    reward_emissions_super_authority: Pubkey
     default_protocol_fee_rate: int
 
     @classmethod
     async def fetch(
         cls,
         conn: AsyncClient,
-        address: PublicKey,
+        address: Pubkey,
         commitment: typing.Optional[Commitment] = None,
-        program_id: PublicKey = PROGRAM_ID,
+        program_id: Pubkey = PROGRAM_ID,
     ) -> typing.Optional["WhirlpoolsConfig"]:
         resp = await conn.get_account_info(address, commitment=commitment)
-        info = resp["result"]["value"]
+        info = resp.value
         if info is None:
             return None
-        if info["owner"] != str(program_id):
+        if info.owner != program_id:
             raise ValueError("Account does not belong to this program")
-        bytes_data = b64decode(info["data"][0])
+        bytes_data = info.data
         return cls.decode(bytes_data)
 
     @classmethod
     async def fetch_multiple(
         cls,
         conn: AsyncClient,
-        addresses: list[PublicKey],
+        addresses: list[Pubkey],
         commitment: typing.Optional[Commitment] = None,
-        program_id: PublicKey = PROGRAM_ID,
+        program_id: Pubkey = PROGRAM_ID,
     ) -> typing.List[typing.Optional["WhirlpoolsConfig"]]:
         infos = await get_multiple_accounts(conn, addresses, commitment=commitment)
         res: typing.List[typing.Optional["WhirlpoolsConfig"]] = []
@@ -98,11 +97,11 @@ class WhirlpoolsConfig:
     @classmethod
     def from_json(cls, obj: WhirlpoolsConfigJSON) -> "WhirlpoolsConfig":
         return cls(
-            fee_authority=PublicKey(obj["fee_authority"]),
-            collect_protocol_fees_authority=PublicKey(
+            fee_authority=Pubkey.from_string(obj["fee_authority"]),
+            collect_protocol_fees_authority=Pubkey.from_string(
                 obj["collect_protocol_fees_authority"]
             ),
-            reward_emissions_super_authority=PublicKey(
+            reward_emissions_super_authority=Pubkey.from_string(
                 obj["reward_emissions_super_authority"]
             ),
             default_protocol_fee_rate=obj["default_protocol_fee_rate"],

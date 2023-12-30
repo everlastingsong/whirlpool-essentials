@@ -1,9 +1,9 @@
 # ATTENTION!
 #
 # solana related library:
-#   - solders   ( >= 0.9.3  )
-#   - solana    ( >= 0.27.2 )
-#   - anchorpy  ( >= 0.11.0 )
+#   - solders   ( == 0.18.1  )
+#   - solana    ( == 0.30.2 )
+#   - anchorpy  ( == 0.18.0 )
 #
 # NOTE!
 # whirlpool_essentials is in a very early stage and is subject to change, including breaking changes.
@@ -14,8 +14,8 @@ from dotenv import load_dotenv
 from typing import NamedTuple
 from solana.rpc.async_api import AsyncClient
 from solana.rpc.types import TokenAccountOpts
-from solana.publickey import PublicKey
-from solana.keypair import Keypair
+from solders.pubkey import Pubkey
+from solders.keypair import Keypair
 from spl.token.constants import TOKEN_PROGRAM_ID
 
 # ported functions from whirlpools-sdk and common-sdk
@@ -25,18 +25,18 @@ from orca_whirlpool.utils import TokenUtil, LiquidityMath, PriceMath, PDAUtil, P
 
 load_dotenv()
 RPC_ENDPOINT_URL = os.getenv("RPC_ENDPOINT_URL")
-MY_WALLET_PUBKEY = PublicKey("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6")
+MY_WALLET_PUBKEY = Pubkey.from_string("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6")
 
 
 class PositionRelatedAccounts(NamedTuple):
-    mint: PublicKey
-    token_account: PublicKey
-    position: PublicKey
+    mint: Pubkey
+    token_account: Pubkey
+    position: Pubkey
 
 
 async def main():
     connection = AsyncClient(RPC_ENDPOINT_URL)
-    ctx = WhirlpoolContext(ORCA_WHIRLPOOL_PROGRAM_ID, connection, Keypair.generate())
+    ctx = WhirlpoolContext(ORCA_WHIRLPOOL_PROGRAM_ID, connection, Keypair())
 
     # list all token accounts
     res = await ctx.connection.get_token_accounts_by_owner(
@@ -47,7 +47,7 @@ async def main():
 
     candidates = []
     for token_account in token_accounts:
-        pubkey = PublicKey(token_account.pubkey)
+        pubkey = token_account.pubkey
         parsed = TokenUtil.deserialize_account(token_account.account.data)
 
         # maybe NFT

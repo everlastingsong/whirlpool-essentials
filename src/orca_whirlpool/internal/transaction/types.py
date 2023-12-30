@@ -1,7 +1,8 @@
 import dataclasses
 from typing import List
-from solana.keypair import Keypair
-from solana.transaction import Transaction, TransactionInstruction
+from solders.keypair import Keypair
+from solders.transaction import Transaction
+from solders.instruction import Instruction as TransactionInstruction
 
 
 @dataclasses.dataclass(frozen=True)

@@ -1,8 +1,8 @@
 import unittest
 from decimal import Decimal
 from solana.rpc.async_api import AsyncClient
-from solana.keypair import Keypair
-from solana.publickey import PublicKey
+from solders.keypair import Keypair
+from solders.pubkey import Pubkey
 
 from orca_whirlpool.internal.constants import ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG, MIN_TICK_INDEX, MAX_TICK_INDEX, MIN_SQRT_PRICE, MAX_SQRT_PRICE, U64_MAX, TICK_ARRAY_SIZE, FEE_RATE_MUL_VALUE, PROTOCOL_FEE_RATE_MUL_VALUE, NUM_REWARDS, MAX_SWAP_TICK_ARRAYS, METAPLEX_METADATA_PROGRAM_ID, ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY, DEFAULT_PUBKEY
 from orca_whirlpool.internal.utils.pool_util import PoolUtil
@@ -21,16 +21,16 @@ from orca_whirlpool.internal.anchor.types import WhirlpoolRewardInfo
 
 class ConstantsTestCase(unittest.TestCase):
     def test_ORCA_WHIRLPOOL_PROGRAM_ID(self):
-        self.assertEqual(PublicKey("whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc"), ORCA_WHIRLPOOL_PROGRAM_ID)
+        self.assertEqual(Pubkey.from_string("whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc"), ORCA_WHIRLPOOL_PROGRAM_ID)
 
     def test_ORCA_WHIRLPOOLS_CONFIG(self):
-        self.assertEqual(PublicKey("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ"), ORCA_WHIRLPOOLS_CONFIG)
+        self.assertEqual(Pubkey.from_string("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ"), ORCA_WHIRLPOOLS_CONFIG)
 
     def test_ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY(self):
-        self.assertEqual(PublicKey("3axbTs2z5GBy6usVbNVoqEgZMng3vZvMnAoX29BFfwhr"), ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY)
+        self.assertEqual(Pubkey.from_string("3axbTs2z5GBy6usVbNVoqEgZMng3vZvMnAoX29BFfwhr"), ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY)
 
     def test_DEFAULT_PUBKEY(self):
-        self.assertEqual(PublicKey("11111111111111111111111111111111"), DEFAULT_PUBKEY)
+        self.assertEqual(Pubkey.from_string("11111111111111111111111111111111"), DEFAULT_PUBKEY)
 
     def test_NUM_REWARDS(self):
         self.assertEqual(3, NUM_REWARDS)
@@ -51,7 +51,7 @@ class ConstantsTestCase(unittest.TestCase):
         self.assertEqual(88, TICK_ARRAY_SIZE)
 
     def test_METADATA_PROGRAM_ADDRESS(self):
-        self.assertEqual(PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"), METAPLEX_METADATA_PROGRAM_ID)
+        self.assertEqual(Pubkey.from_string("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"), METAPLEX_METADATA_PROGRAM_ID)
 
     def test_MAX_SWAP_TICK_ARRAYS(self):
         self.assertEqual(3, MAX_SWAP_TICK_ARRAYS)
@@ -68,70 +68,70 @@ class ConstantsTestCase(unittest.TestCase):
 
 class PDAUtilTestCase(unittest.TestCase):
     def test_get_whirlpool_01(self):
-        sol = PublicKey("So11111111111111111111111111111111111111112")
-        usdc = PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v")
-        sol_usdc_64 = PublicKey("HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ")
+        sol = Pubkey.from_string("So11111111111111111111111111111111111111112")
+        usdc = Pubkey.from_string("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v")
+        sol_usdc_64 = Pubkey.from_string("HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ")
         result = PDAUtil.get_whirlpool(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG, sol, usdc, 64).pubkey
-        self.assertEqual(sol_usdc_64.to_base58(), result.to_base58())
+        self.assertEqual(str(sol_usdc_64), str(result))
 
     def test_get_whirlpool_02(self):
-        sol = PublicKey("So11111111111111111111111111111111111111112")
-        stsol = PublicKey("7dHbWXmci3dT8UFYWYZweBLXgycu7Y3iL6trKn1Y7ARj")
-        sol_stsol_1 = PublicKey("2AEWSvUds1wsufnsDPCXjFsJCMJH5SNNm7fSF4kxys9a")
+        sol = Pubkey.from_string("So11111111111111111111111111111111111111112")
+        stsol = Pubkey.from_string("7dHbWXmci3dT8UFYWYZweBLXgycu7Y3iL6trKn1Y7ARj")
+        sol_stsol_1 = Pubkey.from_string("2AEWSvUds1wsufnsDPCXjFsJCMJH5SNNm7fSF4kxys9a")
         result = PDAUtil.get_whirlpool(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG, sol, stsol, 1).pubkey
-        self.assertEqual(sol_stsol_1.to_base58(), result.to_base58())
+        self.assertEqual(str(sol_stsol_1), str(result))
 
     def test_get_position_01(self):
         # https://solscan.io/tx/32boMycNhPh8JSAtiBT53pWgKprmpHMWyGaCdAjqNvg2ppB9GV3M7Ye2MVhmGLbEBqFxN1acNjMRvSvcriYNcD2v
-        mint = PublicKey("BsNH5iSWjthsDuJrh5QeVGUjbkUcxkjaGzByjVjt83qC")
-        position = PublicKey("88hXrRdXuHFCWm41S6yyeW7QWSeVbgmHL4ja2iHUumip")
+        mint = Pubkey.from_string("BsNH5iSWjthsDuJrh5QeVGUjbkUcxkjaGzByjVjt83qC")
+        position = Pubkey.from_string("88hXrRdXuHFCWm41S6yyeW7QWSeVbgmHL4ja2iHUumip")
         result = PDAUtil.get_position(ORCA_WHIRLPOOL_PROGRAM_ID, mint).pubkey
-        self.assertEqual(position.to_base58(), result.to_base58())
+        self.assertEqual(str(position), str(result))
 
     def test_get_position_02(self):
         # https://solscan.io/tx/4L2jje9mTXygt9x7oyf7sCoiuSgG5axpMBFNVT1Hg6tESW4rJnrPACzBE1gcz82J1ckrN2PubhvN2tEsJmbcDyL7
-        mint = PublicKey("Fcjdf8RQBRwZqDUJ4Kqe7K4T3jG1rtchKywWN1BKD1k7")
-        position = PublicKey("B66pRzGcKMmxRJ16KMkJMJoQWWhmyk4na4DPcv6X5ZRD")
+        mint = Pubkey.from_string("Fcjdf8RQBRwZqDUJ4Kqe7K4T3jG1rtchKywWN1BKD1k7")
+        position = Pubkey.from_string("B66pRzGcKMmxRJ16KMkJMJoQWWhmyk4na4DPcv6X5ZRD")
         result = PDAUtil.get_position(ORCA_WHIRLPOOL_PROGRAM_ID, mint).pubkey
-        self.assertEqual(position.to_base58(), result.to_base58())
+        self.assertEqual(str(position), str(result))
 
     def test_get_position_metadata_01(self):
         # https://solscan.io/tx/32boMycNhPh8JSAtiBT53pWgKprmpHMWyGaCdAjqNvg2ppB9GV3M7Ye2MVhmGLbEBqFxN1acNjMRvSvcriYNcD2v
-        mint = PublicKey("BsNH5iSWjthsDuJrh5QeVGUjbkUcxkjaGzByjVjt83qC")
-        metadata = PublicKey("38SUhTtHdSDCyb69pLJ5ranDoyKPkdNB47fNiGDMCZgc")
+        mint = Pubkey.from_string("BsNH5iSWjthsDuJrh5QeVGUjbkUcxkjaGzByjVjt83qC")
+        metadata = Pubkey.from_string("38SUhTtHdSDCyb69pLJ5ranDoyKPkdNB47fNiGDMCZgc")
         result = PDAUtil.get_position_metadata(mint).pubkey
-        self.assertEqual(metadata.to_base58(), result.to_base58())
+        self.assertEqual(str(metadata), str(result))
 
     def test_get_position_metadata_02(self):
         # https://solscan.io/tx/4L2jje9mTXygt9x7oyf7sCoiuSgG5axpMBFNVT1Hg6tESW4rJnrPACzBE1gcz82J1ckrN2PubhvN2tEsJmbcDyL7
-        mint = PublicKey("Fcjdf8RQBRwZqDUJ4Kqe7K4T3jG1rtchKywWN1BKD1k7")
-        metadata = PublicKey("BynyGEfNoPGJTkKz7ctEeB6CMr6xbYD8QJgU4k7KqBpK")
+        mint = Pubkey.from_string("Fcjdf8RQBRwZqDUJ4Kqe7K4T3jG1rtchKywWN1BKD1k7")
+        metadata = Pubkey.from_string("BynyGEfNoPGJTkKz7ctEeB6CMr6xbYD8QJgU4k7KqBpK")
         result = PDAUtil.get_position_metadata(mint).pubkey
-        self.assertEqual(metadata.to_base58(), result.to_base58())
+        self.assertEqual(str(metadata), str(result))
 
     def test_get_tick_array_01(self):
-        sol_usdc_64 = PublicKey("HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ")
-        tickarray_n39424 = PublicKey("EVqGhR2ukNuqZNfvFFAitrX6UqrRm2r8ayKX9LH9xHzK")
+        sol_usdc_64 = Pubkey.from_string("HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ")
+        tickarray_n39424 = Pubkey.from_string("EVqGhR2ukNuqZNfvFFAitrX6UqrRm2r8ayKX9LH9xHzK")
         result = PDAUtil.get_tick_array(ORCA_WHIRLPOOL_PROGRAM_ID, sol_usdc_64, -39424).pubkey
-        self.assertEqual(tickarray_n39424.to_base58(), result.to_base58())
+        self.assertEqual(str(tickarray_n39424), str(result))
 
     def test_get_tick_array_02(self):
-        usdc_usdt_1 = PublicKey("4fuUiYxTQ6QCrdSq9ouBYcTM7bqSwYTSyLueGZLTy4T4")
-        tickarray_p1144 = PublicKey("9GyHXzDr7XXYYgP4hSf1UXSdCk78kjFQGgZ4zga8VLAg")
+        usdc_usdt_1 = Pubkey.from_string("4fuUiYxTQ6QCrdSq9ouBYcTM7bqSwYTSyLueGZLTy4T4")
+        tickarray_p1144 = Pubkey.from_string("9GyHXzDr7XXYYgP4hSf1UXSdCk78kjFQGgZ4zga8VLAg")
         result = PDAUtil.get_tick_array(ORCA_WHIRLPOOL_PROGRAM_ID, usdc_usdt_1, +1144).pubkey
-        self.assertEqual(tickarray_p1144.to_base58(), result.to_base58())
+        self.assertEqual(str(tickarray_p1144), str(result))
 
     def test_get_oracle_01(self):
-        sol_usdc_64 = PublicKey("HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ")
-        oracle = PublicKey("4GkRbcYg1VKsZropgai4dMf2Nj2PkXNLf43knFpavrSi")
+        sol_usdc_64 = Pubkey.from_string("HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ")
+        oracle = Pubkey.from_string("4GkRbcYg1VKsZropgai4dMf2Nj2PkXNLf43knFpavrSi")
         result = PDAUtil.get_oracle(ORCA_WHIRLPOOL_PROGRAM_ID, sol_usdc_64).pubkey
-        self.assertEqual(oracle.to_base58(), result.to_base58())
+        self.assertEqual(str(oracle), str(result))
 
     def test_get_oracle_02(self):
-        usdc_usdt_1 = PublicKey("4fuUiYxTQ6QCrdSq9ouBYcTM7bqSwYTSyLueGZLTy4T4")
-        oracle = PublicKey("3NxDBWt55DZnEwwQ2bhQ3xWG8Jd18TdUXAG4Zdr7jDai")
+        usdc_usdt_1 = Pubkey.from_string("4fuUiYxTQ6QCrdSq9ouBYcTM7bqSwYTSyLueGZLTy4T4")
+        oracle = Pubkey.from_string("3NxDBWt55DZnEwwQ2bhQ3xWG8Jd18TdUXAG4Zdr7jDai")
         result = PDAUtil.get_oracle(ORCA_WHIRLPOOL_PROGRAM_ID, usdc_usdt_1).pubkey
-        self.assertEqual(oracle.to_base58(), result.to_base58())
+        self.assertEqual(str(oracle), str(result))
 
 
 class PriceMathTestCase(unittest.TestCase):
@@ -739,34 +739,34 @@ class PoolUtilTestCase(unittest.TestCase):
         self.assertEqual(PROTOCOL_FEE_RATE_MUL_VALUE, result.denominator)
 
     def test_is_reward_initialized_01(self):
-        mint = PublicKey("11111111111111111111111111111111")
-        vault = PublicKey("11111111111111111111111111111111")
+        mint = Pubkey.from_string("11111111111111111111111111111111")
+        vault = Pubkey.from_string("11111111111111111111111111111111")
         expected = False
-        reward_info = WhirlpoolRewardInfo(mint, vault, PublicKey(1), 0, 0)
+        reward_info = WhirlpoolRewardInfo(mint, vault, Pubkey.default(), 0, 0)
         result = PoolUtil.is_reward_initialized(reward_info)
         self.assertEqual(expected, result)
 
     def test_is_reward_initialized_02(self):
-        mint = PublicKey("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE")
-        vault = PublicKey("11111111111111111111111111111111")
+        mint = Pubkey.from_string("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE")
+        vault = Pubkey.from_string("11111111111111111111111111111111")
         expected = False
-        reward_info = WhirlpoolRewardInfo(mint, vault, PublicKey(1), 0, 0)
+        reward_info = WhirlpoolRewardInfo(mint, vault, Pubkey.default(), 0, 0)
         result = PoolUtil.is_reward_initialized(reward_info)
         self.assertEqual(expected, result)
 
     def test_is_reward_initialized_03(self):
-        mint = PublicKey("11111111111111111111111111111111")
-        vault = PublicKey("2tU3tKvj7RBxEatryyMYTUxBoLSSWCQXsdv1X6yce4T2")
+        mint = Pubkey.from_string("11111111111111111111111111111111")
+        vault = Pubkey.from_string("2tU3tKvj7RBxEatryyMYTUxBoLSSWCQXsdv1X6yce4T2")
         expected = False
-        reward_info = WhirlpoolRewardInfo(mint, vault, PublicKey(1), 0, 0)
+        reward_info = WhirlpoolRewardInfo(mint, vault, Pubkey.default(), 0, 0)
         result = PoolUtil.is_reward_initialized(reward_info)
         self.assertEqual(expected, result)
 
     def test_is_reward_initialized_04(self):
-        mint = PublicKey("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE")
-        vault = PublicKey("2tU3tKvj7RBxEatryyMYTUxBoLSSWCQXsdv1X6yce4T2")
+        mint = Pubkey.from_string("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE")
+        vault = Pubkey.from_string("2tU3tKvj7RBxEatryyMYTUxBoLSSWCQXsdv1X6yce4T2")
         expected = True
-        reward_info = WhirlpoolRewardInfo(mint, vault, PublicKey(1), 0, 0)
+        reward_info = WhirlpoolRewardInfo(mint, vault, Pubkey.default(), 0, 0)
         result = PoolUtil.is_reward_initialized(reward_info)
         self.assertEqual(expected, result)
 
@@ -818,7 +818,7 @@ class PositionUtilTestCase(unittest.TestCase):
 class WhirlpoolContextTestCase(unittest.TestCase):
     def test_whirlpool_context_01(self):
         connection = AsyncClient("https://api.mainnet-beta.solana.com")
-        wallet = Keypair.generate()
+        wallet = Keypair()
         ctx = WhirlpoolContext(ORCA_WHIRLPOOL_PROGRAM_ID, connection, wallet)
         self.assertEqual(ORCA_WHIRLPOOL_PROGRAM_ID, ctx.program_id)
         self.assertEqual(connection, ctx.connection)
@@ -827,7 +827,7 @@ class WhirlpoolContextTestCase(unittest.TestCase):
 
     def test_whirlpool_context_02(self):
         connection = AsyncClient("https://api.mainnet-beta.solana.com")
-        wallet = Keypair.generate()
+        wallet = Keypair()
         fetcher = AccountFetcher(connection)
         ctx = WhirlpoolContext(ORCA_WHIRLPOOL_PROGRAM_ID, connection, wallet, fetcher)
         self.assertEqual(ORCA_WHIRLPOOL_PROGRAM_ID, ctx.program_id)
@@ -881,7 +881,7 @@ class SpecifiedAmountTestCase(unittest.TestCase):
         self.assertFalse(SpecifiedAmount.SwapOutput.is_swap_input)
         self.assertTrue(SpecifiedAmount.SwapOutput.is_swap_output)
 
-    def test_swap_input_03(self):
+    def test_swap_output_03(self):
         self.assertFalse(SpecifiedAmount.SwapOutput.is_a(SwapDirection.AtoB))
         self.assertTrue(SpecifiedAmount.SwapOutput.is_b(SwapDirection.AtoB))
         self.assertTrue(SpecifiedAmount.SwapOutput.is_a(SwapDirection.BtoA))

@@ -1,6 +1,6 @@
 import dataclasses
 from typing import List, Optional
-from solana.publickey import PublicKey
+from solders.pubkey import Pubkey
 from ...accounts.types import TickArray, Whirlpool
 from ...types.enums import SwapDirection, SpecifiedAmount
 from ...types.percentage import Percentage
@@ -26,9 +26,9 @@ class SwapQuote:
     sqrt_price_limit: int
     direction: SwapDirection
     specified_amount: SpecifiedAmount
-    tick_array_0: PublicKey
-    tick_array_1: PublicKey
-    tick_array_2: PublicKey
+    tick_array_0: Pubkey
+    tick_array_1: Pubkey
+    tick_array_2: Pubkey
     # SwapQuote
     estimated_amount_in: int
     estimated_amount_out: int

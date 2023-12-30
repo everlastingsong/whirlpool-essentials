@@ -2,7 +2,7 @@ from __future__ import annotations
 import typing
 from dataclasses import dataclass
 from construct import Container
-from solana.publickey import PublicKey
+from solders.pubkey import Pubkey
 from anchorpy.borsh_extension import BorshPubkey
 import borsh_construct as borsh
 
@@ -24,9 +24,9 @@ class WhirlpoolRewardInfo:
         "emissions_per_second_x64" / borsh.U128,
         "growth_global_x64" / borsh.U128,
     )
-    mint: PublicKey
-    vault: PublicKey
-    authority: PublicKey
+    mint: Pubkey
+    vault: Pubkey
+    authority: Pubkey
     emissions_per_second_x64: int
     growth_global_x64: int
 
@@ -61,9 +61,9 @@ class WhirlpoolRewardInfo:
     @classmethod
     def from_json(cls, obj: WhirlpoolRewardInfoJSON) -> "WhirlpoolRewardInfo":
         return cls(
-            mint=PublicKey(obj["mint"]),
-            vault=PublicKey(obj["vault"]),
-            authority=PublicKey(obj["authority"]),
+            mint=Pubkey.from_string(obj["mint"]),
+            vault=Pubkey.from_string(obj["vault"]),
+            authority=Pubkey.from_string(obj["authority"]),
             emissions_per_second_x64=obj["emissions_per_second_x64"],
             growth_global_x64=obj["growth_global_x64"],
         )

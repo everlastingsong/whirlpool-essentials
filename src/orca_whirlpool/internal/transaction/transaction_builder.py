@@ -1,13 +1,14 @@
 from typing import Optional
-from solana.keypair import Keypair
-from solana.blockhash import Blockhash
-from solana.transaction import Transaction
-from solana.rpc.async_api import AsyncClient
+from solders.keypair import Keypair
+from solders.transaction import Transaction
 from solders.signature import Signature
+from solana.rpc.async_api import AsyncClient
+from solana.rpc.commitment import Commitment, Confirmed
 from .types import Instruction, TransactionPayload
-from .transaction_processor import TransactionProcessor
 
 EMPTY_INSTRUCTION = Instruction([], [], [])
+
+CONFIRM_TRANSACTION_CHECK_INTERVAL_SECOND = 1
 
 
 class TransactionBuilder:
@@ -18,7 +19,8 @@ class TransactionBuilder:
         self._signers = []
 
     def add_instruction(self, instruction: Instruction) -> "TransactionBuilder":
-        self._instructions.append(instruction)
+        if not is_empty_instruction(instruction):
+            self._instructions.append(instruction)
         return self
 
     def add_signer(self, signer: Keypair) -> "TransactionBuilder":
@@ -47,26 +49,35 @@ class TransactionBuilder:
             signers=signers,
         )
 
-    async def build(self, recent_blockhash: Optional[Blockhash] = None) -> TransactionPayload:
-        if recent_blockhash is None:
-            latest_blockhash = (await self._connection.get_latest_blockhash()).value
-            recent_blockhash = Blockhash(str(latest_blockhash.blockhash))
-
-        transaction = Transaction(
-            recent_blockhash=recent_blockhash,
-            fee_payer=self._fee_payer.public_key,
-        )
-
+    def build(self) -> TransactionPayload:
         packed = self.pack_instructions(True)
-        transaction.add(*packed.instructions)
 
         return TransactionPayload(
-            transaction=transaction,
-            signers=packed.signers + self._signers
+            transaction=Transaction.new_with_payer(packed.instructions, self._fee_payer.pubkey()),
+            signers=[self._fee_payer] + packed.signers + self._signers,
         )
 
-    async def build_and_execute(self) -> Signature:
-        payload = await self.build()
-        processor = TransactionProcessor(self._connection, self._fee_payer)
-        signed_transaction = await processor.sign_and_construct_transaction(payload)
-        return await signed_transaction.execute()
+    async def build_and_execute(self, commitment: Optional[Commitment] = Confirmed) -> Signature:
+        payload = self.build()
+
+        latest_blockhash = (await self._connection.get_latest_blockhash()).value
+
+        tx = Transaction(payload.signers, payload.transaction.message, latest_blockhash.blockhash)
+        signature = (await self._connection.send_raw_transaction(bytes(tx))).value
+        await self._connection.confirm_transaction(
+            signature,
+            commitment,
+            sleep_seconds=CONFIRM_TRANSACTION_CHECK_INTERVAL_SECOND,
+            last_valid_block_height=latest_blockhash.last_valid_block_height
+        )
+        return signature
+
+
+def is_empty_instruction(instruction: Instruction) -> bool:
+    if len(instruction.instructions) > 0:
+        return False
+    if len(instruction.cleanup_instructions) > 0:
+        return False
+    if len(instruction.signers) > 0:
+        return False
+    return True

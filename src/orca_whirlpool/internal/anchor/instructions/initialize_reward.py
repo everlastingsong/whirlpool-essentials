@@ -1,7 +1,10 @@
 from __future__ import annotations
 import typing
-from solana.publickey import PublicKey
-from solana.transaction import TransactionInstruction, AccountMeta
+from solders.pubkey import Pubkey
+from solders.system_program import ID as SYS_PROGRAM_ID
+from solders.sysvar import RENT
+from spl.token.constants import TOKEN_PROGRAM_ID
+from solders.instruction import Instruction, AccountMeta
 import borsh_construct as borsh
 from ..program_id import PROGRAM_ID
 
@@ -14,22 +17,19 @@ layout = borsh.CStruct("reward_index" / borsh.U8)
 
 
 class InitializeRewardAccounts(typing.TypedDict):
-    reward_authority: PublicKey
-    funder: PublicKey
-    whirlpool: PublicKey
-    reward_mint: PublicKey
-    reward_vault: PublicKey
-    token_program: PublicKey
-    system_program: PublicKey
-    rent: PublicKey
+    reward_authority: Pubkey
+    funder: Pubkey
+    whirlpool: Pubkey
+    reward_mint: Pubkey
+    reward_vault: Pubkey
 
 
 def initialize_reward(
     args: InitializeRewardArgs,
     accounts: InitializeRewardAccounts,
-    program_id: PublicKey = PROGRAM_ID,
+    program_id: Pubkey = PROGRAM_ID,
     remaining_accounts: typing.Optional[typing.List[AccountMeta]] = None,
-) -> TransactionInstruction:
+) -> Instruction:
     keys: list[AccountMeta] = [
         AccountMeta(
             pubkey=accounts["reward_authority"], is_signer=True, is_writable=False
@@ -38,13 +38,9 @@ def initialize_reward(
         AccountMeta(pubkey=accounts["whirlpool"], is_signer=False, is_writable=True),
         AccountMeta(pubkey=accounts["reward_mint"], is_signer=False, is_writable=False),
         AccountMeta(pubkey=accounts["reward_vault"], is_signer=True, is_writable=True),
-        AccountMeta(
-            pubkey=accounts["token_program"], is_signer=False, is_writable=False
-        ),
-        AccountMeta(
-            pubkey=accounts["system_program"], is_signer=False, is_writable=False
-        ),
-        AccountMeta(pubkey=accounts["rent"], is_signer=False, is_writable=False),
+        AccountMeta(pubkey=TOKEN_PROGRAM_ID, is_signer=False, is_writable=False),
+        AccountMeta(pubkey=SYS_PROGRAM_ID, is_signer=False, is_writable=False),
+        AccountMeta(pubkey=RENT, is_signer=False, is_writable=False),
     ]
     if remaining_accounts is not None:
         keys += remaining_accounts
@@ -55,4 +51,4 @@ def initialize_reward(
         }
     )
     data = identifier + encoded_args
-    return TransactionInstruction(keys, program_id, data)
+    return Instruction(program_id, data, keys)

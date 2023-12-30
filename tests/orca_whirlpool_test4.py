@@ -2,10 +2,10 @@ import unittest
 import random
 from typing import List, Any
 from pyheck import snake
-from solana.publickey import PublicKey
-from solana.keypair import Keypair
-from solana.system_program import SYS_PROGRAM_ID
-from solana.sysvar import SYSVAR_RENT_PUBKEY
+from solders.pubkey import Pubkey
+from solders.keypair import Keypair
+from solders.system_program import ID as SYS_PROGRAM_ID
+from solders.sysvar import RENT as SYSVAR_RENT_PUBKEY
 from spl.token.constants import TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID
 from anchorpy.coder.common import _sighash as sighash
 from borsh_construct import Bool, U8, U16, I32, U64, U128, CStruct
@@ -47,8 +47,8 @@ from orca_whirlpool.internal.instruction.whirlpoolix import (
 )
 
 
-def rand_pubkey() -> PublicKey:
-    return Keypair.generate().public_key
+def rand_pubkey() -> Pubkey:
+    return Keypair().pubkey()
 
 
 def rand_bool() -> bool:
@@ -118,7 +118,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(TOKEN_PROGRAM_ID, keys[0])
         self.assertEqual(token_authority, keys[1])
         self.assertEqual(whirlpool, keys[2])
@@ -171,7 +171,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(funder, keys[0])
         self.assertEqual(owner, keys[1])
         self.assertEqual(position_pda.pubkey, keys[2])
@@ -223,7 +223,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(funder, keys[0])
         self.assertEqual(owner, keys[1])
         self.assertEqual(position_pda.pubkey, keys[2])
@@ -287,7 +287,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpool, keys[0])
         self.assertEqual(TOKEN_PROGRAM_ID, keys[1])
         self.assertEqual(position_authority, keys[2])
@@ -348,7 +348,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpool, keys[0])
         self.assertEqual(TOKEN_PROGRAM_ID, keys[1])
         self.assertEqual(position_authority, keys[2])
@@ -390,7 +390,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpool, keys[0])
         self.assertEqual(position, keys[1])
         self.assertEqual(tick_array_lower, keys[2])
@@ -427,7 +427,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpool, keys[0])
         self.assertEqual(position_authority, keys[1])
         self.assertEqual(position, keys[2])
@@ -468,7 +468,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpool, keys[0])
         self.assertEqual(position_authority, keys[1])
         self.assertEqual(position, keys[2])
@@ -510,7 +510,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpools_config, keys[0])
         self.assertEqual(whirlpool, keys[1])
         self.assertEqual(collect_protocol_fees_authority, keys[2])
@@ -545,7 +545,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(position_authority, keys[0])
         self.assertEqual(receiver, keys[1])
         self.assertEqual(position, keys[2])
@@ -581,7 +581,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(config, keys[0])
         self.assertEqual(funder, keys[1])
         self.assertEqual(SYS_PROGRAM_ID, keys[2])
@@ -621,7 +621,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(config, keys[0])
         self.assertEqual(fee_tier, keys[1])
         self.assertEqual(funder, keys[2])
@@ -669,7 +669,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpools_config, keys[0])
         self.assertEqual(token_mint_a, keys[1])
         self.assertEqual(token_mint_b, keys[2])
@@ -716,7 +716,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(reward_authority, keys[0])
         self.assertEqual(funder, keys[1])
         self.assertEqual(whirlpool, keys[2])
@@ -754,7 +754,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpool, keys[0])
         self.assertEqual(funder, keys[1])
         self.assertEqual(tick_array, keys[2])
@@ -785,7 +785,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpools_config, keys[0])
         self.assertEqual(collect_protocol_fees_authority, keys[1])
         self.assertEqual(new_collect_protocol_fees_authority, keys[2])
@@ -814,7 +814,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpools_config, keys[0])
         self.assertEqual(fee_tier, keys[1])
         self.assertEqual(fee_authority, keys[2])
@@ -845,7 +845,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpools_config, keys[0])
         self.assertEqual(fee_authority, keys[1])
 
@@ -874,7 +874,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpools_config, keys[0])
         self.assertEqual(fee_authority, keys[1])
         self.assertEqual(new_fee_authority, keys[2])
@@ -903,7 +903,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpools_config, keys[0])
         self.assertEqual(whirlpool, keys[1])
         self.assertEqual(fee_authority, keys[2])
@@ -936,7 +936,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpools_config, keys[0])
         self.assertEqual(whirlpool, keys[1])
         self.assertEqual(fee_authority, keys[2])
@@ -969,7 +969,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpool, keys[0])
         self.assertEqual(reward_authority, keys[1])
         self.assertEqual(new_reward_authority, keys[2])
@@ -1004,7 +1004,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpools_config, keys[0])
         self.assertEqual(whirlpool, keys[1])
         self.assertEqual(reward_emissions_super_authority, keys[2])
@@ -1040,7 +1040,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpool, keys[0])
         self.assertEqual(reward_authority, keys[1])
         self.assertEqual(reward_vault, keys[2])
@@ -1071,7 +1071,7 @@ class WhirlpoolIxTestCase(unittest.TestCase):
 
         self.assertEqual(program_id, ix.program_id)
 
-        keys = list(map(lambda k: k.pubkey, ix.keys))
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
         self.assertEqual(whirlpools_config, keys[0])
         self.assertEqual(reward_emissions_super_authority, keys[1])
         self.assertEqual(new_reward_emissions_super_authority, keys[2])

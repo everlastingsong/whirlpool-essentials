@@ -1,26 +1,26 @@
 import dataclasses
 from typing import Optional
-from solana.publickey import PublicKey
+from solders.pubkey import Pubkey
 from ..anchor.types import WhirlpoolRewardInfo, Tick, PositionRewardInfo
 
 
 @dataclasses.dataclass(frozen=True)
 class WhirlpoolsConfig:
     # keyed
-    pubkey: PublicKey
+    pubkey: Pubkey
     # WhirlpoolsConfig
-    fee_authority: PublicKey
-    collect_protocol_fees_authority: PublicKey
-    reward_emissions_super_authority: PublicKey
+    fee_authority: Pubkey
+    collect_protocol_fees_authority: Pubkey
+    reward_emissions_super_authority: Pubkey
     default_protocol_fee_rate: int
 
 
 @dataclasses.dataclass(frozen=True)
 class FeeTier:
     # keyed
-    pubkey: PublicKey
+    pubkey: Pubkey
     # FeeTier
-    whirlpools_config: PublicKey
+    whirlpools_config: Pubkey
     tick_spacing: int
     default_fee_rate: int
 
@@ -28,9 +28,9 @@ class FeeTier:
 @dataclasses.dataclass(frozen=True)
 class Whirlpool:
     # keyed
-    pubkey: PublicKey
+    pubkey: Pubkey
     # Whirlpool
-    whirlpools_config: PublicKey
+    whirlpools_config: Pubkey
     whirlpool_bump: list[int]
     tick_spacing: int
     tick_spacing_seed: list[int]
@@ -41,11 +41,11 @@ class Whirlpool:
     tick_current_index: int
     protocol_fee_owed_a: int
     protocol_fee_owed_b: int
-    token_mint_a: PublicKey
-    token_vault_a: PublicKey
+    token_mint_a: Pubkey
+    token_vault_a: Pubkey
     fee_growth_global_a: int
-    token_mint_b: PublicKey
-    token_vault_b: PublicKey
+    token_mint_b: Pubkey
+    token_vault_b: Pubkey
     fee_growth_global_b: int
     reward_last_updated_timestamp: int
     reward_infos: list[WhirlpoolRewardInfo]
@@ -54,20 +54,20 @@ class Whirlpool:
 @dataclasses.dataclass(frozen=True)
 class TickArray:
     # keyed
-    pubkey: PublicKey
+    pubkey: Pubkey
     # TickArray
     start_tick_index: int
     ticks: list[Tick]
-    whirlpool: PublicKey
+    whirlpool: Pubkey
 
 
 @dataclasses.dataclass(frozen=True)
 class Position:
     # keyed
-    pubkey: PublicKey
+    pubkey: Pubkey
     # Position
-    whirlpool: PublicKey
-    position_mint: PublicKey
+    whirlpool: Pubkey
+    position_mint: Pubkey
     liquidity: int
     tick_lower_index: int
     tick_upper_index: int
@@ -81,27 +81,27 @@ class Position:
 @dataclasses.dataclass(frozen=True)
 class AccountInfo:
     # keyed
-    pubkey: PublicKey
+    pubkey: Pubkey
     # AccountInfo
-    mint: PublicKey
-    owner: PublicKey
+    mint: Pubkey
+    owner: Pubkey
     amount: int
-    delegate: Optional[PublicKey]
+    delegate: Optional[Pubkey]
     delegated_amount: int
     is_initialized: bool
     is_frozen: bool
     is_native: bool
     rent_exempt_reserve: Optional[int]
-    close_authority: Optional[PublicKey]
+    close_authority: Optional[Pubkey]
 
 
 @dataclasses.dataclass(frozen=True)
 class MintInfo:
     # keyed
-    pubkey: PublicKey
+    pubkey: Pubkey
     # MintInfo
-    mint_authority: Optional[PublicKey]
+    mint_authority: Optional[Pubkey]
     supply: int
     decimals: int
     is_initialized: bool
-    freeze_authority: Optional[PublicKey]
+    freeze_authority: Optional[Pubkey]

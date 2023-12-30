@@ -4,9 +4,9 @@
 # and it holds some SOL (>= 0.1) and USDC (>= 1)
 #
 # solana related library:
-#   - solders   ( >= 0.9.3  )
-#   - solana    ( >= 0.27.2 )
-#   - anchorpy  ( >= 0.11.0 )
+#   - solders   ( == 0.18.1  )
+#   - solana    ( == 0.30.2 )
+#   - anchorpy  ( == 0.18.0 )
 #
 # NOTE!
 # whirlpool_essentials is in a very early stage and is subject to change, including breaking changes.
@@ -18,8 +18,8 @@ from dotenv import load_dotenv
 from decimal import Decimal
 from pathlib import Path
 from solana.rpc.async_api import AsyncClient
-from solana.publickey import PublicKey
-from solana.keypair import Keypair
+from solders.pubkey import Pubkey
+from solders.keypair import Keypair
 
 # ported functions from whirlpools-sdk and common-sdk
 from orca_whirlpool.context import WhirlpoolContext
@@ -33,7 +33,7 @@ from orca_whirlpool.quote import QuoteBuilder, IncreaseLiquidityQuoteParams
 
 load_dotenv()
 RPC_ENDPOINT_URL = os.getenv("RPC_ENDPOINT_URL")
-SOL_USDC_WHIRLPOOL_PUBKEY = PublicKey("HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ")
+SOL_USDC_WHIRLPOOL_PUBKEY = Pubkey.from_string("HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ")
 
 
 async def main():
@@ -41,8 +41,8 @@ async def main():
     # - how to create: solana-keygen new -o wallet.json
     # - need some USDC and SOL
     with Path("wallet.json").open() as f:
-        keypair = Keypair.from_secret_key(bytes(json.load(f)))
-    print("wallet pubkey", keypair.public_key)
+        keypair = Keypair.from_bytes(bytes(json.load(f)))
+    print("wallet pubkey", keypair.pubkey())
 
     # create client
     connection = AsyncClient(RPC_ENDPOINT_URL)
@@ -89,8 +89,8 @@ async def main():
     print("max_token_a", quote.token_max_b)
 
     # get ATA (considering WSOL)
-    token_account_a = await TokenUtil.resolve_or_create_ata(ctx.connection, ctx.wallet.public_key, whirlpool.token_mint_a, quote.token_max_a)
-    token_account_b = await TokenUtil.resolve_or_create_ata(ctx.connection, ctx.wallet.public_key, whirlpool.token_mint_b, quote.token_max_b)
+    token_account_a = await TokenUtil.resolve_or_create_ata(ctx.connection, ctx.wallet.pubkey(), whirlpool.token_mint_a, quote.token_max_a)
+    token_account_b = await TokenUtil.resolve_or_create_ata(ctx.connection, ctx.wallet.pubkey(), whirlpool.token_mint_b, quote.token_max_b)
     print("token_account_a", token_account_a.pubkey)
     print("token_account_b", token_account_b.pubkey)
 
@@ -102,9 +102,9 @@ async def main():
     tx.add_instruction(token_account_b.instruction)
 
     # open position
-    position_mint = Keypair.generate()
-    position_ata = TokenUtil.derive_ata(ctx.wallet.public_key, position_mint.public_key)
-    position_pda = PDAUtil.get_position(ctx.program_id, position_mint.public_key)
+    position_mint = Keypair()
+    position_ata = TokenUtil.derive_ata(ctx.wallet.pubkey(), position_mint.pubkey())
+    position_pda = PDAUtil.get_position(ctx.program_id, position_mint.pubkey())
     open_position_ix = WhirlpoolIx.open_position(
         ctx.program_id,
         OpenPositionParams(
@@ -112,10 +112,10 @@ async def main():
             tick_lower_index=tick_lower_index,
             tick_upper_index=tick_upper_index,
             position_pda=position_pda,
-            position_mint=position_mint.public_key,
+            position_mint=position_mint.pubkey(),
             position_token_account=position_ata,
-            funder=ctx.wallet.public_key,
-            owner=ctx.wallet.public_key,
+            funder=ctx.wallet.pubkey(),
+            owner=ctx.wallet.pubkey(),
         )
     )
     tx.add_instruction(open_position_ix)
@@ -132,7 +132,7 @@ async def main():
             whirlpool=whirlpool_pubkey,
             position=position_pda.pubkey,
             position_token_account=position_ata,
-            position_authority=ctx.wallet.public_key,
+            position_authority=ctx.wallet.pubkey(),
             liquidity_amount=quote.liquidity,
             token_max_a=quote.token_max_a,
             token_max_b=quote.token_max_b,

@@ -1,7 +1,8 @@
 from __future__ import annotations
 import typing
-from solana.publickey import PublicKey
-from solana.transaction import TransactionInstruction, AccountMeta
+from solders.pubkey import Pubkey
+from spl.token.constants import TOKEN_PROGRAM_ID
+from solders.instruction import Instruction, AccountMeta
 import borsh_construct as borsh
 from ..program_id import PROGRAM_ID
 
@@ -24,29 +25,26 @@ layout = borsh.CStruct(
 
 
 class SwapAccounts(typing.TypedDict):
-    token_program: PublicKey
-    token_authority: PublicKey
-    whirlpool: PublicKey
-    token_owner_account_a: PublicKey
-    token_vault_a: PublicKey
-    token_owner_account_b: PublicKey
-    token_vault_b: PublicKey
-    tick_array0: PublicKey
-    tick_array1: PublicKey
-    tick_array2: PublicKey
-    oracle: PublicKey
+    token_authority: Pubkey
+    whirlpool: Pubkey
+    token_owner_account_a: Pubkey
+    token_vault_a: Pubkey
+    token_owner_account_b: Pubkey
+    token_vault_b: Pubkey
+    tick_array0: Pubkey
+    tick_array1: Pubkey
+    tick_array2: Pubkey
+    oracle: Pubkey
 
 
 def swap(
     args: SwapArgs,
     accounts: SwapAccounts,
-    program_id: PublicKey = PROGRAM_ID,
+    program_id: Pubkey = PROGRAM_ID,
     remaining_accounts: typing.Optional[typing.List[AccountMeta]] = None,
-) -> TransactionInstruction:
+) -> Instruction:
     keys: list[AccountMeta] = [
-        AccountMeta(
-            pubkey=accounts["token_program"], is_signer=False, is_writable=False
-        ),
+        AccountMeta(pubkey=TOKEN_PROGRAM_ID, is_signer=False, is_writable=False),
         AccountMeta(
             pubkey=accounts["token_authority"], is_signer=True, is_writable=False
         ),
@@ -81,4 +79,4 @@ def swap(
         }
     )
     data = identifier + encoded_args
-    return TransactionInstruction(keys, program_id, data)
+    return Instruction(program_id, data, keys)

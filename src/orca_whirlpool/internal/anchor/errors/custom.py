@@ -382,6 +382,60 @@ class AmountRemainingOverflow(ProgramError):
     msg = "Amount remaining overflows"
 
 
+class InvalidIntermediaryMint(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6041, "Invalid intermediary mint")
+
+    code = 6041
+    name = "InvalidIntermediaryMint"
+    msg = "Invalid intermediary mint"
+
+
+class DuplicateTwoHopPool(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6042, "Duplicate two hop pool")
+
+    code = 6042
+    name = "DuplicateTwoHopPool"
+    msg = "Duplicate two hop pool"
+
+
+class InvalidBundleIndex(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6043, "Bundle index is out of bounds")
+
+    code = 6043
+    name = "InvalidBundleIndex"
+    msg = "Bundle index is out of bounds"
+
+
+class BundledPositionAlreadyOpened(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6044, "Position has already been opened")
+
+    code = 6044
+    name = "BundledPositionAlreadyOpened"
+    msg = "Position has already been opened"
+
+
+class BundledPositionAlreadyClosed(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6045, "Position has already been closed")
+
+    code = 6045
+    name = "BundledPositionAlreadyClosed"
+    msg = "Position has already been closed"
+
+
+class PositionBundleNotDeletable(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6046, "Unable to delete PositionBundle with open positions")
+
+    code = 6046
+    name = "PositionBundleNotDeletable"
+    msg = "Unable to delete PositionBundle with open positions"
+
+
 CustomError = typing.Union[
     InvalidEnum,
     InvalidStartTick,
@@ -424,6 +478,12 @@ CustomError = typing.Union[
     TickArraySequenceInvalidIndex,
     AmountCalcOverflow,
     AmountRemainingOverflow,
+    InvalidIntermediaryMint,
+    DuplicateTwoHopPool,
+    InvalidBundleIndex,
+    BundledPositionAlreadyOpened,
+    BundledPositionAlreadyClosed,
+    PositionBundleNotDeletable,
 ]
 CUSTOM_ERROR_MAP: dict[int, CustomError] = {
     6000: InvalidEnum(),
@@ -467,6 +527,12 @@ CUSTOM_ERROR_MAP: dict[int, CustomError] = {
     6038: TickArraySequenceInvalidIndex(),
     6039: AmountCalcOverflow(),
     6040: AmountRemainingOverflow(),
+    6041: InvalidIntermediaryMint(),
+    6042: DuplicateTwoHopPool(),
+    6043: InvalidBundleIndex(),
+    6044: BundledPositionAlreadyOpened(),
+    6045: BundledPositionAlreadyClosed(),
+    6046: PositionBundleNotDeletable(),
 }
 
 

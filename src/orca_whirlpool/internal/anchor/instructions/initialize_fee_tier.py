@@ -1,7 +1,8 @@
 from __future__ import annotations
 import typing
-from solana.publickey import PublicKey
-from solana.transaction import TransactionInstruction, AccountMeta
+from solders.pubkey import Pubkey
+from solders.system_program import ID as SYS_PROGRAM_ID
+from solders.instruction import Instruction, AccountMeta
 import borsh_construct as borsh
 from ..program_id import PROGRAM_ID
 
@@ -15,19 +16,18 @@ layout = borsh.CStruct("tick_spacing" / borsh.U16, "default_fee_rate" / borsh.U1
 
 
 class InitializeFeeTierAccounts(typing.TypedDict):
-    config: PublicKey
-    fee_tier: PublicKey
-    funder: PublicKey
-    fee_authority: PublicKey
-    system_program: PublicKey
+    config: Pubkey
+    fee_tier: Pubkey
+    funder: Pubkey
+    fee_authority: Pubkey
 
 
 def initialize_fee_tier(
     args: InitializeFeeTierArgs,
     accounts: InitializeFeeTierAccounts,
-    program_id: PublicKey = PROGRAM_ID,
+    program_id: Pubkey = PROGRAM_ID,
     remaining_accounts: typing.Optional[typing.List[AccountMeta]] = None,
-) -> TransactionInstruction:
+) -> Instruction:
     keys: list[AccountMeta] = [
         AccountMeta(pubkey=accounts["config"], is_signer=False, is_writable=False),
         AccountMeta(pubkey=accounts["fee_tier"], is_signer=False, is_writable=True),
@@ -35,9 +35,7 @@ def initialize_fee_tier(
         AccountMeta(
             pubkey=accounts["fee_authority"], is_signer=True, is_writable=False
         ),
-        AccountMeta(
-            pubkey=accounts["system_program"], is_signer=False, is_writable=False
-        ),
+        AccountMeta(pubkey=SYS_PROGRAM_ID, is_signer=False, is_writable=False),
     ]
     if remaining_accounts is not None:
         keys += remaining_accounts
@@ -49,4 +47,4 @@ def initialize_fee_tier(
         }
     )
     data = identifier + encoded_args
-    return TransactionInstruction(keys, program_id, data)
+    return Instruction(program_id, data, keys)

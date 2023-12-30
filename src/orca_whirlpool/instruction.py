@@ -27,7 +27,7 @@ from .internal.instruction.whirlpoolix import (
     UpdateFeesAndRewardsParams,
     InitializePositionBundleParams,
     InitializePositionBundleWithMetadataParams,
-    DeletePositionBundle,
-    OpenBundledPosition,
-    CloseBundledPosition,
+    DeletePositionBundleParams,
+    OpenBundledPositionParams,
+    CloseBundledPositionParams,
 )

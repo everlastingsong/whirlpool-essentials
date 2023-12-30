@@ -307,7 +307,7 @@ class InitializePositionBundleWithMetadataParams:
 
 
 @dataclasses.dataclass(frozen=True)
-class DeletePositionBundle:
+class DeletePositionBundleParams:
     owner: Pubkey
     position_bundle: Pubkey
     position_bundle_mint: Pubkey
@@ -316,7 +316,7 @@ class DeletePositionBundle:
 
 
 @dataclasses.dataclass(frozen=True)
-class OpenBundledPosition:
+class OpenBundledPositionParams:
     bundle_index: int
     tick_lower_index: int
     tick_upper_index: int
@@ -329,7 +329,7 @@ class OpenBundledPosition:
 
 
 @dataclasses.dataclass(frozen=True)
-class CloseBundledPosition:
+class CloseBundledPositionParams:
     bundle_index: int
     bundled_position: Pubkey
     position_bundle: Pubkey
@@ -823,7 +823,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def delete_position_bundle(program_id: Pubkey, params: DeletePositionBundle):
+    def delete_position_bundle(program_id: Pubkey, params: DeletePositionBundleParams):
         ix = instructions.delete_position_bundle(
             instructions.DeletePositionBundleAccounts(
                 position_bundle_owner=params.owner,
@@ -837,7 +837,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def open_bundled_position(program_id: Pubkey, params: OpenBundledPosition):
+    def open_bundled_position(program_id: Pubkey, params: OpenBundledPositionParams):
         ix = instructions.open_bundled_position(
             instructions.OpenBundledPositionArgs(
                 bundle_index=params.bundle_index,
@@ -857,7 +857,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def close_bundled_position(program_id: Pubkey, params: CloseBundledPosition):
+    def close_bundled_position(program_id: Pubkey, params: CloseBundledPositionParams):
         ix = instructions.close_bundled_position(
             instructions.CloseBundledPositionArgs(
                 bundle_index=params.bundle_index,

@@ -335,7 +335,7 @@ class InitializePositionBundleWithMetadataParams:
 
 
 @dataclasses.dataclass(frozen=True)
-class DeletePositionBundle:
+class DeletePositionBundleParams:
     owner: Pubkey
     position_bundle: Pubkey
     position_bundle_mint: Pubkey
@@ -344,7 +344,7 @@ class DeletePositionBundle:
 
 
 @dataclasses.dataclass(frozen=True)
-class OpenBundledPosition:
+class OpenBundledPositionParams:
     bundle_index: int
     tick_lower_index: int
     tick_upper_index: int
@@ -357,7 +357,7 @@ class OpenBundledPosition:
 
 
 @dataclasses.dataclass(frozen=True)
-class CloseBundledPosition:
+class CloseBundledPositionParams:
     bundle_index: int
     bundled_position: Pubkey
     position_bundle: Pubkey
@@ -851,7 +851,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def delete_position_bundle(program_id: Pubkey, params: DeletePositionBundle):
+    def delete_position_bundle(program_id: Pubkey, params: DeletePositionBundleParams):
         ix = instructions.delete_position_bundle(
             instructions.DeletePositionBundleAccounts(
                 position_bundle_owner=params.owner,
@@ -865,7 +865,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def open_bundled_position(program_id: Pubkey, params: OpenBundledPosition):
+    def open_bundled_position(program_id: Pubkey, params: OpenBundledPositionParams):
         ix = instructions.open_bundled_position(
             instructions.OpenBundledPositionArgs(
                 bundle_index=params.bundle_index,
@@ -885,7 +885,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def close_bundled_position(program_id: Pubkey, params: CloseBundledPosition):
+    def close_bundled_position(program_id: Pubkey, params: CloseBundledPositionParams):
         ix = instructions.close_bundled_position(
             instructions.CloseBundledPositionArgs(
                 bundle_index=params.bundle_index,
@@ -937,18 +937,18 @@ class WhirlpoolIx:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition"><code class="flex name class">
-<span>class <span class="ident">CloseBundledPosition</span></span>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams"><code class="flex name class">
+<span>class <span class="ident">CloseBundledPositionParams</span></span>
 <span>(</span><span>bundle_index: int, bundled_position: solders.pubkey.Pubkey, position_bundle: solders.pubkey.Pubkey, position_bundle_token_account: solders.pubkey.Pubkey, position_bundle_authority: solders.pubkey.Pubkey, receiver: solders.pubkey.Pubkey)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>CloseBundledPosition(bundle_index: int, bundled_position: solders.pubkey.Pubkey, position_bundle: solders.pubkey.Pubkey, position_bundle_token_account: solders.pubkey.Pubkey, position_bundle_authority: solders.pubkey.Pubkey, receiver: solders.pubkey.Pubkey)</p></div>
+<div class="desc"><p>CloseBundledPositionParams(bundle_index: int, bundled_position: solders.pubkey.Pubkey, position_bundle: solders.pubkey.Pubkey, position_bundle_token_account: solders.pubkey.Pubkey, position_bundle_authority: solders.pubkey.Pubkey, receiver: solders.pubkey.Pubkey)</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@dataclasses.dataclass(frozen=True)
-class CloseBundledPosition:
+class CloseBundledPositionParams:
     bundle_index: int
     bundled_position: Pubkey
     position_bundle: Pubkey
@@ -958,27 +958,27 @@ class CloseBundledPosition:
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.bundle_index"><code class="name">var <span class="ident">bundle_index</span> : int</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.bundle_index"><code class="name">var <span class="ident">bundle_index</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.bundled_position"><code class="name">var <span class="ident">bundled_position</span> : solders.pubkey.Pubkey</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.bundled_position"><code class="name">var <span class="ident">bundled_position</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.position_bundle"><code class="name">var <span class="ident">position_bundle</span> : solders.pubkey.Pubkey</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.position_bundle"><code class="name">var <span class="ident">position_bundle</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.position_bundle_authority"><code class="name">var <span class="ident">position_bundle_authority</span> : solders.pubkey.Pubkey</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.position_bundle_authority"><code class="name">var <span class="ident">position_bundle_authority</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.position_bundle_token_account"><code class="name">var <span class="ident">position_bundle_token_account</span> : solders.pubkey.Pubkey</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.position_bundle_token_account"><code class="name">var <span class="ident">position_bundle_token_account</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.receiver"><code class="name">var <span class="ident">receiver</span> : solders.pubkey.Pubkey</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.receiver"><code class="name">var <span class="ident">receiver</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -1269,18 +1269,18 @@ class DecreaseLiquidityParams:
 </dd>
 </dl>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle"><code class="flex name class">
-<span>class <span class="ident">DeletePositionBundle</span></span>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams"><code class="flex name class">
+<span>class <span class="ident">DeletePositionBundleParams</span></span>
 <span>(</span><span>owner: solders.pubkey.Pubkey, position_bundle: solders.pubkey.Pubkey, position_bundle_mint: solders.pubkey.Pubkey, position_bundle_token_account: solders.pubkey.Pubkey, receiver: solders.pubkey.Pubkey)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>DeletePositionBundle(owner: solders.pubkey.Pubkey, position_bundle: solders.pubkey.Pubkey, position_bundle_mint: solders.pubkey.Pubkey, position_bundle_token_account: solders.pubkey.Pubkey, receiver: solders.pubkey.Pubkey)</p></div>
+<div class="desc"><p>DeletePositionBundleParams(owner: solders.pubkey.Pubkey, position_bundle: solders.pubkey.Pubkey, position_bundle_mint: solders.pubkey.Pubkey, position_bundle_token_account: solders.pubkey.Pubkey, receiver: solders.pubkey.Pubkey)</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@dataclasses.dataclass(frozen=True)
-class DeletePositionBundle:
+class DeletePositionBundleParams:
     owner: Pubkey
     position_bundle: Pubkey
     position_bundle_mint: Pubkey
@@ -1289,23 +1289,23 @@ class DeletePositionBundle:
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle.owner"><code class="name">var <span class="ident">owner</span> : solders.pubkey.Pubkey</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams.owner"><code class="name">var <span class="ident">owner</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle.position_bundle"><code class="name">var <span class="ident">position_bundle</span> : solders.pubkey.Pubkey</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams.position_bundle"><code class="name">var <span class="ident">position_bundle</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle.position_bundle_mint"><code class="name">var <span class="ident">position_bundle_mint</span> : solders.pubkey.Pubkey</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams.position_bundle_mint"><code class="name">var <span class="ident">position_bundle_mint</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle.position_bundle_token_account"><code class="name">var <span class="ident">position_bundle_token_account</span> : solders.pubkey.Pubkey</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams.position_bundle_token_account"><code class="name">var <span class="ident">position_bundle_token_account</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle.receiver"><code class="name">var <span class="ident">receiver</span> : solders.pubkey.Pubkey</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams.receiver"><code class="name">var <span class="ident">receiver</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -1727,18 +1727,18 @@ class InitializeTickArrayParams:
 </dd>
 </dl>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition"><code class="flex name class">
-<span>class <span class="ident">OpenBundledPosition</span></span>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams"><code class="flex name class">
+<span>class <span class="ident">OpenBundledPositionParams</span></span>
 <span>(</span><span>bundle_index: int, tick_lower_index: int, tick_upper_index: int, whirlpool: solders.pubkey.Pubkey, bundled_position_pda: <a title="orca_whirlpool.internal.types.types.PDA" href="../types/types.html#orca_whirlpool.internal.types.types.PDA">PDA</a>, position_bundle: solders.pubkey.Pubkey, position_bundle_token_account: solders.pubkey.Pubkey, position_bundle_authority: solders.pubkey.Pubkey, funder: solders.pubkey.Pubkey)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>OpenBundledPosition(bundle_index: int, tick_lower_index: int, tick_upper_index: int, whirlpool: solders.pubkey.Pubkey, bundled_position_pda: orca_whirlpool.internal.types.types.PDA, position_bundle: solders.pubkey.Pubkey, position_bundle_token_account: solders.pubkey.Pubkey, position_bundle_authority: solders.pubkey.Pubkey, funder: solders.pubkey.Pubkey)</p></div>
+<div class="desc"><p>OpenBundledPositionParams(bundle_index: int, tick_lower_index: int, tick_upper_index: int, whirlpool: solders.pubkey.Pubkey, bundled_position_pda: orca_whirlpool.internal.types.types.PDA, position_bundle: solders.pubkey.Pubkey, position_bundle_token_account: solders.pubkey.Pubkey, position_bundle_authority: solders.pubkey.Pubkey, funder: solders.pubkey.Pubkey)</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@dataclasses.dataclass(frozen=True)
-class OpenBundledPosition:
+class OpenBundledPositionParams:
     bundle_index: int
     tick_lower_index: int
     tick_upper_index: int
@@ -1751,39 +1751,39 @@ class OpenBundledPosition:
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.bundle_index"><code class="name">var <span class="ident">bundle_index</span> : int</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.bundle_index"><code class="name">var <span class="ident">bundle_index</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.bundled_position_pda"><code class="name">var <span class="ident">bundled_position_pda</span> : <a title="orca_whirlpool.internal.types.types.PDA" href="../types/types.html#orca_whirlpool.internal.types.types.PDA">PDA</a></code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.bundled_position_pda"><code class="name">var <span class="ident">bundled_position_pda</span> : <a title="orca_whirlpool.internal.types.types.PDA" href="../types/types.html#orca_whirlpool.internal.types.types.PDA">PDA</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.funder"><code class="name">var <span class="ident">funder</span> : solders.pubkey.Pubkey</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.funder"><code class="name">var <span class="ident">funder</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.position_bundle"><code class="name">var <span class="ident">position_bundle</span> : solders.pubkey.Pubkey</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.position_bundle"><code class="name">var <span class="ident">position_bundle</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.position_bundle_authority"><code class="name">var <span class="ident">position_bundle_authority</span> : solders.pubkey.Pubkey</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.position_bundle_authority"><code class="name">var <span class="ident">position_bundle_authority</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.position_bundle_token_account"><code class="name">var <span class="ident">position_bundle_token_account</span> : solders.pubkey.Pubkey</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.position_bundle_token_account"><code class="name">var <span class="ident">position_bundle_token_account</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.tick_lower_index"><code class="name">var <span class="ident">tick_lower_index</span> : int</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.tick_lower_index"><code class="name">var <span class="ident">tick_lower_index</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.tick_upper_index"><code class="name">var <span class="ident">tick_upper_index</span> : int</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.tick_upper_index"><code class="name">var <span class="ident">tick_upper_index</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.whirlpool"><code class="name">var <span class="ident">whirlpool</span> : solders.pubkey.Pubkey</code></dt>
+<dt id="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.whirlpool"><code class="name">var <span class="ident">whirlpool</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -2891,7 +2891,7 @@ class UpdateFeesAndRewardsParams:
         return to_instruction([ix])
 
     @staticmethod
-    def delete_position_bundle(program_id: Pubkey, params: DeletePositionBundle):
+    def delete_position_bundle(program_id: Pubkey, params: DeletePositionBundleParams):
         ix = instructions.delete_position_bundle(
             instructions.DeletePositionBundleAccounts(
                 position_bundle_owner=params.owner,
@@ -2905,7 +2905,7 @@ class UpdateFeesAndRewardsParams:
         return to_instruction([ix])
 
     @staticmethod
-    def open_bundled_position(program_id: Pubkey, params: OpenBundledPosition):
+    def open_bundled_position(program_id: Pubkey, params: OpenBundledPositionParams):
         ix = instructions.open_bundled_position(
             instructions.OpenBundledPositionArgs(
                 bundle_index=params.bundle_index,
@@ -2925,7 +2925,7 @@ class UpdateFeesAndRewardsParams:
         return to_instruction([ix])
 
     @staticmethod
-    def close_bundled_position(program_id: Pubkey, params: CloseBundledPosition):
+    def close_bundled_position(program_id: Pubkey, params: CloseBundledPositionParams):
         ix = instructions.close_bundled_position(
             instructions.CloseBundledPositionArgs(
                 bundle_index=params.bundle_index,
@@ -2944,7 +2944,7 @@ class UpdateFeesAndRewardsParams:
 <h3>Static methods</h3>
 <dl>
 <dt id="orca_whirlpool.internal.instruction.whirlpoolix.WhirlpoolIx.close_bundled_position"><code class="name flex">
-<span>def <span class="ident">close_bundled_position</span></span>(<span>program_id: solders.pubkey.Pubkey, params: <a title="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition" href="#orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition">CloseBundledPosition</a>)</span>
+<span>def <span class="ident">close_bundled_position</span></span>(<span>program_id: solders.pubkey.Pubkey, params: <a title="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams" href="#orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams">CloseBundledPositionParams</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -2953,7 +2953,7 @@ class UpdateFeesAndRewardsParams:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def close_bundled_position(program_id: Pubkey, params: CloseBundledPosition):
+def close_bundled_position(program_id: Pubkey, params: CloseBundledPositionParams):
     ix = instructions.close_bundled_position(
         instructions.CloseBundledPositionArgs(
             bundle_index=params.bundle_index,
@@ -3115,7 +3115,7 @@ def decrease_liquidity(program_id: Pubkey, params: DecreaseLiquidityParams):
 </details>
 </dd>
 <dt id="orca_whirlpool.internal.instruction.whirlpoolix.WhirlpoolIx.delete_position_bundle"><code class="name flex">
-<span>def <span class="ident">delete_position_bundle</span></span>(<span>program_id: solders.pubkey.Pubkey, params: <a title="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle" href="#orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle">DeletePositionBundle</a>)</span>
+<span>def <span class="ident">delete_position_bundle</span></span>(<span>program_id: solders.pubkey.Pubkey, params: <a title="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams" href="#orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams">DeletePositionBundleParams</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -3124,7 +3124,7 @@ def decrease_liquidity(program_id: Pubkey, params: DecreaseLiquidityParams):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def delete_position_bundle(program_id: Pubkey, params: DeletePositionBundle):
+def delete_position_bundle(program_id: Pubkey, params: DeletePositionBundleParams):
     ix = instructions.delete_position_bundle(
         instructions.DeletePositionBundleAccounts(
             position_bundle_owner=params.owner,
@@ -3372,7 +3372,7 @@ def initialize_tick_array(program_id: Pubkey, params: InitializeTickArrayParams)
 </details>
 </dd>
 <dt id="orca_whirlpool.internal.instruction.whirlpoolix.WhirlpoolIx.open_bundled_position"><code class="name flex">
-<span>def <span class="ident">open_bundled_position</span></span>(<span>program_id: solders.pubkey.Pubkey, params: <a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition">OpenBundledPosition</a>)</span>
+<span>def <span class="ident">open_bundled_position</span></span>(<span>program_id: solders.pubkey.Pubkey, params: <a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams">OpenBundledPositionParams</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -3381,7 +3381,7 @@ def initialize_tick_array(program_id: Pubkey, params: InitializeTickArrayParams)
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def open_bundled_position(program_id: Pubkey, params: OpenBundledPosition):
+def open_bundled_position(program_id: Pubkey, params: OpenBundledPositionParams):
     ix = instructions.open_bundled_position(
         instructions.OpenBundledPositionArgs(
             bundle_index=params.bundle_index,
@@ -3801,14 +3801,14 @@ def update_fees_and_rewards(program_id: Pubkey, params: UpdateFeesAndRewardsPara
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition" href="#orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition">CloseBundledPosition</a></code></h4>
+<h4><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams" href="#orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams">CloseBundledPositionParams</a></code></h4>
 <ul class="">
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.bundle_index" href="#orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.bundle_index">bundle_index</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.bundled_position" href="#orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.bundled_position">bundled_position</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.position_bundle" href="#orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.position_bundle">position_bundle</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.position_bundle_authority" href="#orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.position_bundle_authority">position_bundle_authority</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.position_bundle_token_account" href="#orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.position_bundle_token_account">position_bundle_token_account</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.receiver" href="#orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPosition.receiver">receiver</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.bundle_index" href="#orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.bundle_index">bundle_index</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.bundled_position" href="#orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.bundled_position">bundled_position</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.position_bundle" href="#orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.position_bundle">position_bundle</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.position_bundle_authority" href="#orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.position_bundle_authority">position_bundle_authority</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.position_bundle_token_account" href="#orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.position_bundle_token_account">position_bundle_token_account</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.receiver" href="#orca_whirlpool.internal.instruction.whirlpoolix.CloseBundledPositionParams.receiver">receiver</a></code></li>
 </ul>
 </li>
 <li>
@@ -3877,13 +3877,13 @@ def update_fees_and_rewards(program_id: Pubkey, params: UpdateFeesAndRewardsPara
 </ul>
 </li>
 <li>
-<h4><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle" href="#orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle">DeletePositionBundle</a></code></h4>
+<h4><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams" href="#orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams">DeletePositionBundleParams</a></code></h4>
 <ul class="">
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle.owner" href="#orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle.owner">owner</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle.position_bundle" href="#orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle.position_bundle">position_bundle</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle.position_bundle_mint" href="#orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle.position_bundle_mint">position_bundle_mint</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle.position_bundle_token_account" href="#orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle.position_bundle_token_account">position_bundle_token_account</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle.receiver" href="#orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundle.receiver">receiver</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams.owner" href="#orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams.owner">owner</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams.position_bundle" href="#orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams.position_bundle">position_bundle</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams.position_bundle_mint" href="#orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams.position_bundle_mint">position_bundle_mint</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams.position_bundle_token_account" href="#orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams.position_bundle_token_account">position_bundle_token_account</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams.receiver" href="#orca_whirlpool.internal.instruction.whirlpoolix.DeletePositionBundleParams.receiver">receiver</a></code></li>
 </ul>
 </li>
 <li>
@@ -3983,17 +3983,17 @@ def update_fees_and_rewards(program_id: Pubkey, params: UpdateFeesAndRewardsPara
 </ul>
 </li>
 <li>
-<h4><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition">OpenBundledPosition</a></code></h4>
+<h4><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams">OpenBundledPositionParams</a></code></h4>
 <ul class="">
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.bundle_index" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.bundle_index">bundle_index</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.bundled_position_pda" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.bundled_position_pda">bundled_position_pda</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.funder" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.funder">funder</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.position_bundle" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.position_bundle">position_bundle</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.position_bundle_authority" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.position_bundle_authority">position_bundle_authority</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.position_bundle_token_account" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.position_bundle_token_account">position_bundle_token_account</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.tick_lower_index" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.tick_lower_index">tick_lower_index</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.tick_upper_index" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.tick_upper_index">tick_upper_index</a></code></li>
-<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.whirlpool" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPosition.whirlpool">whirlpool</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.bundle_index" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.bundle_index">bundle_index</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.bundled_position_pda" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.bundled_position_pda">bundled_position_pda</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.funder" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.funder">funder</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.position_bundle" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.position_bundle">position_bundle</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.position_bundle_authority" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.position_bundle_authority">position_bundle_authority</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.position_bundle_token_account" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.position_bundle_token_account">position_bundle_token_account</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.tick_lower_index" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.tick_lower_index">tick_lower_index</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.tick_upper_index" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.tick_upper_index">tick_upper_index</a></code></li>
+<li><code><a title="orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.whirlpool" href="#orca_whirlpool.internal.instruction.whirlpoolix.OpenBundledPositionParams.whirlpool">whirlpool</a></code></li>
 </ul>
 </li>
 <li>

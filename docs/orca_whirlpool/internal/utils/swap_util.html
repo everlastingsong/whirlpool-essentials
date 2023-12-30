@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>orca_whirlpool.internal.utils.swap_util API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>orca_whirlpool.internal.utils.swap_util</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from typing import List
+from solders.pubkey import Pubkey
+from ..constants import U64_MAX, MIN_SQRT_PRICE, MAX_SQRT_PRICE, MAX_SWAP_TICK_ARRAYS, TICK_ARRAY_SIZE
+from ..types.enums import SwapDirection, SpecifiedAmount
+from ..invariant import InvaliantFailedError
+from ..accounts.types import TickArray
+from .tick_util import TickUtil
+from .pda_util import PDAUtil
+
+
+class SwapUtil:
+    # https://orca-so.github.io/whirlpools/classes/SwapUtils.html#getDefaultSqrtPriceLimit
+    # https://github.com/orca-so/whirlpools/blob/2df89bb/sdk/src/utils/public/swap-utils.ts#L28
+    @staticmethod
+    def get_default_sqrt_price_limit(direction: SwapDirection) -&gt; int:
+        return MIN_SQRT_PRICE if direction.is_price_down else MAX_SQRT_PRICE
+
+    # https://orca-so.github.io/whirlpools/classes/SwapUtils.html#getDefaultOtherAmountThreshold
+    # https://github.com/orca-so/whirlpools/blob/7b9ec35/sdk/src/utils/public/swap-utils.ts#L37
+    @staticmethod
+    def get_default_other_amount_threshold(specified_amount: SpecifiedAmount) -&gt; int:
+        return 0 if specified_amount.is_swap_input else U64_MAX
+
+    # https://orca-so.github.io/whirlpools/classes/SwapUtils.html#getTickArrayPublicKeys
+    # https://github.com/orca-so/whirlpools/blob/2df89bb/sdk/src/utils/public/swap-utils.ts#L75
+    @staticmethod
+    def get_tick_array_pubkeys(
+        tick_current_index: int,
+        tick_spacing: int,
+        direction: SwapDirection,
+        program_id: Pubkey,
+        whirlpool_pubkey: Pubkey,
+    ) -&gt; List[Pubkey]:
+        # https://github.com/orca-so/whirlpools/blob/7b9ec351e2048c5504ffc8894c0ec5a9e78dc113/programs/whirlpool/src/state/tick.rs#L299
+        shifted = 0 if direction.is_price_down else tick_spacing
+
+        offset = 0
+        pubkeys = []
+        for i in range(MAX_SWAP_TICK_ARRAYS):
+            try:
+                start_tick_index = TickUtil.get_start_tick_index(tick_current_index + shifted, tick_spacing, offset)
+            except InvaliantFailedError:
+                return pubkeys
+
+            tick_array_pubkey = PDAUtil.get_tick_array(program_id, whirlpool_pubkey, start_tick_index).pubkey
+            pubkeys.append(tick_array_pubkey)
+            offset += -1 if direction.is_price_down else +1
+        return pubkeys
+
+    @staticmethod
+    def is_valid_tick_array_0(
+        tick_array: TickArray,
+        tick_current_index: int,
+        tick_spacing: int,
+        direction: SwapDirection,
+    ) -&gt; bool:
+        lower = tick_array.start_tick_index
+        upper = tick_array.start_tick_index + tick_spacing * TICK_ARRAY_SIZE
+        if direction.is_price_up:  # shifted
+            lower -= tick_spacing
+            upper -= tick_spacing
+        return lower &lt;= tick_current_index &lt; upper</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="orca_whirlpool.internal.utils.swap_util.SwapUtil"><code class="flex name class">
+<span>class <span class="ident">SwapUtil</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SwapUtil:
+    # https://orca-so.github.io/whirlpools/classes/SwapUtils.html#getDefaultSqrtPriceLimit
+    # https://github.com/orca-so/whirlpools/blob/2df89bb/sdk/src/utils/public/swap-utils.ts#L28
+    @staticmethod
+    def get_default_sqrt_price_limit(direction: SwapDirection) -&gt; int:
+        return MIN_SQRT_PRICE if direction.is_price_down else MAX_SQRT_PRICE
+
+    # https://orca-so.github.io/whirlpools/classes/SwapUtils.html#getDefaultOtherAmountThreshold
+    # https://github.com/orca-so/whirlpools/blob/7b9ec35/sdk/src/utils/public/swap-utils.ts#L37
+    @staticmethod
+    def get_default_other_amount_threshold(specified_amount: SpecifiedAmount) -&gt; int:
+        return 0 if specified_amount.is_swap_input else U64_MAX
+
+    # https://orca-so.github.io/whirlpools/classes/SwapUtils.html#getTickArrayPublicKeys
+    # https://github.com/orca-so/whirlpools/blob/2df89bb/sdk/src/utils/public/swap-utils.ts#L75
+    @staticmethod
+    def get_tick_array_pubkeys(
+        tick_current_index: int,
+        tick_spacing: int,
+        direction: SwapDirection,
+        program_id: Pubkey,
+        whirlpool_pubkey: Pubkey,
+    ) -&gt; List[Pubkey]:
+        # https://github.com/orca-so/whirlpools/blob/7b9ec351e2048c5504ffc8894c0ec5a9e78dc113/programs/whirlpool/src/state/tick.rs#L299
+        shifted = 0 if direction.is_price_down else tick_spacing
+
+        offset = 0
+        pubkeys = []
+        for i in range(MAX_SWAP_TICK_ARRAYS):
+            try:
+                start_tick_index = TickUtil.get_start_tick_index(tick_current_index + shifted, tick_spacing, offset)
+            except InvaliantFailedError:
+                return pubkeys
+
+            tick_array_pubkey = PDAUtil.get_tick_array(program_id, whirlpool_pubkey, start_tick_index).pubkey
+            pubkeys.append(tick_array_pubkey)
+            offset += -1 if direction.is_price_down else +1
+        return pubkeys
+
+    @staticmethod
+    def is_valid_tick_array_0(
+        tick_array: TickArray,
+        tick_current_index: int,
+        tick_spacing: int,
+        direction: SwapDirection,
+    ) -&gt; bool:
+        lower = tick_array.start_tick_index
+        upper = tick_array.start_tick_index + tick_spacing * TICK_ARRAY_SIZE
+        if direction.is_price_up:  # shifted
+            lower -= tick_spacing
+            upper -= tick_spacing
+        return lower &lt;= tick_current_index &lt; upper</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="orca_whirlpool.internal.utils.swap_util.SwapUtil.get_default_other_amount_threshold"><code class="name flex">
+<span>def <span class="ident">get_default_other_amount_threshold</span></span>(<span>specified_amount: <a title="orca_whirlpool.internal.types.enums.SpecifiedAmount" href="../types/enums.html#orca_whirlpool.internal.types.enums.SpecifiedAmount">SpecifiedAmount</a>) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_default_other_amount_threshold(specified_amount: SpecifiedAmount) -&gt; int:
+    return 0 if specified_amount.is_swap_input else U64_MAX</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.utils.swap_util.SwapUtil.get_default_sqrt_price_limit"><code class="name flex">
+<span>def <span class="ident">get_default_sqrt_price_limit</span></span>(<span>direction: <a title="orca_whirlpool.internal.types.enums.SwapDirection" href="../types/enums.html#orca_whirlpool.internal.types.enums.SwapDirection">SwapDirection</a>) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_default_sqrt_price_limit(direction: SwapDirection) -&gt; int:
+    return MIN_SQRT_PRICE if direction.is_price_down else MAX_SQRT_PRICE</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.utils.swap_util.SwapUtil.get_tick_array_pubkeys"><code class="name flex">
+<span>def <span class="ident">get_tick_array_pubkeys</span></span>(<span>tick_current_index: int, tick_spacing: int, direction: <a title="orca_whirlpool.internal.types.enums.SwapDirection" href="../types/enums.html#orca_whirlpool.internal.types.enums.SwapDirection">SwapDirection</a>, program_id: solders.pubkey.Pubkey, whirlpool_pubkey: solders.pubkey.Pubkey) ‑> List[solders.pubkey.Pubkey]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_tick_array_pubkeys(
+    tick_current_index: int,
+    tick_spacing: int,
+    direction: SwapDirection,
+    program_id: Pubkey,
+    whirlpool_pubkey: Pubkey,
+) -&gt; List[Pubkey]:
+    # https://github.com/orca-so/whirlpools/blob/7b9ec351e2048c5504ffc8894c0ec5a9e78dc113/programs/whirlpool/src/state/tick.rs#L299
+    shifted = 0 if direction.is_price_down else tick_spacing
+
+    offset = 0
+    pubkeys = []
+    for i in range(MAX_SWAP_TICK_ARRAYS):
+        try:
+            start_tick_index = TickUtil.get_start_tick_index(tick_current_index + shifted, tick_spacing, offset)
+        except InvaliantFailedError:
+            return pubkeys
+
+        tick_array_pubkey = PDAUtil.get_tick_array(program_id, whirlpool_pubkey, start_tick_index).pubkey
+        pubkeys.append(tick_array_pubkey)
+        offset += -1 if direction.is_price_down else +1
+    return pubkeys</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.utils.swap_util.SwapUtil.is_valid_tick_array_0"><code class="name flex">
+<span>def <span class="ident">is_valid_tick_array_0</span></span>(<span>tick_array: <a title="orca_whirlpool.internal.accounts.types.TickArray" href="../accounts/types.html#orca_whirlpool.internal.accounts.types.TickArray">TickArray</a>, tick_current_index: int, tick_spacing: int, direction: <a title="orca_whirlpool.internal.types.enums.SwapDirection" href="../types/enums.html#orca_whirlpool.internal.types.enums.SwapDirection">SwapDirection</a>) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def is_valid_tick_array_0(
+    tick_array: TickArray,
+    tick_current_index: int,
+    tick_spacing: int,
+    direction: SwapDirection,
+) -&gt; bool:
+    lower = tick_array.start_tick_index
+    upper = tick_array.start_tick_index + tick_spacing * TICK_ARRAY_SIZE
+    if direction.is_price_up:  # shifted
+        lower -= tick_spacing
+        upper -= tick_spacing
+    return lower &lt;= tick_current_index &lt; upper</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="orca_whirlpool.internal.utils" href="index.html">orca_whirlpool.internal.utils</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="orca_whirlpool.internal.utils.swap_util.SwapUtil" href="#orca_whirlpool.internal.utils.swap_util.SwapUtil">SwapUtil</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.utils.swap_util.SwapUtil.get_default_other_amount_threshold" href="#orca_whirlpool.internal.utils.swap_util.SwapUtil.get_default_other_amount_threshold">get_default_other_amount_threshold</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.swap_util.SwapUtil.get_default_sqrt_price_limit" href="#orca_whirlpool.internal.utils.swap_util.SwapUtil.get_default_sqrt_price_limit">get_default_sqrt_price_limit</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.swap_util.SwapUtil.get_tick_array_pubkeys" href="#orca_whirlpool.internal.utils.swap_util.SwapUtil.get_tick_array_pubkeys">get_tick_array_pubkeys</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.swap_util.SwapUtil.is_valid_tick_array_0" href="#orca_whirlpool.internal.utils.swap_util.SwapUtil.is_valid_tick_array_0">is_valid_tick_array_0</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>orca_whirlpool.internal.accounts.keyed_account_converter API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>orca_whirlpool.internal.accounts.keyed_account_converter</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from typing import Optional
+from solders.pubkey import Pubkey
+from spl.token.core import AccountInfo as SolanapyAccountInfo, MintInfo as SolanapyMintInfo
+from ..anchor.accounts import WhirlpoolsConfig as AnchorWhirlpoolsConfig, FeeTier as AnchorFeeTier
+from ..anchor.accounts import Whirlpool as AnchorWhirlpool, TickArray as AnchorTickArray, Position as AnchorPosition
+from ..anchor.accounts import PositionBundle as AnchorPositionBundle
+from .types import WhirlpoolsConfig, FeeTier, Whirlpool, TickArray, Position, PositionBundle, AccountInfo, MintInfo
+
+
+class KeyedAccountConverter:
+    @staticmethod
+    def to_keyed_fee_tier(pubkey: Pubkey, account: Optional[AnchorFeeTier]) -&gt; Optional[FeeTier]:
+        if account is None:
+            return None
+        return FeeTier(
+            pubkey=pubkey,
+            whirlpools_config=account.whirlpools_config,
+            tick_spacing=account.tick_spacing,
+            default_fee_rate=account.default_fee_rate,
+        )
+
+    @staticmethod
+    def to_keyed_position(pubkey: Pubkey, account: Optional[AnchorPosition]) -&gt; Optional[Position]:
+        if account is None:
+            return None
+        return Position(
+            pubkey=pubkey,
+            whirlpool=account.whirlpool,
+            position_mint=account.position_mint,
+            liquidity=account.liquidity,
+            tick_lower_index=account.tick_lower_index,
+            tick_upper_index=account.tick_upper_index,
+            fee_growth_checkpoint_a=account.fee_growth_checkpoint_a,
+            fee_owed_a=account.fee_owed_a,
+            fee_growth_checkpoint_b=account.fee_growth_checkpoint_b,
+            fee_owed_b=account.fee_owed_b,
+            reward_infos=account.reward_infos,
+        )
+
+    @staticmethod
+    def to_keyed_tick_array(pubkey: Pubkey, account: Optional[AnchorTickArray]) -&gt; Optional[TickArray]:
+        if account is None:
+            return None
+        return TickArray(
+            pubkey=pubkey,
+            start_tick_index=account.start_tick_index,
+            ticks=account.ticks,
+            whirlpool=account.whirlpool,
+        )
+
+    @staticmethod
+    def to_keyed_whirlpool(pubkey: Pubkey, account: Optional[AnchorWhirlpool]) -&gt; Optional[Whirlpool]:
+        if account is None:
+            return None
+        return Whirlpool(
+            pubkey=pubkey,
+            whirlpools_config=account.whirlpools_config,
+            whirlpool_bump=account.whirlpool_bump,
+            tick_spacing=account.tick_spacing,
+            tick_spacing_seed=account.tick_spacing_seed,
+            fee_rate=account.fee_rate,
+            protocol_fee_rate=account.protocol_fee_rate,
+            liquidity=account.liquidity,
+            sqrt_price=account.sqrt_price,
+            tick_current_index=account.tick_current_index,
+            protocol_fee_owed_a=account.protocol_fee_owed_a,
+            protocol_fee_owed_b=account.protocol_fee_owed_b,
+            token_mint_a=account.token_mint_a,
+            token_vault_a=account.token_vault_a,
+            fee_growth_global_a=account.fee_growth_global_a,
+            token_mint_b=account.token_mint_b,
+            token_vault_b=account.token_vault_b,
+            fee_growth_global_b=account.fee_growth_global_b,
+            reward_last_updated_timestamp=account.reward_last_updated_timestamp,
+            reward_infos=account.reward_infos,
+        )
+
+    @staticmethod
+    def to_keyed_whirlpools_config(pubkey: Pubkey, account: Optional[AnchorWhirlpoolsConfig]) -&gt; Optional[WhirlpoolsConfig]:
+        if account is None:
+            return None
+        return WhirlpoolsConfig(
+            pubkey=pubkey,
+            fee_authority=account.fee_authority,
+            collect_protocol_fees_authority=account.collect_protocol_fees_authority,
+            reward_emissions_super_authority=account.reward_emissions_super_authority,
+            default_protocol_fee_rate=account.default_protocol_fee_rate,
+        )
+
+    @staticmethod
+    def to_keyed_position_bundle(pubkey: Pubkey, account: Optional[AnchorPositionBundle]) -&gt; Optional[PositionBundle]:
+        if account is None:
+            return None
+        return PositionBundle(
+            pubkey=pubkey,
+            position_bundle_mint=account.position_bundle_mint,
+            position_bitmap=account.position_bitmap,
+        )
+
+    @staticmethod
+    def to_keyed_token_mint(pubkey: Pubkey, account: Optional[SolanapyMintInfo]) -&gt; Optional[MintInfo]:
+        if account is None:
+            return None
+        return MintInfo(
+            pubkey=pubkey,
+            mint_authority=account.mint_authority,
+            supply=account.supply,
+            decimals=account.decimals,
+            is_initialized=account.is_initialized,
+            freeze_authority=account.freeze_authority,
+        )
+
+    @staticmethod
+    def to_keyed_token_account(pubkey: Pubkey, account: Optional[SolanapyAccountInfo]) -&gt; Optional[AccountInfo]:
+        if account is None:
+            return None
+        return AccountInfo(
+            pubkey=pubkey,
+            mint=account.mint,
+            owner=account.owner,
+            amount=account.amount,
+            delegate=account.delegate,
+            delegated_amount=account.delegated_amount,
+            is_initialized=account.is_initialized,
+            is_frozen=account.is_frozen,
+            is_native=account.is_native,
+            rent_exempt_reserve=account.rent_exempt_reserve,
+            close_authority=account.close_authority,
+        )</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter"><code class="flex name class">
+<span>class <span class="ident">KeyedAccountConverter</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class KeyedAccountConverter:
+    @staticmethod
+    def to_keyed_fee_tier(pubkey: Pubkey, account: Optional[AnchorFeeTier]) -&gt; Optional[FeeTier]:
+        if account is None:
+            return None
+        return FeeTier(
+            pubkey=pubkey,
+            whirlpools_config=account.whirlpools_config,
+            tick_spacing=account.tick_spacing,
+            default_fee_rate=account.default_fee_rate,
+        )
+
+    @staticmethod
+    def to_keyed_position(pubkey: Pubkey, account: Optional[AnchorPosition]) -&gt; Optional[Position]:
+        if account is None:
+            return None
+        return Position(
+            pubkey=pubkey,
+            whirlpool=account.whirlpool,
+            position_mint=account.position_mint,
+            liquidity=account.liquidity,
+            tick_lower_index=account.tick_lower_index,
+            tick_upper_index=account.tick_upper_index,
+            fee_growth_checkpoint_a=account.fee_growth_checkpoint_a,
+            fee_owed_a=account.fee_owed_a,
+            fee_growth_checkpoint_b=account.fee_growth_checkpoint_b,
+            fee_owed_b=account.fee_owed_b,
+            reward_infos=account.reward_infos,
+        )
+
+    @staticmethod
+    def to_keyed_tick_array(pubkey: Pubkey, account: Optional[AnchorTickArray]) -&gt; Optional[TickArray]:
+        if account is None:
+            return None
+        return TickArray(
+            pubkey=pubkey,
+            start_tick_index=account.start_tick_index,
+            ticks=account.ticks,
+            whirlpool=account.whirlpool,
+        )
+
+    @staticmethod
+    def to_keyed_whirlpool(pubkey: Pubkey, account: Optional[AnchorWhirlpool]) -&gt; Optional[Whirlpool]:
+        if account is None:
+            return None
+        return Whirlpool(
+            pubkey=pubkey,
+            whirlpools_config=account.whirlpools_config,
+            whirlpool_bump=account.whirlpool_bump,
+            tick_spacing=account.tick_spacing,
+            tick_spacing_seed=account.tick_spacing_seed,
+            fee_rate=account.fee_rate,
+            protocol_fee_rate=account.protocol_fee_rate,
+            liquidity=account.liquidity,
+            sqrt_price=account.sqrt_price,
+            tick_current_index=account.tick_current_index,
+            protocol_fee_owed_a=account.protocol_fee_owed_a,
+            protocol_fee_owed_b=account.protocol_fee_owed_b,
+            token_mint_a=account.token_mint_a,
+            token_vault_a=account.token_vault_a,
+            fee_growth_global_a=account.fee_growth_global_a,
+            token_mint_b=account.token_mint_b,
+            token_vault_b=account.token_vault_b,
+            fee_growth_global_b=account.fee_growth_global_b,
+            reward_last_updated_timestamp=account.reward_last_updated_timestamp,
+            reward_infos=account.reward_infos,
+        )
+
+    @staticmethod
+    def to_keyed_whirlpools_config(pubkey: Pubkey, account: Optional[AnchorWhirlpoolsConfig]) -&gt; Optional[WhirlpoolsConfig]:
+        if account is None:
+            return None
+        return WhirlpoolsConfig(
+            pubkey=pubkey,
+            fee_authority=account.fee_authority,
+            collect_protocol_fees_authority=account.collect_protocol_fees_authority,
+            reward_emissions_super_authority=account.reward_emissions_super_authority,
+            default_protocol_fee_rate=account.default_protocol_fee_rate,
+        )
+
+    @staticmethod
+    def to_keyed_position_bundle(pubkey: Pubkey, account: Optional[AnchorPositionBundle]) -&gt; Optional[PositionBundle]:
+        if account is None:
+            return None
+        return PositionBundle(
+            pubkey=pubkey,
+            position_bundle_mint=account.position_bundle_mint,
+            position_bitmap=account.position_bitmap,
+        )
+
+    @staticmethod
+    def to_keyed_token_mint(pubkey: Pubkey, account: Optional[SolanapyMintInfo]) -&gt; Optional[MintInfo]:
+        if account is None:
+            return None
+        return MintInfo(
+            pubkey=pubkey,
+            mint_authority=account.mint_authority,
+            supply=account.supply,
+            decimals=account.decimals,
+            is_initialized=account.is_initialized,
+            freeze_authority=account.freeze_authority,
+        )
+
+    @staticmethod
+    def to_keyed_token_account(pubkey: Pubkey, account: Optional[SolanapyAccountInfo]) -&gt; Optional[AccountInfo]:
+        if account is None:
+            return None
+        return AccountInfo(
+            pubkey=pubkey,
+            mint=account.mint,
+            owner=account.owner,
+            amount=account.amount,
+            delegate=account.delegate,
+            delegated_amount=account.delegated_amount,
+            is_initialized=account.is_initialized,
+            is_frozen=account.is_frozen,
+            is_native=account.is_native,
+            rent_exempt_reserve=account.rent_exempt_reserve,
+            close_authority=account.close_authority,
+        )</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_fee_tier"><code class="name flex">
+<span>def <span class="ident">to_keyed_fee_tier</span></span>(<span>pubkey: solders.pubkey.Pubkey, account: Optional[<a title="orca_whirlpool.internal.anchor.accounts.fee_tier.FeeTier" href="../anchor/accounts/fee_tier.html#orca_whirlpool.internal.anchor.accounts.fee_tier.FeeTier">FeeTier</a>]) ‑> Optional[<a title="orca_whirlpool.internal.accounts.types.FeeTier" href="types.html#orca_whirlpool.internal.accounts.types.FeeTier">FeeTier</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_keyed_fee_tier(pubkey: Pubkey, account: Optional[AnchorFeeTier]) -&gt; Optional[FeeTier]:
+    if account is None:
+        return None
+    return FeeTier(
+        pubkey=pubkey,
+        whirlpools_config=account.whirlpools_config,
+        tick_spacing=account.tick_spacing,
+        default_fee_rate=account.default_fee_rate,
+    )</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_position"><code class="name flex">
+<span>def <span class="ident">to_keyed_position</span></span>(<span>pubkey: solders.pubkey.Pubkey, account: Optional[<a title="orca_whirlpool.internal.anchor.accounts.position.Position" href="../anchor/accounts/position.html#orca_whirlpool.internal.anchor.accounts.position.Position">Position</a>]) ‑> Optional[<a title="orca_whirlpool.internal.accounts.types.Position" href="types.html#orca_whirlpool.internal.accounts.types.Position">Position</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_keyed_position(pubkey: Pubkey, account: Optional[AnchorPosition]) -&gt; Optional[Position]:
+    if account is None:
+        return None
+    return Position(
+        pubkey=pubkey,
+        whirlpool=account.whirlpool,
+        position_mint=account.position_mint,
+        liquidity=account.liquidity,
+        tick_lower_index=account.tick_lower_index,
+        tick_upper_index=account.tick_upper_index,
+        fee_growth_checkpoint_a=account.fee_growth_checkpoint_a,
+        fee_owed_a=account.fee_owed_a,
+        fee_growth_checkpoint_b=account.fee_growth_checkpoint_b,
+        fee_owed_b=account.fee_owed_b,
+        reward_infos=account.reward_infos,
+    )</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_position_bundle"><code class="name flex">
+<span>def <span class="ident">to_keyed_position_bundle</span></span>(<span>pubkey: solders.pubkey.Pubkey, account: Optional[<a title="orca_whirlpool.internal.anchor.accounts.position_bundle.PositionBundle" href="../anchor/accounts/position_bundle.html#orca_whirlpool.internal.anchor.accounts.position_bundle.PositionBundle">PositionBundle</a>]) ‑> Optional[<a title="orca_whirlpool.internal.accounts.types.PositionBundle" href="types.html#orca_whirlpool.internal.accounts.types.PositionBundle">PositionBundle</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_keyed_position_bundle(pubkey: Pubkey, account: Optional[AnchorPositionBundle]) -&gt; Optional[PositionBundle]:
+    if account is None:
+        return None
+    return PositionBundle(
+        pubkey=pubkey,
+        position_bundle_mint=account.position_bundle_mint,
+        position_bitmap=account.position_bitmap,
+    )</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_tick_array"><code class="name flex">
+<span>def <span class="ident">to_keyed_tick_array</span></span>(<span>pubkey: solders.pubkey.Pubkey, account: Optional[<a title="orca_whirlpool.internal.anchor.accounts.tick_array.TickArray" href="../anchor/accounts/tick_array.html#orca_whirlpool.internal.anchor.accounts.tick_array.TickArray">TickArray</a>]) ‑> Optional[<a title="orca_whirlpool.internal.accounts.types.TickArray" href="types.html#orca_whirlpool.internal.accounts.types.TickArray">TickArray</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_keyed_tick_array(pubkey: Pubkey, account: Optional[AnchorTickArray]) -&gt; Optional[TickArray]:
+    if account is None:
+        return None
+    return TickArray(
+        pubkey=pubkey,
+        start_tick_index=account.start_tick_index,
+        ticks=account.ticks,
+        whirlpool=account.whirlpool,
+    )</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_token_account"><code class="name flex">
+<span>def <span class="ident">to_keyed_token_account</span></span>(<span>pubkey: solders.pubkey.Pubkey, account: Optional[spl.token.core.AccountInfo]) ‑> Optional[<a title="orca_whirlpool.internal.accounts.types.AccountInfo" href="types.html#orca_whirlpool.internal.accounts.types.AccountInfo">AccountInfo</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_keyed_token_account(pubkey: Pubkey, account: Optional[SolanapyAccountInfo]) -&gt; Optional[AccountInfo]:
+    if account is None:
+        return None
+    return AccountInfo(
+        pubkey=pubkey,
+        mint=account.mint,
+        owner=account.owner,
+        amount=account.amount,
+        delegate=account.delegate,
+        delegated_amount=account.delegated_amount,
+        is_initialized=account.is_initialized,
+        is_frozen=account.is_frozen,
+        is_native=account.is_native,
+        rent_exempt_reserve=account.rent_exempt_reserve,
+        close_authority=account.close_authority,
+    )</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_token_mint"><code class="name flex">
+<span>def <span class="ident">to_keyed_token_mint</span></span>(<span>pubkey: solders.pubkey.Pubkey, account: Optional[spl.token.core.MintInfo]) ‑> Optional[<a title="orca_whirlpool.internal.accounts.types.MintInfo" href="types.html#orca_whirlpool.internal.accounts.types.MintInfo">MintInfo</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_keyed_token_mint(pubkey: Pubkey, account: Optional[SolanapyMintInfo]) -&gt; Optional[MintInfo]:
+    if account is None:
+        return None
+    return MintInfo(
+        pubkey=pubkey,
+        mint_authority=account.mint_authority,
+        supply=account.supply,
+        decimals=account.decimals,
+        is_initialized=account.is_initialized,
+        freeze_authority=account.freeze_authority,
+    )</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_whirlpool"><code class="name flex">
+<span>def <span class="ident">to_keyed_whirlpool</span></span>(<span>pubkey: solders.pubkey.Pubkey, account: Optional[<a title="orca_whirlpool.internal.anchor.accounts.whirlpool.Whirlpool" href="../anchor/accounts/whirlpool.html#orca_whirlpool.internal.anchor.accounts.whirlpool.Whirlpool">Whirlpool</a>]) ‑> Optional[<a title="orca_whirlpool.internal.accounts.types.Whirlpool" href="types.html#orca_whirlpool.internal.accounts.types.Whirlpool">Whirlpool</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_keyed_whirlpool(pubkey: Pubkey, account: Optional[AnchorWhirlpool]) -&gt; Optional[Whirlpool]:
+    if account is None:
+        return None
+    return Whirlpool(
+        pubkey=pubkey,
+        whirlpools_config=account.whirlpools_config,
+        whirlpool_bump=account.whirlpool_bump,
+        tick_spacing=account.tick_spacing,
+        tick_spacing_seed=account.tick_spacing_seed,
+        fee_rate=account.fee_rate,
+        protocol_fee_rate=account.protocol_fee_rate,
+        liquidity=account.liquidity,
+        sqrt_price=account.sqrt_price,
+        tick_current_index=account.tick_current_index,
+        protocol_fee_owed_a=account.protocol_fee_owed_a,
+        protocol_fee_owed_b=account.protocol_fee_owed_b,
+        token_mint_a=account.token_mint_a,
+        token_vault_a=account.token_vault_a,
+        fee_growth_global_a=account.fee_growth_global_a,
+        token_mint_b=account.token_mint_b,
+        token_vault_b=account.token_vault_b,
+        fee_growth_global_b=account.fee_growth_global_b,
+        reward_last_updated_timestamp=account.reward_last_updated_timestamp,
+        reward_infos=account.reward_infos,
+    )</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_whirlpools_config"><code class="name flex">
+<span>def <span class="ident">to_keyed_whirlpools_config</span></span>(<span>pubkey: solders.pubkey.Pubkey, account: Optional[<a title="orca_whirlpool.internal.anchor.accounts.whirlpools_config.WhirlpoolsConfig" href="../anchor/accounts/whirlpools_config.html#orca_whirlpool.internal.anchor.accounts.whirlpools_config.WhirlpoolsConfig">WhirlpoolsConfig</a>]) ‑> Optional[<a title="orca_whirlpool.internal.accounts.types.WhirlpoolsConfig" href="types.html#orca_whirlpool.internal.accounts.types.WhirlpoolsConfig">WhirlpoolsConfig</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_keyed_whirlpools_config(pubkey: Pubkey, account: Optional[AnchorWhirlpoolsConfig]) -&gt; Optional[WhirlpoolsConfig]:
+    if account is None:
+        return None
+    return WhirlpoolsConfig(
+        pubkey=pubkey,
+        fee_authority=account.fee_authority,
+        collect_protocol_fees_authority=account.collect_protocol_fees_authority,
+        reward_emissions_super_authority=account.reward_emissions_super_authority,
+        default_protocol_fee_rate=account.default_protocol_fee_rate,
+    )</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="orca_whirlpool.internal.accounts" href="index.html">orca_whirlpool.internal.accounts</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter">KeyedAccountConverter</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_fee_tier" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_fee_tier">to_keyed_fee_tier</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_position" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_position">to_keyed_position</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_position_bundle" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_position_bundle">to_keyed_position_bundle</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_tick_array" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_tick_array">to_keyed_tick_array</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_token_account" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_token_account">to_keyed_token_account</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_token_mint" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_token_mint">to_keyed_token_mint</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_whirlpool" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_whirlpool">to_keyed_whirlpool</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_whirlpools_config" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_whirlpools_config">to_keyed_whirlpools_config</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

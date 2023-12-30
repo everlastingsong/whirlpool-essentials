@@ -1,0 +1,3322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>orca_whirlpool.internal.anchor.errors.custom API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>orca_whirlpool.internal.anchor.errors.custom</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import typing
+from anchorpy.error import ProgramError
+
+
+class InvalidEnum(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6000, &#34;Enum value could not be converted&#34;)
+
+    code = 6000
+    name = &#34;InvalidEnum&#34;
+    msg = &#34;Enum value could not be converted&#34;
+
+
+class InvalidStartTick(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6001, &#34;Invalid start tick index provided.&#34;)
+
+    code = 6001
+    name = &#34;InvalidStartTick&#34;
+    msg = &#34;Invalid start tick index provided.&#34;
+
+
+class TickArrayExistInPool(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6002, &#34;Tick-array already exists in this whirlpool&#34;)
+
+    code = 6002
+    name = &#34;TickArrayExistInPool&#34;
+    msg = &#34;Tick-array already exists in this whirlpool&#34;
+
+
+class TickArrayIndexOutofBounds(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6003, &#34;Attempt to search for a tick-array failed&#34;)
+
+    code = 6003
+    name = &#34;TickArrayIndexOutofBounds&#34;
+    msg = &#34;Attempt to search for a tick-array failed&#34;
+
+
+class InvalidTickSpacing(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6004, &#34;Tick-spacing is not supported&#34;)
+
+    code = 6004
+    name = &#34;InvalidTickSpacing&#34;
+    msg = &#34;Tick-spacing is not supported&#34;
+
+
+class ClosePositionNotEmpty(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6005, &#34;Position is not empty It cannot be closed&#34;)
+
+    code = 6005
+    name = &#34;ClosePositionNotEmpty&#34;
+    msg = &#34;Position is not empty It cannot be closed&#34;
+
+
+class DivideByZero(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6006, &#34;Unable to divide by zero&#34;)
+
+    code = 6006
+    name = &#34;DivideByZero&#34;
+    msg = &#34;Unable to divide by zero&#34;
+
+
+class NumberCastError(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6007, &#34;Unable to cast number into BigInt&#34;)
+
+    code = 6007
+    name = &#34;NumberCastError&#34;
+    msg = &#34;Unable to cast number into BigInt&#34;
+
+
+class NumberDownCastError(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6008, &#34;Unable to down cast number&#34;)
+
+    code = 6008
+    name = &#34;NumberDownCastError&#34;
+    msg = &#34;Unable to down cast number&#34;
+
+
+class TickNotFound(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6009, &#34;Tick not found within tick array&#34;)
+
+    code = 6009
+    name = &#34;TickNotFound&#34;
+    msg = &#34;Tick not found within tick array&#34;
+
+
+class InvalidTickIndex(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(
+            6010, &#34;Provided tick index is either out of bounds or uninitializable&#34;
+        )
+
+    code = 6010
+    name = &#34;InvalidTickIndex&#34;
+    msg = &#34;Provided tick index is either out of bounds or uninitializable&#34;
+
+
+class SqrtPriceOutOfBounds(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6011, &#34;Provided sqrt price out of bounds&#34;)
+
+    code = 6011
+    name = &#34;SqrtPriceOutOfBounds&#34;
+    msg = &#34;Provided sqrt price out of bounds&#34;
+
+
+class LiquidityZero(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6012, &#34;Liquidity amount must be greater than zero&#34;)
+
+    code = 6012
+    name = &#34;LiquidityZero&#34;
+    msg = &#34;Liquidity amount must be greater than zero&#34;
+
+
+class LiquidityTooHigh(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6013, &#34;Liquidity amount must be less than i64::MAX&#34;)
+
+    code = 6013
+    name = &#34;LiquidityTooHigh&#34;
+    msg = &#34;Liquidity amount must be less than i64::MAX&#34;
+
+
+class LiquidityOverflow(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6014, &#34;Liquidity overflow&#34;)
+
+    code = 6014
+    name = &#34;LiquidityOverflow&#34;
+    msg = &#34;Liquidity overflow&#34;
+
+
+class LiquidityUnderflow(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6015, &#34;Liquidity underflow&#34;)
+
+    code = 6015
+    name = &#34;LiquidityUnderflow&#34;
+    msg = &#34;Liquidity underflow&#34;
+
+
+class LiquidityNetError(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6016, &#34;Tick liquidity net underflowed or overflowed&#34;)
+
+    code = 6016
+    name = &#34;LiquidityNetError&#34;
+    msg = &#34;Tick liquidity net underflowed or overflowed&#34;
+
+
+class TokenMaxExceeded(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6017, &#34;Exceeded token max&#34;)
+
+    code = 6017
+    name = &#34;TokenMaxExceeded&#34;
+    msg = &#34;Exceeded token max&#34;
+
+
+class TokenMinSubceeded(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6018, &#34;Did not meet token min&#34;)
+
+    code = 6018
+    name = &#34;TokenMinSubceeded&#34;
+    msg = &#34;Did not meet token min&#34;
+
+
+class MissingOrInvalidDelegate(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(
+            6019, &#34;Position token account has a missing or invalid delegate&#34;
+        )
+
+    code = 6019
+    name = &#34;MissingOrInvalidDelegate&#34;
+    msg = &#34;Position token account has a missing or invalid delegate&#34;
+
+
+class InvalidPositionTokenAmount(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6020, &#34;Position token amount must be 1&#34;)
+
+    code = 6020
+    name = &#34;InvalidPositionTokenAmount&#34;
+    msg = &#34;Position token amount must be 1&#34;
+
+
+class InvalidTimestampConversion(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6021, &#34;Timestamp should be convertible from i64 to u64&#34;)
+
+    code = 6021
+    name = &#34;InvalidTimestampConversion&#34;
+    msg = &#34;Timestamp should be convertible from i64 to u64&#34;
+
+
+class InvalidTimestamp(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(
+            6022, &#34;Timestamp should be greater than the last updated timestamp&#34;
+        )
+
+    code = 6022
+    name = &#34;InvalidTimestamp&#34;
+    msg = &#34;Timestamp should be greater than the last updated timestamp&#34;
+
+
+class InvalidTickArraySequence(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6023, &#34;Invalid tick array sequence provided for instruction.&#34;)
+
+    code = 6023
+    name = &#34;InvalidTickArraySequence&#34;
+    msg = &#34;Invalid tick array sequence provided for instruction.&#34;
+
+
+class InvalidTokenMintOrder(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6024, &#34;Token Mint in wrong order&#34;)
+
+    code = 6024
+    name = &#34;InvalidTokenMintOrder&#34;
+    msg = &#34;Token Mint in wrong order&#34;
+
+
+class RewardNotInitialized(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6025, &#34;Reward not initialized&#34;)
+
+    code = 6025
+    name = &#34;RewardNotInitialized&#34;
+    msg = &#34;Reward not initialized&#34;
+
+
+class InvalidRewardIndex(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6026, &#34;Invalid reward index&#34;)
+
+    code = 6026
+    name = &#34;InvalidRewardIndex&#34;
+    msg = &#34;Invalid reward index&#34;
+
+
+class RewardVaultAmountInsufficient(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(
+            6027,
+            &#34;Reward vault requires amount to support emissions for at least one day&#34;,
+        )
+
+    code = 6027
+    name = &#34;RewardVaultAmountInsufficient&#34;
+    msg = &#34;Reward vault requires amount to support emissions for at least one day&#34;
+
+
+class FeeRateMaxExceeded(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6028, &#34;Exceeded max fee rate&#34;)
+
+    code = 6028
+    name = &#34;FeeRateMaxExceeded&#34;
+    msg = &#34;Exceeded max fee rate&#34;
+
+
+class ProtocolFeeRateMaxExceeded(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6029, &#34;Exceeded max protocol fee rate&#34;)
+
+    code = 6029
+    name = &#34;ProtocolFeeRateMaxExceeded&#34;
+    msg = &#34;Exceeded max protocol fee rate&#34;
+
+
+class MultiplicationShiftRightOverflow(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6030, &#34;Multiplication with shift right overflow&#34;)
+
+    code = 6030
+    name = &#34;MultiplicationShiftRightOverflow&#34;
+    msg = &#34;Multiplication with shift right overflow&#34;
+
+
+class MulDivOverflow(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6031, &#34;Muldiv overflow&#34;)
+
+    code = 6031
+    name = &#34;MulDivOverflow&#34;
+    msg = &#34;Muldiv overflow&#34;
+
+
+class MulDivInvalidInput(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6032, &#34;Invalid div_u256 input&#34;)
+
+    code = 6032
+    name = &#34;MulDivInvalidInput&#34;
+    msg = &#34;Invalid div_u256 input&#34;
+
+
+class MultiplicationOverflow(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6033, &#34;Multiplication overflow&#34;)
+
+    code = 6033
+    name = &#34;MultiplicationOverflow&#34;
+    msg = &#34;Multiplication overflow&#34;
+
+
+class InvalidSqrtPriceLimitDirection(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(
+            6034, &#34;Provided SqrtPriceLimit not in the same direction as the swap.&#34;
+        )
+
+    code = 6034
+    name = &#34;InvalidSqrtPriceLimitDirection&#34;
+    msg = &#34;Provided SqrtPriceLimit not in the same direction as the swap.&#34;
+
+
+class ZeroTradableAmount(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6035, &#34;There are no tradable amount to swap.&#34;)
+
+    code = 6035
+    name = &#34;ZeroTradableAmount&#34;
+    msg = &#34;There are no tradable amount to swap.&#34;
+
+
+class AmountOutBelowMinimum(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6036, &#34;Amount out below minimum threshold&#34;)
+
+    code = 6036
+    name = &#34;AmountOutBelowMinimum&#34;
+    msg = &#34;Amount out below minimum threshold&#34;
+
+
+class AmountInAboveMaximum(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6037, &#34;Amount in above maximum threshold&#34;)
+
+    code = 6037
+    name = &#34;AmountInAboveMaximum&#34;
+    msg = &#34;Amount in above maximum threshold&#34;
+
+
+class TickArraySequenceInvalidIndex(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6038, &#34;Invalid index for tick array sequence&#34;)
+
+    code = 6038
+    name = &#34;TickArraySequenceInvalidIndex&#34;
+    msg = &#34;Invalid index for tick array sequence&#34;
+
+
+class AmountCalcOverflow(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6039, &#34;Amount calculated overflows&#34;)
+
+    code = 6039
+    name = &#34;AmountCalcOverflow&#34;
+    msg = &#34;Amount calculated overflows&#34;
+
+
+class AmountRemainingOverflow(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6040, &#34;Amount remaining overflows&#34;)
+
+    code = 6040
+    name = &#34;AmountRemainingOverflow&#34;
+    msg = &#34;Amount remaining overflows&#34;
+
+
+class InvalidIntermediaryMint(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6041, &#34;Invalid intermediary mint&#34;)
+
+    code = 6041
+    name = &#34;InvalidIntermediaryMint&#34;
+    msg = &#34;Invalid intermediary mint&#34;
+
+
+class DuplicateTwoHopPool(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6042, &#34;Duplicate two hop pool&#34;)
+
+    code = 6042
+    name = &#34;DuplicateTwoHopPool&#34;
+    msg = &#34;Duplicate two hop pool&#34;
+
+
+class InvalidBundleIndex(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6043, &#34;Bundle index is out of bounds&#34;)
+
+    code = 6043
+    name = &#34;InvalidBundleIndex&#34;
+    msg = &#34;Bundle index is out of bounds&#34;
+
+
+class BundledPositionAlreadyOpened(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6044, &#34;Position has already been opened&#34;)
+
+    code = 6044
+    name = &#34;BundledPositionAlreadyOpened&#34;
+    msg = &#34;Position has already been opened&#34;
+
+
+class BundledPositionAlreadyClosed(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6045, &#34;Position has already been closed&#34;)
+
+    code = 6045
+    name = &#34;BundledPositionAlreadyClosed&#34;
+    msg = &#34;Position has already been closed&#34;
+
+
+class PositionBundleNotDeletable(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6046, &#34;Unable to delete PositionBundle with open positions&#34;)
+
+    code = 6046
+    name = &#34;PositionBundleNotDeletable&#34;
+    msg = &#34;Unable to delete PositionBundle with open positions&#34;
+
+
+CustomError = typing.Union[
+    InvalidEnum,
+    InvalidStartTick,
+    TickArrayExistInPool,
+    TickArrayIndexOutofBounds,
+    InvalidTickSpacing,
+    ClosePositionNotEmpty,
+    DivideByZero,
+    NumberCastError,
+    NumberDownCastError,
+    TickNotFound,
+    InvalidTickIndex,
+    SqrtPriceOutOfBounds,
+    LiquidityZero,
+    LiquidityTooHigh,
+    LiquidityOverflow,
+    LiquidityUnderflow,
+    LiquidityNetError,
+    TokenMaxExceeded,
+    TokenMinSubceeded,
+    MissingOrInvalidDelegate,
+    InvalidPositionTokenAmount,
+    InvalidTimestampConversion,
+    InvalidTimestamp,
+    InvalidTickArraySequence,
+    InvalidTokenMintOrder,
+    RewardNotInitialized,
+    InvalidRewardIndex,
+    RewardVaultAmountInsufficient,
+    FeeRateMaxExceeded,
+    ProtocolFeeRateMaxExceeded,
+    MultiplicationShiftRightOverflow,
+    MulDivOverflow,
+    MulDivInvalidInput,
+    MultiplicationOverflow,
+    InvalidSqrtPriceLimitDirection,
+    ZeroTradableAmount,
+    AmountOutBelowMinimum,
+    AmountInAboveMaximum,
+    TickArraySequenceInvalidIndex,
+    AmountCalcOverflow,
+    AmountRemainingOverflow,
+    InvalidIntermediaryMint,
+    DuplicateTwoHopPool,
+    InvalidBundleIndex,
+    BundledPositionAlreadyOpened,
+    BundledPositionAlreadyClosed,
+    PositionBundleNotDeletable,
+]
+CUSTOM_ERROR_MAP: dict[int, CustomError] = {
+    6000: InvalidEnum(),
+    6001: InvalidStartTick(),
+    6002: TickArrayExistInPool(),
+    6003: TickArrayIndexOutofBounds(),
+    6004: InvalidTickSpacing(),
+    6005: ClosePositionNotEmpty(),
+    6006: DivideByZero(),
+    6007: NumberCastError(),
+    6008: NumberDownCastError(),
+    6009: TickNotFound(),
+    6010: InvalidTickIndex(),
+    6011: SqrtPriceOutOfBounds(),
+    6012: LiquidityZero(),
+    6013: LiquidityTooHigh(),
+    6014: LiquidityOverflow(),
+    6015: LiquidityUnderflow(),
+    6016: LiquidityNetError(),
+    6017: TokenMaxExceeded(),
+    6018: TokenMinSubceeded(),
+    6019: MissingOrInvalidDelegate(),
+    6020: InvalidPositionTokenAmount(),
+    6021: InvalidTimestampConversion(),
+    6022: InvalidTimestamp(),
+    6023: InvalidTickArraySequence(),
+    6024: InvalidTokenMintOrder(),
+    6025: RewardNotInitialized(),
+    6026: InvalidRewardIndex(),
+    6027: RewardVaultAmountInsufficient(),
+    6028: FeeRateMaxExceeded(),
+    6029: ProtocolFeeRateMaxExceeded(),
+    6030: MultiplicationShiftRightOverflow(),
+    6031: MulDivOverflow(),
+    6032: MulDivInvalidInput(),
+    6033: MultiplicationOverflow(),
+    6034: InvalidSqrtPriceLimitDirection(),
+    6035: ZeroTradableAmount(),
+    6036: AmountOutBelowMinimum(),
+    6037: AmountInAboveMaximum(),
+    6038: TickArraySequenceInvalidIndex(),
+    6039: AmountCalcOverflow(),
+    6040: AmountRemainingOverflow(),
+    6041: InvalidIntermediaryMint(),
+    6042: DuplicateTwoHopPool(),
+    6043: InvalidBundleIndex(),
+    6044: BundledPositionAlreadyOpened(),
+    6045: BundledPositionAlreadyClosed(),
+    6046: PositionBundleNotDeletable(),
+}
+
+
+def from_code(code: int) -&gt; typing.Optional[CustomError]:
+    maybe_err = CUSTOM_ERROR_MAP.get(code)
+    if maybe_err is None:
+        return None
+    return maybe_err</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.from_code"><code class="name flex">
+<span>def <span class="ident">from_code</span></span>(<span>code: int) ‑> Union[<a title="orca_whirlpool.internal.anchor.errors.custom.InvalidEnum" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidEnum">InvalidEnum</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.InvalidStartTick" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidStartTick">InvalidStartTick</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.TickArrayExistInPool" href="#orca_whirlpool.internal.anchor.errors.custom.TickArrayExistInPool">TickArrayExistInPool</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.TickArrayIndexOutofBounds" href="#orca_whirlpool.internal.anchor.errors.custom.TickArrayIndexOutofBounds">TickArrayIndexOutofBounds</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTickSpacing" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTickSpacing">InvalidTickSpacing</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.ClosePositionNotEmpty" href="#orca_whirlpool.internal.anchor.errors.custom.ClosePositionNotEmpty">ClosePositionNotEmpty</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.DivideByZero" href="#orca_whirlpool.internal.anchor.errors.custom.DivideByZero">DivideByZero</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.NumberCastError" href="#orca_whirlpool.internal.anchor.errors.custom.NumberCastError">NumberCastError</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.NumberDownCastError" href="#orca_whirlpool.internal.anchor.errors.custom.NumberDownCastError">NumberDownCastError</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.TickNotFound" href="#orca_whirlpool.internal.anchor.errors.custom.TickNotFound">TickNotFound</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTickIndex" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTickIndex">InvalidTickIndex</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.SqrtPriceOutOfBounds" href="#orca_whirlpool.internal.anchor.errors.custom.SqrtPriceOutOfBounds">SqrtPriceOutOfBounds</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityZero" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityZero">LiquidityZero</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityTooHigh" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityTooHigh">LiquidityTooHigh</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityOverflow" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityOverflow">LiquidityOverflow</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityUnderflow" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityUnderflow">LiquidityUnderflow</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityNetError" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityNetError">LiquidityNetError</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.TokenMaxExceeded" href="#orca_whirlpool.internal.anchor.errors.custom.TokenMaxExceeded">TokenMaxExceeded</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.TokenMinSubceeded" href="#orca_whirlpool.internal.anchor.errors.custom.TokenMinSubceeded">TokenMinSubceeded</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.MissingOrInvalidDelegate" href="#orca_whirlpool.internal.anchor.errors.custom.MissingOrInvalidDelegate">MissingOrInvalidDelegate</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.InvalidPositionTokenAmount" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidPositionTokenAmount">InvalidPositionTokenAmount</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestampConversion" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTimestampConversion">InvalidTimestampConversion</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestamp" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTimestamp">InvalidTimestamp</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTickArraySequence" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTickArraySequence">InvalidTickArraySequence</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTokenMintOrder" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTokenMintOrder">InvalidTokenMintOrder</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.RewardNotInitialized" href="#orca_whirlpool.internal.anchor.errors.custom.RewardNotInitialized">RewardNotInitialized</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.InvalidRewardIndex" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidRewardIndex">InvalidRewardIndex</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.RewardVaultAmountInsufficient" href="#orca_whirlpool.internal.anchor.errors.custom.RewardVaultAmountInsufficient">RewardVaultAmountInsufficient</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.FeeRateMaxExceeded" href="#orca_whirlpool.internal.anchor.errors.custom.FeeRateMaxExceeded">FeeRateMaxExceeded</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.ProtocolFeeRateMaxExceeded" href="#orca_whirlpool.internal.anchor.errors.custom.ProtocolFeeRateMaxExceeded">ProtocolFeeRateMaxExceeded</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.MultiplicationShiftRightOverflow" href="#orca_whirlpool.internal.anchor.errors.custom.MultiplicationShiftRightOverflow">MultiplicationShiftRightOverflow</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.MulDivOverflow" href="#orca_whirlpool.internal.anchor.errors.custom.MulDivOverflow">MulDivOverflow</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.MulDivInvalidInput" href="#orca_whirlpool.internal.anchor.errors.custom.MulDivInvalidInput">MulDivInvalidInput</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.MultiplicationOverflow" href="#orca_whirlpool.internal.anchor.errors.custom.MultiplicationOverflow">MultiplicationOverflow</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.InvalidSqrtPriceLimitDirection" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidSqrtPriceLimitDirection">InvalidSqrtPriceLimitDirection</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.ZeroTradableAmount" href="#orca_whirlpool.internal.anchor.errors.custom.ZeroTradableAmount">ZeroTradableAmount</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.AmountOutBelowMinimum" href="#orca_whirlpool.internal.anchor.errors.custom.AmountOutBelowMinimum">AmountOutBelowMinimum</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.AmountInAboveMaximum" href="#orca_whirlpool.internal.anchor.errors.custom.AmountInAboveMaximum">AmountInAboveMaximum</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.TickArraySequenceInvalidIndex" href="#orca_whirlpool.internal.anchor.errors.custom.TickArraySequenceInvalidIndex">TickArraySequenceInvalidIndex</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.AmountCalcOverflow" href="#orca_whirlpool.internal.anchor.errors.custom.AmountCalcOverflow">AmountCalcOverflow</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.AmountRemainingOverflow" href="#orca_whirlpool.internal.anchor.errors.custom.AmountRemainingOverflow">AmountRemainingOverflow</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.InvalidIntermediaryMint" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidIntermediaryMint">InvalidIntermediaryMint</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.DuplicateTwoHopPool" href="#orca_whirlpool.internal.anchor.errors.custom.DuplicateTwoHopPool">DuplicateTwoHopPool</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.InvalidBundleIndex" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidBundleIndex">InvalidBundleIndex</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyOpened" href="#orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyOpened">BundledPositionAlreadyOpened</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyClosed" href="#orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyClosed">BundledPositionAlreadyClosed</a>, <a title="orca_whirlpool.internal.anchor.errors.custom.PositionBundleNotDeletable" href="#orca_whirlpool.internal.anchor.errors.custom.PositionBundleNotDeletable">PositionBundleNotDeletable</a>, ForwardRef(None)]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def from_code(code: int) -&gt; typing.Optional[CustomError]:
+    maybe_err = CUSTOM_ERROR_MAP.get(code)
+    if maybe_err is None:
+        return None
+    return maybe_err</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.AmountCalcOverflow"><code class="flex name class">
+<span>class <span class="ident">AmountCalcOverflow</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AmountCalcOverflow(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6039, &#34;Amount calculated overflows&#34;)
+
+    code = 6039
+    name = &#34;AmountCalcOverflow&#34;
+    msg = &#34;Amount calculated overflows&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.AmountCalcOverflow.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.AmountCalcOverflow.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.AmountCalcOverflow.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.AmountInAboveMaximum"><code class="flex name class">
+<span>class <span class="ident">AmountInAboveMaximum</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AmountInAboveMaximum(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6037, &#34;Amount in above maximum threshold&#34;)
+
+    code = 6037
+    name = &#34;AmountInAboveMaximum&#34;
+    msg = &#34;Amount in above maximum threshold&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.AmountInAboveMaximum.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.AmountInAboveMaximum.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.AmountInAboveMaximum.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.AmountOutBelowMinimum"><code class="flex name class">
+<span>class <span class="ident">AmountOutBelowMinimum</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AmountOutBelowMinimum(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6036, &#34;Amount out below minimum threshold&#34;)
+
+    code = 6036
+    name = &#34;AmountOutBelowMinimum&#34;
+    msg = &#34;Amount out below minimum threshold&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.AmountOutBelowMinimum.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.AmountOutBelowMinimum.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.AmountOutBelowMinimum.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.AmountRemainingOverflow"><code class="flex name class">
+<span>class <span class="ident">AmountRemainingOverflow</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AmountRemainingOverflow(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6040, &#34;Amount remaining overflows&#34;)
+
+    code = 6040
+    name = &#34;AmountRemainingOverflow&#34;
+    msg = &#34;Amount remaining overflows&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.AmountRemainingOverflow.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.AmountRemainingOverflow.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.AmountRemainingOverflow.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyClosed"><code class="flex name class">
+<span>class <span class="ident">BundledPositionAlreadyClosed</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BundledPositionAlreadyClosed(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6045, &#34;Position has already been closed&#34;)
+
+    code = 6045
+    name = &#34;BundledPositionAlreadyClosed&#34;
+    msg = &#34;Position has already been closed&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyClosed.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyClosed.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyClosed.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyOpened"><code class="flex name class">
+<span>class <span class="ident">BundledPositionAlreadyOpened</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BundledPositionAlreadyOpened(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6044, &#34;Position has already been opened&#34;)
+
+    code = 6044
+    name = &#34;BundledPositionAlreadyOpened&#34;
+    msg = &#34;Position has already been opened&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyOpened.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyOpened.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyOpened.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.ClosePositionNotEmpty"><code class="flex name class">
+<span>class <span class="ident">ClosePositionNotEmpty</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ClosePositionNotEmpty(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6005, &#34;Position is not empty It cannot be closed&#34;)
+
+    code = 6005
+    name = &#34;ClosePositionNotEmpty&#34;
+    msg = &#34;Position is not empty It cannot be closed&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.ClosePositionNotEmpty.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.ClosePositionNotEmpty.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.ClosePositionNotEmpty.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.DivideByZero"><code class="flex name class">
+<span>class <span class="ident">DivideByZero</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DivideByZero(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6006, &#34;Unable to divide by zero&#34;)
+
+    code = 6006
+    name = &#34;DivideByZero&#34;
+    msg = &#34;Unable to divide by zero&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.DivideByZero.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.DivideByZero.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.DivideByZero.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.DuplicateTwoHopPool"><code class="flex name class">
+<span>class <span class="ident">DuplicateTwoHopPool</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DuplicateTwoHopPool(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6042, &#34;Duplicate two hop pool&#34;)
+
+    code = 6042
+    name = &#34;DuplicateTwoHopPool&#34;
+    msg = &#34;Duplicate two hop pool&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.DuplicateTwoHopPool.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.DuplicateTwoHopPool.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.DuplicateTwoHopPool.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.FeeRateMaxExceeded"><code class="flex name class">
+<span>class <span class="ident">FeeRateMaxExceeded</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class FeeRateMaxExceeded(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6028, &#34;Exceeded max fee rate&#34;)
+
+    code = 6028
+    name = &#34;FeeRateMaxExceeded&#34;
+    msg = &#34;Exceeded max fee rate&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.FeeRateMaxExceeded.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.FeeRateMaxExceeded.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.FeeRateMaxExceeded.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidBundleIndex"><code class="flex name class">
+<span>class <span class="ident">InvalidBundleIndex</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidBundleIndex(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6043, &#34;Bundle index is out of bounds&#34;)
+
+    code = 6043
+    name = &#34;InvalidBundleIndex&#34;
+    msg = &#34;Bundle index is out of bounds&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidBundleIndex.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidBundleIndex.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidBundleIndex.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidEnum"><code class="flex name class">
+<span>class <span class="ident">InvalidEnum</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidEnum(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6000, &#34;Enum value could not be converted&#34;)
+
+    code = 6000
+    name = &#34;InvalidEnum&#34;
+    msg = &#34;Enum value could not be converted&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidEnum.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidEnum.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidEnum.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidIntermediaryMint"><code class="flex name class">
+<span>class <span class="ident">InvalidIntermediaryMint</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidIntermediaryMint(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6041, &#34;Invalid intermediary mint&#34;)
+
+    code = 6041
+    name = &#34;InvalidIntermediaryMint&#34;
+    msg = &#34;Invalid intermediary mint&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidIntermediaryMint.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidIntermediaryMint.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidIntermediaryMint.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidPositionTokenAmount"><code class="flex name class">
+<span>class <span class="ident">InvalidPositionTokenAmount</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidPositionTokenAmount(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6020, &#34;Position token amount must be 1&#34;)
+
+    code = 6020
+    name = &#34;InvalidPositionTokenAmount&#34;
+    msg = &#34;Position token amount must be 1&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidPositionTokenAmount.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidPositionTokenAmount.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidPositionTokenAmount.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidRewardIndex"><code class="flex name class">
+<span>class <span class="ident">InvalidRewardIndex</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidRewardIndex(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6026, &#34;Invalid reward index&#34;)
+
+    code = 6026
+    name = &#34;InvalidRewardIndex&#34;
+    msg = &#34;Invalid reward index&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidRewardIndex.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidRewardIndex.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidRewardIndex.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidSqrtPriceLimitDirection"><code class="flex name class">
+<span>class <span class="ident">InvalidSqrtPriceLimitDirection</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidSqrtPriceLimitDirection(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(
+            6034, &#34;Provided SqrtPriceLimit not in the same direction as the swap.&#34;
+        )
+
+    code = 6034
+    name = &#34;InvalidSqrtPriceLimitDirection&#34;
+    msg = &#34;Provided SqrtPriceLimit not in the same direction as the swap.&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidSqrtPriceLimitDirection.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidSqrtPriceLimitDirection.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidSqrtPriceLimitDirection.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidStartTick"><code class="flex name class">
+<span>class <span class="ident">InvalidStartTick</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidStartTick(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6001, &#34;Invalid start tick index provided.&#34;)
+
+    code = 6001
+    name = &#34;InvalidStartTick&#34;
+    msg = &#34;Invalid start tick index provided.&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidStartTick.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidStartTick.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidStartTick.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTickArraySequence"><code class="flex name class">
+<span>class <span class="ident">InvalidTickArraySequence</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidTickArraySequence(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6023, &#34;Invalid tick array sequence provided for instruction.&#34;)
+
+    code = 6023
+    name = &#34;InvalidTickArraySequence&#34;
+    msg = &#34;Invalid tick array sequence provided for instruction.&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTickArraySequence.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTickArraySequence.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTickArraySequence.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTickIndex"><code class="flex name class">
+<span>class <span class="ident">InvalidTickIndex</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidTickIndex(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(
+            6010, &#34;Provided tick index is either out of bounds or uninitializable&#34;
+        )
+
+    code = 6010
+    name = &#34;InvalidTickIndex&#34;
+    msg = &#34;Provided tick index is either out of bounds or uninitializable&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTickIndex.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTickIndex.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTickIndex.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTickSpacing"><code class="flex name class">
+<span>class <span class="ident">InvalidTickSpacing</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidTickSpacing(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6004, &#34;Tick-spacing is not supported&#34;)
+
+    code = 6004
+    name = &#34;InvalidTickSpacing&#34;
+    msg = &#34;Tick-spacing is not supported&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTickSpacing.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTickSpacing.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTickSpacing.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestamp"><code class="flex name class">
+<span>class <span class="ident">InvalidTimestamp</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidTimestamp(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(
+            6022, &#34;Timestamp should be greater than the last updated timestamp&#34;
+        )
+
+    code = 6022
+    name = &#34;InvalidTimestamp&#34;
+    msg = &#34;Timestamp should be greater than the last updated timestamp&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestamp.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestamp.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestamp.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestampConversion"><code class="flex name class">
+<span>class <span class="ident">InvalidTimestampConversion</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidTimestampConversion(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6021, &#34;Timestamp should be convertible from i64 to u64&#34;)
+
+    code = 6021
+    name = &#34;InvalidTimestampConversion&#34;
+    msg = &#34;Timestamp should be convertible from i64 to u64&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestampConversion.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestampConversion.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestampConversion.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTokenMintOrder"><code class="flex name class">
+<span>class <span class="ident">InvalidTokenMintOrder</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidTokenMintOrder(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6024, &#34;Token Mint in wrong order&#34;)
+
+    code = 6024
+    name = &#34;InvalidTokenMintOrder&#34;
+    msg = &#34;Token Mint in wrong order&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTokenMintOrder.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTokenMintOrder.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.InvalidTokenMintOrder.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityNetError"><code class="flex name class">
+<span>class <span class="ident">LiquidityNetError</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LiquidityNetError(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6016, &#34;Tick liquidity net underflowed or overflowed&#34;)
+
+    code = 6016
+    name = &#34;LiquidityNetError&#34;
+    msg = &#34;Tick liquidity net underflowed or overflowed&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityNetError.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityNetError.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityNetError.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityOverflow"><code class="flex name class">
+<span>class <span class="ident">LiquidityOverflow</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LiquidityOverflow(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6014, &#34;Liquidity overflow&#34;)
+
+    code = 6014
+    name = &#34;LiquidityOverflow&#34;
+    msg = &#34;Liquidity overflow&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityOverflow.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityOverflow.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityOverflow.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityTooHigh"><code class="flex name class">
+<span>class <span class="ident">LiquidityTooHigh</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LiquidityTooHigh(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6013, &#34;Liquidity amount must be less than i64::MAX&#34;)
+
+    code = 6013
+    name = &#34;LiquidityTooHigh&#34;
+    msg = &#34;Liquidity amount must be less than i64::MAX&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityTooHigh.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityTooHigh.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityTooHigh.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityUnderflow"><code class="flex name class">
+<span>class <span class="ident">LiquidityUnderflow</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LiquidityUnderflow(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6015, &#34;Liquidity underflow&#34;)
+
+    code = 6015
+    name = &#34;LiquidityUnderflow&#34;
+    msg = &#34;Liquidity underflow&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityUnderflow.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityUnderflow.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityUnderflow.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityZero"><code class="flex name class">
+<span>class <span class="ident">LiquidityZero</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LiquidityZero(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6012, &#34;Liquidity amount must be greater than zero&#34;)
+
+    code = 6012
+    name = &#34;LiquidityZero&#34;
+    msg = &#34;Liquidity amount must be greater than zero&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityZero.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityZero.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.LiquidityZero.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MissingOrInvalidDelegate"><code class="flex name class">
+<span>class <span class="ident">MissingOrInvalidDelegate</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MissingOrInvalidDelegate(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(
+            6019, &#34;Position token account has a missing or invalid delegate&#34;
+        )
+
+    code = 6019
+    name = &#34;MissingOrInvalidDelegate&#34;
+    msg = &#34;Position token account has a missing or invalid delegate&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MissingOrInvalidDelegate.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MissingOrInvalidDelegate.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MissingOrInvalidDelegate.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MulDivInvalidInput"><code class="flex name class">
+<span>class <span class="ident">MulDivInvalidInput</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MulDivInvalidInput(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6032, &#34;Invalid div_u256 input&#34;)
+
+    code = 6032
+    name = &#34;MulDivInvalidInput&#34;
+    msg = &#34;Invalid div_u256 input&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MulDivInvalidInput.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MulDivInvalidInput.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MulDivInvalidInput.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MulDivOverflow"><code class="flex name class">
+<span>class <span class="ident">MulDivOverflow</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MulDivOverflow(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6031, &#34;Muldiv overflow&#34;)
+
+    code = 6031
+    name = &#34;MulDivOverflow&#34;
+    msg = &#34;Muldiv overflow&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MulDivOverflow.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MulDivOverflow.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MulDivOverflow.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MultiplicationOverflow"><code class="flex name class">
+<span>class <span class="ident">MultiplicationOverflow</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MultiplicationOverflow(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6033, &#34;Multiplication overflow&#34;)
+
+    code = 6033
+    name = &#34;MultiplicationOverflow&#34;
+    msg = &#34;Multiplication overflow&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MultiplicationOverflow.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MultiplicationOverflow.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MultiplicationOverflow.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MultiplicationShiftRightOverflow"><code class="flex name class">
+<span>class <span class="ident">MultiplicationShiftRightOverflow</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MultiplicationShiftRightOverflow(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6030, &#34;Multiplication with shift right overflow&#34;)
+
+    code = 6030
+    name = &#34;MultiplicationShiftRightOverflow&#34;
+    msg = &#34;Multiplication with shift right overflow&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MultiplicationShiftRightOverflow.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MultiplicationShiftRightOverflow.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.MultiplicationShiftRightOverflow.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.NumberCastError"><code class="flex name class">
+<span>class <span class="ident">NumberCastError</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class NumberCastError(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6007, &#34;Unable to cast number into BigInt&#34;)
+
+    code = 6007
+    name = &#34;NumberCastError&#34;
+    msg = &#34;Unable to cast number into BigInt&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.NumberCastError.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.NumberCastError.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.NumberCastError.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.NumberDownCastError"><code class="flex name class">
+<span>class <span class="ident">NumberDownCastError</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class NumberDownCastError(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6008, &#34;Unable to down cast number&#34;)
+
+    code = 6008
+    name = &#34;NumberDownCastError&#34;
+    msg = &#34;Unable to down cast number&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.NumberDownCastError.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.NumberDownCastError.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.NumberDownCastError.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.PositionBundleNotDeletable"><code class="flex name class">
+<span>class <span class="ident">PositionBundleNotDeletable</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PositionBundleNotDeletable(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6046, &#34;Unable to delete PositionBundle with open positions&#34;)
+
+    code = 6046
+    name = &#34;PositionBundleNotDeletable&#34;
+    msg = &#34;Unable to delete PositionBundle with open positions&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.PositionBundleNotDeletable.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.PositionBundleNotDeletable.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.PositionBundleNotDeletable.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.ProtocolFeeRateMaxExceeded"><code class="flex name class">
+<span>class <span class="ident">ProtocolFeeRateMaxExceeded</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ProtocolFeeRateMaxExceeded(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6029, &#34;Exceeded max protocol fee rate&#34;)
+
+    code = 6029
+    name = &#34;ProtocolFeeRateMaxExceeded&#34;
+    msg = &#34;Exceeded max protocol fee rate&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.ProtocolFeeRateMaxExceeded.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.ProtocolFeeRateMaxExceeded.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.ProtocolFeeRateMaxExceeded.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.RewardNotInitialized"><code class="flex name class">
+<span>class <span class="ident">RewardNotInitialized</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RewardNotInitialized(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6025, &#34;Reward not initialized&#34;)
+
+    code = 6025
+    name = &#34;RewardNotInitialized&#34;
+    msg = &#34;Reward not initialized&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.RewardNotInitialized.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.RewardNotInitialized.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.RewardNotInitialized.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.RewardVaultAmountInsufficient"><code class="flex name class">
+<span>class <span class="ident">RewardVaultAmountInsufficient</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RewardVaultAmountInsufficient(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(
+            6027,
+            &#34;Reward vault requires amount to support emissions for at least one day&#34;,
+        )
+
+    code = 6027
+    name = &#34;RewardVaultAmountInsufficient&#34;
+    msg = &#34;Reward vault requires amount to support emissions for at least one day&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.RewardVaultAmountInsufficient.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.RewardVaultAmountInsufficient.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.RewardVaultAmountInsufficient.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.SqrtPriceOutOfBounds"><code class="flex name class">
+<span>class <span class="ident">SqrtPriceOutOfBounds</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SqrtPriceOutOfBounds(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6011, &#34;Provided sqrt price out of bounds&#34;)
+
+    code = 6011
+    name = &#34;SqrtPriceOutOfBounds&#34;
+    msg = &#34;Provided sqrt price out of bounds&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.SqrtPriceOutOfBounds.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.SqrtPriceOutOfBounds.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.SqrtPriceOutOfBounds.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TickArrayExistInPool"><code class="flex name class">
+<span>class <span class="ident">TickArrayExistInPool</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TickArrayExistInPool(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6002, &#34;Tick-array already exists in this whirlpool&#34;)
+
+    code = 6002
+    name = &#34;TickArrayExistInPool&#34;
+    msg = &#34;Tick-array already exists in this whirlpool&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TickArrayExistInPool.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TickArrayExistInPool.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TickArrayExistInPool.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TickArrayIndexOutofBounds"><code class="flex name class">
+<span>class <span class="ident">TickArrayIndexOutofBounds</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TickArrayIndexOutofBounds(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6003, &#34;Attempt to search for a tick-array failed&#34;)
+
+    code = 6003
+    name = &#34;TickArrayIndexOutofBounds&#34;
+    msg = &#34;Attempt to search for a tick-array failed&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TickArrayIndexOutofBounds.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TickArrayIndexOutofBounds.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TickArrayIndexOutofBounds.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TickArraySequenceInvalidIndex"><code class="flex name class">
+<span>class <span class="ident">TickArraySequenceInvalidIndex</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TickArraySequenceInvalidIndex(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6038, &#34;Invalid index for tick array sequence&#34;)
+
+    code = 6038
+    name = &#34;TickArraySequenceInvalidIndex&#34;
+    msg = &#34;Invalid index for tick array sequence&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TickArraySequenceInvalidIndex.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TickArraySequenceInvalidIndex.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TickArraySequenceInvalidIndex.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TickNotFound"><code class="flex name class">
+<span>class <span class="ident">TickNotFound</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TickNotFound(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6009, &#34;Tick not found within tick array&#34;)
+
+    code = 6009
+    name = &#34;TickNotFound&#34;
+    msg = &#34;Tick not found within tick array&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TickNotFound.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TickNotFound.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TickNotFound.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TokenMaxExceeded"><code class="flex name class">
+<span>class <span class="ident">TokenMaxExceeded</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TokenMaxExceeded(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6017, &#34;Exceeded token max&#34;)
+
+    code = 6017
+    name = &#34;TokenMaxExceeded&#34;
+    msg = &#34;Exceeded token max&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TokenMaxExceeded.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TokenMaxExceeded.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TokenMaxExceeded.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TokenMinSubceeded"><code class="flex name class">
+<span>class <span class="ident">TokenMinSubceeded</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TokenMinSubceeded(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6018, &#34;Did not meet token min&#34;)
+
+    code = 6018
+    name = &#34;TokenMinSubceeded&#34;
+    msg = &#34;Did not meet token min&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TokenMinSubceeded.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TokenMinSubceeded.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.TokenMinSubceeded.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.ZeroTradableAmount"><code class="flex name class">
+<span>class <span class="ident">ZeroTradableAmount</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ZeroTradableAmount(ProgramError):
+    def __init__(self) -&gt; None:
+        super().__init__(6035, &#34;There are no tradable amount to swap.&#34;)
+
+    code = 6035
+    name = &#34;ZeroTradableAmount&#34;
+    msg = &#34;There are no tradable amount to swap.&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.ZeroTradableAmount.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.ZeroTradableAmount.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.custom.ZeroTradableAmount.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="orca_whirlpool.internal.anchor.errors" href="index.html">orca_whirlpool.internal.anchor.errors</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.from_code" href="#orca_whirlpool.internal.anchor.errors.custom.from_code">from_code</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.AmountCalcOverflow" href="#orca_whirlpool.internal.anchor.errors.custom.AmountCalcOverflow">AmountCalcOverflow</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.AmountCalcOverflow.code" href="#orca_whirlpool.internal.anchor.errors.custom.AmountCalcOverflow.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.AmountCalcOverflow.msg" href="#orca_whirlpool.internal.anchor.errors.custom.AmountCalcOverflow.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.AmountCalcOverflow.name" href="#orca_whirlpool.internal.anchor.errors.custom.AmountCalcOverflow.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.AmountInAboveMaximum" href="#orca_whirlpool.internal.anchor.errors.custom.AmountInAboveMaximum">AmountInAboveMaximum</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.AmountInAboveMaximum.code" href="#orca_whirlpool.internal.anchor.errors.custom.AmountInAboveMaximum.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.AmountInAboveMaximum.msg" href="#orca_whirlpool.internal.anchor.errors.custom.AmountInAboveMaximum.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.AmountInAboveMaximum.name" href="#orca_whirlpool.internal.anchor.errors.custom.AmountInAboveMaximum.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.AmountOutBelowMinimum" href="#orca_whirlpool.internal.anchor.errors.custom.AmountOutBelowMinimum">AmountOutBelowMinimum</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.AmountOutBelowMinimum.code" href="#orca_whirlpool.internal.anchor.errors.custom.AmountOutBelowMinimum.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.AmountOutBelowMinimum.msg" href="#orca_whirlpool.internal.anchor.errors.custom.AmountOutBelowMinimum.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.AmountOutBelowMinimum.name" href="#orca_whirlpool.internal.anchor.errors.custom.AmountOutBelowMinimum.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.AmountRemainingOverflow" href="#orca_whirlpool.internal.anchor.errors.custom.AmountRemainingOverflow">AmountRemainingOverflow</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.AmountRemainingOverflow.code" href="#orca_whirlpool.internal.anchor.errors.custom.AmountRemainingOverflow.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.AmountRemainingOverflow.msg" href="#orca_whirlpool.internal.anchor.errors.custom.AmountRemainingOverflow.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.AmountRemainingOverflow.name" href="#orca_whirlpool.internal.anchor.errors.custom.AmountRemainingOverflow.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyClosed" href="#orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyClosed">BundledPositionAlreadyClosed</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyClosed.code" href="#orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyClosed.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyClosed.msg" href="#orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyClosed.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyClosed.name" href="#orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyClosed.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyOpened" href="#orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyOpened">BundledPositionAlreadyOpened</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyOpened.code" href="#orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyOpened.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyOpened.msg" href="#orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyOpened.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyOpened.name" href="#orca_whirlpool.internal.anchor.errors.custom.BundledPositionAlreadyOpened.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.ClosePositionNotEmpty" href="#orca_whirlpool.internal.anchor.errors.custom.ClosePositionNotEmpty">ClosePositionNotEmpty</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.ClosePositionNotEmpty.code" href="#orca_whirlpool.internal.anchor.errors.custom.ClosePositionNotEmpty.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.ClosePositionNotEmpty.msg" href="#orca_whirlpool.internal.anchor.errors.custom.ClosePositionNotEmpty.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.ClosePositionNotEmpty.name" href="#orca_whirlpool.internal.anchor.errors.custom.ClosePositionNotEmpty.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.DivideByZero" href="#orca_whirlpool.internal.anchor.errors.custom.DivideByZero">DivideByZero</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.DivideByZero.code" href="#orca_whirlpool.internal.anchor.errors.custom.DivideByZero.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.DivideByZero.msg" href="#orca_whirlpool.internal.anchor.errors.custom.DivideByZero.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.DivideByZero.name" href="#orca_whirlpool.internal.anchor.errors.custom.DivideByZero.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.DuplicateTwoHopPool" href="#orca_whirlpool.internal.anchor.errors.custom.DuplicateTwoHopPool">DuplicateTwoHopPool</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.DuplicateTwoHopPool.code" href="#orca_whirlpool.internal.anchor.errors.custom.DuplicateTwoHopPool.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.DuplicateTwoHopPool.msg" href="#orca_whirlpool.internal.anchor.errors.custom.DuplicateTwoHopPool.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.DuplicateTwoHopPool.name" href="#orca_whirlpool.internal.anchor.errors.custom.DuplicateTwoHopPool.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.FeeRateMaxExceeded" href="#orca_whirlpool.internal.anchor.errors.custom.FeeRateMaxExceeded">FeeRateMaxExceeded</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.FeeRateMaxExceeded.code" href="#orca_whirlpool.internal.anchor.errors.custom.FeeRateMaxExceeded.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.FeeRateMaxExceeded.msg" href="#orca_whirlpool.internal.anchor.errors.custom.FeeRateMaxExceeded.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.FeeRateMaxExceeded.name" href="#orca_whirlpool.internal.anchor.errors.custom.FeeRateMaxExceeded.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidBundleIndex" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidBundleIndex">InvalidBundleIndex</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidBundleIndex.code" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidBundleIndex.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidBundleIndex.msg" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidBundleIndex.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidBundleIndex.name" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidBundleIndex.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidEnum" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidEnum">InvalidEnum</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidEnum.code" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidEnum.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidEnum.msg" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidEnum.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidEnum.name" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidEnum.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidIntermediaryMint" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidIntermediaryMint">InvalidIntermediaryMint</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidIntermediaryMint.code" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidIntermediaryMint.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidIntermediaryMint.msg" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidIntermediaryMint.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidIntermediaryMint.name" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidIntermediaryMint.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidPositionTokenAmount" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidPositionTokenAmount">InvalidPositionTokenAmount</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidPositionTokenAmount.code" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidPositionTokenAmount.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidPositionTokenAmount.msg" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidPositionTokenAmount.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidPositionTokenAmount.name" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidPositionTokenAmount.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidRewardIndex" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidRewardIndex">InvalidRewardIndex</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidRewardIndex.code" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidRewardIndex.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidRewardIndex.msg" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidRewardIndex.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidRewardIndex.name" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidRewardIndex.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidSqrtPriceLimitDirection" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidSqrtPriceLimitDirection">InvalidSqrtPriceLimitDirection</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidSqrtPriceLimitDirection.code" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidSqrtPriceLimitDirection.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidSqrtPriceLimitDirection.msg" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidSqrtPriceLimitDirection.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidSqrtPriceLimitDirection.name" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidSqrtPriceLimitDirection.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidStartTick" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidStartTick">InvalidStartTick</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidStartTick.code" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidStartTick.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidStartTick.msg" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidStartTick.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidStartTick.name" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidStartTick.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTickArraySequence" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTickArraySequence">InvalidTickArraySequence</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTickArraySequence.code" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTickArraySequence.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTickArraySequence.msg" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTickArraySequence.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTickArraySequence.name" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTickArraySequence.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTickIndex" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTickIndex">InvalidTickIndex</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTickIndex.code" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTickIndex.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTickIndex.msg" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTickIndex.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTickIndex.name" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTickIndex.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTickSpacing" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTickSpacing">InvalidTickSpacing</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTickSpacing.code" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTickSpacing.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTickSpacing.msg" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTickSpacing.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTickSpacing.name" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTickSpacing.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestamp" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTimestamp">InvalidTimestamp</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestamp.code" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTimestamp.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestamp.msg" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTimestamp.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestamp.name" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTimestamp.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestampConversion" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTimestampConversion">InvalidTimestampConversion</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestampConversion.code" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTimestampConversion.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestampConversion.msg" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTimestampConversion.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTimestampConversion.name" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTimestampConversion.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTokenMintOrder" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTokenMintOrder">InvalidTokenMintOrder</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTokenMintOrder.code" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTokenMintOrder.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTokenMintOrder.msg" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTokenMintOrder.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.InvalidTokenMintOrder.name" href="#orca_whirlpool.internal.anchor.errors.custom.InvalidTokenMintOrder.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityNetError" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityNetError">LiquidityNetError</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityNetError.code" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityNetError.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityNetError.msg" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityNetError.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityNetError.name" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityNetError.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityOverflow" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityOverflow">LiquidityOverflow</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityOverflow.code" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityOverflow.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityOverflow.msg" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityOverflow.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityOverflow.name" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityOverflow.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityTooHigh" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityTooHigh">LiquidityTooHigh</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityTooHigh.code" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityTooHigh.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityTooHigh.msg" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityTooHigh.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityTooHigh.name" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityTooHigh.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityUnderflow" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityUnderflow">LiquidityUnderflow</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityUnderflow.code" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityUnderflow.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityUnderflow.msg" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityUnderflow.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityUnderflow.name" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityUnderflow.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityZero" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityZero">LiquidityZero</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityZero.code" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityZero.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityZero.msg" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityZero.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.LiquidityZero.name" href="#orca_whirlpool.internal.anchor.errors.custom.LiquidityZero.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.MissingOrInvalidDelegate" href="#orca_whirlpool.internal.anchor.errors.custom.MissingOrInvalidDelegate">MissingOrInvalidDelegate</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.MissingOrInvalidDelegate.code" href="#orca_whirlpool.internal.anchor.errors.custom.MissingOrInvalidDelegate.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.MissingOrInvalidDelegate.msg" href="#orca_whirlpool.internal.anchor.errors.custom.MissingOrInvalidDelegate.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.MissingOrInvalidDelegate.name" href="#orca_whirlpool.internal.anchor.errors.custom.MissingOrInvalidDelegate.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.MulDivInvalidInput" href="#orca_whirlpool.internal.anchor.errors.custom.MulDivInvalidInput">MulDivInvalidInput</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.MulDivInvalidInput.code" href="#orca_whirlpool.internal.anchor.errors.custom.MulDivInvalidInput.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.MulDivInvalidInput.msg" href="#orca_whirlpool.internal.anchor.errors.custom.MulDivInvalidInput.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.MulDivInvalidInput.name" href="#orca_whirlpool.internal.anchor.errors.custom.MulDivInvalidInput.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.MulDivOverflow" href="#orca_whirlpool.internal.anchor.errors.custom.MulDivOverflow">MulDivOverflow</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.MulDivOverflow.code" href="#orca_whirlpool.internal.anchor.errors.custom.MulDivOverflow.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.MulDivOverflow.msg" href="#orca_whirlpool.internal.anchor.errors.custom.MulDivOverflow.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.MulDivOverflow.name" href="#orca_whirlpool.internal.anchor.errors.custom.MulDivOverflow.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.MultiplicationOverflow" href="#orca_whirlpool.internal.anchor.errors.custom.MultiplicationOverflow">MultiplicationOverflow</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.MultiplicationOverflow.code" href="#orca_whirlpool.internal.anchor.errors.custom.MultiplicationOverflow.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.MultiplicationOverflow.msg" href="#orca_whirlpool.internal.anchor.errors.custom.MultiplicationOverflow.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.MultiplicationOverflow.name" href="#orca_whirlpool.internal.anchor.errors.custom.MultiplicationOverflow.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.MultiplicationShiftRightOverflow" href="#orca_whirlpool.internal.anchor.errors.custom.MultiplicationShiftRightOverflow">MultiplicationShiftRightOverflow</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.MultiplicationShiftRightOverflow.code" href="#orca_whirlpool.internal.anchor.errors.custom.MultiplicationShiftRightOverflow.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.MultiplicationShiftRightOverflow.msg" href="#orca_whirlpool.internal.anchor.errors.custom.MultiplicationShiftRightOverflow.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.MultiplicationShiftRightOverflow.name" href="#orca_whirlpool.internal.anchor.errors.custom.MultiplicationShiftRightOverflow.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.NumberCastError" href="#orca_whirlpool.internal.anchor.errors.custom.NumberCastError">NumberCastError</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.NumberCastError.code" href="#orca_whirlpool.internal.anchor.errors.custom.NumberCastError.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.NumberCastError.msg" href="#orca_whirlpool.internal.anchor.errors.custom.NumberCastError.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.NumberCastError.name" href="#orca_whirlpool.internal.anchor.errors.custom.NumberCastError.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.NumberDownCastError" href="#orca_whirlpool.internal.anchor.errors.custom.NumberDownCastError">NumberDownCastError</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.NumberDownCastError.code" href="#orca_whirlpool.internal.anchor.errors.custom.NumberDownCastError.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.NumberDownCastError.msg" href="#orca_whirlpool.internal.anchor.errors.custom.NumberDownCastError.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.NumberDownCastError.name" href="#orca_whirlpool.internal.anchor.errors.custom.NumberDownCastError.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.PositionBundleNotDeletable" href="#orca_whirlpool.internal.anchor.errors.custom.PositionBundleNotDeletable">PositionBundleNotDeletable</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.PositionBundleNotDeletable.code" href="#orca_whirlpool.internal.anchor.errors.custom.PositionBundleNotDeletable.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.PositionBundleNotDeletable.msg" href="#orca_whirlpool.internal.anchor.errors.custom.PositionBundleNotDeletable.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.PositionBundleNotDeletable.name" href="#orca_whirlpool.internal.anchor.errors.custom.PositionBundleNotDeletable.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.ProtocolFeeRateMaxExceeded" href="#orca_whirlpool.internal.anchor.errors.custom.ProtocolFeeRateMaxExceeded">ProtocolFeeRateMaxExceeded</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.ProtocolFeeRateMaxExceeded.code" href="#orca_whirlpool.internal.anchor.errors.custom.ProtocolFeeRateMaxExceeded.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.ProtocolFeeRateMaxExceeded.msg" href="#orca_whirlpool.internal.anchor.errors.custom.ProtocolFeeRateMaxExceeded.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.ProtocolFeeRateMaxExceeded.name" href="#orca_whirlpool.internal.anchor.errors.custom.ProtocolFeeRateMaxExceeded.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.RewardNotInitialized" href="#orca_whirlpool.internal.anchor.errors.custom.RewardNotInitialized">RewardNotInitialized</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.RewardNotInitialized.code" href="#orca_whirlpool.internal.anchor.errors.custom.RewardNotInitialized.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.RewardNotInitialized.msg" href="#orca_whirlpool.internal.anchor.errors.custom.RewardNotInitialized.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.RewardNotInitialized.name" href="#orca_whirlpool.internal.anchor.errors.custom.RewardNotInitialized.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.RewardVaultAmountInsufficient" href="#orca_whirlpool.internal.anchor.errors.custom.RewardVaultAmountInsufficient">RewardVaultAmountInsufficient</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.RewardVaultAmountInsufficient.code" href="#orca_whirlpool.internal.anchor.errors.custom.RewardVaultAmountInsufficient.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.RewardVaultAmountInsufficient.msg" href="#orca_whirlpool.internal.anchor.errors.custom.RewardVaultAmountInsufficient.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.RewardVaultAmountInsufficient.name" href="#orca_whirlpool.internal.anchor.errors.custom.RewardVaultAmountInsufficient.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.SqrtPriceOutOfBounds" href="#orca_whirlpool.internal.anchor.errors.custom.SqrtPriceOutOfBounds">SqrtPriceOutOfBounds</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.SqrtPriceOutOfBounds.code" href="#orca_whirlpool.internal.anchor.errors.custom.SqrtPriceOutOfBounds.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.SqrtPriceOutOfBounds.msg" href="#orca_whirlpool.internal.anchor.errors.custom.SqrtPriceOutOfBounds.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.SqrtPriceOutOfBounds.name" href="#orca_whirlpool.internal.anchor.errors.custom.SqrtPriceOutOfBounds.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.TickArrayExistInPool" href="#orca_whirlpool.internal.anchor.errors.custom.TickArrayExistInPool">TickArrayExistInPool</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TickArrayExistInPool.code" href="#orca_whirlpool.internal.anchor.errors.custom.TickArrayExistInPool.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TickArrayExistInPool.msg" href="#orca_whirlpool.internal.anchor.errors.custom.TickArrayExistInPool.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TickArrayExistInPool.name" href="#orca_whirlpool.internal.anchor.errors.custom.TickArrayExistInPool.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.TickArrayIndexOutofBounds" href="#orca_whirlpool.internal.anchor.errors.custom.TickArrayIndexOutofBounds">TickArrayIndexOutofBounds</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TickArrayIndexOutofBounds.code" href="#orca_whirlpool.internal.anchor.errors.custom.TickArrayIndexOutofBounds.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TickArrayIndexOutofBounds.msg" href="#orca_whirlpool.internal.anchor.errors.custom.TickArrayIndexOutofBounds.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TickArrayIndexOutofBounds.name" href="#orca_whirlpool.internal.anchor.errors.custom.TickArrayIndexOutofBounds.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.TickArraySequenceInvalidIndex" href="#orca_whirlpool.internal.anchor.errors.custom.TickArraySequenceInvalidIndex">TickArraySequenceInvalidIndex</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TickArraySequenceInvalidIndex.code" href="#orca_whirlpool.internal.anchor.errors.custom.TickArraySequenceInvalidIndex.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TickArraySequenceInvalidIndex.msg" href="#orca_whirlpool.internal.anchor.errors.custom.TickArraySequenceInvalidIndex.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TickArraySequenceInvalidIndex.name" href="#orca_whirlpool.internal.anchor.errors.custom.TickArraySequenceInvalidIndex.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.TickNotFound" href="#orca_whirlpool.internal.anchor.errors.custom.TickNotFound">TickNotFound</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TickNotFound.code" href="#orca_whirlpool.internal.anchor.errors.custom.TickNotFound.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TickNotFound.msg" href="#orca_whirlpool.internal.anchor.errors.custom.TickNotFound.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TickNotFound.name" href="#orca_whirlpool.internal.anchor.errors.custom.TickNotFound.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.TokenMaxExceeded" href="#orca_whirlpool.internal.anchor.errors.custom.TokenMaxExceeded">TokenMaxExceeded</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TokenMaxExceeded.code" href="#orca_whirlpool.internal.anchor.errors.custom.TokenMaxExceeded.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TokenMaxExceeded.msg" href="#orca_whirlpool.internal.anchor.errors.custom.TokenMaxExceeded.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TokenMaxExceeded.name" href="#orca_whirlpool.internal.anchor.errors.custom.TokenMaxExceeded.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.TokenMinSubceeded" href="#orca_whirlpool.internal.anchor.errors.custom.TokenMinSubceeded">TokenMinSubceeded</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TokenMinSubceeded.code" href="#orca_whirlpool.internal.anchor.errors.custom.TokenMinSubceeded.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TokenMinSubceeded.msg" href="#orca_whirlpool.internal.anchor.errors.custom.TokenMinSubceeded.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.TokenMinSubceeded.name" href="#orca_whirlpool.internal.anchor.errors.custom.TokenMinSubceeded.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.custom.ZeroTradableAmount" href="#orca_whirlpool.internal.anchor.errors.custom.ZeroTradableAmount">ZeroTradableAmount</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.ZeroTradableAmount.code" href="#orca_whirlpool.internal.anchor.errors.custom.ZeroTradableAmount.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.ZeroTradableAmount.msg" href="#orca_whirlpool.internal.anchor.errors.custom.ZeroTradableAmount.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.custom.ZeroTradableAmount.name" href="#orca_whirlpool.internal.anchor.errors.custom.ZeroTradableAmount.name">name</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

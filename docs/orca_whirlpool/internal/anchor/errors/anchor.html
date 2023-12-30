@@ -1,0 +1,3600 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>orca_whirlpool.internal.anchor.errors.anchor API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>orca_whirlpool.internal.anchor.errors.anchor</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import typing
+from anchorpy.error import ProgramError
+
+
+class InstructionMissing(ProgramError):
+    def __init__(self):
+        super().__init__(100, &#34;8 byte instruction identifier not provided&#34;)
+
+    code = 100
+    name = &#34;InstructionMissing&#34;
+    msg = &#34;8 byte instruction identifier not provided&#34;
+
+
+class InstructionFallbackNotFound(ProgramError):
+    def __init__(self):
+        super().__init__(101, &#34;Fallback functions are not supported&#34;)
+
+    code = 101
+    name = &#34;InstructionFallbackNotFound&#34;
+    msg = &#34;Fallback functions are not supported&#34;
+
+
+class InstructionDidNotDeserialize(ProgramError):
+    def __init__(self):
+        super().__init__(102, &#34;The program could not deserialize the given instruction&#34;)
+
+    code = 102
+    name = &#34;InstructionDidNotDeserialize&#34;
+    msg = &#34;The program could not deserialize the given instruction&#34;
+
+
+class InstructionDidNotSerialize(ProgramError):
+    def __init__(self):
+        super().__init__(103, &#34;The program could not serialize the given instruction&#34;)
+
+    code = 103
+    name = &#34;InstructionDidNotSerialize&#34;
+    msg = &#34;The program could not serialize the given instruction&#34;
+
+
+class IdlInstructionStub(ProgramError):
+    def __init__(self):
+        super().__init__(1000, &#34;The program was compiled without idl instructions&#34;)
+
+    code = 1000
+    name = &#34;IdlInstructionStub&#34;
+    msg = &#34;The program was compiled without idl instructions&#34;
+
+
+class IdlInstructionInvalidProgram(ProgramError):
+    def __init__(self):
+        super().__init__(
+            1001, &#34;The transaction was given an invalid program for the IDL instruction&#34;
+        )
+
+    code = 1001
+    name = &#34;IdlInstructionInvalidProgram&#34;
+    msg = &#34;The transaction was given an invalid program for the IDL instruction&#34;
+
+
+class ConstraintMut(ProgramError):
+    def __init__(self):
+        super().__init__(2000, &#34;A mut constraint was violated&#34;)
+
+    code = 2000
+    name = &#34;ConstraintMut&#34;
+    msg = &#34;A mut constraint was violated&#34;
+
+
+class ConstraintHasOne(ProgramError):
+    def __init__(self):
+        super().__init__(2001, &#34;A has_one constraint was violated&#34;)
+
+    code = 2001
+    name = &#34;ConstraintHasOne&#34;
+    msg = &#34;A has_one constraint was violated&#34;
+
+
+class ConstraintSigner(ProgramError):
+    def __init__(self):
+        super().__init__(2002, &#34;A signer constraint was violated&#34;)
+
+    code = 2002
+    name = &#34;ConstraintSigner&#34;
+    msg = &#34;A signer constraint was violated&#34;
+
+
+class ConstraintRaw(ProgramError):
+    def __init__(self):
+        super().__init__(2003, &#34;A raw constraint was violated&#34;)
+
+    code = 2003
+    name = &#34;ConstraintRaw&#34;
+    msg = &#34;A raw constraint was violated&#34;
+
+
+class ConstraintOwner(ProgramError):
+    def __init__(self):
+        super().__init__(2004, &#34;An owner constraint was violated&#34;)
+
+    code = 2004
+    name = &#34;ConstraintOwner&#34;
+    msg = &#34;An owner constraint was violated&#34;
+
+
+class ConstraintRentExempt(ProgramError):
+    def __init__(self):
+        super().__init__(2005, &#34;A rent exempt constraint was violated&#34;)
+
+    code = 2005
+    name = &#34;ConstraintRentExempt&#34;
+    msg = &#34;A rent exempt constraint was violated&#34;
+
+
+class ConstraintSeeds(ProgramError):
+    def __init__(self):
+        super().__init__(2006, &#34;A seeds constraint was violated&#34;)
+
+    code = 2006
+    name = &#34;ConstraintSeeds&#34;
+    msg = &#34;A seeds constraint was violated&#34;
+
+
+class ConstraintExecutable(ProgramError):
+    def __init__(self):
+        super().__init__(2007, &#34;An executable constraint was violated&#34;)
+
+    code = 2007
+    name = &#34;ConstraintExecutable&#34;
+    msg = &#34;An executable constraint was violated&#34;
+
+
+class ConstraintState(ProgramError):
+    def __init__(self):
+        super().__init__(2008, &#34;A state constraint was violated&#34;)
+
+    code = 2008
+    name = &#34;ConstraintState&#34;
+    msg = &#34;A state constraint was violated&#34;
+
+
+class ConstraintAssociated(ProgramError):
+    def __init__(self):
+        super().__init__(2009, &#34;An associated constraint was violated&#34;)
+
+    code = 2009
+    name = &#34;ConstraintAssociated&#34;
+    msg = &#34;An associated constraint was violated&#34;
+
+
+class ConstraintAssociatedInit(ProgramError):
+    def __init__(self):
+        super().__init__(2010, &#34;An associated init constraint was violated&#34;)
+
+    code = 2010
+    name = &#34;ConstraintAssociatedInit&#34;
+    msg = &#34;An associated init constraint was violated&#34;
+
+
+class ConstraintClose(ProgramError):
+    def __init__(self):
+        super().__init__(2011, &#34;A close constraint was violated&#34;)
+
+    code = 2011
+    name = &#34;ConstraintClose&#34;
+    msg = &#34;A close constraint was violated&#34;
+
+
+class ConstraintAddress(ProgramError):
+    def __init__(self):
+        super().__init__(2012, &#34;An address constraint was violated&#34;)
+
+    code = 2012
+    name = &#34;ConstraintAddress&#34;
+    msg = &#34;An address constraint was violated&#34;
+
+
+class ConstraintZero(ProgramError):
+    def __init__(self):
+        super().__init__(2013, &#34;Expected zero account discriminant&#34;)
+
+    code = 2013
+    name = &#34;ConstraintZero&#34;
+    msg = &#34;Expected zero account discriminant&#34;
+
+
+class ConstraintTokenMint(ProgramError):
+    def __init__(self):
+        super().__init__(2014, &#34;A token mint constraint was violated&#34;)
+
+    code = 2014
+    name = &#34;ConstraintTokenMint&#34;
+    msg = &#34;A token mint constraint was violated&#34;
+
+
+class ConstraintTokenOwner(ProgramError):
+    def __init__(self):
+        super().__init__(2015, &#34;A token owner constraint was violated&#34;)
+
+    code = 2015
+    name = &#34;ConstraintTokenOwner&#34;
+    msg = &#34;A token owner constraint was violated&#34;
+
+
+class ConstraintMintMintAuthority(ProgramError):
+    def __init__(self):
+        super().__init__(2016, &#34;A mint mint authority constraint was violated&#34;)
+
+    code = 2016
+    name = &#34;ConstraintMintMintAuthority&#34;
+    msg = &#34;A mint mint authority constraint was violated&#34;
+
+
+class ConstraintMintFreezeAuthority(ProgramError):
+    def __init__(self):
+        super().__init__(2017, &#34;A mint freeze authority constraint was violated&#34;)
+
+    code = 2017
+    name = &#34;ConstraintMintFreezeAuthority&#34;
+    msg = &#34;A mint freeze authority constraint was violated&#34;
+
+
+class ConstraintMintDecimals(ProgramError):
+    def __init__(self):
+        super().__init__(2018, &#34;A mint decimals constraint was violated&#34;)
+
+    code = 2018
+    name = &#34;ConstraintMintDecimals&#34;
+    msg = &#34;A mint decimals constraint was violated&#34;
+
+
+class ConstraintSpace(ProgramError):
+    def __init__(self):
+        super().__init__(2019, &#34;A space constraint was violated&#34;)
+
+    code = 2019
+    name = &#34;ConstraintSpace&#34;
+    msg = &#34;A space constraint was violated&#34;
+
+
+class RequireViolated(ProgramError):
+    def __init__(self):
+        super().__init__(2500, &#34;A require expression was violated&#34;)
+
+    code = 2500
+    name = &#34;RequireViolated&#34;
+    msg = &#34;A require expression was violated&#34;
+
+
+class RequireEqViolated(ProgramError):
+    def __init__(self):
+        super().__init__(2501, &#34;A require_eq expression was violated&#34;)
+
+    code = 2501
+    name = &#34;RequireEqViolated&#34;
+    msg = &#34;A require_eq expression was violated&#34;
+
+
+class RequireKeysEqViolated(ProgramError):
+    def __init__(self):
+        super().__init__(2502, &#34;A require_keys_eq expression was violated&#34;)
+
+    code = 2502
+    name = &#34;RequireKeysEqViolated&#34;
+    msg = &#34;A require_keys_eq expression was violated&#34;
+
+
+class RequireNeqViolated(ProgramError):
+    def __init__(self):
+        super().__init__(2503, &#34;A require_neq expression was violated&#34;)
+
+    code = 2503
+    name = &#34;RequireNeqViolated&#34;
+    msg = &#34;A require_neq expression was violated&#34;
+
+
+class RequireKeysNeqViolated(ProgramError):
+    def __init__(self):
+        super().__init__(2504, &#34;A require_keys_neq expression was violated&#34;)
+
+    code = 2504
+    name = &#34;RequireKeysNeqViolated&#34;
+    msg = &#34;A require_keys_neq expression was violated&#34;
+
+
+class RequireGtViolated(ProgramError):
+    def __init__(self):
+        super().__init__(2505, &#34;A require_gt expression was violated&#34;)
+
+    code = 2505
+    name = &#34;RequireGtViolated&#34;
+    msg = &#34;A require_gt expression was violated&#34;
+
+
+class RequireGteViolated(ProgramError):
+    def __init__(self):
+        super().__init__(2506, &#34;A require_gte expression was violated&#34;)
+
+    code = 2506
+    name = &#34;RequireGteViolated&#34;
+    msg = &#34;A require_gte expression was violated&#34;
+
+
+class AccountDiscriminatorAlreadySet(ProgramError):
+    def __init__(self):
+        super().__init__(
+            3000, &#34;The account discriminator was already set on this account&#34;
+        )
+
+    code = 3000
+    name = &#34;AccountDiscriminatorAlreadySet&#34;
+    msg = &#34;The account discriminator was already set on this account&#34;
+
+
+class AccountDiscriminatorNotFound(ProgramError):
+    def __init__(self):
+        super().__init__(3001, &#34;No 8 byte discriminator was found on the account&#34;)
+
+    code = 3001
+    name = &#34;AccountDiscriminatorNotFound&#34;
+    msg = &#34;No 8 byte discriminator was found on the account&#34;
+
+
+class AccountDiscriminatorMismatch(ProgramError):
+    def __init__(self):
+        super().__init__(3002, &#34;8 byte discriminator did not match what was expected&#34;)
+
+    code = 3002
+    name = &#34;AccountDiscriminatorMismatch&#34;
+    msg = &#34;8 byte discriminator did not match what was expected&#34;
+
+
+class AccountDidNotDeserialize(ProgramError):
+    def __init__(self):
+        super().__init__(3003, &#34;Failed to deserialize the account&#34;)
+
+    code = 3003
+    name = &#34;AccountDidNotDeserialize&#34;
+    msg = &#34;Failed to deserialize the account&#34;
+
+
+class AccountDidNotSerialize(ProgramError):
+    def __init__(self):
+        super().__init__(3004, &#34;Failed to serialize the account&#34;)
+
+    code = 3004
+    name = &#34;AccountDidNotSerialize&#34;
+    msg = &#34;Failed to serialize the account&#34;
+
+
+class AccountNotEnoughKeys(ProgramError):
+    def __init__(self):
+        super().__init__(3005, &#34;Not enough account keys given to the instruction&#34;)
+
+    code = 3005
+    name = &#34;AccountNotEnoughKeys&#34;
+    msg = &#34;Not enough account keys given to the instruction&#34;
+
+
+class AccountNotMutable(ProgramError):
+    def __init__(self):
+        super().__init__(3006, &#34;The given account is not mutable&#34;)
+
+    code = 3006
+    name = &#34;AccountNotMutable&#34;
+    msg = &#34;The given account is not mutable&#34;
+
+
+class AccountOwnedByWrongProgram(ProgramError):
+    def __init__(self):
+        super().__init__(
+            3007, &#34;The given account is owned by a different program than expected&#34;
+        )
+
+    code = 3007
+    name = &#34;AccountOwnedByWrongProgram&#34;
+    msg = &#34;The given account is owned by a different program than expected&#34;
+
+
+class InvalidProgramId(ProgramError):
+    def __init__(self):
+        super().__init__(3008, &#34;Program ID was not as expected&#34;)
+
+    code = 3008
+    name = &#34;InvalidProgramId&#34;
+    msg = &#34;Program ID was not as expected&#34;
+
+
+class InvalidProgramExecutable(ProgramError):
+    def __init__(self):
+        super().__init__(3009, &#34;Program account is not executable&#34;)
+
+    code = 3009
+    name = &#34;InvalidProgramExecutable&#34;
+    msg = &#34;Program account is not executable&#34;
+
+
+class AccountNotSigner(ProgramError):
+    def __init__(self):
+        super().__init__(3010, &#34;The given account did not sign&#34;)
+
+    code = 3010
+    name = &#34;AccountNotSigner&#34;
+    msg = &#34;The given account did not sign&#34;
+
+
+class AccountNotSystemOwned(ProgramError):
+    def __init__(self):
+        super().__init__(3011, &#34;The given account is not owned by the system program&#34;)
+
+    code = 3011
+    name = &#34;AccountNotSystemOwned&#34;
+    msg = &#34;The given account is not owned by the system program&#34;
+
+
+class AccountNotInitialized(ProgramError):
+    def __init__(self):
+        super().__init__(
+            3012, &#34;The program expected this account to be already initialized&#34;
+        )
+
+    code = 3012
+    name = &#34;AccountNotInitialized&#34;
+    msg = &#34;The program expected this account to be already initialized&#34;
+
+
+class AccountNotProgramData(ProgramError):
+    def __init__(self):
+        super().__init__(3013, &#34;The given account is not a program data account&#34;)
+
+    code = 3013
+    name = &#34;AccountNotProgramData&#34;
+    msg = &#34;The given account is not a program data account&#34;
+
+
+class AccountNotAssociatedTokenAccount(ProgramError):
+    def __init__(self):
+        super().__init__(3014, &#34;The given account is not the associated token account&#34;)
+
+    code = 3014
+    name = &#34;AccountNotAssociatedTokenAccount&#34;
+    msg = &#34;The given account is not the associated token account&#34;
+
+
+class AccountSysvarMismatch(ProgramError):
+    def __init__(self):
+        super().__init__(
+            3015, &#34;The given public key does not match the required sysvar&#34;
+        )
+
+    code = 3015
+    name = &#34;AccountSysvarMismatch&#34;
+    msg = &#34;The given public key does not match the required sysvar&#34;
+
+
+class StateInvalidAddress(ProgramError):
+    def __init__(self):
+        super().__init__(
+            4000, &#34;The given state account does not have the correct address&#34;
+        )
+
+    code = 4000
+    name = &#34;StateInvalidAddress&#34;
+    msg = &#34;The given state account does not have the correct address&#34;
+
+
+class Deprecated(ProgramError):
+    def __init__(self):
+        super().__init__(
+            5000, &#34;The API being used is deprecated and should no longer be used&#34;
+        )
+
+    code = 5000
+    name = &#34;Deprecated&#34;
+    msg = &#34;The API being used is deprecated and should no longer be used&#34;
+
+
+AnchorError = typing.Union[
+    InstructionMissing,
+    InstructionFallbackNotFound,
+    InstructionDidNotDeserialize,
+    InstructionDidNotSerialize,
+    IdlInstructionStub,
+    IdlInstructionInvalidProgram,
+    ConstraintMut,
+    ConstraintHasOne,
+    ConstraintSigner,
+    ConstraintRaw,
+    ConstraintOwner,
+    ConstraintRentExempt,
+    ConstraintSeeds,
+    ConstraintExecutable,
+    ConstraintState,
+    ConstraintAssociated,
+    ConstraintAssociatedInit,
+    ConstraintClose,
+    ConstraintAddress,
+    ConstraintZero,
+    ConstraintTokenMint,
+    ConstraintTokenOwner,
+    ConstraintMintMintAuthority,
+    ConstraintMintFreezeAuthority,
+    ConstraintMintDecimals,
+    ConstraintSpace,
+    RequireViolated,
+    RequireEqViolated,
+    RequireKeysEqViolated,
+    RequireNeqViolated,
+    RequireKeysNeqViolated,
+    RequireGtViolated,
+    RequireGteViolated,
+    AccountDiscriminatorAlreadySet,
+    AccountDiscriminatorNotFound,
+    AccountDiscriminatorMismatch,
+    AccountDidNotDeserialize,
+    AccountDidNotSerialize,
+    AccountNotEnoughKeys,
+    AccountNotMutable,
+    AccountOwnedByWrongProgram,
+    InvalidProgramId,
+    InvalidProgramExecutable,
+    AccountNotSigner,
+    AccountNotSystemOwned,
+    AccountNotInitialized,
+    AccountNotProgramData,
+    AccountNotAssociatedTokenAccount,
+    AccountSysvarMismatch,
+    StateInvalidAddress,
+    Deprecated,
+]
+ANCHOR_ERROR_MAP: dict[int, AnchorError] = {
+    100: InstructionMissing(),
+    101: InstructionFallbackNotFound(),
+    102: InstructionDidNotDeserialize(),
+    103: InstructionDidNotSerialize(),
+    1000: IdlInstructionStub(),
+    1001: IdlInstructionInvalidProgram(),
+    2000: ConstraintMut(),
+    2001: ConstraintHasOne(),
+    2002: ConstraintSigner(),
+    2003: ConstraintRaw(),
+    2004: ConstraintOwner(),
+    2005: ConstraintRentExempt(),
+    2006: ConstraintSeeds(),
+    2007: ConstraintExecutable(),
+    2008: ConstraintState(),
+    2009: ConstraintAssociated(),
+    2010: ConstraintAssociatedInit(),
+    2011: ConstraintClose(),
+    2012: ConstraintAddress(),
+    2013: ConstraintZero(),
+    2014: ConstraintTokenMint(),
+    2015: ConstraintTokenOwner(),
+    2016: ConstraintMintMintAuthority(),
+    2017: ConstraintMintFreezeAuthority(),
+    2018: ConstraintMintDecimals(),
+    2019: ConstraintSpace(),
+    2500: RequireViolated(),
+    2501: RequireEqViolated(),
+    2502: RequireKeysEqViolated(),
+    2503: RequireNeqViolated(),
+    2504: RequireKeysNeqViolated(),
+    2505: RequireGtViolated(),
+    2506: RequireGteViolated(),
+    3000: AccountDiscriminatorAlreadySet(),
+    3001: AccountDiscriminatorNotFound(),
+    3002: AccountDiscriminatorMismatch(),
+    3003: AccountDidNotDeserialize(),
+    3004: AccountDidNotSerialize(),
+    3005: AccountNotEnoughKeys(),
+    3006: AccountNotMutable(),
+    3007: AccountOwnedByWrongProgram(),
+    3008: InvalidProgramId(),
+    3009: InvalidProgramExecutable(),
+    3010: AccountNotSigner(),
+    3011: AccountNotSystemOwned(),
+    3012: AccountNotInitialized(),
+    3013: AccountNotProgramData(),
+    3014: AccountNotAssociatedTokenAccount(),
+    3015: AccountSysvarMismatch(),
+    4000: StateInvalidAddress(),
+    5000: Deprecated(),
+}
+
+
+def from_code(code: int) -&gt; typing.Optional[AnchorError]:
+    maybe_err = ANCHOR_ERROR_MAP.get(code)
+    if maybe_err is None:
+        return None
+    return maybe_err</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.from_code"><code class="name flex">
+<span>def <span class="ident">from_code</span></span>(<span>code: int) ‑> Union[<a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionMissing" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionMissing">InstructionMissing</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionFallbackNotFound" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionFallbackNotFound">InstructionFallbackNotFound</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotDeserialize" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotDeserialize">InstructionDidNotDeserialize</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotSerialize" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotSerialize">InstructionDidNotSerialize</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionStub" href="#orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionStub">IdlInstructionStub</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionInvalidProgram" href="#orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionInvalidProgram">IdlInstructionInvalidProgram</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMut" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMut">ConstraintMut</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintHasOne" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintHasOne">ConstraintHasOne</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSigner" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintSigner">ConstraintSigner</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRaw" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintRaw">ConstraintRaw</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintOwner" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintOwner">ConstraintOwner</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRentExempt" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintRentExempt">ConstraintRentExempt</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSeeds" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintSeeds">ConstraintSeeds</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintExecutable" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintExecutable">ConstraintExecutable</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintState" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintState">ConstraintState</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociated" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociated">ConstraintAssociated</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociatedInit" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociatedInit">ConstraintAssociatedInit</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintClose" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintClose">ConstraintClose</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAddress" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintAddress">ConstraintAddress</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintZero" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintZero">ConstraintZero</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenMint" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenMint">ConstraintTokenMint</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenOwner" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenOwner">ConstraintTokenOwner</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintMintAuthority" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintMintAuthority">ConstraintMintMintAuthority</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintFreezeAuthority" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintFreezeAuthority">ConstraintMintFreezeAuthority</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintDecimals" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintDecimals">ConstraintMintDecimals</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSpace" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintSpace">ConstraintSpace</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.RequireViolated" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireViolated">RequireViolated</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.RequireEqViolated" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireEqViolated">RequireEqViolated</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysEqViolated" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireKeysEqViolated">RequireKeysEqViolated</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.RequireNeqViolated" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireNeqViolated">RequireNeqViolated</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysNeqViolated" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireKeysNeqViolated">RequireKeysNeqViolated</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.RequireGtViolated" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireGtViolated">RequireGtViolated</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.RequireGteViolated" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireGteViolated">RequireGteViolated</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorAlreadySet" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorAlreadySet">AccountDiscriminatorAlreadySet</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorNotFound" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorNotFound">AccountDiscriminatorNotFound</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorMismatch" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorMismatch">AccountDiscriminatorMismatch</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotDeserialize" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotDeserialize">AccountDidNotDeserialize</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotSerialize" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotSerialize">AccountDidNotSerialize</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotEnoughKeys" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotEnoughKeys">AccountNotEnoughKeys</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotMutable" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotMutable">AccountNotMutable</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.AccountOwnedByWrongProgram" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountOwnedByWrongProgram">AccountOwnedByWrongProgram</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramId" href="#orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramId">InvalidProgramId</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramExecutable" href="#orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramExecutable">InvalidProgramExecutable</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSigner" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotSigner">AccountNotSigner</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSystemOwned" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotSystemOwned">AccountNotSystemOwned</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotInitialized" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotInitialized">AccountNotInitialized</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotProgramData" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotProgramData">AccountNotProgramData</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotAssociatedTokenAccount" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotAssociatedTokenAccount">AccountNotAssociatedTokenAccount</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.AccountSysvarMismatch" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountSysvarMismatch">AccountSysvarMismatch</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.StateInvalidAddress" href="#orca_whirlpool.internal.anchor.errors.anchor.StateInvalidAddress">StateInvalidAddress</a>, <a title="orca_whirlpool.internal.anchor.errors.anchor.Deprecated" href="#orca_whirlpool.internal.anchor.errors.anchor.Deprecated">Deprecated</a>, ForwardRef(None)]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def from_code(code: int) -&gt; typing.Optional[AnchorError]:
+    maybe_err = ANCHOR_ERROR_MAP.get(code)
+    if maybe_err is None:
+        return None
+    return maybe_err</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotDeserialize"><code class="flex name class">
+<span>class <span class="ident">AccountDidNotDeserialize</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccountDidNotDeserialize(ProgramError):
+    def __init__(self):
+        super().__init__(3003, &#34;Failed to deserialize the account&#34;)
+
+    code = 3003
+    name = &#34;AccountDidNotDeserialize&#34;
+    msg = &#34;Failed to deserialize the account&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotDeserialize.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotDeserialize.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotDeserialize.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotSerialize"><code class="flex name class">
+<span>class <span class="ident">AccountDidNotSerialize</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccountDidNotSerialize(ProgramError):
+    def __init__(self):
+        super().__init__(3004, &#34;Failed to serialize the account&#34;)
+
+    code = 3004
+    name = &#34;AccountDidNotSerialize&#34;
+    msg = &#34;Failed to serialize the account&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotSerialize.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotSerialize.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotSerialize.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorAlreadySet"><code class="flex name class">
+<span>class <span class="ident">AccountDiscriminatorAlreadySet</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccountDiscriminatorAlreadySet(ProgramError):
+    def __init__(self):
+        super().__init__(
+            3000, &#34;The account discriminator was already set on this account&#34;
+        )
+
+    code = 3000
+    name = &#34;AccountDiscriminatorAlreadySet&#34;
+    msg = &#34;The account discriminator was already set on this account&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorAlreadySet.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorAlreadySet.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorAlreadySet.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorMismatch"><code class="flex name class">
+<span>class <span class="ident">AccountDiscriminatorMismatch</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccountDiscriminatorMismatch(ProgramError):
+    def __init__(self):
+        super().__init__(3002, &#34;8 byte discriminator did not match what was expected&#34;)
+
+    code = 3002
+    name = &#34;AccountDiscriminatorMismatch&#34;
+    msg = &#34;8 byte discriminator did not match what was expected&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorMismatch.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorMismatch.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorMismatch.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorNotFound"><code class="flex name class">
+<span>class <span class="ident">AccountDiscriminatorNotFound</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccountDiscriminatorNotFound(ProgramError):
+    def __init__(self):
+        super().__init__(3001, &#34;No 8 byte discriminator was found on the account&#34;)
+
+    code = 3001
+    name = &#34;AccountDiscriminatorNotFound&#34;
+    msg = &#34;No 8 byte discriminator was found on the account&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorNotFound.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorNotFound.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorNotFound.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotAssociatedTokenAccount"><code class="flex name class">
+<span>class <span class="ident">AccountNotAssociatedTokenAccount</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccountNotAssociatedTokenAccount(ProgramError):
+    def __init__(self):
+        super().__init__(3014, &#34;The given account is not the associated token account&#34;)
+
+    code = 3014
+    name = &#34;AccountNotAssociatedTokenAccount&#34;
+    msg = &#34;The given account is not the associated token account&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotAssociatedTokenAccount.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotAssociatedTokenAccount.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotAssociatedTokenAccount.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotEnoughKeys"><code class="flex name class">
+<span>class <span class="ident">AccountNotEnoughKeys</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccountNotEnoughKeys(ProgramError):
+    def __init__(self):
+        super().__init__(3005, &#34;Not enough account keys given to the instruction&#34;)
+
+    code = 3005
+    name = &#34;AccountNotEnoughKeys&#34;
+    msg = &#34;Not enough account keys given to the instruction&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotEnoughKeys.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotEnoughKeys.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotEnoughKeys.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotInitialized"><code class="flex name class">
+<span>class <span class="ident">AccountNotInitialized</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccountNotInitialized(ProgramError):
+    def __init__(self):
+        super().__init__(
+            3012, &#34;The program expected this account to be already initialized&#34;
+        )
+
+    code = 3012
+    name = &#34;AccountNotInitialized&#34;
+    msg = &#34;The program expected this account to be already initialized&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotInitialized.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotInitialized.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotInitialized.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotMutable"><code class="flex name class">
+<span>class <span class="ident">AccountNotMutable</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccountNotMutable(ProgramError):
+    def __init__(self):
+        super().__init__(3006, &#34;The given account is not mutable&#34;)
+
+    code = 3006
+    name = &#34;AccountNotMutable&#34;
+    msg = &#34;The given account is not mutable&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotMutable.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotMutable.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotMutable.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotProgramData"><code class="flex name class">
+<span>class <span class="ident">AccountNotProgramData</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccountNotProgramData(ProgramError):
+    def __init__(self):
+        super().__init__(3013, &#34;The given account is not a program data account&#34;)
+
+    code = 3013
+    name = &#34;AccountNotProgramData&#34;
+    msg = &#34;The given account is not a program data account&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotProgramData.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotProgramData.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotProgramData.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSigner"><code class="flex name class">
+<span>class <span class="ident">AccountNotSigner</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccountNotSigner(ProgramError):
+    def __init__(self):
+        super().__init__(3010, &#34;The given account did not sign&#34;)
+
+    code = 3010
+    name = &#34;AccountNotSigner&#34;
+    msg = &#34;The given account did not sign&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSigner.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSigner.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSigner.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSystemOwned"><code class="flex name class">
+<span>class <span class="ident">AccountNotSystemOwned</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccountNotSystemOwned(ProgramError):
+    def __init__(self):
+        super().__init__(3011, &#34;The given account is not owned by the system program&#34;)
+
+    code = 3011
+    name = &#34;AccountNotSystemOwned&#34;
+    msg = &#34;The given account is not owned by the system program&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSystemOwned.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSystemOwned.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSystemOwned.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountOwnedByWrongProgram"><code class="flex name class">
+<span>class <span class="ident">AccountOwnedByWrongProgram</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccountOwnedByWrongProgram(ProgramError):
+    def __init__(self):
+        super().__init__(
+            3007, &#34;The given account is owned by a different program than expected&#34;
+        )
+
+    code = 3007
+    name = &#34;AccountOwnedByWrongProgram&#34;
+    msg = &#34;The given account is owned by a different program than expected&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountOwnedByWrongProgram.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountOwnedByWrongProgram.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountOwnedByWrongProgram.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountSysvarMismatch"><code class="flex name class">
+<span>class <span class="ident">AccountSysvarMismatch</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccountSysvarMismatch(ProgramError):
+    def __init__(self):
+        super().__init__(
+            3015, &#34;The given public key does not match the required sysvar&#34;
+        )
+
+    code = 3015
+    name = &#34;AccountSysvarMismatch&#34;
+    msg = &#34;The given public key does not match the required sysvar&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountSysvarMismatch.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountSysvarMismatch.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.AccountSysvarMismatch.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAddress"><code class="flex name class">
+<span>class <span class="ident">ConstraintAddress</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintAddress(ProgramError):
+    def __init__(self):
+        super().__init__(2012, &#34;An address constraint was violated&#34;)
+
+    code = 2012
+    name = &#34;ConstraintAddress&#34;
+    msg = &#34;An address constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAddress.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAddress.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAddress.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociated"><code class="flex name class">
+<span>class <span class="ident">ConstraintAssociated</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintAssociated(ProgramError):
+    def __init__(self):
+        super().__init__(2009, &#34;An associated constraint was violated&#34;)
+
+    code = 2009
+    name = &#34;ConstraintAssociated&#34;
+    msg = &#34;An associated constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociated.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociated.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociated.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociatedInit"><code class="flex name class">
+<span>class <span class="ident">ConstraintAssociatedInit</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintAssociatedInit(ProgramError):
+    def __init__(self):
+        super().__init__(2010, &#34;An associated init constraint was violated&#34;)
+
+    code = 2010
+    name = &#34;ConstraintAssociatedInit&#34;
+    msg = &#34;An associated init constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociatedInit.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociatedInit.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociatedInit.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintClose"><code class="flex name class">
+<span>class <span class="ident">ConstraintClose</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintClose(ProgramError):
+    def __init__(self):
+        super().__init__(2011, &#34;A close constraint was violated&#34;)
+
+    code = 2011
+    name = &#34;ConstraintClose&#34;
+    msg = &#34;A close constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintClose.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintClose.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintClose.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintExecutable"><code class="flex name class">
+<span>class <span class="ident">ConstraintExecutable</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintExecutable(ProgramError):
+    def __init__(self):
+        super().__init__(2007, &#34;An executable constraint was violated&#34;)
+
+    code = 2007
+    name = &#34;ConstraintExecutable&#34;
+    msg = &#34;An executable constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintExecutable.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintExecutable.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintExecutable.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintHasOne"><code class="flex name class">
+<span>class <span class="ident">ConstraintHasOne</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintHasOne(ProgramError):
+    def __init__(self):
+        super().__init__(2001, &#34;A has_one constraint was violated&#34;)
+
+    code = 2001
+    name = &#34;ConstraintHasOne&#34;
+    msg = &#34;A has_one constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintHasOne.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintHasOne.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintHasOne.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintDecimals"><code class="flex name class">
+<span>class <span class="ident">ConstraintMintDecimals</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintMintDecimals(ProgramError):
+    def __init__(self):
+        super().__init__(2018, &#34;A mint decimals constraint was violated&#34;)
+
+    code = 2018
+    name = &#34;ConstraintMintDecimals&#34;
+    msg = &#34;A mint decimals constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintDecimals.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintDecimals.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintDecimals.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintFreezeAuthority"><code class="flex name class">
+<span>class <span class="ident">ConstraintMintFreezeAuthority</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintMintFreezeAuthority(ProgramError):
+    def __init__(self):
+        super().__init__(2017, &#34;A mint freeze authority constraint was violated&#34;)
+
+    code = 2017
+    name = &#34;ConstraintMintFreezeAuthority&#34;
+    msg = &#34;A mint freeze authority constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintFreezeAuthority.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintFreezeAuthority.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintFreezeAuthority.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintMintAuthority"><code class="flex name class">
+<span>class <span class="ident">ConstraintMintMintAuthority</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintMintMintAuthority(ProgramError):
+    def __init__(self):
+        super().__init__(2016, &#34;A mint mint authority constraint was violated&#34;)
+
+    code = 2016
+    name = &#34;ConstraintMintMintAuthority&#34;
+    msg = &#34;A mint mint authority constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintMintAuthority.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintMintAuthority.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintMintAuthority.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMut"><code class="flex name class">
+<span>class <span class="ident">ConstraintMut</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintMut(ProgramError):
+    def __init__(self):
+        super().__init__(2000, &#34;A mut constraint was violated&#34;)
+
+    code = 2000
+    name = &#34;ConstraintMut&#34;
+    msg = &#34;A mut constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMut.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMut.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMut.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintOwner"><code class="flex name class">
+<span>class <span class="ident">ConstraintOwner</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintOwner(ProgramError):
+    def __init__(self):
+        super().__init__(2004, &#34;An owner constraint was violated&#34;)
+
+    code = 2004
+    name = &#34;ConstraintOwner&#34;
+    msg = &#34;An owner constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintOwner.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintOwner.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintOwner.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRaw"><code class="flex name class">
+<span>class <span class="ident">ConstraintRaw</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintRaw(ProgramError):
+    def __init__(self):
+        super().__init__(2003, &#34;A raw constraint was violated&#34;)
+
+    code = 2003
+    name = &#34;ConstraintRaw&#34;
+    msg = &#34;A raw constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRaw.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRaw.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRaw.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRentExempt"><code class="flex name class">
+<span>class <span class="ident">ConstraintRentExempt</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintRentExempt(ProgramError):
+    def __init__(self):
+        super().__init__(2005, &#34;A rent exempt constraint was violated&#34;)
+
+    code = 2005
+    name = &#34;ConstraintRentExempt&#34;
+    msg = &#34;A rent exempt constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRentExempt.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRentExempt.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRentExempt.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSeeds"><code class="flex name class">
+<span>class <span class="ident">ConstraintSeeds</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintSeeds(ProgramError):
+    def __init__(self):
+        super().__init__(2006, &#34;A seeds constraint was violated&#34;)
+
+    code = 2006
+    name = &#34;ConstraintSeeds&#34;
+    msg = &#34;A seeds constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSeeds.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSeeds.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSeeds.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSigner"><code class="flex name class">
+<span>class <span class="ident">ConstraintSigner</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintSigner(ProgramError):
+    def __init__(self):
+        super().__init__(2002, &#34;A signer constraint was violated&#34;)
+
+    code = 2002
+    name = &#34;ConstraintSigner&#34;
+    msg = &#34;A signer constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSigner.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSigner.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSigner.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSpace"><code class="flex name class">
+<span>class <span class="ident">ConstraintSpace</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintSpace(ProgramError):
+    def __init__(self):
+        super().__init__(2019, &#34;A space constraint was violated&#34;)
+
+    code = 2019
+    name = &#34;ConstraintSpace&#34;
+    msg = &#34;A space constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSpace.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSpace.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSpace.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintState"><code class="flex name class">
+<span>class <span class="ident">ConstraintState</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintState(ProgramError):
+    def __init__(self):
+        super().__init__(2008, &#34;A state constraint was violated&#34;)
+
+    code = 2008
+    name = &#34;ConstraintState&#34;
+    msg = &#34;A state constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintState.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintState.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintState.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenMint"><code class="flex name class">
+<span>class <span class="ident">ConstraintTokenMint</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintTokenMint(ProgramError):
+    def __init__(self):
+        super().__init__(2014, &#34;A token mint constraint was violated&#34;)
+
+    code = 2014
+    name = &#34;ConstraintTokenMint&#34;
+    msg = &#34;A token mint constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenMint.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenMint.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenMint.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenOwner"><code class="flex name class">
+<span>class <span class="ident">ConstraintTokenOwner</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintTokenOwner(ProgramError):
+    def __init__(self):
+        super().__init__(2015, &#34;A token owner constraint was violated&#34;)
+
+    code = 2015
+    name = &#34;ConstraintTokenOwner&#34;
+    msg = &#34;A token owner constraint was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenOwner.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenOwner.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenOwner.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintZero"><code class="flex name class">
+<span>class <span class="ident">ConstraintZero</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConstraintZero(ProgramError):
+    def __init__(self):
+        super().__init__(2013, &#34;Expected zero account discriminant&#34;)
+
+    code = 2013
+    name = &#34;ConstraintZero&#34;
+    msg = &#34;Expected zero account discriminant&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintZero.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintZero.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.ConstraintZero.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.Deprecated"><code class="flex name class">
+<span>class <span class="ident">Deprecated</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Deprecated(ProgramError):
+    def __init__(self):
+        super().__init__(
+            5000, &#34;The API being used is deprecated and should no longer be used&#34;
+        )
+
+    code = 5000
+    name = &#34;Deprecated&#34;
+    msg = &#34;The API being used is deprecated and should no longer be used&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.Deprecated.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.Deprecated.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.Deprecated.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionInvalidProgram"><code class="flex name class">
+<span>class <span class="ident">IdlInstructionInvalidProgram</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class IdlInstructionInvalidProgram(ProgramError):
+    def __init__(self):
+        super().__init__(
+            1001, &#34;The transaction was given an invalid program for the IDL instruction&#34;
+        )
+
+    code = 1001
+    name = &#34;IdlInstructionInvalidProgram&#34;
+    msg = &#34;The transaction was given an invalid program for the IDL instruction&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionInvalidProgram.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionInvalidProgram.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionInvalidProgram.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionStub"><code class="flex name class">
+<span>class <span class="ident">IdlInstructionStub</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class IdlInstructionStub(ProgramError):
+    def __init__(self):
+        super().__init__(1000, &#34;The program was compiled without idl instructions&#34;)
+
+    code = 1000
+    name = &#34;IdlInstructionStub&#34;
+    msg = &#34;The program was compiled without idl instructions&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionStub.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionStub.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionStub.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotDeserialize"><code class="flex name class">
+<span>class <span class="ident">InstructionDidNotDeserialize</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InstructionDidNotDeserialize(ProgramError):
+    def __init__(self):
+        super().__init__(102, &#34;The program could not deserialize the given instruction&#34;)
+
+    code = 102
+    name = &#34;InstructionDidNotDeserialize&#34;
+    msg = &#34;The program could not deserialize the given instruction&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotDeserialize.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotDeserialize.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotDeserialize.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotSerialize"><code class="flex name class">
+<span>class <span class="ident">InstructionDidNotSerialize</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InstructionDidNotSerialize(ProgramError):
+    def __init__(self):
+        super().__init__(103, &#34;The program could not serialize the given instruction&#34;)
+
+    code = 103
+    name = &#34;InstructionDidNotSerialize&#34;
+    msg = &#34;The program could not serialize the given instruction&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotSerialize.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotSerialize.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotSerialize.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InstructionFallbackNotFound"><code class="flex name class">
+<span>class <span class="ident">InstructionFallbackNotFound</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InstructionFallbackNotFound(ProgramError):
+    def __init__(self):
+        super().__init__(101, &#34;Fallback functions are not supported&#34;)
+
+    code = 101
+    name = &#34;InstructionFallbackNotFound&#34;
+    msg = &#34;Fallback functions are not supported&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InstructionFallbackNotFound.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InstructionFallbackNotFound.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InstructionFallbackNotFound.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InstructionMissing"><code class="flex name class">
+<span>class <span class="ident">InstructionMissing</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InstructionMissing(ProgramError):
+    def __init__(self):
+        super().__init__(100, &#34;8 byte instruction identifier not provided&#34;)
+
+    code = 100
+    name = &#34;InstructionMissing&#34;
+    msg = &#34;8 byte instruction identifier not provided&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InstructionMissing.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InstructionMissing.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InstructionMissing.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramExecutable"><code class="flex name class">
+<span>class <span class="ident">InvalidProgramExecutable</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidProgramExecutable(ProgramError):
+    def __init__(self):
+        super().__init__(3009, &#34;Program account is not executable&#34;)
+
+    code = 3009
+    name = &#34;InvalidProgramExecutable&#34;
+    msg = &#34;Program account is not executable&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramExecutable.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramExecutable.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramExecutable.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramId"><code class="flex name class">
+<span>class <span class="ident">InvalidProgramId</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidProgramId(ProgramError):
+    def __init__(self):
+        super().__init__(3008, &#34;Program ID was not as expected&#34;)
+
+    code = 3008
+    name = &#34;InvalidProgramId&#34;
+    msg = &#34;Program ID was not as expected&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramId.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramId.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramId.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireEqViolated"><code class="flex name class">
+<span>class <span class="ident">RequireEqViolated</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RequireEqViolated(ProgramError):
+    def __init__(self):
+        super().__init__(2501, &#34;A require_eq expression was violated&#34;)
+
+    code = 2501
+    name = &#34;RequireEqViolated&#34;
+    msg = &#34;A require_eq expression was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireEqViolated.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireEqViolated.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireEqViolated.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireGtViolated"><code class="flex name class">
+<span>class <span class="ident">RequireGtViolated</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RequireGtViolated(ProgramError):
+    def __init__(self):
+        super().__init__(2505, &#34;A require_gt expression was violated&#34;)
+
+    code = 2505
+    name = &#34;RequireGtViolated&#34;
+    msg = &#34;A require_gt expression was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireGtViolated.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireGtViolated.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireGtViolated.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireGteViolated"><code class="flex name class">
+<span>class <span class="ident">RequireGteViolated</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RequireGteViolated(ProgramError):
+    def __init__(self):
+        super().__init__(2506, &#34;A require_gte expression was violated&#34;)
+
+    code = 2506
+    name = &#34;RequireGteViolated&#34;
+    msg = &#34;A require_gte expression was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireGteViolated.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireGteViolated.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireGteViolated.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysEqViolated"><code class="flex name class">
+<span>class <span class="ident">RequireKeysEqViolated</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RequireKeysEqViolated(ProgramError):
+    def __init__(self):
+        super().__init__(2502, &#34;A require_keys_eq expression was violated&#34;)
+
+    code = 2502
+    name = &#34;RequireKeysEqViolated&#34;
+    msg = &#34;A require_keys_eq expression was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysEqViolated.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysEqViolated.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysEqViolated.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysNeqViolated"><code class="flex name class">
+<span>class <span class="ident">RequireKeysNeqViolated</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RequireKeysNeqViolated(ProgramError):
+    def __init__(self):
+        super().__init__(2504, &#34;A require_keys_neq expression was violated&#34;)
+
+    code = 2504
+    name = &#34;RequireKeysNeqViolated&#34;
+    msg = &#34;A require_keys_neq expression was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysNeqViolated.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysNeqViolated.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysNeqViolated.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireNeqViolated"><code class="flex name class">
+<span>class <span class="ident">RequireNeqViolated</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RequireNeqViolated(ProgramError):
+    def __init__(self):
+        super().__init__(2503, &#34;A require_neq expression was violated&#34;)
+
+    code = 2503
+    name = &#34;RequireNeqViolated&#34;
+    msg = &#34;A require_neq expression was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireNeqViolated.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireNeqViolated.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireNeqViolated.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireViolated"><code class="flex name class">
+<span>class <span class="ident">RequireViolated</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RequireViolated(ProgramError):
+    def __init__(self):
+        super().__init__(2500, &#34;A require expression was violated&#34;)
+
+    code = 2500
+    name = &#34;RequireViolated&#34;
+    msg = &#34;A require expression was violated&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireViolated.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireViolated.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.RequireViolated.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.StateInvalidAddress"><code class="flex name class">
+<span>class <span class="ident">StateInvalidAddress</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>An error from a user defined program.</p>
+<p>Init.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>code</code></strong></dt>
+<dd>The error code.</dd>
+<dt><strong><code>msg</code></strong></dt>
+<dd>The error message.</dd>
+<dt><strong><code>logs</code></strong></dt>
+<dd>The transaction simulation logs.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class StateInvalidAddress(ProgramError):
+    def __init__(self):
+        super().__init__(
+            4000, &#34;The given state account does not have the correct address&#34;
+        )
+
+    code = 4000
+    name = &#34;StateInvalidAddress&#34;
+    msg = &#34;The given state account does not have the correct address&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>anchorpy.error.ProgramError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.StateInvalidAddress.code"><code class="name">var <span class="ident">code</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.StateInvalidAddress.msg"><code class="name">var <span class="ident">msg</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.anchor.errors.anchor.StateInvalidAddress.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="orca_whirlpool.internal.anchor.errors" href="index.html">orca_whirlpool.internal.anchor.errors</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.from_code" href="#orca_whirlpool.internal.anchor.errors.anchor.from_code">from_code</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotDeserialize" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotDeserialize">AccountDidNotDeserialize</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotDeserialize.code" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotDeserialize.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotDeserialize.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotDeserialize.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotDeserialize.name" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotDeserialize.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotSerialize" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotSerialize">AccountDidNotSerialize</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotSerialize.code" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotSerialize.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotSerialize.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotSerialize.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotSerialize.name" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDidNotSerialize.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorAlreadySet" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorAlreadySet">AccountDiscriminatorAlreadySet</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorAlreadySet.code" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorAlreadySet.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorAlreadySet.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorAlreadySet.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorAlreadySet.name" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorAlreadySet.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorMismatch" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorMismatch">AccountDiscriminatorMismatch</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorMismatch.code" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorMismatch.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorMismatch.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorMismatch.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorMismatch.name" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorMismatch.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorNotFound" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorNotFound">AccountDiscriminatorNotFound</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorNotFound.code" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorNotFound.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorNotFound.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorNotFound.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorNotFound.name" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountDiscriminatorNotFound.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotAssociatedTokenAccount" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotAssociatedTokenAccount">AccountNotAssociatedTokenAccount</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotAssociatedTokenAccount.code" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotAssociatedTokenAccount.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotAssociatedTokenAccount.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotAssociatedTokenAccount.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotAssociatedTokenAccount.name" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotAssociatedTokenAccount.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotEnoughKeys" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotEnoughKeys">AccountNotEnoughKeys</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotEnoughKeys.code" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotEnoughKeys.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotEnoughKeys.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotEnoughKeys.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotEnoughKeys.name" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotEnoughKeys.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotInitialized" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotInitialized">AccountNotInitialized</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotInitialized.code" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotInitialized.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotInitialized.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotInitialized.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotInitialized.name" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotInitialized.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotMutable" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotMutable">AccountNotMutable</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotMutable.code" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotMutable.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotMutable.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotMutable.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotMutable.name" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotMutable.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotProgramData" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotProgramData">AccountNotProgramData</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotProgramData.code" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotProgramData.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotProgramData.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotProgramData.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotProgramData.name" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotProgramData.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSigner" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotSigner">AccountNotSigner</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSigner.code" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotSigner.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSigner.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotSigner.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSigner.name" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotSigner.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSystemOwned" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotSystemOwned">AccountNotSystemOwned</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSystemOwned.code" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotSystemOwned.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSystemOwned.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotSystemOwned.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountNotSystemOwned.name" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountNotSystemOwned.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountOwnedByWrongProgram" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountOwnedByWrongProgram">AccountOwnedByWrongProgram</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountOwnedByWrongProgram.code" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountOwnedByWrongProgram.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountOwnedByWrongProgram.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountOwnedByWrongProgram.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountOwnedByWrongProgram.name" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountOwnedByWrongProgram.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountSysvarMismatch" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountSysvarMismatch">AccountSysvarMismatch</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountSysvarMismatch.code" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountSysvarMismatch.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountSysvarMismatch.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountSysvarMismatch.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.AccountSysvarMismatch.name" href="#orca_whirlpool.internal.anchor.errors.anchor.AccountSysvarMismatch.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAddress" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintAddress">ConstraintAddress</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAddress.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintAddress.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAddress.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintAddress.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAddress.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintAddress.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociated" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociated">ConstraintAssociated</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociated.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociated.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociated.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociated.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociated.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociated.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociatedInit" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociatedInit">ConstraintAssociatedInit</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociatedInit.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociatedInit.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociatedInit.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociatedInit.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociatedInit.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintAssociatedInit.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintClose" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintClose">ConstraintClose</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintClose.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintClose.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintClose.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintClose.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintClose.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintClose.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintExecutable" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintExecutable">ConstraintExecutable</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintExecutable.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintExecutable.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintExecutable.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintExecutable.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintExecutable.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintExecutable.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintHasOne" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintHasOne">ConstraintHasOne</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintHasOne.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintHasOne.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintHasOne.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintHasOne.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintHasOne.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintHasOne.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintDecimals" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintDecimals">ConstraintMintDecimals</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintDecimals.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintDecimals.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintDecimals.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintDecimals.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintDecimals.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintDecimals.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintFreezeAuthority" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintFreezeAuthority">ConstraintMintFreezeAuthority</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintFreezeAuthority.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintFreezeAuthority.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintFreezeAuthority.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintFreezeAuthority.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintFreezeAuthority.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintFreezeAuthority.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintMintAuthority" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintMintAuthority">ConstraintMintMintAuthority</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintMintAuthority.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintMintAuthority.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintMintAuthority.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintMintAuthority.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintMintAuthority.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMintMintAuthority.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMut" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMut">ConstraintMut</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMut.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMut.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMut.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMut.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintMut.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintMut.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintOwner" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintOwner">ConstraintOwner</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintOwner.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintOwner.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintOwner.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintOwner.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintOwner.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintOwner.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRaw" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintRaw">ConstraintRaw</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRaw.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintRaw.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRaw.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintRaw.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRaw.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintRaw.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRentExempt" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintRentExempt">ConstraintRentExempt</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRentExempt.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintRentExempt.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRentExempt.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintRentExempt.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintRentExempt.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintRentExempt.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSeeds" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintSeeds">ConstraintSeeds</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSeeds.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintSeeds.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSeeds.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintSeeds.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSeeds.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintSeeds.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSigner" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintSigner">ConstraintSigner</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSigner.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintSigner.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSigner.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintSigner.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSigner.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintSigner.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSpace" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintSpace">ConstraintSpace</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSpace.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintSpace.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSpace.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintSpace.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintSpace.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintSpace.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintState" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintState">ConstraintState</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintState.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintState.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintState.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintState.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintState.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintState.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenMint" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenMint">ConstraintTokenMint</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenMint.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenMint.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenMint.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenMint.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenMint.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenMint.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenOwner" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenOwner">ConstraintTokenOwner</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenOwner.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenOwner.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenOwner.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenOwner.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenOwner.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintTokenOwner.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintZero" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintZero">ConstraintZero</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintZero.code" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintZero.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintZero.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintZero.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.ConstraintZero.name" href="#orca_whirlpool.internal.anchor.errors.anchor.ConstraintZero.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.Deprecated" href="#orca_whirlpool.internal.anchor.errors.anchor.Deprecated">Deprecated</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.Deprecated.code" href="#orca_whirlpool.internal.anchor.errors.anchor.Deprecated.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.Deprecated.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.Deprecated.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.Deprecated.name" href="#orca_whirlpool.internal.anchor.errors.anchor.Deprecated.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionInvalidProgram" href="#orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionInvalidProgram">IdlInstructionInvalidProgram</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionInvalidProgram.code" href="#orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionInvalidProgram.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionInvalidProgram.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionInvalidProgram.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionInvalidProgram.name" href="#orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionInvalidProgram.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionStub" href="#orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionStub">IdlInstructionStub</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionStub.code" href="#orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionStub.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionStub.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionStub.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionStub.name" href="#orca_whirlpool.internal.anchor.errors.anchor.IdlInstructionStub.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotDeserialize" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotDeserialize">InstructionDidNotDeserialize</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotDeserialize.code" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotDeserialize.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotDeserialize.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotDeserialize.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotDeserialize.name" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotDeserialize.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotSerialize" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotSerialize">InstructionDidNotSerialize</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotSerialize.code" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotSerialize.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotSerialize.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotSerialize.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotSerialize.name" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionDidNotSerialize.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionFallbackNotFound" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionFallbackNotFound">InstructionFallbackNotFound</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionFallbackNotFound.code" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionFallbackNotFound.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionFallbackNotFound.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionFallbackNotFound.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionFallbackNotFound.name" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionFallbackNotFound.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionMissing" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionMissing">InstructionMissing</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionMissing.code" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionMissing.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionMissing.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionMissing.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InstructionMissing.name" href="#orca_whirlpool.internal.anchor.errors.anchor.InstructionMissing.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramExecutable" href="#orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramExecutable">InvalidProgramExecutable</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramExecutable.code" href="#orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramExecutable.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramExecutable.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramExecutable.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramExecutable.name" href="#orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramExecutable.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramId" href="#orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramId">InvalidProgramId</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramId.code" href="#orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramId.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramId.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramId.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramId.name" href="#orca_whirlpool.internal.anchor.errors.anchor.InvalidProgramId.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireEqViolated" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireEqViolated">RequireEqViolated</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireEqViolated.code" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireEqViolated.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireEqViolated.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireEqViolated.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireEqViolated.name" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireEqViolated.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireGtViolated" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireGtViolated">RequireGtViolated</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireGtViolated.code" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireGtViolated.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireGtViolated.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireGtViolated.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireGtViolated.name" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireGtViolated.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireGteViolated" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireGteViolated">RequireGteViolated</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireGteViolated.code" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireGteViolated.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireGteViolated.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireGteViolated.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireGteViolated.name" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireGteViolated.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysEqViolated" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireKeysEqViolated">RequireKeysEqViolated</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysEqViolated.code" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireKeysEqViolated.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysEqViolated.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireKeysEqViolated.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysEqViolated.name" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireKeysEqViolated.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysNeqViolated" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireKeysNeqViolated">RequireKeysNeqViolated</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysNeqViolated.code" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireKeysNeqViolated.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysNeqViolated.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireKeysNeqViolated.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireKeysNeqViolated.name" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireKeysNeqViolated.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireNeqViolated" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireNeqViolated">RequireNeqViolated</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireNeqViolated.code" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireNeqViolated.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireNeqViolated.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireNeqViolated.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireNeqViolated.name" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireNeqViolated.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireViolated" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireViolated">RequireViolated</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireViolated.code" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireViolated.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireViolated.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireViolated.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.RequireViolated.name" href="#orca_whirlpool.internal.anchor.errors.anchor.RequireViolated.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.anchor.errors.anchor.StateInvalidAddress" href="#orca_whirlpool.internal.anchor.errors.anchor.StateInvalidAddress">StateInvalidAddress</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.StateInvalidAddress.code" href="#orca_whirlpool.internal.anchor.errors.anchor.StateInvalidAddress.code">code</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.StateInvalidAddress.msg" href="#orca_whirlpool.internal.anchor.errors.anchor.StateInvalidAddress.msg">msg</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.errors.anchor.StateInvalidAddress.name" href="#orca_whirlpool.internal.anchor.errors.anchor.StateInvalidAddress.name">name</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

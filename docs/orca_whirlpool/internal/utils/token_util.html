@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>orca_whirlpool.internal.utils.token_util API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>orca_whirlpool.internal.utils.token_util</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from solana.rpc.async_api import AsyncClient
+from solders.pubkey import Pubkey
+from solders.keypair import Keypair
+from solders import system_program
+from spl.token.instructions import get_associated_token_address
+from spl.token.core import MintInfo, AccountInfo
+from spl.token._layouts import MINT_LAYOUT, ACCOUNT_LAYOUT
+from spl.token.constants import TOKEN_PROGRAM_ID, WRAPPED_SOL_MINT, ACCOUNT_LEN
+from spl.token import instructions as token_program
+from ..transaction.types import Instruction
+from ..transaction.transaction_builder import EMPTY_INSTRUCTION
+from ..types.types import PublicKeyWithInstruction
+from ..invariant import invariant
+
+
+class TokenUtil:
+    # https://github.com/michaelhly/solana-py/blob/32119e6924d72cd2d605a949b28f2a366941d641/src/spl/token/core.py#L373
+    @staticmethod
+    def deserialize_account(data: bytes):
+        decoded_data = ACCOUNT_LAYOUT.parse(data)
+
+        mint = Pubkey(decoded_data.mint)
+        owner = Pubkey(decoded_data.owner)
+        amount = decoded_data.amount
+
+        if decoded_data.delegate_option == 0:
+            delegate = None
+            delegated_amount = 0
+        else:
+            delegate = Pubkey(decoded_data.delegate)
+            delegated_amount = decoded_data.delegated_amount
+
+        is_initialized = decoded_data.state != 0
+        is_frozen = decoded_data.state == 2
+
+        if decoded_data.is_native_option == 1:
+            rent_exempt_reserve = decoded_data.is_native
+            is_native = True
+        else:
+            rent_exempt_reserve = None
+            is_native = False
+
+        if decoded_data.close_authority_option == 0:
+            close_authority = None
+        else:
+            close_authority = Pubkey(decoded_data.owner)
+
+        return AccountInfo(
+            mint,
+            owner,
+            amount,
+            delegate,
+            delegated_amount,
+            is_initialized,
+            is_frozen,
+            is_native,
+            rent_exempt_reserve,
+            close_authority,
+        )
+
+    # https://github.com/michaelhly/solana-py/blob/32119e6924d72cd2d605a949b28f2a366941d641/src/spl/token/core.py#L343
+    @staticmethod
+    def deserialize_mint(data: bytes) -&gt; MintInfo:
+        decoded_data = MINT_LAYOUT.parse(data)
+        decimals = decoded_data.decimals
+
+        if decoded_data.mint_authority_option == 0:
+            mint_authority = None
+        else:
+            mint_authority = Pubkey(decoded_data.mint_authority)
+
+        supply = decoded_data.supply
+        is_initialized = decoded_data.is_initialized != 0
+
+        if decoded_data.freeze_authority_option == 0:
+            freeze_authority = None
+        else:
+            freeze_authority = Pubkey(decoded_data.freeze_authority)
+
+        return MintInfo(mint_authority, supply, decimals, is_initialized, freeze_authority)
+
+    @staticmethod
+    def derive_ata(owner: Pubkey, mint: Pubkey) -&gt; Pubkey:
+        return get_associated_token_address(owner, mint)
+
+    @staticmethod
+    async def resolve_or_create_ata(
+        connection: AsyncClient,
+        owner: Pubkey,
+        mint: Pubkey,
+        wrapped_sol_amount: int = 0,
+        funder: Pubkey = None
+    ) -&gt; PublicKeyWithInstruction:
+        if funder is None:
+            funder = owner
+
+        if mint == WRAPPED_SOL_MINT:
+            return await TokenUtil.prepare_wrapped_sol_token_account(
+                connection,
+                owner,
+                wrapped_sol_amount,
+                funder,
+            )
+
+        ata = TokenUtil.derive_ata(owner, mint)
+        res = await connection.get_account_info(ata)
+        if res.value is not None:
+            token_account = TokenUtil.deserialize_account(res.value.data)
+            invariant(token_account.owner == owner, &#34;token_account.owner == owner&#34;)
+            invariant(token_account.mint == mint, &#34;token_account.mint == mint&#34;)
+            return PublicKeyWithInstruction(pubkey=ata, instruction=EMPTY_INSTRUCTION)
+
+        create_ata_ix = token_program.create_associated_token_account(funder, owner, mint)
+        return PublicKeyWithInstruction(
+            pubkey=ata,
+            instruction=Instruction(
+                instructions=[create_ata_ix],
+                cleanup_instructions=[],
+                signers=[],
+            )
+        )
+
+    @staticmethod
+    async def prepare_wrapped_sol_token_account(
+        connection: AsyncClient,
+        owner: Pubkey,
+        lamports: int,
+        funder: Pubkey = None,
+    ) -&gt; PublicKeyWithInstruction:
+        if funder is None:
+            funder = owner
+
+        wsol_token_account = Keypair()
+        rent_lamports = (await connection.get_minimum_balance_for_rent_exemption(ACCOUNT_LEN)).value
+
+        create_account_ix = system_program.create_account(system_program.CreateAccountParams(
+            from_pubkey=funder,
+            to_pubkey=wsol_token_account.pubkey(),
+            lamports=rent_lamports + lamports,
+            space=ACCOUNT_LEN,
+            owner=TOKEN_PROGRAM_ID
+        ))
+
+        initialize_account_ix = token_program.initialize_account(token_program.InitializeAccountParams(
+            program_id=TOKEN_PROGRAM_ID,
+            account=wsol_token_account.pubkey(),
+            mint=WRAPPED_SOL_MINT,
+            owner=owner
+        ))
+
+        close_account_ix = token_program.close_account(token_program.CloseAccountParams(
+            program_id=TOKEN_PROGRAM_ID,
+            account=wsol_token_account.pubkey(),
+            dest=funder,
+            owner=owner,
+            signers=[]
+        ))
+
+        return PublicKeyWithInstruction(
+            pubkey=wsol_token_account.pubkey(),
+            instruction=Instruction(
+                instructions=[create_account_ix, initialize_account_ix],  # create instructions
+                cleanup_instructions=[close_account_ix],  # delete instructions
+                signers=[wsol_token_account],
+            )
+        )</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="orca_whirlpool.internal.utils.token_util.TokenUtil"><code class="flex name class">
+<span>class <span class="ident">TokenUtil</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TokenUtil:
+    # https://github.com/michaelhly/solana-py/blob/32119e6924d72cd2d605a949b28f2a366941d641/src/spl/token/core.py#L373
+    @staticmethod
+    def deserialize_account(data: bytes):
+        decoded_data = ACCOUNT_LAYOUT.parse(data)
+
+        mint = Pubkey(decoded_data.mint)
+        owner = Pubkey(decoded_data.owner)
+        amount = decoded_data.amount
+
+        if decoded_data.delegate_option == 0:
+            delegate = None
+            delegated_amount = 0
+        else:
+            delegate = Pubkey(decoded_data.delegate)
+            delegated_amount = decoded_data.delegated_amount
+
+        is_initialized = decoded_data.state != 0
+        is_frozen = decoded_data.state == 2
+
+        if decoded_data.is_native_option == 1:
+            rent_exempt_reserve = decoded_data.is_native
+            is_native = True
+        else:
+            rent_exempt_reserve = None
+            is_native = False
+
+        if decoded_data.close_authority_option == 0:
+            close_authority = None
+        else:
+            close_authority = Pubkey(decoded_data.owner)
+
+        return AccountInfo(
+            mint,
+            owner,
+            amount,
+            delegate,
+            delegated_amount,
+            is_initialized,
+            is_frozen,
+            is_native,
+            rent_exempt_reserve,
+            close_authority,
+        )
+
+    # https://github.com/michaelhly/solana-py/blob/32119e6924d72cd2d605a949b28f2a366941d641/src/spl/token/core.py#L343
+    @staticmethod
+    def deserialize_mint(data: bytes) -&gt; MintInfo:
+        decoded_data = MINT_LAYOUT.parse(data)
+        decimals = decoded_data.decimals
+
+        if decoded_data.mint_authority_option == 0:
+            mint_authority = None
+        else:
+            mint_authority = Pubkey(decoded_data.mint_authority)
+
+        supply = decoded_data.supply
+        is_initialized = decoded_data.is_initialized != 0
+
+        if decoded_data.freeze_authority_option == 0:
+            freeze_authority = None
+        else:
+            freeze_authority = Pubkey(decoded_data.freeze_authority)
+
+        return MintInfo(mint_authority, supply, decimals, is_initialized, freeze_authority)
+
+    @staticmethod
+    def derive_ata(owner: Pubkey, mint: Pubkey) -&gt; Pubkey:
+        return get_associated_token_address(owner, mint)
+
+    @staticmethod
+    async def resolve_or_create_ata(
+        connection: AsyncClient,
+        owner: Pubkey,
+        mint: Pubkey,
+        wrapped_sol_amount: int = 0,
+        funder: Pubkey = None
+    ) -&gt; PublicKeyWithInstruction:
+        if funder is None:
+            funder = owner
+
+        if mint == WRAPPED_SOL_MINT:
+            return await TokenUtil.prepare_wrapped_sol_token_account(
+                connection,
+                owner,
+                wrapped_sol_amount,
+                funder,
+            )
+
+        ata = TokenUtil.derive_ata(owner, mint)
+        res = await connection.get_account_info(ata)
+        if res.value is not None:
+            token_account = TokenUtil.deserialize_account(res.value.data)
+            invariant(token_account.owner == owner, &#34;token_account.owner == owner&#34;)
+            invariant(token_account.mint == mint, &#34;token_account.mint == mint&#34;)
+            return PublicKeyWithInstruction(pubkey=ata, instruction=EMPTY_INSTRUCTION)
+
+        create_ata_ix = token_program.create_associated_token_account(funder, owner, mint)
+        return PublicKeyWithInstruction(
+            pubkey=ata,
+            instruction=Instruction(
+                instructions=[create_ata_ix],
+                cleanup_instructions=[],
+                signers=[],
+            )
+        )
+
+    @staticmethod
+    async def prepare_wrapped_sol_token_account(
+        connection: AsyncClient,
+        owner: Pubkey,
+        lamports: int,
+        funder: Pubkey = None,
+    ) -&gt; PublicKeyWithInstruction:
+        if funder is None:
+            funder = owner
+
+        wsol_token_account = Keypair()
+        rent_lamports = (await connection.get_minimum_balance_for_rent_exemption(ACCOUNT_LEN)).value
+
+        create_account_ix = system_program.create_account(system_program.CreateAccountParams(
+            from_pubkey=funder,
+            to_pubkey=wsol_token_account.pubkey(),
+            lamports=rent_lamports + lamports,
+            space=ACCOUNT_LEN,
+            owner=TOKEN_PROGRAM_ID
+        ))
+
+        initialize_account_ix = token_program.initialize_account(token_program.InitializeAccountParams(
+            program_id=TOKEN_PROGRAM_ID,
+            account=wsol_token_account.pubkey(),
+            mint=WRAPPED_SOL_MINT,
+            owner=owner
+        ))
+
+        close_account_ix = token_program.close_account(token_program.CloseAccountParams(
+            program_id=TOKEN_PROGRAM_ID,
+            account=wsol_token_account.pubkey(),
+            dest=funder,
+            owner=owner,
+            signers=[]
+        ))
+
+        return PublicKeyWithInstruction(
+            pubkey=wsol_token_account.pubkey(),
+            instruction=Instruction(
+                instructions=[create_account_ix, initialize_account_ix],  # create instructions
+                cleanup_instructions=[close_account_ix],  # delete instructions
+                signers=[wsol_token_account],
+            )
+        )</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="orca_whirlpool.internal.utils.token_util.TokenUtil.derive_ata"><code class="name flex">
+<span>def <span class="ident">derive_ata</span></span>(<span>owner: solders.pubkey.Pubkey, mint: solders.pubkey.Pubkey) ‑> solders.pubkey.Pubkey</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def derive_ata(owner: Pubkey, mint: Pubkey) -&gt; Pubkey:
+    return get_associated_token_address(owner, mint)</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.TokenUtil.deserialize_account"><code class="name flex">
+<span>def <span class="ident">deserialize_account</span></span>(<span>data: bytes)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def deserialize_account(data: bytes):
+    decoded_data = ACCOUNT_LAYOUT.parse(data)
+
+    mint = Pubkey(decoded_data.mint)
+    owner = Pubkey(decoded_data.owner)
+    amount = decoded_data.amount
+
+    if decoded_data.delegate_option == 0:
+        delegate = None
+        delegated_amount = 0
+    else:
+        delegate = Pubkey(decoded_data.delegate)
+        delegated_amount = decoded_data.delegated_amount
+
+    is_initialized = decoded_data.state != 0
+    is_frozen = decoded_data.state == 2
+
+    if decoded_data.is_native_option == 1:
+        rent_exempt_reserve = decoded_data.is_native
+        is_native = True
+    else:
+        rent_exempt_reserve = None
+        is_native = False
+
+    if decoded_data.close_authority_option == 0:
+        close_authority = None
+    else:
+        close_authority = Pubkey(decoded_data.owner)
+
+    return AccountInfo(
+        mint,
+        owner,
+        amount,
+        delegate,
+        delegated_amount,
+        is_initialized,
+        is_frozen,
+        is_native,
+        rent_exempt_reserve,
+        close_authority,
+    )</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.TokenUtil.deserialize_mint"><code class="name flex">
+<span>def <span class="ident">deserialize_mint</span></span>(<span>data: bytes) ‑> spl.token.core.MintInfo</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def deserialize_mint(data: bytes) -&gt; MintInfo:
+    decoded_data = MINT_LAYOUT.parse(data)
+    decimals = decoded_data.decimals
+
+    if decoded_data.mint_authority_option == 0:
+        mint_authority = None
+    else:
+        mint_authority = Pubkey(decoded_data.mint_authority)
+
+    supply = decoded_data.supply
+    is_initialized = decoded_data.is_initialized != 0
+
+    if decoded_data.freeze_authority_option == 0:
+        freeze_authority = None
+    else:
+        freeze_authority = Pubkey(decoded_data.freeze_authority)
+
+    return MintInfo(mint_authority, supply, decimals, is_initialized, freeze_authority)</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.TokenUtil.prepare_wrapped_sol_token_account"><code class="name flex">
+<span>async def <span class="ident">prepare_wrapped_sol_token_account</span></span>(<span>connection: solana.rpc.async_api.AsyncClient, owner: solders.pubkey.Pubkey, lamports: int, funder: solders.pubkey.Pubkey = None) ‑> <a title="orca_whirlpool.internal.types.types.PublicKeyWithInstruction" href="../types/types.html#orca_whirlpool.internal.types.types.PublicKeyWithInstruction">PublicKeyWithInstruction</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+async def prepare_wrapped_sol_token_account(
+    connection: AsyncClient,
+    owner: Pubkey,
+    lamports: int,
+    funder: Pubkey = None,
+) -&gt; PublicKeyWithInstruction:
+    if funder is None:
+        funder = owner
+
+    wsol_token_account = Keypair()
+    rent_lamports = (await connection.get_minimum_balance_for_rent_exemption(ACCOUNT_LEN)).value
+
+    create_account_ix = system_program.create_account(system_program.CreateAccountParams(
+        from_pubkey=funder,
+        to_pubkey=wsol_token_account.pubkey(),
+        lamports=rent_lamports + lamports,
+        space=ACCOUNT_LEN,
+        owner=TOKEN_PROGRAM_ID
+    ))
+
+    initialize_account_ix = token_program.initialize_account(token_program.InitializeAccountParams(
+        program_id=TOKEN_PROGRAM_ID,
+        account=wsol_token_account.pubkey(),
+        mint=WRAPPED_SOL_MINT,
+        owner=owner
+    ))
+
+    close_account_ix = token_program.close_account(token_program.CloseAccountParams(
+        program_id=TOKEN_PROGRAM_ID,
+        account=wsol_token_account.pubkey(),
+        dest=funder,
+        owner=owner,
+        signers=[]
+    ))
+
+    return PublicKeyWithInstruction(
+        pubkey=wsol_token_account.pubkey(),
+        instruction=Instruction(
+            instructions=[create_account_ix, initialize_account_ix],  # create instructions
+            cleanup_instructions=[close_account_ix],  # delete instructions
+            signers=[wsol_token_account],
+        )
+    )</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.TokenUtil.resolve_or_create_ata"><code class="name flex">
+<span>async def <span class="ident">resolve_or_create_ata</span></span>(<span>connection: solana.rpc.async_api.AsyncClient, owner: solders.pubkey.Pubkey, mint: solders.pubkey.Pubkey, wrapped_sol_amount: int = 0, funder: solders.pubkey.Pubkey = None) ‑> <a title="orca_whirlpool.internal.types.types.PublicKeyWithInstruction" href="../types/types.html#orca_whirlpool.internal.types.types.PublicKeyWithInstruction">PublicKeyWithInstruction</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+async def resolve_or_create_ata(
+    connection: AsyncClient,
+    owner: Pubkey,
+    mint: Pubkey,
+    wrapped_sol_amount: int = 0,
+    funder: Pubkey = None
+) -&gt; PublicKeyWithInstruction:
+    if funder is None:
+        funder = owner
+
+    if mint == WRAPPED_SOL_MINT:
+        return await TokenUtil.prepare_wrapped_sol_token_account(
+            connection,
+            owner,
+            wrapped_sol_amount,
+            funder,
+        )
+
+    ata = TokenUtil.derive_ata(owner, mint)
+    res = await connection.get_account_info(ata)
+    if res.value is not None:
+        token_account = TokenUtil.deserialize_account(res.value.data)
+        invariant(token_account.owner == owner, &#34;token_account.owner == owner&#34;)
+        invariant(token_account.mint == mint, &#34;token_account.mint == mint&#34;)
+        return PublicKeyWithInstruction(pubkey=ata, instruction=EMPTY_INSTRUCTION)
+
+    create_ata_ix = token_program.create_associated_token_account(funder, owner, mint)
+    return PublicKeyWithInstruction(
+        pubkey=ata,
+        instruction=Instruction(
+            instructions=[create_ata_ix],
+            cleanup_instructions=[],
+            signers=[],
+        )
+    )</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="orca_whirlpool.internal.utils" href="index.html">orca_whirlpool.internal.utils</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="orca_whirlpool.internal.utils.token_util.TokenUtil" href="#orca_whirlpool.internal.utils.token_util.TokenUtil">TokenUtil</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.utils.token_util.TokenUtil.derive_ata" href="#orca_whirlpool.internal.utils.token_util.TokenUtil.derive_ata">derive_ata</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.TokenUtil.deserialize_account" href="#orca_whirlpool.internal.utils.token_util.TokenUtil.deserialize_account">deserialize_account</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.TokenUtil.deserialize_mint" href="#orca_whirlpool.internal.utils.token_util.TokenUtil.deserialize_mint">deserialize_mint</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.TokenUtil.prepare_wrapped_sol_token_account" href="#orca_whirlpool.internal.utils.token_util.TokenUtil.prepare_wrapped_sol_token_account">prepare_wrapped_sol_token_account</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.TokenUtil.resolve_or_create_ata" href="#orca_whirlpool.internal.utils.token_util.TokenUtil.resolve_or_create_ata">resolve_or_create_ata</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

@@ -5,7 +5,7 @@ from solana.rpc.async_api import AsyncClient
 from spl.token.constants import TOKEN_PROGRAM_ID
 
 from .account_fetcher import AccountFetcher
-from ..constants import ACCOUNT_SIZE_WHIRLPOOL, ACCOUNT_SIZE_TICK_ARRAY
+from ..constants import ACCOUNT_SIZE_WHIRLPOOL, ACCOUNT_SIZE_TICK_ARRAY, ACCOUNT_SIZE_POSITION
 from .types import Whirlpool, TickArray, Position, PositionBundle
 from .account_parser import AccountParser
 from .keyed_account_converter import KeyedAccountConverter
@@ -42,6 +42,20 @@ class AccountFinder:
 
         return list(map(
             lambda a: KeyedAccountConverter.to_keyed_tick_array(a.pubkey, AccountParser.parse_tick_array(a.account.data)),
+            accounts
+        ))
+
+    async def find_positions_by_whirlpool(self, program_id: Pubkey, whirlpool: Pubkey) -> List[Position]:
+        accounts = (await self._connection.get_program_accounts(
+            program_id,
+            None,
+            "base64",
+            None,
+            [ACCOUNT_SIZE_POSITION, MemcmpOpts(8, str(whirlpool))]
+        )).value
+
+        return list(map(
+            lambda a: KeyedAccountConverter.to_keyed_position(a.pubkey, AccountParser.parse_position(a.account.data)),
             accounts
         ))
 

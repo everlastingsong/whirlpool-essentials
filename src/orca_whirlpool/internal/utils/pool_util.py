@@ -1,9 +1,19 @@
-from typing import Tuple
+import dataclasses
+from typing import Tuple, List
 from solders.pubkey import Pubkey
+
+from ..accounts.types import TickArray, Whirlpool
 from ..types.percentage import Percentage
-from ..constants import FEE_RATE_MUL_VALUE, PROTOCOL_FEE_RATE_MUL_VALUE, DEFAULT_PUBKEY
+from ..constants import FEE_RATE_MUL_VALUE, PROTOCOL_FEE_RATE_MUL_VALUE, DEFAULT_PUBKEY, MIN_TICK_INDEX
 from ..anchor.types import WhirlpoolRewardInfo
 from ..invariant import invariant
+
+
+@dataclasses.dataclass(frozen=True)
+class LiquidityDistribution:
+    tick_lower_index: int
+    tick_upper_index: int
+    liquidity: int
 
 
 class PoolUtil:
@@ -35,3 +45,29 @@ class PoolUtil:
             elif x > y:
                 return mint_y, mint_x
         invariant(False, "mint_x and mint_y must be different")
+
+    @staticmethod
+    def get_liquidity_distribution(whirlpool: Whirlpool, tick_arrays: List[TickArray]) -> List[LiquidityDistribution]:
+        tick_spacing = whirlpool.tick_spacing
+        sorted_tick_arrays = sorted(tick_arrays, key=lambda ta: ta.start_tick_index)
+
+        distribution = []
+        current_lower_tick_index = MIN_TICK_INDEX
+        current_liquidity = 0
+        for ta in sorted_tick_arrays:
+            for i, tick in enumerate(ta.ticks):
+                if tick.liquidity_net == 0:
+                    continue
+
+                if current_liquidity > 0:
+                    tick_index = ta.start_tick_index + i * tick_spacing
+                    distribution.append(LiquidityDistribution(
+                        tick_lower_index=current_lower_tick_index,
+                        tick_upper_index=tick_index,
+                        liquidity=current_liquidity,
+                    ))
+                    current_lower_tick_index = tick_index
+
+                current_liquidity += tick.liquidity_net
+
+        return distribution

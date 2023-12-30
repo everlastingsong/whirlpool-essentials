@@ -1,0 +1,34 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+include = []
+exclude = [
+    "/tests",
+    "/examples",
+    "/.gitignore",
+    "/requirements.txt",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/orca_whirlpool"]
+
+[project]
+name = "whirlpool-essentials"
+version = "0.0.2"
+authors = [
+    { name="yugure", email="yugure@orca.so" },
+]
+description = "A core library to interact with Orca Whirlpool"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/everlastingsong/whirlpool-essentials"
+Issues = "https://github.com/everlastingsong/whirlpool-essentials/issues"

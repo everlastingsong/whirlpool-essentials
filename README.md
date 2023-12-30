@@ -2,6 +2,9 @@
 
 Whirlpool Essentials is a core library to interacting with Orca Whirlpool Program in Python.
 
+## Documentation
+* [pdoc for Whirlpool Essentials](https://everlastingsong.github.io/whirlpool-essentials/orca_whirlpool/index.html)
+
 ## Dependencies
 This library have been tested in the following environment.
 

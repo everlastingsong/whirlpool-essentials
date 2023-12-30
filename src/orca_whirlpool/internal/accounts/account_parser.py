@@ -1,6 +1,8 @@
 from typing import Optional
 from spl.token.core import AccountInfo as SolanapyAccountInfo, MintInfo as SolanapyMintInfo
-from ..anchor.accounts import WhirlpoolsConfig as AnchorWhirlpoolsConfig, FeeTier as AnchorFeeTier, Whirlpool as AnchorWhirlpool, TickArray as AnchorTickArray, Position as AnchorPosition
+from ..anchor.accounts import WhirlpoolsConfig as AnchorWhirlpoolsConfig, FeeTier as AnchorFeeTier
+from ..anchor.accounts import Whirlpool as AnchorWhirlpool, TickArray as AnchorTickArray, Position as AnchorPosition
+from ..anchor.accounts import PositionBundle as AnchorPositionBundle
 from ..utils.token_util import TokenUtil
 
 
@@ -32,6 +34,10 @@ class AccountParser:
     @staticmethod
     def parse_whirlpools_config(data: bytes) -> Optional[AnchorWhirlpoolsConfig]:
         return safe_decode(AnchorWhirlpoolsConfig.decode, data)
+
+    @staticmethod
+    def parse_position_bundle(data: bytes) -> Optional[AnchorPositionBundle]:
+        return safe_decode(AnchorPositionBundle.decode, data)
 
     @staticmethod
     def parse_token_mint(data: bytes) -> Optional[SolanapyMintInfo]:

@@ -1,4 +1,6 @@
 import math
+from typing import Tuple
+
 from ..constants import TICK_ARRAY_SIZE, MIN_TICK_INDEX, MAX_TICK_INDEX
 from ..invariant import invariant
 
@@ -42,3 +44,14 @@ class TickUtil:
     @staticmethod
     def is_tick_index_in_bounds(tick_index: int) -> bool:
         return MIN_TICK_INDEX <= tick_index <= MAX_TICK_INDEX
+
+    @staticmethod
+    def get_full_range_tick_index(tick_spacing: int) -> Tuple[int, int]:
+        lower = math.ceil(MIN_TICK_INDEX / tick_spacing) * tick_spacing
+        upper = math.floor(MAX_TICK_INDEX / tick_spacing) * tick_spacing
+        return lower, upper
+
+    @staticmethod
+    def is_full_range(tick_spacing: int, tick_lower_index: int, tick_upper_index: int) -> bool:
+        full_lower, full_upper = TickUtil.get_full_range_tick_index(tick_spacing)
+        return tick_lower_index == full_lower and tick_upper_index == full_upper

@@ -9,11 +9,11 @@ PDA_METADATA_SEED = b"metadata"
 PDA_TICK_ARRAY_SEED = b"tick_array"
 PDA_FEE_TIER_SEED = b"fee_tier"
 PDA_ORACLE_SEED = b"oracle"
+PDA_POSITION_BUNDLE_SEED = b"position_bundle"
+PDA_BUNDLED_POSITION_SEED = b"bundled_position"
 
 
 class PDAUtil:
-    # https://orca-so.github.io/whirlpools/classes/PDAUtil.html#getWhirlpool
-    # https://github.com/orca-so/whirlpools/blob/7b9ec35/sdk/src/utils/public/pda-utils.ts#L28
     @staticmethod
     def get_whirlpool(
         program_id: Pubkey,
@@ -32,8 +32,6 @@ class PDAUtil:
         (pubkey, nonce) = Pubkey.find_program_address(seeds, program_id)
         return PDA(pubkey, nonce)
 
-    # https://orca-so.github.io/whirlpools/classes/PDAUtil.html#getPosition
-    # https://github.com/orca-so/whirlpools/blob/7b9ec35/sdk/src/utils/public/pda-utils.ts#L53
     @staticmethod
     def get_position(program_id: Pubkey, position_mint: Pubkey) -> PDA:
         seeds = [
@@ -43,8 +41,6 @@ class PDAUtil:
         (pubkey, nonce) = Pubkey.find_program_address(seeds, program_id)
         return PDA(pubkey, nonce)
 
-    # https://orca-so.github.io/whirlpools/classes/PDAUtil.html#getPositionMetadata
-    # https://github.com/orca-so/whirlpools/blob/7b9ec35/sdk/src/utils/public/pda-utils.ts#L65
     @staticmethod
     def get_position_metadata(position_mint: Pubkey) -> PDA:
         seeds = [
@@ -55,9 +51,6 @@ class PDAUtil:
         (pubkey, nonce) = Pubkey.find_program_address(seeds, METAPLEX_METADATA_PROGRAM_ID)
         return PDA(pubkey, nonce)
 
-    # https://orca-so.github.io/whirlpools/classes/PDAUtil.html#getTickArray
-    # https://github.com/orca-so/whirlpools/blob/main/sdk/src/utils/public/pda-utils.ts#L83
-    # https://github.com/orca-so/whirlpools/blob/main/programs/whirlpool/src/instructions/initialize_tick_array.rs#L16
     @staticmethod
     def get_tick_array(program_id: Pubkey, whirlpool_pubkey: Pubkey, start_tick_index: int) -> PDA:
         seeds = [
@@ -68,8 +61,6 @@ class PDAUtil:
         (pubkey, nonce) = Pubkey.find_program_address(seeds, program_id)
         return PDA(pubkey, nonce)
 
-    # https://orca-so.github.io/whirlpools/classes/PDAUtil.html#getOracle
-    # https://github.com/orca-so/whirlpools/blob/2df89bb/sdk/src/utils/public/pda-utils.ts#L165
     @staticmethod
     def get_oracle(program_id: Pubkey, whirlpool_pubkey: Pubkey) -> PDA:
         seeds = [
@@ -79,8 +70,6 @@ class PDAUtil:
         (pubkey, nonce) = Pubkey.find_program_address(seeds, program_id)
         return PDA(pubkey, nonce)
 
-    # https://orca-so.github.io/whirlpools/classes/PDAUtil.html#getFeeTier
-    # https://github.com/orca-so/whirlpools/blob/7b9ec35/sdk/src/utils/public/pda-utils.ts#L144
     @staticmethod
     def get_fee_tier(program_id: Pubkey, whirlpools_config_pubkey: Pubkey, tick_spacing: int) -> PDA:
         seeds = [
@@ -89,4 +78,33 @@ class PDAUtil:
             tick_spacing.to_bytes(2, "little")
         ]
         (pubkey, nonce) = Pubkey.find_program_address(seeds, program_id)
+        return PDA(pubkey, nonce)
+
+    @staticmethod
+    def get_bundled_position(program_id: Pubkey, position_bundle_mint: Pubkey, bundle_index) -> PDA:
+        seeds = [
+            PDA_BUNDLED_POSITION_SEED,
+            bytes(position_bundle_mint),
+            str(bundle_index).encode("utf-8")
+        ]
+        (pubkey, nonce) = Pubkey.find_program_address(seeds, program_id)
+        return PDA(pubkey, nonce)
+
+    @staticmethod
+    def get_position_bundle(program_id: Pubkey, position_bundle_mint: Pubkey) -> PDA:
+        seeds = [
+            PDA_POSITION_BUNDLE_SEED,
+            bytes(position_bundle_mint)
+        ]
+        (pubkey, nonce) = Pubkey.find_program_address(seeds, program_id)
+        return PDA(pubkey, nonce)
+
+    @staticmethod
+    def get_position_bundle_metadata(position_bundle_mint: Pubkey) -> PDA:
+        seeds = [
+            PDA_METADATA_SEED,
+            bytes(METAPLEX_METADATA_PROGRAM_ID),
+            bytes(position_bundle_mint)
+        ]
+        (pubkey, nonce) = Pubkey.find_program_address(seeds, METAPLEX_METADATA_PROGRAM_ID)
         return PDA(pubkey, nonce)

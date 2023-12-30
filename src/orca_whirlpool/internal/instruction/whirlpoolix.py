@@ -287,6 +287,57 @@ class SetRewardEmissionsSuperAuthorityParams:
     new_reward_emissions_super_authority: Pubkey
 
 
+@dataclasses.dataclass(frozen=True)
+class InitializePositionBundleParams:
+    owner: Pubkey
+    position_bundle_pda: PDA
+    position_bundle_mint: Pubkey
+    position_bundle_token_account: Pubkey
+    funder: Pubkey
+
+
+@dataclasses.dataclass(frozen=True)
+class InitializePositionBundleWithMetadataParams:
+    owner: Pubkey
+    position_bundle_pda: PDA
+    position_bundle_mint: Pubkey
+    position_bundle_token_account: Pubkey
+    funder: Pubkey
+    position_bundle_metadata_pda: PDA
+
+
+@dataclasses.dataclass(frozen=True)
+class DeletePositionBundle:
+    owner: Pubkey
+    position_bundle: Pubkey
+    position_bundle_mint: Pubkey
+    position_bundle_token_account: Pubkey
+    receiver: Pubkey
+
+
+@dataclasses.dataclass(frozen=True)
+class OpenBundledPosition:
+    bundle_index: int
+    tick_lower_index: int
+    tick_upper_index: int
+    whirlpool: Pubkey
+    bundled_position_pda: PDA
+    position_bundle: Pubkey
+    position_bundle_token_account: Pubkey
+    position_bundle_authority: Pubkey
+    funder: Pubkey
+
+
+@dataclasses.dataclass(frozen=True)
+class CloseBundledPosition:
+    bundle_index: int
+    bundled_position: Pubkey
+    position_bundle: Pubkey
+    position_bundle_token_account: Pubkey
+    position_bundle_authority: Pubkey
+    receiver: Pubkey
+
+
 class WhirlpoolIx:
     @staticmethod
     def swap(program_id: Pubkey, params: SwapParams):
@@ -735,6 +786,88 @@ class WhirlpoolIx:
                 whirlpools_config=params.whirlpools_config,
                 reward_emissions_super_authority=params.reward_emissions_super_authority,
                 new_reward_emissions_super_authority=params.new_reward_emissions_super_authority,
+            ),
+            program_id
+        )
+        return to_instruction([ix])
+
+    @staticmethod
+    def initialize_position_bundle(program_id: Pubkey, params: InitializePositionBundleParams):
+        ix = instructions.initialize_position_bundle(
+            instructions.InitializePositionBundleAccounts(
+                position_bundle_owner=params.owner,
+                position_bundle=params.position_bundle_pda.pubkey,
+                position_bundle_mint=params.position_bundle_mint,
+                position_bundle_token_account=params.position_bundle_token_account,
+                funder=params.funder,
+            ),
+            program_id
+        )
+        return to_instruction([ix])
+
+    @staticmethod
+    def initialize_position_bundle_with_metadata(program_id: Pubkey, params: InitializePositionBundleWithMetadataParams):
+        ix = instructions.initialize_position_bundle_with_metadata(
+            instructions.InitializePositionBundleWithMetadataAccounts(
+                position_bundle_owner=params.owner,
+                position_bundle=params.position_bundle_pda.pubkey,
+                position_bundle_mint=params.position_bundle_mint,
+                position_bundle_token_account=params.position_bundle_token_account,
+                funder=params.funder,
+                position_bundle_metadata=params.position_bundle_metadata_pda.pubkey,
+                metadata_program=METAPLEX_METADATA_PROGRAM_ID,
+                metadata_update_auth=ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY,
+            ),
+            program_id
+        )
+        return to_instruction([ix])
+
+    @staticmethod
+    def delete_position_bundle(program_id: Pubkey, params: DeletePositionBundle):
+        ix = instructions.delete_position_bundle(
+            instructions.DeletePositionBundleAccounts(
+                position_bundle_owner=params.owner,
+                position_bundle=params.position_bundle,
+                position_bundle_mint=params.position_bundle_mint,
+                position_bundle_token_account=params.position_bundle_token_account,
+                receiver=params.receiver,
+            ),
+            program_id
+        )
+        return to_instruction([ix])
+
+    @staticmethod
+    def open_bundled_position(program_id: Pubkey, params: OpenBundledPosition):
+        ix = instructions.open_bundled_position(
+            instructions.OpenBundledPositionArgs(
+                bundle_index=params.bundle_index,
+                tick_lower_index=params.tick_lower_index,
+                tick_upper_index=params.tick_upper_index,
+            ),
+            instructions.OpenBundledPositionAccounts(
+                whirlpool=params.whirlpool,
+                bundled_position=params.bundled_position_pda.pubkey,
+                position_bundle=params.position_bundle,
+                position_bundle_token_account=params.position_bundle_token_account,
+                position_bundle_authority=params.position_bundle_authority,
+                funder=params.funder,
+            ),
+            program_id
+        )
+        return to_instruction([ix])
+
+    @staticmethod
+    def close_bundled_position(program_id: Pubkey, params: CloseBundledPosition):
+        ix = instructions.close_bundled_position(
+            instructions.CloseBundledPositionArgs(
+                bundle_index=params.bundle_index,
+            ),
+            instructions.CloseBundledPositionAccounts(
+                bundled_position=params.bundled_position,
+                position_bundle=params.position_bundle,
+                position_bundle_token_account=params.position_bundle_token_account,
+                position_bundle_authority=params.position_bundle_authority,
+                receiver=params.receiver,
             ),
             program_id
         )

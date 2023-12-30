@@ -3,7 +3,7 @@ from solders.account import Account
 from solders.pubkey import Pubkey
 from solana.rpc.async_api import AsyncClient
 from ..types.types import BlockTimestamp
-from .types import WhirlpoolsConfig, FeeTier, Whirlpool, TickArray, Position, MintInfo, AccountInfo
+from .types import WhirlpoolsConfig, FeeTier, Whirlpool, TickArray, Position, PositionBundle, MintInfo, AccountInfo
 from .account_parser import AccountParser
 from .keyed_account_converter import KeyedAccountConverter
 
@@ -73,6 +73,9 @@ class AccountFetcher:
     async def get_tick_array(self, pubkey: Pubkey, refresh: bool = False) -> Optional[TickArray]:
         return await self._get(pubkey, AccountParser.parse_tick_array, KeyedAccountConverter.to_keyed_tick_array, refresh)
 
+    async def get_position_bundle(self, pubkey: Pubkey, refresh: bool = False) -> Optional[PositionBundle]:
+        return await self._get(pubkey, AccountParser.parse_position_bundle, KeyedAccountConverter.to_keyed_position_bundle, refresh)
+
     async def get_token_account(self, pubkey: Pubkey, refresh: bool = False) -> Optional[AccountInfo]:
         return await self._get(pubkey, AccountParser.parse_token_account, KeyedAccountConverter.to_keyed_token_account, refresh)
 
@@ -87,6 +90,9 @@ class AccountFetcher:
 
     async def list_tick_arrays(self, pubkeys: List[Pubkey], refresh: bool = False) -> List[Optional[TickArray]]:
         return await self._list(pubkeys, AccountParser.parse_tick_array, KeyedAccountConverter.to_keyed_tick_array, refresh)
+
+    async def list_position_bundles(self, pubkeys: List[Pubkey], refresh: bool = False) -> List[Optional[PositionBundle]]:
+        return await self._list(pubkeys, AccountParser.parse_position_bundle, KeyedAccountConverter.to_keyed_position_bundle, refresh)
 
     async def list_token_accounts(self, pubkeys: List[Pubkey], refresh: bool = False) -> List[Optional[AccountInfo]]:
         return await self._list(pubkeys, AccountParser.parse_token_account, KeyedAccountConverter.to_keyed_token_account, refresh)

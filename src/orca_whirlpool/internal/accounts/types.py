@@ -79,6 +79,15 @@ class Position:
 
 
 @dataclasses.dataclass(frozen=True)
+class PositionBundle:
+    # keyed
+    pubkey: Pubkey
+    # PositionBundle
+    position_bundle_mint: Pubkey
+    position_bitmap: list[int]
+
+
+@dataclasses.dataclass(frozen=True)
 class AccountInfo:
     # keyed
     pubkey: Pubkey

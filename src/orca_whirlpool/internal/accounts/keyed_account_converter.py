@@ -1,8 +1,10 @@
 from typing import Optional
 from solders.pubkey import Pubkey
 from spl.token.core import AccountInfo as SolanapyAccountInfo, MintInfo as SolanapyMintInfo
-from ..anchor.accounts import WhirlpoolsConfig as AnchorWhirlpoolsConfig, FeeTier as AnchorFeeTier, Whirlpool as AnchorWhirlpool, TickArray as AnchorTickArray, Position as AnchorPosition
-from .types import WhirlpoolsConfig, FeeTier, Whirlpool, TickArray, Position, AccountInfo, MintInfo
+from ..anchor.accounts import WhirlpoolsConfig as AnchorWhirlpoolsConfig, FeeTier as AnchorFeeTier
+from ..anchor.accounts import Whirlpool as AnchorWhirlpool, TickArray as AnchorTickArray, Position as AnchorPosition
+from ..anchor.accounts import PositionBundle as AnchorPositionBundle
+from .types import WhirlpoolsConfig, FeeTier, Whirlpool, TickArray, Position, PositionBundle, AccountInfo, MintInfo
 
 
 class KeyedAccountConverter:
@@ -83,6 +85,16 @@ class KeyedAccountConverter:
             collect_protocol_fees_authority=account.collect_protocol_fees_authority,
             reward_emissions_super_authority=account.reward_emissions_super_authority,
             default_protocol_fee_rate=account.default_protocol_fee_rate,
+        )
+
+    @staticmethod
+    def to_keyed_position_bundle(pubkey: Pubkey, account: Optional[AnchorPositionBundle]) -> Optional[PositionBundle]:
+        if account is None:
+            return None
+        return PositionBundle(
+            pubkey=pubkey,
+            position_bundle_mint=account.position_bundle_mint,
+            position_bitmap=account.position_bitmap,
         )
 
     @staticmethod

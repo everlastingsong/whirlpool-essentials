@@ -41,8 +41,7 @@ from orca_whirlpool.utils import PriceMath, DecimalUtil
 SOL_USDC_8_WHIRLPOOL_PUBKEY = Pubkey.from_string("7qbRF6YsyGuLUVs6Y1q64bdVrfe4ZcUUz1JRdoVNUJnm")
 
 async def main():
-    # create client
-    connection = AsyncClient("https://api.mainnet-beta.solana.com")
+    connection = AsyncClient(RPC_ENDPOINT_URL)
     ctx = WhirlpoolContext(ORCA_WHIRLPOOL_PROGRAM_ID, connection, Keypair())
 
     # get SOL/USDC(ts=8) whirlpool
@@ -58,6 +57,39 @@ async def main():
     print("whirlpool sqrt_price", whirlpool.sqrt_price)
     price = PriceMath.sqrt_price_x64_to_price(whirlpool.sqrt_price, decimals_a, decimals_b)
     print("whirlpool price", DecimalUtil.to_fixed(price, decimals_b))
+
+asyncio.run(main())
+```
+
+### Get Liquidity Distribution of SOL/USDC Whirlpool
+```
+import asyncio
+import os
+from dotenv import load_dotenv
+from solders.pubkey import Pubkey
+from solana.rpc.async_api import AsyncClient
+
+from orca_whirlpool.accounts import AccountFinder, AccountFetcher
+from orca_whirlpool.constants import ORCA_WHIRLPOOL_PROGRAM_ID
+from orca_whirlpool.utils import PoolUtil
+
+async def main():
+    connection = AsyncClient(RPC_ENDPOINT_URL)
+    whirlpool_pubkey = Pubkey.from_string("HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ")
+
+    # get liquidity distribution
+    fetcher = AccountFetcher(connection)
+    whirlpool = await fetcher.get_whirlpool(whirlpool_pubkey)
+    finder = AccountFinder(connection)
+    tick_arrays = await finder.find_tick_arrays_by_whirlpool(
+        ORCA_WHIRLPOOL_PROGRAM_ID,
+        whirlpool_pubkey,
+    )
+
+    liquidity_distribution = PoolUtil.get_liquidity_distribution(whirlpool, tick_arrays)
+
+    for ld in liquidity_distribution:
+        print(ld.tick_lower_index, ld.tick_upper_index, ld.liquidity)
 
 asyncio.run(main())
 ```

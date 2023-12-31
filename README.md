@@ -18,8 +18,11 @@ This library have been tested in the following environment.
 ```commandline
 pip install solana solders anchorpy
 ```
+📝 If you want to try it before uploading to pypi, please use this.
 ```commandline
-pip install whirlpool-essentials
+# pip install whirlpool-essentials
+
+pip install -i https://test.pypi.org/simple/ whirlpool-essentials
 ```
 
 ## Sample

@@ -18,13 +18,13 @@ from orca_whirlpool.types import Percentage, SwapDirection, SpecifiedAmount, Tic
 
 load_dotenv()
 RPC_ENDPOINT_URL = os.getenv("RPC_ENDPOINT_URL")
-SAMO_USDC_WHIRLPOOL_PUBKEY = Pubkey.from_string("9vqYJjDUFecLL2xPUC4Rc7hyCtZ6iJ4mDiVZX7aFXoAe")
+SOL_USDC_WHIRLPOOL_PUBKEY = Pubkey.from_string("HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ")
 
 
 async def main():
     # read wallet
     # - how to create: solana-keygen new -o wallet.json
-    # - need some USDC and SAMO
+    # - need some USDC and SOL
     with Path("wallet.json").open() as f:
         keypair = Keypair.from_bytes(bytes(json.load(f)))
     print("wallet pubkey", keypair.pubkey())
@@ -34,7 +34,7 @@ async def main():
     ctx = WhirlpoolContext(ORCA_WHIRLPOOL_PROGRAM_ID, connection, keypair)
 
     # get whirlpool
-    whirlpool_pubkey = SAMO_USDC_WHIRLPOOL_PUBKEY
+    whirlpool_pubkey = SOL_USDC_WHIRLPOOL_PUBKEY
     whirlpool = await ctx.fetcher.get_whirlpool(whirlpool_pubkey)
     token_a_decimal = (await ctx.fetcher.get_token_mint(whirlpool.token_mint_a)).decimals  # SAMO_DECIMAL
     token_b_decimal = (await ctx.fetcher.get_token_mint(whirlpool.token_mint_b)).decimals  # USDC_DECIMAL
@@ -47,8 +47,8 @@ async def main():
     print("whirlpool price", DecimalUtil.to_fixed(price, token_b_decimal))
 
     # input
-    amount = DecimalUtil.to_u64(Decimal("0.01"), token_b_decimal)  # USDC
-    direction = SwapDirection.BtoA
+    amount = DecimalUtil.to_u64(Decimal("0.0001"), token_a_decimal)  # SOL
+    direction = SwapDirection.AtoB
     specified_amount = SpecifiedAmount.SwapInput
     other_amount_threshold = 0
     sqrt_price_limit = SwapUtil.get_default_sqrt_price_limit(direction)
@@ -88,7 +88,7 @@ async def main():
     print("specified_amount", quote.specified_amount)
     print("tick_arrays", quote.tick_array_0, quote.tick_array_1, quote.tick_array_2)
 
-    # get ATA (create if needed)
+    # get ATA and temporary SOL account (create if needed)
     token_account_a = await TokenUtil.resolve_or_create_ata(ctx.connection, ctx.wallet.pubkey(), whirlpool.token_mint_a, quote.amount if quote.direction.is_a_to_b else 0)
     token_account_b = await TokenUtil.resolve_or_create_ata(ctx.connection, ctx.wallet.pubkey(), whirlpool.token_mint_b, quote.amount if quote.direction.is_b_to_a else 0)
     print("token_account_a", token_account_a.pubkey)
@@ -128,17 +128,36 @@ asyncio.run(main())
 """
 SAMPLE OUTPUT:
 
-$ python essentials_swap.py
+$ python essentials_swap_with_sol.py
 wallet pubkey r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6
-whirlpool token_mint_a 7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU
+whirlpool token_mint_a So11111111111111111111111111111111111111112
 whirlpool token_mint_b EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
 whirlpool tick_spacing 64
-whirlpool tick_current_index -116826
-whirlpool sqrt_price 53604644321225494
-whirlpool price 0.008444
-token_account_a 6dM4iMgSei6zF9y3sqdgSJ2xwNXML5wk5QKhV4DqJPhu
+whirlpool tick_current_index -23622
+whirlpool sqrt_price 5662526911338699098
+whirlpool price 94.228247
+tickarrays [Pubkey(
+    A2W6hiA2nf16iqtbZt9vX8FJbiXjv3DBUG3DgTja61HT,
+), Pubkey(
+    2Eh8HEeu45tCWxY6ruLLRN6VcTSD7bfshGj7bZA87Kne,
+), Pubkey(
+    EVqGhR2ukNuqZNfvFFAitrX6UqrRm2r8ayKX9LH9xHzK,
+)]
+oracle 4GkRbcYg1VKsZropgai4dMf2Nj2PkXNLf43knFpavrSi
+SwapQuote(amount=100000, other_amount_threshold=9300, sqrt_price_limit=4295048016, direction=<SwapDirection.AtoB: 'A to B'>, specified_amount=<SpecifiedAmount.SwapInput: 'Swap Input'>, tick_array_0=Pubkey(
+    A2W6hiA2nf16iqtbZt9vX8FJbiXjv3DBUG3DgTja61HT,
+), tick_array_1=Pubkey(
+    2Eh8HEeu45tCWxY6ruLLRN6VcTSD7bfshGj7bZA87Kne,
+), tick_array_2=Pubkey(
+    2Eh8HEeu45tCWxY6ruLLRN6VcTSD7bfshGj7bZA87Kne,
+), estimated_amount_in=100000, estimated_amount_out=9394, estimated_end_tick_index=-23622, estimated_end_sqrt_price=5662526827817785379, estimated_fee_amount=300)
+amount 100000
+other_amount_threshold 9300
+slippage 1/100
+direction SwapDirection.AtoB
+specified_amount SpecifiedAmount.SwapInput
+tick_arrays A2W6hiA2nf16iqtbZt9vX8FJbiXjv3DBUG3DgTja61HT 2Eh8HEeu45tCWxY6ruLLRN6VcTSD7bfshGj7bZA87Kne 2Eh8HEeu45tCWxY6ruLLRN6VcTSD7bfshGj7bZA87Kne
+token_account_a 4DbScBKeKV4BpKNcM5udxnkxR7dPzN6xbBiu261Wx1zh
 token_account_b FbQdXCQgGQYj3xcGeryVVFjKCTsAuu53vmCRtmjQEqM5
-tickarrays [4xM1zPj8ihLFUs2DvptGVZKkdACSZgNaa8zpBTApNk9G, CHVTbSXJ3W1XEjQXx7BhV2ZSfzmQcbZzKTGZa6ph6BoH, EE9AbRXbCKRGMeN6qAxxMUTEEPd1tQo67oYBQKkUNrfJ]
-oracle 5HyJnjQ4XTSVXUS2Q8Ef6VCVwnXGnHE2WTwq7iSaZJez
-TX signature 41nnMC8zCu7nycUPJ6zG4edEfMihV85i4iVBV2Th2XZTQiJYnsDVxCvsgM2giwnKxZSm9YHQLMJPxKv7RzdP2izE
+TX signature 2HdGUMGBUUeLqR2tyvKckhcLLobAxfxHGYTPtrSMYqpsjZ1mFFsdag99YUfMLbZmxPCJL6jfkMR6Czb7wNh5p86H
 """

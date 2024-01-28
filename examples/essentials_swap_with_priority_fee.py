@@ -47,19 +47,12 @@ async def main():
     print("whirlpool price", DecimalUtil.to_fixed(price, token_b_decimal))
 
     # input
-    # no threshold because it is difficult to port swap quote function ^^;
     amount = DecimalUtil.to_u64(Decimal("0.01"), token_b_decimal)  # USDC
     direction = SwapDirection.BtoA
     specified_amount = SpecifiedAmount.SwapInput
     other_amount_threshold = 0
     sqrt_price_limit = SwapUtil.get_default_sqrt_price_limit(direction)
     acceptable_slippage = Percentage.from_fraction(1, 100)  # 1%
-
-    # get ATA (not considering WSOL and creation of ATA)
-    token_account_a = TokenUtil.derive_ata(keypair.pubkey(), whirlpool.token_mint_a)
-    token_account_b = TokenUtil.derive_ata(keypair.pubkey(), whirlpool.token_mint_b)
-    print("token_account_a", token_account_a)
-    print("token_account_b", token_account_b)
 
     # get TickArray
     pubkeys = SwapUtil.get_tick_array_pubkeys(
@@ -95,6 +88,12 @@ async def main():
     print("specified_amount", quote.specified_amount)
     print("tick_arrays", quote.tick_array_0, quote.tick_array_1, quote.tick_array_2)
 
+    # get ATA (create if needed)
+    token_account_a = await TokenUtil.resolve_or_create_ata(ctx.connection, ctx.wallet.pubkey(), whirlpool.token_mint_a, quote.amount if quote.direction.is_a_to_b else 0)
+    token_account_b = await TokenUtil.resolve_or_create_ata(ctx.connection, ctx.wallet.pubkey(), whirlpool.token_mint_b, quote.amount if quote.direction.is_b_to_a else 0)
+    print("token_account_a", token_account_a.pubkey)
+    print("token_account_b", token_account_b.pubkey)
+
     # execute transaction
     ix = WhirlpoolIx.swap(
         ctx.program_id,
@@ -106,9 +105,9 @@ async def main():
             a_to_b=direction.is_a_to_b,
             token_authority=keypair.pubkey(),
             whirlpool=whirlpool_pubkey,
-            token_owner_account_a=token_account_a,
+            token_owner_account_a=token_account_a.pubkey,
             token_vault_a=whirlpool.token_vault_a,
-            token_owner_account_b=token_account_b,
+            token_owner_account_b=token_account_b.pubkey,
             token_vault_b=whirlpool.token_vault_b,
             tick_array_0=quote.tick_array_0,
             tick_array_1=quote.tick_array_1,
@@ -116,7 +115,10 @@ async def main():
             oracle=oracle,
         )
     )
-    tx = TransactionBuilder(ctx.connection, keypair).add_instruction(ix)
+    tx = TransactionBuilder(ctx.connection, keypair)\
+        .add_instruction(token_account_a.instruction)\
+        .add_instruction(token_account_b.instruction)\
+        .add_instruction(ix)
 
     # add priority fees (+ 1000 lamports)
     tx.set_compute_unit_limit(200000)

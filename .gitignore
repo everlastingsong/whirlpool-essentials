@@ -1,6 +1,7 @@
 wallet.json
 memo.txt
 examples/wallet.json
+examples/.env
 .idea
 tests/.pytest_cache
 __pycache__

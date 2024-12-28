@@ -142,6 +142,27 @@ class PDAUtilTestCase(unittest.TestCase):
         result = PDAUtil.get_oracle(ORCA_WHIRLPOOL_PROGRAM_ID, usdc_usdt_1).pubkey
         self.assertEqual(str(oracle), str(result))
 
+    def test_get_fee_tier_01(self):
+        fee_tier_1 = Pubkey.from_string("62dSkn5ktwY1PoKPNMArZA4bZsvyemuknWUnnQ2ATTuN")
+        result = PDAUtil.get_fee_tier(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG.SOLANA_MAINNET, 1).pubkey
+        self.assertEqual(str(fee_tier_1), str(result))
+
+    def test_get_fee_tier_02(self):
+        fee_tier_64 = Pubkey.from_string("HT55NVGVTjWmWLjV7BrSMPVZ7ppU8T2xE5nCAZ6YaGad")
+        result = PDAUtil.get_fee_tier(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG.SOLANA_MAINNET, 64).pubkey
+        self.assertEqual(str(fee_tier_64), str(result))
+
+    def test_get_whirlpools_config_extension_01(self):
+        config_extension = Pubkey.from_string("777H5H3Tp9U11uRVRzFwM8BinfiakbaLT8vQpeuhvEiH")
+        result = PDAUtil.get_whirlpools_config_extension(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG.SOLANA_MAINNET).pubkey
+        self.assertEqual(str(config_extension), str(result))
+
+    def test_get_token_badge_01(self):
+        pyusd = Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo")
+        pyusd_token_badge = Pubkey.from_string("HX5iftnCxhtu11ys3ZuWbvUqo7cyPYaVNZBrLL67Hrbm")
+        result = PDAUtil.get_token_badge(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG.SOLANA_MAINNET, pyusd).pubkey
+        self.assertEqual(str(pyusd_token_badge), str(result))
+
 
 class PriceMathTestCase(unittest.TestCase):
     def test_tick_index_to_sqrt_price_x64_01(self):

@@ -7,6 +7,7 @@ from solders.keypair import Keypair
 # from solders.sysvar import RENT
 # from solders.system_program import ID as SYS_PROGRAM_ID
 # from spl.token.constants import TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID
+from spl.token.constants import TOKEN_2022_PROGRAM_ID
 from ..anchor import instructions
 from ..anchor import types
 from ..constants import METAPLEX_METADATA_PROGRAM_ID, ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY
@@ -336,6 +337,28 @@ class CloseBundledPositionParams:
     position_bundle_token_account: Pubkey
     position_bundle_authority: Pubkey
     receiver: Pubkey
+
+
+@dataclasses.dataclass(frozen=True)
+class OpenPositionWithTokenExtensionsParams:
+    tick_lower_index: int
+    tick_upper_index: int
+    with_token_metadata_extension: bool
+    position_pda: PDA
+    funder: Pubkey
+    owner: Pubkey
+    position_mint: Pubkey
+    position_token_account: Pubkey
+    whirlpool: Pubkey
+
+
+@dataclasses.dataclass(frozen=True)
+class ClosePositionWithTokenExtensionsParams:
+    position_authority: Pubkey
+    receiver: Pubkey
+    position: Pubkey
+    position_mint: Pubkey
+    position_token_account: Pubkey
 
 
 class WhirlpoolIx:
@@ -868,6 +891,45 @@ class WhirlpoolIx:
                 position_bundle_token_account=params.position_bundle_token_account,
                 position_bundle_authority=params.position_bundle_authority,
                 receiver=params.receiver,
+            ),
+            program_id
+        )
+        return to_instruction([ix])
+
+    @staticmethod
+    def open_position_with_token_extensions(program_id: Pubkey, params: OpenPositionWithTokenExtensionsParams):
+        ix = instructions.open_position_with_token_extensions(
+            instructions.OpenPositionWithTokenExtensionsArgs(
+                tick_lower_index=params.tick_lower_index,
+                tick_upper_index=params.tick_upper_index,
+                with_token_metadata_extension=params.with_token_metadata_extension,
+            ),
+            instructions.OpenPositionWithTokenExtensionsAccounts(
+                funder=params.funder,
+                owner=params.owner,
+                position=params.position_pda.pubkey,
+                position_mint=params.position_mint,
+                position_token_account=params.position_token_account,
+                whirlpool=params.whirlpool,
+                token2022_program=TOKEN_2022_PROGRAM_ID,
+                # system_program=SYS_PROGRAM_ID,
+                # associated_token_program=ASSOCIATED_TOKEN_PROGRAM_ID,
+                metadata_update_auth=ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY,
+            ),
+            program_id
+        )
+        return to_instruction([ix])
+
+    @staticmethod
+    def close_position_with_token_extensions(program_id: Pubkey, params: ClosePositionWithTokenExtensionsParams):
+        ix = instructions.close_position_with_token_extensions(
+            instructions.ClosePositionWithTokenExtensionsAccounts(
+                position_authority=params.position_authority,
+                receiver=params.receiver,
+                position=params.position,
+                position_mint=params.position_mint,
+                position_token_account=params.position_token_account,
+                token2022_program=TOKEN_2022_PROGRAM_ID,
             ),
             program_id
         )

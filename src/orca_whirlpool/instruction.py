@@ -30,4 +30,6 @@ from .internal.instruction.whirlpoolix import (
     DeletePositionBundleParams,
     OpenBundledPositionParams,
     CloseBundledPositionParams,
+    OpenPositionWithTokenExtensionsParams,
+    ClosePositionWithTokenExtensionsParams,
 )

@@ -10,9 +10,9 @@ Whirlpool Essentials is a core library to interacting with Orca Whirlpool Progra
 This library have been tested in the following environment.
 
 * Python: 3.10.6
-* solders: 0.18.1
-* solana: 0.30.2
-* anchorpy: 0.18.0
+* solders: 0.21.0
+* solana: 0.35.1
+* anchorpy: 0.20.1
 
 ## Installation
 ```commandline

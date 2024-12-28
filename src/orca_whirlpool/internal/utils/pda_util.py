@@ -11,6 +11,8 @@ PDA_FEE_TIER_SEED = b"fee_tier"
 PDA_ORACLE_SEED = b"oracle"
 PDA_POSITION_BUNDLE_SEED = b"position_bundle"
 PDA_BUNDLED_POSITION_SEED = b"bundled_position"
+PDA_WHIRLPOOLS_CONFIG_EXTENSION_SEED = b"config_extension"
+PDA_TOKEN_BADGE_SEED = b"token_badge"
 
 
 class PDAUtil:
@@ -107,4 +109,23 @@ class PDAUtil:
             bytes(position_bundle_mint)
         ]
         (pubkey, nonce) = Pubkey.find_program_address(seeds, METAPLEX_METADATA_PROGRAM_ID)
+        return PDA(pubkey, nonce)
+
+    @staticmethod
+    def get_whirlpools_config_extension(program_id: Pubkey, whirlpools_config_pubkey: Pubkey) -> PDA:
+        seeds = [
+            PDA_WHIRLPOOLS_CONFIG_EXTENSION_SEED,
+            bytes(whirlpools_config_pubkey)
+        ]
+        (pubkey, nonce) = Pubkey.find_program_address(seeds, program_id)
+        return PDA(pubkey, nonce)
+
+    @staticmethod
+    def get_token_badge(program_id: Pubkey, whirlpools_config_pubkey: Pubkey, token_mint: Pubkey) -> PDA:
+        seeds = [
+            PDA_TOKEN_BADGE_SEED,
+            bytes(whirlpools_config_pubkey),
+            bytes(token_mint)
+        ]
+        (pubkey, nonce) = Pubkey.find_program_address(seeds, program_id)
         return PDA(pubkey, nonce)

@@ -88,6 +88,25 @@ class PositionBundle:
 
 
 @dataclasses.dataclass(frozen=True)
+class WhirlpoolsConfigExtension:
+    # keyed
+    pubkey: Pubkey
+    # WhirlpoolsConfigExtension
+    whirlpools_config: Pubkey
+    config_extension_authority: Pubkey
+    token_badge_authority: Pubkey
+
+
+@dataclasses.dataclass(frozen=True)
+class TokenBadge:
+    # keyed
+    pubkey: Pubkey
+    # TokenBadge
+    whirlpools_config: Pubkey
+    token_mint: Pubkey
+
+
+@dataclasses.dataclass(frozen=True)
 class AccountInfo:
     # keyed
     pubkey: Pubkey

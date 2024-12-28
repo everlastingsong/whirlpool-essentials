@@ -4,6 +4,7 @@ from solders.pubkey import Pubkey
 from solana.rpc.async_api import AsyncClient
 from ..types.types import BlockTimestamp
 from .types import WhirlpoolsConfig, FeeTier, Whirlpool, TickArray, Position, PositionBundle, MintInfo, AccountInfo
+from .types import WhirlpoolsConfigExtension, TokenBadge
 from .account_parser import AccountParser
 from .keyed_account_converter import KeyedAccountConverter
 
@@ -76,6 +77,12 @@ class AccountFetcher:
     async def get_position_bundle(self, pubkey: Pubkey, refresh: bool = False) -> Optional[PositionBundle]:
         return await self._get(pubkey, AccountParser.parse_position_bundle, KeyedAccountConverter.to_keyed_position_bundle, refresh)
 
+    async def get_whirlpools_config_extension(self, pubkey: Pubkey, refresh: bool = False) -> Optional[WhirlpoolsConfigExtension]:
+        return await self._get(pubkey, AccountParser.parse_whirlpools_config_extension, KeyedAccountConverter.to_keyed_whirlpools_config_extension, refresh)
+
+    async def get_token_badge(self, pubkey: Pubkey, refresh: bool = False) -> Optional[TokenBadge]:
+        return await self._get(pubkey, AccountParser.parse_token_badge, KeyedAccountConverter.to_keyed_token_badge, refresh)
+
     async def get_token_account(self, pubkey: Pubkey, refresh: bool = False) -> Optional[AccountInfo]:
         return await self._get(pubkey, AccountParser.parse_token_account, KeyedAccountConverter.to_keyed_token_account, refresh)
 
@@ -93,6 +100,9 @@ class AccountFetcher:
 
     async def list_position_bundles(self, pubkeys: List[Pubkey], refresh: bool = False) -> List[Optional[PositionBundle]]:
         return await self._list(pubkeys, AccountParser.parse_position_bundle, KeyedAccountConverter.to_keyed_position_bundle, refresh)
+
+    async def list_token_badges(self, pubkeys: List[Pubkey], refresh: bool = False) -> List[Optional[TokenBadge]]:
+        return await self._list(pubkeys, AccountParser.parse_token_badge, KeyedAccountConverter.to_keyed_token_badge, refresh)
 
     async def list_token_accounts(self, pubkeys: List[Pubkey], refresh: bool = False) -> List[Optional[AccountInfo]]:
         return await self._list(pubkeys, AccountParser.parse_token_account, KeyedAccountConverter.to_keyed_token_account, refresh)

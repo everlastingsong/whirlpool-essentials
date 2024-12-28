@@ -4,7 +4,7 @@ from solana.rpc.async_api import AsyncClient
 from solders.keypair import Keypair
 from solders.pubkey import Pubkey
 
-from orca_whirlpool.internal.constants import ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG, MIN_TICK_INDEX, MAX_TICK_INDEX, MIN_SQRT_PRICE, MAX_SQRT_PRICE, U64_MAX, TICK_ARRAY_SIZE, FEE_RATE_MUL_VALUE, PROTOCOL_FEE_RATE_MUL_VALUE, NUM_REWARDS, MAX_SWAP_TICK_ARRAYS, METAPLEX_METADATA_PROGRAM_ID, ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY, DEFAULT_PUBKEY
+from orca_whirlpool.internal.constants import ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG, ORCA_WHIRLPOOLS_CONFIG_EXTENSION, MIN_TICK_INDEX, MAX_TICK_INDEX, MIN_SQRT_PRICE, MAX_SQRT_PRICE, U64_MAX, TICK_ARRAY_SIZE, FEE_RATE_MUL_VALUE, PROTOCOL_FEE_RATE_MUL_VALUE, NUM_REWARDS, MAX_SWAP_TICK_ARRAYS, METAPLEX_METADATA_PROGRAM_ID, ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY, DEFAULT_PUBKEY
 from orca_whirlpool.internal.utils.pool_util import PoolUtil
 from orca_whirlpool.internal.utils.position_util import PositionUtil
 from orca_whirlpool.internal.utils.price_math import PriceMath
@@ -24,7 +24,16 @@ class ConstantsTestCase(unittest.TestCase):
         self.assertEqual(Pubkey.from_string("whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc"), ORCA_WHIRLPOOL_PROGRAM_ID)
 
     def test_ORCA_WHIRLPOOLS_CONFIG(self):
-        self.assertEqual(Pubkey.from_string("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ"), ORCA_WHIRLPOOLS_CONFIG)
+        self.assertEqual(Pubkey.from_string("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ"), ORCA_WHIRLPOOLS_CONFIG.SOLANA_MAINNET)
+        self.assertEqual(Pubkey.from_string("FcrweFY1G9HJAHG5inkGB6pKg1HZ6x9UC2WioAfWrGkR"), ORCA_WHIRLPOOLS_CONFIG.SOLANA_DEVNET)
+        self.assertEqual(Pubkey.from_string("FVG4oDbGv16hqTUbovjyGmtYikn6UBEnazz6RVDMEFwv"), ORCA_WHIRLPOOLS_CONFIG.ECLIPSE_MAINNET)
+        self.assertEqual(Pubkey.from_string("FPydDjRdZu9sT7HVd6ANhfjh85KLq21Pefr5YWWMRPFp"), ORCA_WHIRLPOOLS_CONFIG.ECLIPSE_TESTNET)
+
+    def test_ORCA_WHIRLPOOLS_CONFIG_EXTENSION(self):
+        self.assertEqual(Pubkey.from_string("777H5H3Tp9U11uRVRzFwM8BinfiakbaLT8vQpeuhvEiH"), ORCA_WHIRLPOOLS_CONFIG_EXTENSION.SOLANA_MAINNET)
+        self.assertEqual(Pubkey.from_string("475EJ7JqnRpVLoFVzp2ruEYvWWMCf6Z8KMWRujtXXNSU"), ORCA_WHIRLPOOLS_CONFIG_EXTENSION.SOLANA_DEVNET)
+        self.assertEqual(Pubkey.from_string("9VrJciULifYcwu2CL8nbXdw4deqQgmv7VTzidwgQYBmm"), ORCA_WHIRLPOOLS_CONFIG_EXTENSION.ECLIPSE_MAINNET)
+        self.assertEqual(Pubkey.from_string("6gUEB962oFdZtwoVyXNya9TfGWnBEbYNYt8UdvzT6PSf"), ORCA_WHIRLPOOLS_CONFIG_EXTENSION.ECLIPSE_TESTNET)
 
     def test_ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY(self):
         self.assertEqual(Pubkey.from_string("3axbTs2z5GBy6usVbNVoqEgZMng3vZvMnAoX29BFfwhr"), ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY)
@@ -71,14 +80,14 @@ class PDAUtilTestCase(unittest.TestCase):
         sol = Pubkey.from_string("So11111111111111111111111111111111111111112")
         usdc = Pubkey.from_string("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v")
         sol_usdc_64 = Pubkey.from_string("HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ")
-        result = PDAUtil.get_whirlpool(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG, sol, usdc, 64).pubkey
+        result = PDAUtil.get_whirlpool(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG.SOLANA_MAINNET, sol, usdc, 64).pubkey
         self.assertEqual(str(sol_usdc_64), str(result))
 
     def test_get_whirlpool_02(self):
         sol = Pubkey.from_string("So11111111111111111111111111111111111111112")
         stsol = Pubkey.from_string("7dHbWXmci3dT8UFYWYZweBLXgycu7Y3iL6trKn1Y7ARj")
         sol_stsol_1 = Pubkey.from_string("2AEWSvUds1wsufnsDPCXjFsJCMJH5SNNm7fSF4kxys9a")
-        result = PDAUtil.get_whirlpool(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG, sol, stsol, 1).pubkey
+        result = PDAUtil.get_whirlpool(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG.SOLANA_MAINNET, sol, stsol, 1).pubkey
         self.assertEqual(str(sol_stsol_1), str(result))
 
     def test_get_position_01(self):

@@ -6,7 +6,9 @@ from .internal.accounts.types import (
     TickArray,
     AccountInfo,
     MintInfo,
-    PositionBundle
+    PositionBundle,
+    WhirlpoolsConfigExtension,
+    TokenBadge
 )
 from .internal.accounts.account_fetcher import AccountFetcher
 from .internal.accounts.account_parser import AccountParser

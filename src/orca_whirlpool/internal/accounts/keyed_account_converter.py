@@ -3,8 +3,10 @@ from solders.pubkey import Pubkey
 from spl.token.core import AccountInfo as SolanapyAccountInfo, MintInfo as SolanapyMintInfo
 from ..anchor.accounts import WhirlpoolsConfig as AnchorWhirlpoolsConfig, FeeTier as AnchorFeeTier
 from ..anchor.accounts import Whirlpool as AnchorWhirlpool, TickArray as AnchorTickArray, Position as AnchorPosition
-from ..anchor.accounts import PositionBundle as AnchorPositionBundle
-from .types import WhirlpoolsConfig, FeeTier, Whirlpool, TickArray, Position, PositionBundle, AccountInfo, MintInfo
+from ..anchor.accounts import PositionBundle as AnchorPositionBundle, TokenBadge as AnchorTokenBadge
+from ..anchor.accounts import WhirlpoolsConfigExtension as AnchorWhirlpoolsConfigExtension
+from .types import WhirlpoolsConfig, FeeTier, Whirlpool, TickArray, Position, PositionBundle, WhirlpoolsConfigExtension
+from .types import TokenBadge, AccountInfo, MintInfo
 
 
 class KeyedAccountConverter:
@@ -95,6 +97,27 @@ class KeyedAccountConverter:
             pubkey=pubkey,
             position_bundle_mint=account.position_bundle_mint,
             position_bitmap=account.position_bitmap,
+        )
+
+    @staticmethod
+    def to_keyed_whirlpools_config_extension(pubkey: Pubkey, account: Optional[AnchorWhirlpoolsConfigExtension]) -> Optional[WhirlpoolsConfigExtension]:
+        if account is None:
+            return None
+        return WhirlpoolsConfigExtension(
+            pubkey=pubkey,
+            whirlpools_config=account.whirlpools_config,
+            config_extension_authority=account.config_extension_authority,
+            token_badge_authority=account.token_badge_authority,
+        )
+
+    @staticmethod
+    def to_keyed_token_badge(pubkey: Pubkey, account: Optional[AnchorTokenBadge]) -> Optional[TokenBadge]:
+        if account is None:
+            return None
+        return TokenBadge(
+            pubkey=pubkey,
+            whirlpools_config=account.whirlpools_config,
+            token_mint=account.token_mint,
         )
 
     @staticmethod

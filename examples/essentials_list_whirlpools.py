@@ -16,7 +16,7 @@ async def main():
     finder = AccountFinder(connection)
     orca_supported_whirlpools = await finder.find_whirlpools_by_whirlpools_config(
         ORCA_WHIRLPOOL_PROGRAM_ID,
-        ORCA_WHIRLPOOLS_CONFIG,
+        ORCA_WHIRLPOOLS_CONFIG.SOLANA_MAINNET,
     )
 
     for p in orca_supported_whirlpools:

@@ -3,6 +3,7 @@ from spl.token.core import AccountInfo as SolanapyAccountInfo, MintInfo as Solan
 from ..anchor.accounts import WhirlpoolsConfig as AnchorWhirlpoolsConfig, FeeTier as AnchorFeeTier
 from ..anchor.accounts import Whirlpool as AnchorWhirlpool, TickArray as AnchorTickArray, Position as AnchorPosition
 from ..anchor.accounts import PositionBundle as AnchorPositionBundle
+from ..anchor.accounts import WhirlpoolsConfigExtension as AnchorWhirlpoolsConfigExtension, TokenBadge as AnchorTokenBadge
 from ..utils.token_util import TokenUtil
 
 
@@ -38,6 +39,14 @@ class AccountParser:
     @staticmethod
     def parse_position_bundle(data: bytes) -> Optional[AnchorPositionBundle]:
         return safe_decode(AnchorPositionBundle.decode, data)
+
+    @staticmethod
+    def parse_whirlpools_config_extension(data: bytes) -> Optional[AnchorWhirlpoolsConfigExtension]:
+        return safe_decode(AnchorWhirlpoolsConfigExtension.decode, data)
+
+    @staticmethod
+    def parse_token_badge(data: bytes) -> Optional[AnchorTokenBadge]:
+        return safe_decode(AnchorTokenBadge.decode, data)
 
     @staticmethod
     def parse_token_mint(data: bytes) -> Optional[SolanapyMintInfo]:

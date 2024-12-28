@@ -4,7 +4,6 @@ examples/wallet.json
 .idea
 tests/.pytest_cache
 __pycache__
-examples/.env
 requirements.txt.bk
 dist
 BUILD.md

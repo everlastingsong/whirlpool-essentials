@@ -436,6 +436,105 @@ class PositionBundleNotDeletable(ProgramError):
     msg = "Unable to delete PositionBundle with open positions"
 
 
+class UnsupportedTokenMint(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6047, "Token mint has unsupported attributes")
+
+    code = 6047
+    name = "UnsupportedTokenMint"
+    msg = "Token mint has unsupported attributes"
+
+
+class RemainingAccountsInvalidSlice(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6048, "Invalid remaining accounts")
+
+    code = 6048
+    name = "RemainingAccountsInvalidSlice"
+    msg = "Invalid remaining accounts"
+
+
+class RemainingAccountsInsufficient(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6049, "Insufficient remaining accounts")
+
+    code = 6049
+    name = "RemainingAccountsInsufficient"
+    msg = "Insufficient remaining accounts"
+
+
+class NoExtraAccountsForTransferHook(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6050, "Unable to call transfer hook without extra accounts")
+
+    code = 6050
+    name = "NoExtraAccountsForTransferHook"
+    msg = "Unable to call transfer hook without extra accounts"
+
+
+class IntermediateTokenAmountMismatch(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6051, "Output and input amount mismatch")
+
+    code = 6051
+    name = "IntermediateTokenAmountMismatch"
+    msg = "Output and input amount mismatch"
+
+
+class TransferFeeCalculationError(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6052, "Transfer fee calculation failed")
+
+    code = 6052
+    name = "TransferFeeCalculationError"
+    msg = "Transfer fee calculation failed"
+
+
+class RemainingAccountsDuplicatedAccountsType(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6053, "Same accounts type is provided more than once")
+
+    code = 6053
+    name = "RemainingAccountsDuplicatedAccountsType"
+    msg = "Same accounts type is provided more than once"
+
+
+class FullRangeOnlyPool(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6054, "This whirlpool only supports full-range positions")
+
+    code = 6054
+    name = "FullRangeOnlyPool"
+    msg = "This whirlpool only supports full-range positions"
+
+
+class TooManySupplementalTickArrays(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6055, "Too many supplemental tick arrays provided")
+
+    code = 6055
+    name = "TooManySupplementalTickArrays"
+    msg = "Too many supplemental tick arrays provided"
+
+
+class DifferentWhirlpoolTickArrayAccount(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6056, "TickArray account for different whirlpool provided")
+
+    code = 6056
+    name = "DifferentWhirlpoolTickArrayAccount"
+    msg = "TickArray account for different whirlpool provided"
+
+
+class PartialFillError(ProgramError):
+    def __init__(self) -> None:
+        super().__init__(6057, "Trade resulted in partial fill")
+
+    code = 6057
+    name = "PartialFillError"
+    msg = "Trade resulted in partial fill"
+
+
 CustomError = typing.Union[
     InvalidEnum,
     InvalidStartTick,
@@ -484,6 +583,17 @@ CustomError = typing.Union[
     BundledPositionAlreadyOpened,
     BundledPositionAlreadyClosed,
     PositionBundleNotDeletable,
+    UnsupportedTokenMint,
+    RemainingAccountsInvalidSlice,
+    RemainingAccountsInsufficient,
+    NoExtraAccountsForTransferHook,
+    IntermediateTokenAmountMismatch,
+    TransferFeeCalculationError,
+    RemainingAccountsDuplicatedAccountsType,
+    FullRangeOnlyPool,
+    TooManySupplementalTickArrays,
+    DifferentWhirlpoolTickArrayAccount,
+    PartialFillError,
 ]
 CUSTOM_ERROR_MAP: dict[int, CustomError] = {
     6000: InvalidEnum(),
@@ -533,6 +643,17 @@ CUSTOM_ERROR_MAP: dict[int, CustomError] = {
     6044: BundledPositionAlreadyOpened(),
     6045: BundledPositionAlreadyClosed(),
     6046: PositionBundleNotDeletable(),
+    6047: UnsupportedTokenMint(),
+    6048: RemainingAccountsInvalidSlice(),
+    6049: RemainingAccountsInsufficient(),
+    6050: NoExtraAccountsForTransferHook(),
+    6051: IntermediateTokenAmountMismatch(),
+    6052: TransferFeeCalculationError(),
+    6053: RemainingAccountsDuplicatedAccountsType(),
+    6054: FullRangeOnlyPool(),
+    6055: TooManySupplementalTickArrays(),
+    6056: DifferentWhirlpoolTickArrayAccount(),
+    6057: PartialFillError(),
 }
 
 

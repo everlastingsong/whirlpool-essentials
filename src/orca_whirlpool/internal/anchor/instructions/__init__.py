@@ -104,3 +104,64 @@ from .close_bundled_position import (
     CloseBundledPositionArgs,
     CloseBundledPositionAccounts,
 )
+from .open_position_with_token_extensions import (
+    open_position_with_token_extensions,
+    OpenPositionWithTokenExtensionsArgs,
+    OpenPositionWithTokenExtensionsAccounts,
+)
+from .close_position_with_token_extensions import (
+    close_position_with_token_extensions,
+    ClosePositionWithTokenExtensionsAccounts,
+)
+from .collect_fees_v2 import collect_fees_v2, CollectFeesV2Args, CollectFeesV2Accounts
+from .collect_protocol_fees_v2 import (
+    collect_protocol_fees_v2,
+    CollectProtocolFeesV2Args,
+    CollectProtocolFeesV2Accounts,
+)
+from .collect_reward_v2 import (
+    collect_reward_v2,
+    CollectRewardV2Args,
+    CollectRewardV2Accounts,
+)
+from .decrease_liquidity_v2 import (
+    decrease_liquidity_v2,
+    DecreaseLiquidityV2Args,
+    DecreaseLiquidityV2Accounts,
+)
+from .increase_liquidity_v2 import (
+    increase_liquidity_v2,
+    IncreaseLiquidityV2Args,
+    IncreaseLiquidityV2Accounts,
+)
+from .initialize_pool_v2 import (
+    initialize_pool_v2,
+    InitializePoolV2Args,
+    InitializePoolV2Accounts,
+)
+from .initialize_reward_v2 import (
+    initialize_reward_v2,
+    InitializeRewardV2Args,
+    InitializeRewardV2Accounts,
+)
+from .set_reward_emissions_v2 import (
+    set_reward_emissions_v2,
+    SetRewardEmissionsV2Args,
+    SetRewardEmissionsV2Accounts,
+)
+from .swap_v2 import swap_v2, SwapV2Args, SwapV2Accounts
+from .two_hop_swap_v2 import two_hop_swap_v2, TwoHopSwapV2Args, TwoHopSwapV2Accounts
+from .initialize_config_extension import (
+    initialize_config_extension,
+    InitializeConfigExtensionAccounts,
+)
+from .set_config_extension_authority import (
+    set_config_extension_authority,
+    SetConfigExtensionAuthorityAccounts,
+)
+from .set_token_badge_authority import (
+    set_token_badge_authority,
+    SetTokenBadgeAuthorityAccounts,
+)
+from .initialize_token_badge import initialize_token_badge, InitializeTokenBadgeAccounts
+from .delete_token_badge import delete_token_badge, DeleteTokenBadgeAccounts

@@ -843,26 +843,31 @@ class AccountFetcherAndParserAndKeyedConverterTestCase(unittest.IsolatedAsyncioT
 
 class TokenUtilTestCase(unittest.IsolatedAsyncioTestCase):
     def test_derive_ata_01(self):
-        # Token Prograam
+        # Token Program
         owner = Pubkey.from_string("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6")
         mint = Pubkey.from_string("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v")
         result = TokenUtil.derive_ata(owner, mint)
         self.assertEqual(Pubkey.from_string("FbQdXCQgGQYj3xcGeryVVFjKCTsAuu53vmCRtmjQEqM5"), result)
 
     def test_derive_ata_02(self):
-        # Token Prograam
+        # Token Program
         owner = Pubkey.from_string("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6")
         mint = Pubkey.from_string("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE")
-        result = TokenUtil.derive_ata(owner, mint)
+        result = TokenUtil.derive_ata(owner, mint, Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"))
         self.assertEqual(Pubkey.from_string("7B8yNHX62NLvRswD86ttbGcV5TYxUsDNxEg2ZRMZLPRt"), result)
 
     def test_derive_ata_03(self):
-        # Token-2022 Prograam
-        self.assertTrue(False, "not implemented (Token-2022)")
+        # Token-2022 Program
+        owner = Pubkey.from_string("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6")
+        mint = Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo")
+        result = TokenUtil.derive_ata(owner, mint, Pubkey.from_string("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"))
+        self.assertEqual(Pubkey.from_string("2A7Cc48jwWWoixM5CWquQKEqk9KNQvY2Xw3WJbBRc6Ei"), result)
 
     async def test_resolve_or_create_ata_01(self):
+        # Token Program
         client = AsyncClientStub([
-            "user_ata_orca.7B8yNHX62NLvRswD86ttbGcV5TYxUsDNxEg2ZRMZLPRt.json"
+            "token_orca.orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE.json",
+            "user_ata_orca.7B8yNHX62NLvRswD86ttbGcV5TYxUsDNxEg2ZRMZLPRt.json",
         ])
         owner = Pubkey.from_string("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6")
         mint = Pubkey.from_string("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE")
@@ -873,7 +878,10 @@ class TokenUtilTestCase(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(0, len(result.instruction.signers))
 
     async def test_resolve_or_create_ata_02(self):
-        client = AsyncClientStub([])
+        # Token Program
+        client = AsyncClientStub([
+            "token_orca.orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE.json",
+        ])
         owner = Pubkey.from_string("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6")
         mint = Pubkey.from_string("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE")
         result = await TokenUtil.resolve_or_create_ata(client, owner, mint)
@@ -881,9 +889,14 @@ class TokenUtilTestCase(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(1, len(result.instruction.instructions))
         self.assertEqual(0, len(result.instruction.cleanup_instructions))
         self.assertEqual(0, len(result.instruction.signers))
+        self.assertEqual(Pubkey.from_string("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"), result.instruction.instructions[0].program_id)
+        self.assertEqual(Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"), result.instruction.instructions[0].accounts[5].pubkey)
 
     async def test_resolve_or_create_ata_03(self):
-        client = AsyncClientStub([])
+        # Token Program
+        client = AsyncClientStub([
+            "token_native.So11111111111111111111111111111111111111112.json",
+        ])
         owner = Pubkey.from_string("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6")
         mint = Pubkey.from_string("So11111111111111111111111111111111111111112")
         result = await TokenUtil.resolve_or_create_ata(client, owner, mint, 1000000000)
@@ -891,10 +904,37 @@ class TokenUtilTestCase(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(1, len(result.instruction.cleanup_instructions))
         self.assertEqual(1, len(result.instruction.signers))
         self.assertEqual(result.instruction.signers[0].pubkey(), result.pubkey)
+        self.assertEqual(Pubkey.from_string("11111111111111111111111111111111"), result.instruction.instructions[0].program_id)
+        self.assertEqual(Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"), result.instruction.instructions[1].program_id)
 
     async def test_resolve_or_create_ata_04(self):
-        # Token-2022 Prograam
-        self.assertTrue(False, "not implemented (Token-2022)")
+        # Token-2022 Program
+        client = AsyncClientStub([
+            "token_2022_pyusd.2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo.json",
+            "user_ata_2022_pyusd.2A7Cc48jwWWoixM5CWquQKEqk9KNQvY2Xw3WJbBRc6Ei.json",
+        ])
+        owner = Pubkey.from_string("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6")
+        mint = Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo")
+        result = await TokenUtil.resolve_or_create_ata(client, owner, mint)
+        self.assertEqual(Pubkey.from_string("2A7Cc48jwWWoixM5CWquQKEqk9KNQvY2Xw3WJbBRc6Ei"), result.pubkey)
+        self.assertEqual(0, len(result.instruction.instructions))
+        self.assertEqual(0, len(result.instruction.cleanup_instructions))
+        self.assertEqual(0, len(result.instruction.signers))
+
+    async def test_resolve_or_create_ata_05(self):
+        # Token-2022 Program
+        client = AsyncClientStub([
+            "token_2022_pyusd.2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo.json",
+        ])
+        owner = Pubkey.from_string("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6")
+        mint = Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo")
+        result = await TokenUtil.resolve_or_create_ata(client, owner, mint)
+        self.assertEqual(Pubkey.from_string("2A7Cc48jwWWoixM5CWquQKEqk9KNQvY2Xw3WJbBRc6Ei"), result.pubkey)
+        self.assertEqual(1, len(result.instruction.instructions))
+        self.assertEqual(0, len(result.instruction.cleanup_instructions))
+        self.assertEqual(0, len(result.instruction.signers))
+        self.assertEqual(Pubkey.from_string("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"), result.instruction.instructions[0].program_id)
+        self.assertEqual(Pubkey.from_string("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"), result.instruction.instructions[0].accounts[5].pubkey)
 
 
 if __name__ == "__main__":

@@ -144,8 +144,8 @@ class TokenUtil:
         )
 
     @staticmethod
-    def derive_ata(owner: Pubkey, mint: Pubkey) -> Pubkey:
-        return get_associated_token_address(owner, mint)
+    def derive_ata(owner: Pubkey, mint: Pubkey, token_program_id: Pubkey = TOKEN_PROGRAM_ID) -> Pubkey:
+        return get_associated_token_address(owner, mint, token_program_id)
 
     @staticmethod
     async def resolve_or_create_ata(
@@ -166,15 +166,55 @@ class TokenUtil:
                 funder,
             )
 
-        ata = TokenUtil.derive_ata(owner, mint)
-        res = await connection.get_account_info(ata)
-        if res.value is not None:
-            token_account = TokenUtil.deserialize_account(res.value.data, res.value.owner)
-            invariant(token_account.owner == owner, "token_account.owner == owner")
-            invariant(token_account.mint == mint, "token_account.mint == mint")
+        ata = TokenUtil.derive_ata(owner, mint, TOKEN_PROGRAM_ID)
+        ata_2022 = TokenUtil.derive_ata(owner, mint, TOKEN_2022_PROGRAM_ID)
+
+        res = await connection.get_multiple_accounts([
+            mint,
+            ata,
+            ata_2022,
+        ])
+
+        fetched_mint = res.value[0]
+        invariant(fetched_mint is not None)
+        parsed_mint = TokenUtil.deserialize_mint(fetched_mint.data, fetched_mint.owner)
+        invariant(parsed_mint is not None)
+        token_program_id = parsed_mint.token_program_id
+
+        fetched_ata = res.value[1]
+        fetched_ata_2022 = res.value[2]
+
+        # Token-2022 Program
+        if token_program_id == TOKEN_2022_PROGRAM_ID:
+            invariant(fetched_ata is None)
+            if fetched_ata_2022 is not None:
+                parsed_ata_2022 = TokenUtil.deserialize_account(fetched_ata_2022.data, fetched_ata_2022.owner)
+                invariant(parsed_ata_2022.token_program_id == token_program_id, "parsed_account.token_program_id must be Token-2022")
+                invariant(parsed_ata_2022.owner == owner, "parsed_account.owner == owner")
+                invariant(parsed_ata_2022.mint == mint, "parsed_account.mint == mint")
+                return PublicKeyWithInstruction(pubkey=ata_2022, instruction=EMPTY_INSTRUCTION)
+
+            create_ata_2022_ix = token_program.create_associated_token_account(funder, owner, mint, TOKEN_2022_PROGRAM_ID)
+            return PublicKeyWithInstruction(
+                pubkey=ata_2022,
+                instruction=Instruction(
+                    instructions=[create_ata_2022_ix],
+                    cleanup_instructions=[],
+                    signers=[],
+                )
+            )
+
+        # Token Program
+        invariant(token_program_id == TOKEN_PROGRAM_ID)
+        invariant(fetched_ata_2022 is None)
+        if fetched_ata is not None:
+            parsed_ata = TokenUtil.deserialize_account(fetched_ata.data, fetched_ata.owner)
+            invariant(parsed_ata.token_program_id == token_program_id, "parsed_account.token_program_id must be Token")
+            invariant(parsed_ata.owner == owner, "parsed_account.owner == owner")
+            invariant(parsed_ata.mint == mint, "parsed_account.mint == mint")
             return PublicKeyWithInstruction(pubkey=ata, instruction=EMPTY_INSTRUCTION)
 
-        create_ata_ix = token_program.create_associated_token_account(funder, owner, mint)
+        create_ata_ix = token_program.create_associated_token_account(funder, owner, mint, TOKEN_PROGRAM_ID)
         return PublicKeyWithInstruction(
             pubkey=ata,
             instruction=Instruction(

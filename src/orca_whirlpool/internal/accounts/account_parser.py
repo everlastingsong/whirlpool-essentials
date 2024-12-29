@@ -1,4 +1,5 @@
 from typing import Optional
+from solders.pubkey import Pubkey
 from spl.token.core import AccountInfo as SolanapyAccountInfo, MintInfo as SolanapyMintInfo
 from ..anchor.accounts import WhirlpoolsConfig as AnchorWhirlpoolsConfig, FeeTier as AnchorFeeTier
 from ..anchor.accounts import Whirlpool as AnchorWhirlpool, TickArray as AnchorTickArray, Position as AnchorPosition
@@ -7,9 +8,12 @@ from ..anchor.accounts import WhirlpoolsConfigExtension as AnchorWhirlpoolsConfi
 from ..utils.token_util import TokenUtil
 
 
-def safe_decode(decode, data):
+def safe_decode(decode, data, program_id: Optional[Pubkey] = None):
     try:
-        return decode(data)
+        if program_id is None:
+            return decode(data)
+        else:
+            return decode(data, program_id)
     # TODO: too broad exception catch
     except Exception:
         return None
@@ -49,9 +53,9 @@ class AccountParser:
         return safe_decode(AnchorTokenBadge.decode, data)
 
     @staticmethod
-    def parse_token_mint(data: bytes) -> Optional[SolanapyMintInfo]:
-        return safe_decode(TokenUtil.deserialize_mint, data)
+    def parse_token_mint(data: bytes, program_id: Pubkey) -> Optional[SolanapyMintInfo]:
+        return safe_decode(TokenUtil.deserialize_mint, data, program_id)
 
     @staticmethod
-    def parse_token_account(data: bytes) -> Optional[SolanapyAccountInfo]:
-        return safe_decode(TokenUtil.deserialize_account, data)
+    def parse_token_account(data: bytes, program_id: Pubkey) -> Optional[SolanapyAccountInfo]:
+        return safe_decode(TokenUtil.deserialize_account, data, program_id)

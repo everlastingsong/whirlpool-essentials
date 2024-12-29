@@ -3,7 +3,6 @@ import json
 import pathlib
 import base64
 from typing import Optional, List
-from solders.pubkey import Pubkey
 from solders.keypair import Keypair
 from solders.account import Account
 from solders.pubkey import Pubkey
@@ -114,6 +113,18 @@ class AccountFetcherAndParserAndKeyedConverterTestCase(unittest.IsolatedAsyncioT
         self.assertEqual(Pubkey.from_string("DjDsi34mSB66p2nhBL6YvhbcLtZbkGfNybFeLDjJqxJW"), result.reward_emissions_super_authority)
         self.assertEqual(300, result.default_protocol_fee_rate)
 
+    async def test_get_whirlpools_config_extension_01(self):
+        client = AsyncClientStub(["whirlpools_config_extension.777H5H3Tp9U11uRVRzFwM8BinfiakbaLT8vQpeuhvEiH.json"])
+        fetcher = AccountFetcher(client)
+        result = await fetcher.get_whirlpools_config_extension(Pubkey.from_string("777H5H3Tp9U11uRVRzFwM8BinfiakbaLT8vQpeuhvEiH"))
+        self.assertEqual(1, client.get_account_info_called)
+        self.assertEqual(0, client.get_multiple_accounts_called)
+
+        self.assertEqual(Pubkey.from_string("777H5H3Tp9U11uRVRzFwM8BinfiakbaLT8vQpeuhvEiH"), result.pubkey)
+        self.assertEqual(Pubkey.from_string("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ"), result.whirlpools_config)
+        self.assertEqual(Pubkey.from_string("6BLTtBS9miUZruZtR9reTzp6ctGc4kVY4xrcxQwurYtw"), result.config_extension_authority)
+        self.assertEqual(Pubkey.from_string("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6"), result.token_badge_authority)
+
     async def test_get_fee_tier_01(self):
         client = AsyncClientStub(["whirlpools_config_feetier64.HT55NVGVTjWmWLjV7BrSMPVZ7ppU8T2xE5nCAZ6YaGad.json"])
         fetcher = AccountFetcher(client)
@@ -125,6 +136,17 @@ class AccountFetcherAndParserAndKeyedConverterTestCase(unittest.IsolatedAsyncioT
         self.assertEqual(Pubkey.from_string("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ"), result.whirlpools_config)
         self.assertEqual(64, result.tick_spacing)
         self.assertEqual(2000, result.default_fee_rate)  # old fee rate
+
+    async def test_get_token_badge_01(self):
+        client = AsyncClientStub(["token_badge_pyusd.HX5iftnCxhtu11ys3ZuWbvUqo7cyPYaVNZBrLL67Hrbm.json"])
+        fetcher = AccountFetcher(client)
+        result = await fetcher.get_token_badge(Pubkey.from_string("HX5iftnCxhtu11ys3ZuWbvUqo7cyPYaVNZBrLL67Hrbm"))
+        self.assertEqual(1, client.get_account_info_called)
+        self.assertEqual(0, client.get_multiple_accounts_called)
+
+        self.assertEqual(Pubkey.from_string("HX5iftnCxhtu11ys3ZuWbvUqo7cyPYaVNZBrLL67Hrbm"), result.pubkey)
+        self.assertEqual(Pubkey.from_string("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ"), result.whirlpools_config)
+        self.assertEqual(Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo"), result.token_mint)
 
     async def test_get_whirlpool_01(self):
         client = AsyncClientStub(["sol_usdc_wp_whirlpool.HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ.json"])
@@ -246,6 +268,7 @@ class AccountFetcherAndParserAndKeyedConverterTestCase(unittest.IsolatedAsyncioT
         self.assertEqual(0, result.reward_infos[2].amount_owed)
 
     async def test_get_token_mint_01(self):
+        # Token Program
         client = AsyncClientStub(["token_orca.orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE.json"])
         fetcher = AccountFetcher(client)
         result = await fetcher.get_token_mint(Pubkey.from_string("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE"))
@@ -253,13 +276,34 @@ class AccountFetcherAndParserAndKeyedConverterTestCase(unittest.IsolatedAsyncioT
         self.assertEqual(0, client.get_multiple_accounts_called)
 
         self.assertEqual(Pubkey.from_string("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE"), result.pubkey)
+        self.assertEqual(Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"), result.token_program_id)
         self.assertEqual(Pubkey.from_string("8DzsCSvbvBDYxGB4ytNF698zi6Dyo9dUBVRNjZQFHSUt"), result.mint_authority)
         self.assertEqual(99999990272788, result.supply)
         self.assertEqual(6, result.decimals)
         self.assertEqual(True, result.is_initialized)
         self.assertIsNone(result.freeze_authority)  # no freeze authority
+        self.assertEqual(0, len(result.tlv_data))
+
+    async def test_get_token_mint_02(self):
+        # Token-2022 Program
+        client = AsyncClientStub(["token_2022_pyusd.2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo.json"])
+        fetcher = AccountFetcher(client)
+        result = await fetcher.get_token_mint(Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo"))
+        self.assertEqual(1, client.get_account_info_called)
+        self.assertEqual(0, client.get_multiple_accounts_called)
+
+        self.assertEqual(Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo"), result.pubkey)
+        self.assertEqual(Pubkey.from_string("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"), result.token_program_id)
+        self.assertEqual(Pubkey.from_string("22mKJkKjGEQ3rampp5YKaSsaYZ52BUkcnUN6evXGsXzz"), result.mint_authority)
+        self.assertEqual(177784511063664, result.supply)
+        self.assertEqual(6, result.decimals)
+        self.assertEqual(True, result.is_initialized)
+        self.assertEqual(Pubkey.from_string("2apBGMsS6ti9RyF5TwQTDswXBWskiJP2LD4cUEDqYJjk"), result.freeze_authority)
+        self.assertEqual(700, len(result.tlv_data))
+        self.assertEqual(bytes([0x03, 0x00, 0x20, 0x00]), result.tlv_data[0:4])
 
     async def test_get_token_account_01(self):
+        # Token Program
         client = AsyncClientStub(["user_ata_orca.7B8yNHX62NLvRswD86ttbGcV5TYxUsDNxEg2ZRMZLPRt.json"])
         fetcher = AccountFetcher(client)
         result = await fetcher.get_token_account(Pubkey.from_string("7B8yNHX62NLvRswD86ttbGcV5TYxUsDNxEg2ZRMZLPRt"))
@@ -267,6 +311,7 @@ class AccountFetcherAndParserAndKeyedConverterTestCase(unittest.IsolatedAsyncioT
         self.assertEqual(0, client.get_multiple_accounts_called)
 
         self.assertEqual(Pubkey.from_string("7B8yNHX62NLvRswD86ttbGcV5TYxUsDNxEg2ZRMZLPRt"), result.pubkey)
+        self.assertEqual(Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"), result.token_program_id)
         self.assertEqual(Pubkey.from_string("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE"), result.mint)
         self.assertEqual(Pubkey.from_string("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6"), result.owner)
         self.assertEqual(58875, result.amount)
@@ -274,8 +319,30 @@ class AccountFetcherAndParserAndKeyedConverterTestCase(unittest.IsolatedAsyncioT
         self.assertEqual(False, result.is_native)
         self.assertEqual(0, result.delegated_amount)
         self.assertIsNone(result.close_authority)  # no celose authority
+        self.assertEqual(0, len(result.tlv_data))
+
+    async def test_get_token_account_02(self):
+        # Token-2022 Program
+        client = AsyncClientStub(["user_ata_2022_pyusd.2A7Cc48jwWWoixM5CWquQKEqk9KNQvY2Xw3WJbBRc6Ei.json"])
+        fetcher = AccountFetcher(client)
+        result = await fetcher.get_token_account(Pubkey.from_string("2A7Cc48jwWWoixM5CWquQKEqk9KNQvY2Xw3WJbBRc6Ei"))
+        self.assertEqual(1, client.get_account_info_called)
+        self.assertEqual(0, client.get_multiple_accounts_called)
+
+        self.assertEqual(Pubkey.from_string("2A7Cc48jwWWoixM5CWquQKEqk9KNQvY2Xw3WJbBRc6Ei"), result.pubkey)
+        self.assertEqual(Pubkey.from_string("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"), result.token_program_id)
+        self.assertEqual(Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo"), result.mint)
+        self.assertEqual(Pubkey.from_string("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6"), result.owner)
+        self.assertEqual(849007, result.amount)
+        self.assertIsNone(result.delegate)  # no delegation
+        self.assertEqual(False, result.is_native)
+        self.assertEqual(0, result.delegated_amount)
+        self.assertIsNone(result.close_authority)  # no celose authority
+        self.assertEqual(21, len(result.tlv_data))
+        self.assertEqual(bytes([0x07, 0x00, 0x00, 0x00, 0x02, 0x00, 0x08, 0x00]), result.tlv_data[0:8])
 
     async def test_list_token_mints_01(self):
+        # Token Program
         client = AsyncClientStub([
             "token_orca.orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE.json",
             "token_samo.7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU.json",
@@ -293,14 +360,77 @@ class AccountFetcherAndParserAndKeyedConverterTestCase(unittest.IsolatedAsyncioT
         self.assertEqual(4, len(client.get_multiple_accounts_history))
 
         self.assertEqual(Pubkey.from_string("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE"), result[0].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"), result[0].token_program_id)
         self.assertEqual(Pubkey.from_string("8DzsCSvbvBDYxGB4ytNF698zi6Dyo9dUBVRNjZQFHSUt"), result[0].mint_authority)
+        self.assertEqual(0, len(result[0].tlv_data))
         self.assertEqual(Pubkey.from_string("7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU"), result[1].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"), result[1].token_program_id)
         self.assertIsNone(result[1].mint_authority)  # no mint authority
+        self.assertEqual(0, len(result[1].tlv_data))
         self.assertIsNone(result[2])
         self.assertEqual(Pubkey.from_string("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"), result[3].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"), result[3].token_program_id)
         self.assertEqual(Pubkey.from_string("2wmVCSfPxGPjrnMMn7rchp4uaeoTqN39mXFC2zhPdri9"), result[3].mint_authority)
+        self.assertEqual(0, len(result[3].tlv_data))
+
+    async def test_list_token_mints_02(self):
+        # Token-2022 Program
+        client = AsyncClientStub([
+            "token_2022_pyusd.2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo.json",
+            "token_2022_susd.susdabGDNbhrnCa6ncrYo81u4s9GM8ecK2UwMyZiq4X.json",
+        ])
+        fetcher = AccountFetcher(client)
+        result = await fetcher.list_token_mints([
+            Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo"),
+            Pubkey.from_string("CKfatsPMUf8SkiURsDXs7eK6GWb4Jsd6UDbs7twMCWxo"),
+            Pubkey.from_string("susdabGDNbhrnCa6ncrYo81u4s9GM8ecK2UwMyZiq4X"),
+        ])
+        self.assertEqual(0, client.get_account_info_called)
+        self.assertEqual(1, client.get_multiple_accounts_called)
+        self.assertEqual(3, len(client.get_multiple_accounts_history))
+
+        self.assertEqual(Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo"), result[0].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"), result[0].token_program_id)
+        self.assertEqual(Pubkey.from_string("22mKJkKjGEQ3rampp5YKaSsaYZ52BUkcnUN6evXGsXzz"), result[0].mint_authority)
+        self.assertEqual(700, len(result[0].tlv_data))
+        self.assertEqual(bytes([0x03, 0x00, 0x20, 0x00]), result[0].tlv_data[0:4])
+        self.assertIsNone(result[1])
+        self.assertEqual(Pubkey.from_string("susdabGDNbhrnCa6ncrYo81u4s9GM8ecK2UwMyZiq4X"), result[2].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"), result[2].token_program_id)
+        self.assertEqual(Pubkey.from_string("FhVcYNEe58SMtxpZGnTu2kpYJrTu2vwCZDGpPLqbd2yG"), result[2].mint_authority)
+        self.assertEqual(271, len(result[2].tlv_data))
+        self.assertEqual(bytes([0x12, 0x00, 0x40, 0x00]), result[2].tlv_data[0:4])
+
+    async def test_list_token_mints_03(self):
+        # Token Program & Token-2022 Program
+        client = AsyncClientStub([
+            "token_orca.orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE.json",
+            "token_samo.7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU.json",
+            "token_2022_pyusd.2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo.json",
+            "token_2022_susd.susdabGDNbhrnCa6ncrYo81u4s9GM8ecK2UwMyZiq4X.json",
+        ])
+        fetcher = AccountFetcher(client)
+        result = await fetcher.list_token_mints([
+            Pubkey.from_string("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE"),
+            Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo"),
+            Pubkey.from_string("7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU"),
+            Pubkey.from_string("susdabGDNbhrnCa6ncrYo81u4s9GM8ecK2UwMyZiq4X"),
+        ])
+        self.assertEqual(0, client.get_account_info_called)
+        self.assertEqual(1, client.get_multiple_accounts_called)
+        self.assertEqual(4, len(client.get_multiple_accounts_history))
+
+        self.assertEqual(Pubkey.from_string("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE"), result[0].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"), result[0].token_program_id)
+        self.assertEqual(Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo"), result[1].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"), result[1].token_program_id)
+        self.assertEqual(Pubkey.from_string("7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU"), result[2].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"), result[2].token_program_id)
+        self.assertEqual(Pubkey.from_string("susdabGDNbhrnCa6ncrYo81u4s9GM8ecK2UwMyZiq4X"), result[3].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"), result[3].token_program_id)
 
     async def test_list_token_accounts_01(self):
+        # Token Program
         client = AsyncClientStub([
             "samo_usdc_wp_vault_a.3xxgYc3jXPdjqpMdrRyKtcddh4ZdtqpaN33fwaWJ2Wbh.json",
             "samo_usdc_wp_vault_b.8xKCx3SGwWR6BUr9mZFm3xwZmCVMuLjXn9iLEU6784FS.json",
@@ -320,14 +450,78 @@ class AccountFetcherAndParserAndKeyedConverterTestCase(unittest.IsolatedAsyncioT
         self.assertEqual(5, len(client.get_multiple_accounts_history))
 
         self.assertEqual(Pubkey.from_string("3xxgYc3jXPdjqpMdrRyKtcddh4ZdtqpaN33fwaWJ2Wbh"), result[0].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"), result[0].token_program_id)
         self.assertEqual(Pubkey.from_string("7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU"), result[0].mint)
+        self.assertEqual(0, len(result[0].tlv_data))
         self.assertEqual(Pubkey.from_string("8xKCx3SGwWR6BUr9mZFm3xwZmCVMuLjXn9iLEU6784FS"), result[1].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"), result[1].token_program_id)
         self.assertEqual(Pubkey.from_string("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"), result[1].mint)
+        self.assertEqual(0, len(result[1].tlv_data))
         self.assertIsNone(result[2])
         self.assertEqual(Pubkey.from_string("3YQm7ujtXWJU2e9jhp2QGHpnn1ShXn12QjvzMvDgabpX"), result[3].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"), result[3].token_program_id)
         self.assertEqual(Pubkey.from_string("So11111111111111111111111111111111111111112"), result[3].mint)
+        self.assertEqual(0, len(result[3].tlv_data))
         self.assertEqual(Pubkey.from_string("2JTw1fE2wz1SymWUQ7UqpVtrTuKjcd6mWwYwUJUCh2rq"), result[4].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"), result[4].token_program_id)
         self.assertEqual(Pubkey.from_string("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"), result[4].mint)
+        self.assertEqual(0, len(result[4].tlv_data))
+
+    async def test_list_token_accounts_02(self):
+        # Token-2022 Program
+        client = AsyncClientStub([
+            "user_ata_2022_pyusd.2A7Cc48jwWWoixM5CWquQKEqk9KNQvY2Xw3WJbBRc6Ei.json",
+            "user_ata_2022_susd.6nC3JjFC3fQx9HhHB27VzkdDMK6k38H9a2cNsZgk8yUy.json",
+        ])
+        fetcher = AccountFetcher(client)
+        result = await fetcher.list_token_accounts([
+            Pubkey.from_string("2A7Cc48jwWWoixM5CWquQKEqk9KNQvY2Xw3WJbBRc6Ei"),
+            Pubkey.from_string("EeF6oBy6AQiBJoRx5xiRNxa6cmpQE3ayVagj28QFZuyg"),
+            Pubkey.from_string("6nC3JjFC3fQx9HhHB27VzkdDMK6k38H9a2cNsZgk8yUy"),
+        ])
+        self.assertEqual(0, client.get_account_info_called)
+        self.assertEqual(1, client.get_multiple_accounts_called)
+        self.assertEqual(3, len(client.get_multiple_accounts_history))
+
+        self.assertEqual(Pubkey.from_string("2A7Cc48jwWWoixM5CWquQKEqk9KNQvY2Xw3WJbBRc6Ei"), result[0].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"), result[0].token_program_id)
+        self.assertEqual(Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo"), result[0].mint)
+        self.assertEqual(21, len(result[0].tlv_data))
+        self.assertEqual(bytes([0x07, 0x00, 0x00, 0x00, 0x02, 0x00, 0x08, 0x00]), result[0].tlv_data[0:8])
+        self.assertIsNone(result[1])
+        self.assertEqual(Pubkey.from_string("6nC3JjFC3fQx9HhHB27VzkdDMK6k38H9a2cNsZgk8yUy"), result[2].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"), result[2].token_program_id)
+        self.assertEqual(Pubkey.from_string("susdabGDNbhrnCa6ncrYo81u4s9GM8ecK2UwMyZiq4X"), result[2].mint)
+        self.assertEqual(4, len(result[2].tlv_data))
+        self.assertEqual(bytes([0x07, 0x00, 0x00, 0x00]), result[2].tlv_data[0:4])
+
+    async def test_list_token_accounts_03(self):
+        # Token Program & Token-2022 Program
+        client = AsyncClientStub([
+            "samo_usdc_wp_vault_b.8xKCx3SGwWR6BUr9mZFm3xwZmCVMuLjXn9iLEU6784FS.json",
+            "sol_usdc_wp_vault_a.3YQm7ujtXWJU2e9jhp2QGHpnn1ShXn12QjvzMvDgabpX.json",
+            "user_ata_2022_pyusd.2A7Cc48jwWWoixM5CWquQKEqk9KNQvY2Xw3WJbBRc6Ei.json",
+            "user_ata_2022_susd.6nC3JjFC3fQx9HhHB27VzkdDMK6k38H9a2cNsZgk8yUy.json",
+        ])
+        fetcher = AccountFetcher(client)
+        result = await fetcher.list_token_accounts([
+            Pubkey.from_string("8xKCx3SGwWR6BUr9mZFm3xwZmCVMuLjXn9iLEU6784FS"),
+            Pubkey.from_string("2A7Cc48jwWWoixM5CWquQKEqk9KNQvY2Xw3WJbBRc6Ei"),
+            Pubkey.from_string("3YQm7ujtXWJU2e9jhp2QGHpnn1ShXn12QjvzMvDgabpX"),
+            Pubkey.from_string("6nC3JjFC3fQx9HhHB27VzkdDMK6k38H9a2cNsZgk8yUy"),
+        ])
+        self.assertEqual(0, client.get_account_info_called)
+        self.assertEqual(1, client.get_multiple_accounts_called)
+        self.assertEqual(4, len(client.get_multiple_accounts_history))
+
+        self.assertEqual(Pubkey.from_string("8xKCx3SGwWR6BUr9mZFm3xwZmCVMuLjXn9iLEU6784FS"), result[0].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"), result[0].token_program_id)
+        self.assertEqual(Pubkey.from_string("2A7Cc48jwWWoixM5CWquQKEqk9KNQvY2Xw3WJbBRc6Ei"), result[1].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"), result[1].token_program_id)
+        self.assertEqual(Pubkey.from_string("3YQm7ujtXWJU2e9jhp2QGHpnn1ShXn12QjvzMvDgabpX"), result[2].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"), result[2].token_program_id)
+        self.assertEqual(Pubkey.from_string("6nC3JjFC3fQx9HhHB27VzkdDMK6k38H9a2cNsZgk8yUy"), result[3].pubkey)
+        self.assertEqual(Pubkey.from_string("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"), result[3].token_program_id)
 
     async def test_list_whirlpools_01(self):
         client = AsyncClientStub([
@@ -406,6 +600,29 @@ class AccountFetcherAndParserAndKeyedConverterTestCase(unittest.IsolatedAsyncioT
         self.assertEqual(-118272, result[4].start_tick_index)
         self.assertEqual(-123904, result[5].start_tick_index)
         self.assertEqual(-129536, result[6].start_tick_index)
+
+    async def test_list_token_badge_01(self):
+        client = AsyncClientStub([
+            "token_badge_pyusd.HX5iftnCxhtu11ys3ZuWbvUqo7cyPYaVNZBrLL67Hrbm.json",
+            "token_badge_susd.5Me4K3Ck1dr8CzS3mKx2pMrMLnJoazdBqsXzW8kbQGdw.json",
+        ])
+        fetcher = AccountFetcher(client)
+        result = await fetcher.list_token_badges([
+            Pubkey.from_string("HX5iftnCxhtu11ys3ZuWbvUqo7cyPYaVNZBrLL67Hrbm"),
+            Pubkey.from_string("GExmehuh3gJacobvuYPqxmptNuyGoSbbz4oS5VJwUMjt"),
+            Pubkey.from_string("5Me4K3Ck1dr8CzS3mKx2pMrMLnJoazdBqsXzW8kbQGdw"),
+        ])
+        self.assertEqual(0, client.get_account_info_called)
+        self.assertEqual(1, client.get_multiple_accounts_called)
+        self.assertEqual(3, len(client.get_multiple_accounts_history))
+
+        self.assertEqual(Pubkey.from_string("HX5iftnCxhtu11ys3ZuWbvUqo7cyPYaVNZBrLL67Hrbm"), result[0].pubkey)
+        self.assertEqual(Pubkey.from_string("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ"), result[0].whirlpools_config)
+        self.assertEqual(Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo"), result[0].token_mint)
+        self.assertIsNone(result[1])
+        self.assertEqual(Pubkey.from_string("5Me4K3Ck1dr8CzS3mKx2pMrMLnJoazdBqsXzW8kbQGdw"), result[2].pubkey)
+        self.assertEqual(Pubkey.from_string("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ"), result[2].whirlpools_config)
+        self.assertEqual(Pubkey.from_string("susdabGDNbhrnCa6ncrYo81u4s9GM8ecK2UwMyZiq4X"), result[2].token_mint)
 
     async def test_cache_get_01(self):
         client = AsyncClientStub(["sol_usdc_wp_whirlpool.HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ.json"])
@@ -626,16 +843,22 @@ class AccountFetcherAndParserAndKeyedConverterTestCase(unittest.IsolatedAsyncioT
 
 class TokenUtilTestCase(unittest.IsolatedAsyncioTestCase):
     def test_derive_ata_01(self):
+        # Token Prograam
         owner = Pubkey.from_string("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6")
         mint = Pubkey.from_string("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v")
         result = TokenUtil.derive_ata(owner, mint)
         self.assertEqual(Pubkey.from_string("FbQdXCQgGQYj3xcGeryVVFjKCTsAuu53vmCRtmjQEqM5"), result)
 
     def test_derive_ata_02(self):
+        # Token Prograam
         owner = Pubkey.from_string("r21Gamwd9DtyjHeGywsneoQYR39C1VDwrw7tWxHAwh6")
         mint = Pubkey.from_string("orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE")
         result = TokenUtil.derive_ata(owner, mint)
         self.assertEqual(Pubkey.from_string("7B8yNHX62NLvRswD86ttbGcV5TYxUsDNxEg2ZRMZLPRt"), result)
+
+    def test_derive_ata_03(self):
+        # Token-2022 Prograam
+        self.assertTrue(False, "not implemented (Token-2022)")
 
     async def test_resolve_or_create_ata_01(self):
         client = AsyncClientStub([
@@ -668,6 +891,10 @@ class TokenUtilTestCase(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(1, len(result.instruction.cleanup_instructions))
         self.assertEqual(1, len(result.instruction.signers))
         self.assertEqual(result.instruction.signers[0].pubkey(), result.pubkey)
+
+    async def test_resolve_or_create_ata_04(self):
+        # Token-2022 Prograam
+        self.assertTrue(False, "not implemented (Token-2022)")
 
 
 if __name__ == "__main__":

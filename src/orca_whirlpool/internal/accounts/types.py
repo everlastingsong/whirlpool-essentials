@@ -110,6 +110,8 @@ class TokenBadge:
 class AccountInfo:
     # keyed
     pubkey: Pubkey
+    # token program id
+    token_program_id: Pubkey
     # AccountInfo
     mint: Pubkey
     owner: Pubkey
@@ -119,17 +121,20 @@ class AccountInfo:
     is_initialized: bool
     is_frozen: bool
     is_native: bool
-    rent_exempt_reserve: Optional[int]
     close_authority: Optional[Pubkey]
+    tlv_data: bytes
 
 
 @dataclasses.dataclass(frozen=True)
 class MintInfo:
     # keyed
     pubkey: Pubkey
+    # token program id
+    token_program_id: Pubkey
     # MintInfo
     mint_authority: Optional[Pubkey]
     supply: int
     decimals: int
     is_initialized: bool
     freeze_authority: Optional[Pubkey]
+    tlv_data: bytes

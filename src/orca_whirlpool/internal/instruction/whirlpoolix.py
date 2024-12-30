@@ -388,6 +388,61 @@ class TwoHopSwapParams:
     oracle_two: Pubkey
 
 
+@dataclasses.dataclass(frozen=True)
+class InitializeConfigExtensionParams:
+    config: Pubkey
+    config_extension_pda: PDA
+    funder: Pubkey
+    fee_authority: Pubkey
+
+
+@dataclasses.dataclass(frozen=True)
+class SetConfigExtensionAuthority:
+    whirlpools_config: Pubkey
+    whirlpools_config_extension: Pubkey
+    config_extension_authority: Pubkey
+    new_config_extension_authority: Pubkey
+
+
+@dataclasses.dataclass(frozen=True)
+class SetTokenBadgeAuthority:
+    whirlpools_config: Pubkey
+    whirlpools_config_extension: Pubkey
+    config_extension_authority: Pubkey
+    new_token_badge_authority: Pubkey
+
+
+@dataclasses.dataclass(frozen=True)
+class InitializeTokenBadge:
+    whirlpools_config: Pubkey
+    whirlpools_config_extension: Pubkey
+    token_badge_authority: Pubkey
+    token_mint: Pubkey
+    token_badge_pda: PDA
+    funder: Pubkey
+
+
+@dataclasses.dataclass(frozen=True)
+class DeleteTokenBadge:
+    whirlpools_config: Pubkey
+    whirlpools_config_extension: Pubkey
+    token_badge_authority: Pubkey
+    token_mint: Pubkey
+    token_badge: Pubkey
+    receiver: Pubkey
+
+
+# collect_fees_v2
+# collect_protocol_fees_v2
+# collect_reward_v2
+# decrease_liquidity_v2
+# increase_liquidity_v2
+# initialize_pool_v2
+# initialize_reward_v2
+# swap_v2
+# two_hop_swap_v2
+
+
 class WhirlpoolIx:
     @staticmethod
     def swap(program_id: Pubkey, params: SwapParams):
@@ -995,6 +1050,77 @@ class WhirlpoolIx:
                 tick_array_two2=params.tick_array_two_2,
                 oracle_one=params.oracle_one,
                 oracle_two=params.oracle_two,
+            ),
+            program_id
+        )
+        return to_instruction([ix])
+
+    @staticmethod
+    def initialize_config_extension(program_id: Pubkey, params: InitializeConfigExtensionParams):
+        ix = instructions.initialize_config_extension(
+            instructions.InitializeConfigExtensionAccounts(
+                config=params.config,
+                config_extension=params.config_extension_pda.pubkey,
+                funder=params.funder,
+                fee_authority=params.fee_authority,
+                # system_program=SYS_PROGRAM_ID,
+            ),
+            program_id
+        )
+        return to_instruction([ix])
+
+    @staticmethod
+    def set_config_extension_authority(program_id: Pubkey, params: SetConfigExtensionAuthority):
+        ix = instructions.set_config_extension_authority(
+            instructions.SetConfigExtensionAuthorityAccounts(
+                whirlpools_config=params.whirlpools_config,
+                whirlpools_config_extension=params.whirlpools_config_extension,
+                config_extension_authority=params.config_extension_authority,
+                new_config_extension_authority=params.new_config_extension_authority,
+            ),
+            program_id
+        )
+        return to_instruction([ix])
+
+    @staticmethod
+    def set_token_badge_authority(program_id: Pubkey, params: SetTokenBadgeAuthority):
+        ix = instructions.set_token_badge_authority(
+            instructions.SetTokenBadgeAuthorityAccounts(
+                whirlpools_config=params.whirlpools_config,
+                whirlpools_config_extension=params.whirlpools_config_extension,
+                config_extension_authority=params.config_extension_authority,
+                new_token_badge_authority=params.new_token_badge_authority,
+            ),
+            program_id
+        )
+        return to_instruction([ix])
+
+    @staticmethod
+    def initialize_token_badge(program_id: Pubkey, params: InitializeTokenBadge):
+        ix = instructions.initialize_token_badge(
+            instructions.InitializeTokenBadgeAccounts(
+                whirlpools_config=params.whirlpools_config,
+                whirlpools_config_extension=params.whirlpools_config_extension,
+                token_badge_authority=params.token_badge_authority,
+                token_mint=params.token_mint,
+                token_badge=params.token_badge_pda.pubkey,
+                funder=params.funder,
+                # system_program=SYS_PROGRAM_ID,
+            ),
+            program_id
+        )
+        return to_instruction([ix])
+
+    @staticmethod
+    def delete_token_badge(program_id: Pubkey, params: DeleteTokenBadge):
+        ix = instructions.delete_token_badge(
+            instructions.DeleteTokenBadgeAccounts(
+                whirlpools_config=params.whirlpools_config,
+                whirlpools_config_extension=params.whirlpools_config_extension,
+                token_badge_authority=params.token_badge_authority,
+                token_mint=params.token_mint,
+                token_badge=params.token_badge,
+                receiver=params.receiver,
             ),
             program_id
         )

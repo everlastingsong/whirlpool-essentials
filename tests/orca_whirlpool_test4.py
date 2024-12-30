@@ -1094,10 +1094,28 @@ class WhirlpoolIxTestCase(unittest.TestCase):
     def test_close_bundled_position_01(self):
         self.assertTrue(False, "not implemented")
 
-    def test_open_position_with_token_extensions(self):
+    def test_open_position_with_token_extensions_01(self):
         self.assertTrue(False, "not implemented")
 
-    def test_close_position_with_token_extensions(self):
+    def test_close_position_with_token_extensions_01(self):
+        self.assertTrue(False, "not implemented")
+
+    def test_two_hop_swap_01(self):
+        self.assertTrue(False, "not implemented")
+
+    def test_initialize_config_extension_01(self):
+        self.assertTrue(False, "not implemented")
+
+    def test_set_config_extension_authority_01(self):
+        self.assertTrue(False, "not implemented")
+
+    def test_set_token_badge_authority_01(self):
+        self.assertTrue(False, "not implemented")
+
+    def test_initialize_token_badge_01(self):
+        self.assertTrue(False, "not implemented")
+
+    def test_delete_token_badge_01(self):
         self.assertTrue(False, "not implemented")
 
 

@@ -32,4 +32,5 @@ from .internal.instruction.whirlpoolix import (
     CloseBundledPositionParams,
     OpenPositionWithTokenExtensionsParams,
     ClosePositionWithTokenExtensionsParams,
+    TwoHopSwapParams,
 )

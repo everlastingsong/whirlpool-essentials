@@ -4,9 +4,6 @@ from typing import List
 from solders.instruction import Instruction as TransactionInstruction
 from solders.pubkey import Pubkey
 from solders.keypair import Keypair
-# from solders.sysvar import RENT
-# from solders.system_program import ID as SYS_PROGRAM_ID
-# from spl.token.constants import TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID
 from spl.token.constants import TOKEN_2022_PROGRAM_ID
 from ..anchor import instructions
 from ..anchor import types
@@ -359,6 +356,36 @@ class ClosePositionWithTokenExtensionsParams:
     position: Pubkey
     position_mint: Pubkey
     position_token_account: Pubkey
+
+
+@dataclasses.dataclass(frozen=True)
+class TwoHopSwapParams:
+    amount: int
+    other_amount_threshold: int
+    amount_specified_is_input: bool
+    sqrt_price_limit_one: int
+    sqrt_price_limit_two: int
+    a_to_b_one: bool
+    a_to_b_two: bool
+    token_authority: Pubkey
+    whirlpool_one: Pubkey
+    whirlpool_two: Pubkey
+    token_owner_account_one_a: Pubkey
+    token_owner_account_one_b: Pubkey
+    token_owner_account_two_a: Pubkey
+    token_owner_account_two_b: Pubkey
+    token_vault_one_a: Pubkey
+    token_vault_one_b: Pubkey
+    token_vault_two_a: Pubkey
+    token_vault_two_b: Pubkey
+    tick_array_one_0: Pubkey
+    tick_array_one_1: Pubkey
+    tick_array_one_2: Pubkey
+    tick_array_two_0: Pubkey
+    tick_array_two_1: Pubkey
+    tick_array_two_2: Pubkey
+    oracle_one: Pubkey
+    oracle_two: Pubkey
 
 
 class WhirlpoolIx:
@@ -930,6 +957,44 @@ class WhirlpoolIx:
                 position_mint=params.position_mint,
                 position_token_account=params.position_token_account,
                 token2022_program=TOKEN_2022_PROGRAM_ID,
+            ),
+            program_id
+        )
+        return to_instruction([ix])
+
+    @staticmethod
+    def two_hop_swap(program_id: Pubkey, params: TwoHopSwapParams):
+        ix = instructions.two_hop_swap(
+            instructions.TwoHopSwapArgs(
+                amount=params.amount,
+                other_amount_threshold=params.other_amount_threshold,
+                amount_specified_is_input=params.amount_specified_is_input,
+                sqrt_price_limit_one=params.sqrt_price_limit_one,
+                sqrt_price_limit_two=params.sqrt_price_limit_two,
+                a_to_b_one=params.a_to_b_one,
+                a_to_b_two=params.a_to_b_two,
+            ),
+            instructions.TwoHopSwapAccounts(
+                # token_program=TOKEN_PROGRAM_ID,
+                token_authority=params.token_authority,
+                whirlpool_one=params.whirlpool_one,
+                whirlpool_two=params.whirlpool_two,
+                token_owner_account_one_a=params.token_owner_account_one_a,
+                token_vault_one_a=params.token_vault_one_a,
+                token_owner_account_one_b=params.token_owner_account_one_b,
+                token_vault_one_b=params.token_vault_one_b,
+                token_owner_account_two_a=params.token_owner_account_two_a,
+                token_vault_two_a=params.token_vault_two_a,
+                token_owner_account_two_b=params.token_owner_account_two_b,
+                token_vault_two_b=params.token_vault_two_b,
+                tick_array_one0=params.tick_array_one_0,
+                tick_array_one1=params.tick_array_one_1,
+                tick_array_one2=params.tick_array_one_2,
+                tick_array_two0=params.tick_array_two_0,
+                tick_array_two1=params.tick_array_two_1,
+                tick_array_two2=params.tick_array_two_2,
+                oracle_one=params.oracle_one,
+                oracle_two=params.oracle_two,
             ),
             program_id
         )

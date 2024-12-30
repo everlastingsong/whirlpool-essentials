@@ -1079,6 +1079,27 @@ class WhirlpoolIxTestCase(unittest.TestCase):
         expected_data = build_ix_data("setRewardEmissionsSuperAuthority", [])
         self.assertEqual(expected_data, ix.data)
 
+    def test_initialize_position_bundle_01(self):
+        self.assertTrue(False, "not implemented")
+
+    def test_initialize_position_bundle_with_metadata_01(self):
+        self.assertTrue(False, "not implemented")
+
+    def test_delete_position_bundle_01(self):
+        self.assertTrue(False, "not implemented")
+
+    def test_open_bundled_position_01(self):
+        self.assertTrue(False, "not implemented")
+
+    def test_close_bundled_position_01(self):
+        self.assertTrue(False, "not implemented")
+
+    def test_open_position_with_token_extensions(self):
+        self.assertTrue(False, "not implemented")
+
+    def test_close_position_with_token_extensions(self):
+        self.assertTrue(False, "not implemented")
+
 
 if __name__ == "__main__":
     unittest.main()

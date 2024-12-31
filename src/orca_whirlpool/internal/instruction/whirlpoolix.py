@@ -400,7 +400,7 @@ class InitializeConfigExtensionParams:
 
 
 @dataclasses.dataclass(frozen=True)
-class SetConfigExtensionAuthority:
+class SetConfigExtensionAuthorityParams:
     whirlpools_config: Pubkey
     whirlpools_config_extension: Pubkey
     config_extension_authority: Pubkey
@@ -408,7 +408,7 @@ class SetConfigExtensionAuthority:
 
 
 @dataclasses.dataclass(frozen=True)
-class SetTokenBadgeAuthority:
+class SetTokenBadgeAuthorityParams:
     whirlpools_config: Pubkey
     whirlpools_config_extension: Pubkey
     config_extension_authority: Pubkey
@@ -416,7 +416,7 @@ class SetTokenBadgeAuthority:
 
 
 @dataclasses.dataclass(frozen=True)
-class InitializeTokenBadge:
+class InitializeTokenBadgeParams:
     whirlpools_config: Pubkey
     whirlpools_config_extension: Pubkey
     token_badge_authority: Pubkey
@@ -426,7 +426,7 @@ class InitializeTokenBadge:
 
 
 @dataclasses.dataclass(frozen=True)
-class DeleteTokenBadge:
+class DeleteTokenBadgeParams:
     whirlpools_config: Pubkey
     whirlpools_config_extension: Pubkey
     token_badge_authority: Pubkey
@@ -434,8 +434,6 @@ class DeleteTokenBadge:
     token_badge: Pubkey
     receiver: Pubkey
 
-
-# collect_fees_v2
 
 @dataclasses.dataclass(frozen=True)
 class CollectFeesV2Params:
@@ -456,7 +454,6 @@ class CollectFeesV2Params:
     token_transfer_hook_accounts_b: Optional[List[AccountMeta]]
 
 
-# collect_protocol_fees_v2
 @dataclasses.dataclass(frozen=True)
 class CollectProtocolFeesV2Params:
     whirlpools_config: Pubkey
@@ -475,7 +472,6 @@ class CollectProtocolFeesV2Params:
     token_transfer_hook_accounts_b: Optional[List[AccountMeta]]
 
 
-# collect_reward_v2
 @dataclasses.dataclass(frozen=True)
 class CollectRewardV2Params:
     reward_index: int
@@ -1272,7 +1268,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def set_config_extension_authority(program_id: Pubkey, params: SetConfigExtensionAuthority):
+    def set_config_extension_authority(program_id: Pubkey, params: SetConfigExtensionAuthorityParams):
         ix = instructions.set_config_extension_authority(
             instructions.SetConfigExtensionAuthorityAccounts(
                 whirlpools_config=params.whirlpools_config,
@@ -1285,7 +1281,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def set_token_badge_authority(program_id: Pubkey, params: SetTokenBadgeAuthority):
+    def set_token_badge_authority(program_id: Pubkey, params: SetTokenBadgeAuthorityParams):
         ix = instructions.set_token_badge_authority(
             instructions.SetTokenBadgeAuthorityAccounts(
                 whirlpools_config=params.whirlpools_config,
@@ -1298,7 +1294,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def initialize_token_badge(program_id: Pubkey, params: InitializeTokenBadge):
+    def initialize_token_badge(program_id: Pubkey, params: InitializeTokenBadgeParams):
         ix = instructions.initialize_token_badge(
             instructions.InitializeTokenBadgeAccounts(
                 whirlpools_config=params.whirlpools_config,
@@ -1314,7 +1310,7 @@ class WhirlpoolIx:
         return to_instruction([ix])
 
     @staticmethod
-    def delete_token_badge(program_id: Pubkey, params: DeleteTokenBadge):
+    def delete_token_badge(program_id: Pubkey, params: DeleteTokenBadgeParams):
         ix = instructions.delete_token_badge(
             instructions.DeleteTokenBadgeAccounts(
                 whirlpools_config=params.whirlpools_config,

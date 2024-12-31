@@ -918,5 +918,10 @@ class SpecifiedAmountTestCase(unittest.TestCase):
         self.assertFalse(SpecifiedAmount.SwapOutput.is_b(SwapDirection.BtoA))
 
 
+class RemainingAccountsUtilTestCase(unittest.TestCase):
+    def test_not_implemented(self):
+        self.assertTrue(False, "not implemented")
+
+
 if __name__ == "__main__":
     unittest.main()

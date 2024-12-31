@@ -44,12 +44,12 @@ class TokenUtil:
     # https://github.com/michaelhly/solana-py/blob/32119e6924d72cd2d605a949b28f2a366941d641/src/spl/token/core.py#L373
     @staticmethod
     def deserialize_account(data: bytes, program_id: Pubkey) -> Optional[RawAccountInfo]:
-        if str(program_id) == str(TOKEN_PROGRAM_ID):
+        if program_id == TOKEN_PROGRAM_ID:
             if len(data) == 165:
                 pass
             else:
                 return None
-        elif str(program_id) == str(TOKEN_2022_PROGRAM_ID):
+        elif program_id == TOKEN_2022_PROGRAM_ID:
             if len(data) == 165:
                 pass
             elif len(data) >= 165+1 and data[165] == 2:
@@ -100,12 +100,12 @@ class TokenUtil:
     # https://github.com/michaelhly/solana-py/blob/32119e6924d72cd2d605a949b28f2a366941d641/src/spl/token/core.py#L343
     @staticmethod
     def deserialize_mint(data: bytes, program_id: Pubkey) -> Optional[RawMintInfo]:
-        if str(program_id) == str(TOKEN_PROGRAM_ID):
+        if program_id == TOKEN_PROGRAM_ID:
             if len(data) == 82:
                 pass
             else:
                 return None
-        elif str(program_id) == str(TOKEN_2022_PROGRAM_ID):
+        elif program_id == TOKEN_2022_PROGRAM_ID:
             if len(data) == 82:
                 pass
             elif len(data) >= 165+1 and data[165] == 1:

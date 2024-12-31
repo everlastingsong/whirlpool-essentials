@@ -577,8 +577,72 @@ class SetRewardEmissionsV2Params:
     reward_authority: Pubkey
     reward_vault: Pubkey
 
-# swap_v2
-# two_hop_swap_v2
+
+@dataclasses.dataclass(frozen=True)
+class SwapV2Params:
+    amount: int
+    other_amount_threshold: int
+    sqrt_price_limit: int
+    amount_specified_is_input: bool
+    a_to_b: bool
+    token_authority: Pubkey
+    whirlpool: Pubkey
+    token_mint_a: Pubkey
+    token_mint_b: Pubkey
+    token_program_a: Pubkey
+    token_program_b: Pubkey
+    token_owner_account_a: Pubkey
+    token_vault_a: Pubkey
+    token_owner_account_b: Pubkey
+    token_vault_b: Pubkey
+    tick_array_0: Pubkey
+    tick_array_1: Pubkey
+    tick_array_2: Pubkey
+    oracle: Pubkey
+    # remaining
+    supplemental_tick_arrays: Optional[List[Pubkey]]
+    token_transfer_hook_accounts_a: Optional[List[AccountMeta]]
+    token_transfer_hook_accounts_b: Optional[List[AccountMeta]]
+
+
+@dataclasses.dataclass(frozen=True)
+class TwoHopSwapV2Params:
+    amount: int
+    other_amount_threshold: int
+    amount_specified_is_input: bool
+    sqrt_price_limit_one: int
+    sqrt_price_limit_two: int
+    a_to_b_one: bool
+    a_to_b_two: bool
+    token_authority: Pubkey
+    whirlpool_one: Pubkey
+    whirlpool_two: Pubkey
+    token_mint_input: Pubkey
+    token_mint_intermediate: Pubkey
+    token_mint_output: Pubkey
+    token_program_input: Pubkey
+    token_program_intermediate: Pubkey
+    token_program_output: Pubkey
+    token_owner_account_input: Pubkey
+    token_vault_one_input: Pubkey
+    token_vault_one_intermediate: Pubkey
+    token_vault_two_intermediate: Pubkey
+    token_vault_two_output: Pubkey
+    token_owner_account_output: Pubkey
+    tick_array_one_0: Pubkey
+    tick_array_one_1: Pubkey
+    tick_array_one_2: Pubkey
+    tick_array_two_0: Pubkey
+    tick_array_two_1: Pubkey
+    tick_array_two_2: Pubkey
+    oracle_one: Pubkey
+    oracle_two: Pubkey
+    # remaining
+    supplemental_tick_arrays_one: Optional[List[Pubkey]]
+    supplemental_tick_arrays_two: Optional[List[Pubkey]]
+    token_transfer_hook_accounts_input: Optional[List[AccountMeta]]
+    token_transfer_hook_accounts_intermediate: Optional[List[AccountMeta]]
+    token_transfer_hook_accounts_output: Optional[List[AccountMeta]]
 
 
 class WhirlpoolIx:
@@ -1485,5 +1549,96 @@ class WhirlpoolIx:
                 reward_vault=params.reward_vault,
             ),
             program_id
+        )
+        return to_instruction([ix])
+
+    @staticmethod
+    def swap_v2(program_id: Pubkey, params: SwapV2Params):
+        ra = RemainingAccountsBuilder() \
+            .add_slice(RemainingAccountsType.TransferHookA, params.token_transfer_hook_accounts_a) \
+            .add_slice(RemainingAccountsType.TransferHookB, params.token_transfer_hook_accounts_b) \
+            .add_slice(RemainingAccountsType.SupplementalTickArrays, params.supplemental_tick_arrays) \
+            .build()
+
+        ix = instructions.swap(
+            instructions.SwapV2Args(
+                amount=params.amount,
+                other_amount_threshold=params.other_amount_threshold,
+                sqrt_price_limit=params.sqrt_price_limit,
+                amount_specified_is_input=params.amount_specified_is_input,
+                a_to_b=params.a_to_b,
+                remaining_accounts_info=ra.remaining_accounts_info,
+            ),
+            instructions.SwapV2Accounts(
+                token_program_a=params.token_program_a,
+                token_program_b=params.token_program_b,
+                memo_program=MEMO_PROGRAM_ID,
+                token_authority=params.token_authority,
+                whirlpool=params.whirlpool,
+                token_mint_a=params.token_mint_a,
+                token_mint_b=params.token_mint_b,
+                token_owner_account_a=params.token_owner_account_a,
+                token_vault_a=params.token_vault_a,
+                token_owner_account_b=params.token_owner_account_b,
+                token_vault_b=params.token_vault_b,
+                tick_array0=params.tick_array_0,
+                tick_array1=params.tick_array_1,
+                tick_array2=params.tick_array_2,
+                oracle=params.oracle,
+            ),
+            program_id,
+            ra.remaining_accounts,
+        )
+        return to_instruction([ix])
+
+    @staticmethod
+    def two_hop_swap_v2(program_id: Pubkey, params: TwoHopSwapV2Params):
+        ra = RemainingAccountsBuilder() \
+            .add_slice(RemainingAccountsType.TransferHookInput, params.token_transfer_hook_accounts_input) \
+            .add_slice(RemainingAccountsType.TransferHookIntermediate, params.token_transfer_hook_accounts_intermediate) \
+            .add_slice(RemainingAccountsType.TransferHookOutput, params.token_transfer_hook_accounts_output) \
+            .add_slice(RemainingAccountsType.SupplementalTickArraysOne, params.supplemental_tick_arrays_one) \
+            .add_slice(RemainingAccountsType.SupplementalTickArraysTwo, params.supplemental_tick_arrays_two) \
+            .build()
+
+        ix = instructions.two_hop_swap_v2(
+            instructions.TwoHopSwapV2Args(
+                amount=params.amount,
+                other_amount_threshold=params.other_amount_threshold,
+                amount_specified_is_input=params.amount_specified_is_input,
+                sqrt_price_limit_one=params.sqrt_price_limit_one,
+                sqrt_price_limit_two=params.sqrt_price_limit_two,
+                a_to_b_one=params.a_to_b_one,
+                a_to_b_two=params.a_to_b_two,
+                remaining_accounts_info=ra.remaining_accounts_info,
+            ),
+            instructions.TwoHopSwapV2Accounts(
+                token_authority=params.token_authority,
+                whirlpool_one=params.whirlpool_one,
+                whirlpool_two=params.whirlpool_two,
+                token_mint_input=params.token_mint_input,
+                token_mint_intermediate=params.token_mint_intermediate,
+                token_mint_output=params.token_mint_output,
+                token_program_input=params.token_program_input,
+                token_program_intermediate=params.token_program_intermediate,
+                token_program_output=params.token_program_output,
+                token_owner_account_input=params.token_owner_account_input,
+                token_vault_one_input=params.token_vault_one_input,
+                token_vault_one_intermediate=params.token_vault_one_intermediate,
+                token_vault_two_intermediate=params.token_vault_two_intermediate,
+                token_vault_two_output=params.token_vault_two_output,
+                token_owner_account_output=params.token_owner_account_output,
+                tick_array_one0=params.tick_array_one_0,
+                tick_array_one1=params.tick_array_one_1,
+                tick_array_one2=params.tick_array_one_2,
+                tick_array_two0=params.tick_array_two_0,
+                tick_array_two1=params.tick_array_two_1,
+                tick_array_two2=params.tick_array_two_2,
+                oracle_one=params.oracle_one,
+                oracle_two=params.oracle_two,
+                memo_program=MEMO_PROGRAM_ID,
+            ),
+            program_id,
+            ra.remaining_accounts,
         )
         return to_instruction([ix])

@@ -1147,6 +1147,12 @@ class WhirlpoolIxTestCase(unittest.TestCase):
     def test_set_reward_emissions_v2_01(self):
         self.assertTrue(False, "not implemented")
 
+    def test_swap_v2_01(self):
+        self.assertTrue(False, "not implemented")
+
+    def test_two_hop_swap_v2_01(self):
+        self.assertTrue(False, "not implemented")
+
 
 if __name__ == "__main__":
     unittest.main()

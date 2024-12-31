@@ -1118,6 +1118,35 @@ class WhirlpoolIxTestCase(unittest.TestCase):
     def test_delete_token_badge_01(self):
         self.assertTrue(False, "not implemented")
 
+    def test_collect_fees_v2_01(self):
+        # must: check remaining accounts info and accounts
+        self.assertTrue(False, "not implemented")
+
+    def test_collect_protocol_fees_v2_01(self):
+        # must: check remaining accounts info and accounts
+        self.assertTrue(False, "not implemented")
+
+    def test_collect_reward_v2_01(self):
+        # must: check remaining accounts info and accounts
+        self.assertTrue(False, "not implemented")
+
+    def test_increase_liquiditiy_v2_01(self):
+        # must: check remaining accounts info and accounts
+        self.assertTrue(False, "not implemented")
+
+    def test_decrease_liquidity_v2_01(self):
+        # must: check remaining accounts info and accounts
+        self.assertTrue(False, "not implemented")
+
+    def test_initialize_pool_v2_01(self):
+        self.assertTrue(False, "not implemented")
+
+    def test_initialize_reward_v2_01(self):
+        self.assertTrue(False, "not implemented")
+
+    def test_set_reward_emissions_v2_01(self):
+        self.assertTrue(False, "not implemented")
+
 
 if __name__ == "__main__":
     unittest.main()

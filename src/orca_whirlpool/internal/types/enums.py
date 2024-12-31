@@ -51,3 +51,15 @@ class TickArrayReduction(str, Enum):
     No = "No"
     Conservative = "Conservative"
     Aggressive = "Aggressive"
+
+
+class RemainingAccountsType(str, Enum):
+    TransferHookA = "TransferHookA"
+    TransferHookB = "TransferHookB"
+    TransferHookReward = "TransferHookReward"
+    TransferHookInput = "TransferHookInput"
+    TransferHookIntermediate = "TransferHookIntermediate"
+    TransferHookOutput = "TransferHookOutput"
+    SupplementalTickArrays = "SupplementalTickArrays"
+    SupplementalTickArraysOne = "SupplementalTickArraysOne"
+    SupplementalTickArraysTwo = "SupplementalTickArraysTwo"

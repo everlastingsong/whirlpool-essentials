@@ -2521,12 +2521,472 @@ class WhirlpoolIxTestCase(unittest.TestCase):
         self.assertEqual(expected_data, ix.data)
 
     def test_swap_v2_01(self):
-        # must: check remaining accounts info and accounts
-        self.assertTrue(False, "not implemented")
+        # without remaining accounts
+        amount = rand_u64()
+        other_amount_threshold = rand_u64()
+        sqrt_price_limit = rand_u128()
+        amount_specified_is_input = rand_bool()
+        a_to_b = rand_bool()
+
+        program_id = rand_pubkey()
+        token_program_a = rand_pubkey()
+        token_program_b = rand_pubkey()
+        token_authority = rand_pubkey()
+        whirlpool = rand_pubkey()
+        token_mint_a = rand_pubkey()
+        token_mint_b = rand_pubkey()
+        token_owner_account_a = rand_pubkey()
+        token_vault_a = rand_pubkey()
+        token_owner_account_b = rand_pubkey()
+        token_vault_b = rand_pubkey()
+        tick_array_0 = rand_pubkey()
+        tick_array_1 = rand_pubkey()
+        tick_array_2 = rand_pubkey()
+        oracle = rand_pubkey()
+
+        result = WhirlpoolIx.swap_v2(
+            program_id,
+            SwapV2Params(
+                amount=amount,
+                other_amount_threshold=other_amount_threshold,
+                sqrt_price_limit=sqrt_price_limit,
+                amount_specified_is_input=amount_specified_is_input,
+                a_to_b=a_to_b,
+                token_program_a=token_program_a,
+                token_program_b=token_program_b,
+                token_authority=token_authority,
+                whirlpool=whirlpool,
+                token_mint_a=token_mint_a,
+                token_mint_b=token_mint_b,
+                token_owner_account_a=token_owner_account_a,
+                token_vault_a=token_vault_a,
+                token_owner_account_b=token_owner_account_b,
+                token_vault_b=token_vault_b,
+                tick_array_0=tick_array_0,
+                tick_array_1=tick_array_1,
+                tick_array_2=tick_array_2,
+                oracle=oracle
+            )
+        )
+        ix = result.instructions[0]
+
+        self.assertEqual(program_id, ix.program_id)
+
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
+        self.assertEqual(token_program_a, keys[0])
+        self.assertEqual(token_program_b, keys[1])
+        self.assertEqual(MEMO_PROGRAM_ID, keys[2])
+        self.assertEqual(token_authority, keys[3])
+        self.assertEqual(whirlpool, keys[4])
+        self.assertEqual(token_mint_a, keys[5])
+        self.assertEqual(token_mint_b, keys[6])
+        self.assertEqual(token_owner_account_a, keys[7])
+        self.assertEqual(token_vault_a, keys[8])
+        self.assertEqual(token_owner_account_b, keys[9])
+        self.assertEqual(token_vault_b, keys[10])
+        self.assertEqual(tick_array_0, keys[11])
+        self.assertEqual(tick_array_1, keys[12])
+        self.assertEqual(tick_array_2, keys[13])
+        self.assertEqual(oracle, keys[14])
+
+        expected_data = build_ix_data(
+            "swapV2", [
+                (U64, amount),
+                (U64, other_amount_threshold),
+                (U128, sqrt_price_limit),
+                (Bool, amount_specified_is_input),
+                (Bool, a_to_b),
+                (U8, 0)  # None
+            ]
+        )
+        self.assertEqual(expected_data, ix.data)
+
+    def test_swap_v2_02(self):
+        # with remaining accounts
+        amount = rand_u64()
+        other_amount_threshold = rand_u64()
+        sqrt_price_limit = rand_u128()
+        amount_specified_is_input = rand_bool()
+        a_to_b = rand_bool()
+
+        program_id = rand_pubkey()
+        token_program_a = rand_pubkey()
+        token_program_b = rand_pubkey()
+        token_authority = rand_pubkey()
+        whirlpool = rand_pubkey()
+        token_mint_a = rand_pubkey()
+        token_mint_b = rand_pubkey()
+        token_owner_account_a = rand_pubkey()
+        token_vault_a = rand_pubkey()
+        token_owner_account_b = rand_pubkey()
+        token_vault_b = rand_pubkey()
+        tick_array_0 = rand_pubkey()
+        tick_array_1 = rand_pubkey()
+        tick_array_2 = rand_pubkey()
+        oracle = rand_pubkey()
+
+        token_transfer_hook_accounts_a = [
+            AccountMeta(rand_pubkey(), True, False),
+            AccountMeta(rand_pubkey(), False, True),
+        ]
+        token_transfer_hook_accounts_b = [
+            AccountMeta(rand_pubkey(), False, False),
+            AccountMeta(rand_pubkey(), True, True),
+        ]
+        supplemental_tick_arrays = [
+            rand_pubkey(),
+            rand_pubkey(),
+            rand_pubkey(),
+        ]
+
+        result = WhirlpoolIx.swap_v2(
+            program_id,
+            SwapV2Params(
+                amount=amount,
+                other_amount_threshold=other_amount_threshold,
+                sqrt_price_limit=sqrt_price_limit,
+                amount_specified_is_input=amount_specified_is_input,
+                a_to_b=a_to_b,
+                token_program_a=token_program_a,
+                token_program_b=token_program_b,
+                token_authority=token_authority,
+                whirlpool=whirlpool,
+                token_mint_a=token_mint_a,
+                token_mint_b=token_mint_b,
+                token_owner_account_a=token_owner_account_a,
+                token_vault_a=token_vault_a,
+                token_owner_account_b=token_owner_account_b,
+                token_vault_b=token_vault_b,
+                tick_array_0=tick_array_0,
+                tick_array_1=tick_array_1,
+                tick_array_2=tick_array_2,
+                oracle=oracle,
+                token_transfer_hook_accounts_a=token_transfer_hook_accounts_a,
+                token_transfer_hook_accounts_b=token_transfer_hook_accounts_b,
+                supplemental_tick_arrays=supplemental_tick_arrays,
+            )
+        )
+        ix = result.instructions[0]
+
+        self.assertEqual(program_id, ix.program_id)
+
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
+        self.assertEqual(token_program_a, keys[0])
+        self.assertEqual(token_program_b, keys[1])
+        self.assertEqual(MEMO_PROGRAM_ID, keys[2])
+        self.assertEqual(token_authority, keys[3])
+        self.assertEqual(whirlpool, keys[4])
+        self.assertEqual(token_mint_a, keys[5])
+        self.assertEqual(token_mint_b, keys[6])
+        self.assertEqual(token_owner_account_a, keys[7])
+        self.assertEqual(token_vault_a, keys[8])
+        self.assertEqual(token_owner_account_b, keys[9])
+        self.assertEqual(token_vault_b, keys[10])
+        self.assertEqual(tick_array_0, keys[11])
+        self.assertEqual(tick_array_1, keys[12])
+        self.assertEqual(tick_array_2, keys[13])
+        self.assertEqual(oracle, keys[14])
+        # remaining
+        self.assertEqual(token_transfer_hook_accounts_a[0], ix.accounts[15])
+        self.assertEqual(token_transfer_hook_accounts_a[1], ix.accounts[16])
+        self.assertEqual(token_transfer_hook_accounts_b[0], ix.accounts[17])
+        self.assertEqual(token_transfer_hook_accounts_b[1], ix.accounts[18])
+        self.assertEqual(AccountMeta(supplemental_tick_arrays[0], False, True), ix.accounts[19])
+        self.assertEqual(AccountMeta(supplemental_tick_arrays[1], False, True), ix.accounts[20])
+        self.assertEqual(AccountMeta(supplemental_tick_arrays[2], False, True), ix.accounts[21])
+        self.assertEqual(len(ix.accounts), 22)
+
+        expected_data = build_ix_data(
+            "swapV2", [
+                (U64, amount),
+                (U64, other_amount_threshold),
+                (U128, sqrt_price_limit),
+                (Bool, amount_specified_is_input),
+                (Bool, a_to_b),
+                (U8, 1),  # Some
+                (U32, 3),  # the length of slice
+                (U8, 0), (U8, 2),  # TransferHookA len=2
+                (U8, 1), (U8, 2),  # TransferHookB len=2
+                (U8, 6), (U8, 3),  # SupplementalTickArrays len=3
+            ]
+        )
+        self.assertEqual(expected_data, ix.data)
 
     def test_two_hop_swap_v2_01(self):
-        # must: check remaining accounts info and accounts
-        self.assertTrue(False, "not implemented")
+        # without remaining accounts
+        amount = rand_u64()
+        other_amount_threshold = rand_u64()
+        amount_specified_is_input = rand_bool()
+        sqrt_price_limit_one = rand_u128()
+        sqrt_price_limit_two = rand_u128()
+        a_to_b_one = rand_bool()
+        a_to_b_two = rand_bool()
+
+        program_id = rand_pubkey()
+        token_authority = rand_pubkey()
+        whirlpool_one = rand_pubkey()
+        whirlpool_two = rand_pubkey()
+        token_mint_input = rand_pubkey()
+        token_mint_intermediate = rand_pubkey()
+        token_mint_output = rand_pubkey()
+        token_program_input = rand_pubkey()
+        token_program_intermediate = rand_pubkey()
+        token_program_output = rand_pubkey()
+        token_owner_account_input = rand_pubkey()
+        token_vault_one_input = rand_pubkey()
+        token_vault_one_intermediate = rand_pubkey()
+        token_vault_two_intermediate = rand_pubkey()
+        token_vault_two_output = rand_pubkey()
+        token_owner_account_output = rand_pubkey()
+        tick_array_one_0 = rand_pubkey()
+        tick_array_one_1 = rand_pubkey()
+        tick_array_one_2 = rand_pubkey()
+        tick_array_two_0 = rand_pubkey()
+        tick_array_two_1 = rand_pubkey()
+        tick_array_two_2 = rand_pubkey()
+        oracle_one = rand_pubkey()
+        oracle_two = rand_pubkey()
+
+        result = WhirlpoolIx.two_hop_swap_v2(
+            program_id,
+            TwoHopSwapV2Params(
+                amount=amount,
+                other_amount_threshold=other_amount_threshold,
+                amount_specified_is_input=amount_specified_is_input,
+                sqrt_price_limit_one=sqrt_price_limit_one,
+                sqrt_price_limit_two=sqrt_price_limit_two,
+                a_to_b_one=a_to_b_one,
+                a_to_b_two=a_to_b_two,
+                token_authority=token_authority,
+                whirlpool_one=whirlpool_one,
+                whirlpool_two=whirlpool_two,
+                token_program_input=token_program_input,
+                token_program_intermediate=token_program_intermediate,
+                token_program_output=token_program_output,
+                token_mint_input=token_mint_input,
+                token_mint_intermediate=token_mint_intermediate,
+                token_mint_output=token_mint_output,
+                token_owner_account_input=token_owner_account_input,
+                token_vault_one_input=token_vault_one_input,
+                token_vault_one_intermediate=token_vault_one_intermediate,
+                token_vault_two_intermediate=token_vault_two_intermediate,
+                token_vault_two_output=token_vault_two_output,
+                token_owner_account_output=token_owner_account_output,
+                tick_array_one_0=tick_array_one_0,
+                tick_array_one_1=tick_array_one_1,
+                tick_array_one_2=tick_array_one_2,
+                tick_array_two_0=tick_array_two_0,
+                tick_array_two_1=tick_array_two_1,
+                tick_array_two_2=tick_array_two_2,
+                oracle_one=oracle_one,
+                oracle_two=oracle_two,
+            )
+        )
+        ix = result.instructions[0]
+
+        self.assertEqual(program_id, ix.program_id)
+
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
+        self.assertEqual(whirlpool_one, keys[0])
+        self.assertEqual(whirlpool_two, keys[1])
+        self.assertEqual(token_mint_input, keys[2])
+        self.assertEqual(token_mint_intermediate, keys[3])
+        self.assertEqual(token_mint_output, keys[4])
+        self.assertEqual(token_program_input, keys[5])
+        self.assertEqual(token_program_intermediate, keys[6])
+        self.assertEqual(token_program_output, keys[7])
+        self.assertEqual(token_owner_account_input, keys[8])
+        self.assertEqual(token_vault_one_input, keys[9])
+        self.assertEqual(token_vault_one_intermediate, keys[10])
+        self.assertEqual(token_vault_two_intermediate, keys[11])
+        self.assertEqual(token_vault_two_output, keys[12])
+        self.assertEqual(token_owner_account_output, keys[13])
+        self.assertEqual(token_authority, keys[14])
+        self.assertEqual(tick_array_one_0, keys[15])
+        self.assertEqual(tick_array_one_1, keys[16])
+        self.assertEqual(tick_array_one_2, keys[17])
+        self.assertEqual(tick_array_two_0, keys[18])
+        self.assertEqual(tick_array_two_1, keys[19])
+        self.assertEqual(tick_array_two_2, keys[20])
+        self.assertEqual(oracle_one, keys[21])
+        self.assertEqual(oracle_two, keys[22])
+        self.assertEqual(MEMO_PROGRAM_ID, keys[23])
+
+        expected_data = build_ix_data(
+            "twoHopSwapV2", [
+                (U64, amount),
+                (U64, other_amount_threshold),
+                (Bool, amount_specified_is_input),
+                (Bool, a_to_b_one),
+                (Bool, a_to_b_two),
+                (U128, sqrt_price_limit_one),
+                (U128, sqrt_price_limit_two),
+                (U8, 0)  # None
+            ]
+        )
+        self.assertEqual(expected_data, ix.data)
+
+    def test_two_hop_swap_v2_02(self):
+        # with remaining accounts
+        amount = rand_u64()
+        other_amount_threshold = rand_u64()
+        amount_specified_is_input = rand_bool()
+        sqrt_price_limit_one = rand_u128()
+        sqrt_price_limit_two = rand_u128()
+        a_to_b_one = rand_bool()
+        a_to_b_two = rand_bool()
+
+        program_id = rand_pubkey()
+        token_authority = rand_pubkey()
+        whirlpool_one = rand_pubkey()
+        whirlpool_two = rand_pubkey()
+        token_mint_input = rand_pubkey()
+        token_mint_intermediate = rand_pubkey()
+        token_mint_output = rand_pubkey()
+        token_program_input = rand_pubkey()
+        token_program_intermediate = rand_pubkey()
+        token_program_output = rand_pubkey()
+        token_owner_account_input = rand_pubkey()
+        token_vault_one_input = rand_pubkey()
+        token_vault_one_intermediate = rand_pubkey()
+        token_vault_two_intermediate = rand_pubkey()
+        token_vault_two_output = rand_pubkey()
+        token_owner_account_output = rand_pubkey()
+        tick_array_one_0 = rand_pubkey()
+        tick_array_one_1 = rand_pubkey()
+        tick_array_one_2 = rand_pubkey()
+        tick_array_two_0 = rand_pubkey()
+        tick_array_two_1 = rand_pubkey()
+        tick_array_two_2 = rand_pubkey()
+        oracle_one = rand_pubkey()
+        oracle_two = rand_pubkey()
+
+        token_transfer_hook_accounts_input = [
+            AccountMeta(rand_pubkey(), True, False),
+            AccountMeta(rand_pubkey(), False, True),
+        ]
+        token_transfer_hook_accounts_intermediate = [
+            AccountMeta(rand_pubkey(), False, False),
+            AccountMeta(rand_pubkey(), True, True),
+        ]
+        token_transfer_hook_accounts_output = [
+            AccountMeta(rand_pubkey(), False, True),
+            AccountMeta(rand_pubkey(), True, False),
+        ]
+        supplemental_tick_arrays_one = [
+            rand_pubkey(),
+            rand_pubkey(),
+            rand_pubkey(),
+        ]
+        supplemental_tick_arrays_two = [
+            rand_pubkey(),
+            rand_pubkey(),
+            rand_pubkey(),
+        ]
+
+        result = WhirlpoolIx.two_hop_swap_v2(
+            program_id,
+            TwoHopSwapV2Params(
+                amount=amount,
+                other_amount_threshold=other_amount_threshold,
+                amount_specified_is_input=amount_specified_is_input,
+                sqrt_price_limit_one=sqrt_price_limit_one,
+                sqrt_price_limit_two=sqrt_price_limit_two,
+                a_to_b_one=a_to_b_one,
+                a_to_b_two=a_to_b_two,
+                token_authority=token_authority,
+                whirlpool_one=whirlpool_one,
+                whirlpool_two=whirlpool_two,
+                token_program_input=token_program_input,
+                token_program_intermediate=token_program_intermediate,
+                token_program_output=token_program_output,
+                token_mint_input=token_mint_input,
+                token_mint_intermediate=token_mint_intermediate,
+                token_mint_output=token_mint_output,
+                token_owner_account_input=token_owner_account_input,
+                token_vault_one_input=token_vault_one_input,
+                token_vault_one_intermediate=token_vault_one_intermediate,
+                token_vault_two_intermediate=token_vault_two_intermediate,
+                token_vault_two_output=token_vault_two_output,
+                token_owner_account_output=token_owner_account_output,
+                tick_array_one_0=tick_array_one_0,
+                tick_array_one_1=tick_array_one_1,
+                tick_array_one_2=tick_array_one_2,
+                tick_array_two_0=tick_array_two_0,
+                tick_array_two_1=tick_array_two_1,
+                tick_array_two_2=tick_array_two_2,
+                oracle_one=oracle_one,
+                oracle_two=oracle_two,
+                token_transfer_hook_accounts_input=token_transfer_hook_accounts_input,
+                token_transfer_hook_accounts_intermediate=token_transfer_hook_accounts_intermediate,
+                token_transfer_hook_accounts_output=token_transfer_hook_accounts_output,
+                supplemental_tick_arrays_one=supplemental_tick_arrays_one,
+                supplemental_tick_arrays_two=supplemental_tick_arrays_two,
+            )
+        )
+        ix = result.instructions[0]
+
+        self.assertEqual(program_id, ix.program_id)
+
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
+        self.assertEqual(whirlpool_one, keys[0])
+        self.assertEqual(whirlpool_two, keys[1])
+        self.assertEqual(token_mint_input, keys[2])
+        self.assertEqual(token_mint_intermediate, keys[3])
+        self.assertEqual(token_mint_output, keys[4])
+        self.assertEqual(token_program_input, keys[5])
+        self.assertEqual(token_program_intermediate, keys[6])
+        self.assertEqual(token_program_output, keys[7])
+        self.assertEqual(token_owner_account_input, keys[8])
+        self.assertEqual(token_vault_one_input, keys[9])
+        self.assertEqual(token_vault_one_intermediate, keys[10])
+        self.assertEqual(token_vault_two_intermediate, keys[11])
+        self.assertEqual(token_vault_two_output, keys[12])
+        self.assertEqual(token_owner_account_output, keys[13])
+        self.assertEqual(token_authority, keys[14])
+        self.assertEqual(tick_array_one_0, keys[15])
+        self.assertEqual(tick_array_one_1, keys[16])
+        self.assertEqual(tick_array_one_2, keys[17])
+        self.assertEqual(tick_array_two_0, keys[18])
+        self.assertEqual(tick_array_two_1, keys[19])
+        self.assertEqual(tick_array_two_2, keys[20])
+        self.assertEqual(oracle_one, keys[21])
+        self.assertEqual(oracle_two, keys[22])
+        self.assertEqual(MEMO_PROGRAM_ID, keys[23])
+        # remaining
+        self.assertEqual(token_transfer_hook_accounts_input[0], ix.accounts[24])
+        self.assertEqual(token_transfer_hook_accounts_input[1], ix.accounts[25])
+        self.assertEqual(token_transfer_hook_accounts_intermediate[0], ix.accounts[26])
+        self.assertEqual(token_transfer_hook_accounts_intermediate[1], ix.accounts[27])
+        self.assertEqual(token_transfer_hook_accounts_output[0], ix.accounts[28])
+        self.assertEqual(token_transfer_hook_accounts_output[1], ix.accounts[29])
+        self.assertEqual(AccountMeta(supplemental_tick_arrays_one[0], False, True), ix.accounts[30])
+        self.assertEqual(AccountMeta(supplemental_tick_arrays_one[1], False, True), ix.accounts[31])
+        self.assertEqual(AccountMeta(supplemental_tick_arrays_one[2], False, True), ix.accounts[32])
+        self.assertEqual(AccountMeta(supplemental_tick_arrays_two[0], False, True), ix.accounts[33])
+        self.assertEqual(AccountMeta(supplemental_tick_arrays_two[1], False, True), ix.accounts[34])
+        self.assertEqual(AccountMeta(supplemental_tick_arrays_two[2], False, True), ix.accounts[35])
+        self.assertEqual(len(ix.accounts), 36)
+
+        expected_data = build_ix_data(
+            "twoHopSwapV2", [
+                (U64, amount),
+                (U64, other_amount_threshold),
+                (Bool, amount_specified_is_input),
+                (Bool, a_to_b_one),
+                (Bool, a_to_b_two),
+                (U128, sqrt_price_limit_one),
+                (U128, sqrt_price_limit_two),
+                (U8, 1),  # Some
+                (U32, 5),  # the length of slice
+                (U8, 3), (U8, 2),  # TransferHookInput len=2
+                (U8, 4), (U8, 2),  # TransferHookIntermediate len=2
+                (U8, 5), (U8, 2),  # TransferHookOutput len=2
+                (U8, 7), (U8, 3),  # SupplementalTickArraysOne len=3
+                (U8, 8), (U8, 3),  # SupplementalTickArraysTwo len=3
+            ]
+        )
+        self.assertEqual(expected_data, ix.data)
 
 
 if __name__ == "__main__":

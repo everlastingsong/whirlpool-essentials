@@ -1,5 +1,6 @@
 import dataclasses
 from typing import List, Optional
+from solders.pubkey import Pubkey
 from solders.instruction import AccountMeta
 from ..anchor.types.remaining_accounts_info import RemainingAccountsInfo
 from ..anchor.types.remaining_accounts_slice import RemainingAccountsSlice
@@ -83,3 +84,12 @@ class RemainingAccountsBuilder:
                 ),
                 remaining_accounts=self.remaining_accounts,
             )
+
+    @staticmethod
+    def to_supplemental_tick_array_account_metas(
+        accounts: Optional[List[Pubkey]]
+    ):
+        if accounts is None:
+            return None
+
+        return list(map(lambda k: AccountMeta(k, False, True), accounts))

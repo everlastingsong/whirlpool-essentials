@@ -1550,13 +1550,15 @@ class WhirlpoolIx:
 
     @staticmethod
     def swap_v2(program_id: Pubkey, params: SwapV2Params):
+        supplemental_tick_arrays = RemainingAccountsBuilder.to_supplemental_tick_array_account_metas(params.supplemental_tick_arrays)
+
         ra = RemainingAccountsBuilder() \
             .add_slice(RemainingAccountsType.TransferHookA, params.token_transfer_hook_accounts_a) \
             .add_slice(RemainingAccountsType.TransferHookB, params.token_transfer_hook_accounts_b) \
-            .add_slice(RemainingAccountsType.SupplementalTickArrays, params.supplemental_tick_arrays) \
+            .add_slice(RemainingAccountsType.SupplementalTickArrays, supplemental_tick_arrays) \
             .build()
 
-        ix = instructions.swap(
+        ix = instructions.swap_v2(
             instructions.SwapV2Args(
                 amount=params.amount,
                 other_amount_threshold=params.other_amount_threshold,
@@ -1589,12 +1591,15 @@ class WhirlpoolIx:
 
     @staticmethod
     def two_hop_swap_v2(program_id: Pubkey, params: TwoHopSwapV2Params):
+        supplemental_tick_arrays_one = RemainingAccountsBuilder.to_supplemental_tick_array_account_metas(params.supplemental_tick_arrays_one)
+        supplemental_tick_arrays_two = RemainingAccountsBuilder.to_supplemental_tick_array_account_metas(params.supplemental_tick_arrays_two)
+
         ra = RemainingAccountsBuilder() \
             .add_slice(RemainingAccountsType.TransferHookInput, params.token_transfer_hook_accounts_input) \
             .add_slice(RemainingAccountsType.TransferHookIntermediate, params.token_transfer_hook_accounts_intermediate) \
             .add_slice(RemainingAccountsType.TransferHookOutput, params.token_transfer_hook_accounts_output) \
-            .add_slice(RemainingAccountsType.SupplementalTickArraysOne, params.supplemental_tick_arrays_one) \
-            .add_slice(RemainingAccountsType.SupplementalTickArraysTwo, params.supplemental_tick_arrays_two) \
+            .add_slice(RemainingAccountsType.SupplementalTickArraysOne, supplemental_tick_arrays_one) \
+            .add_slice(RemainingAccountsType.SupplementalTickArraysTwo, supplemental_tick_arrays_two) \
             .build()
 
         ix = instructions.two_hop_swap_v2(

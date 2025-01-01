@@ -83,7 +83,7 @@ class PDAUtil:
         return PDA(pubkey, nonce)
 
     @staticmethod
-    def get_bundled_position(program_id: Pubkey, position_bundle_mint: Pubkey, bundle_index) -> PDA:
+    def get_bundled_position(program_id: Pubkey, position_bundle_mint: Pubkey, bundle_index: int) -> PDA:
         seeds = [
             PDA_BUNDLED_POSITION_SEED,
             bytes(position_bundle_mint),

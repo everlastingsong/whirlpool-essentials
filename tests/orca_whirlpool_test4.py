@@ -3,12 +3,14 @@ import random
 from typing import List, Any
 from pyheck import snake
 from solders.pubkey import Pubkey
+from solders.instruction import AccountMeta
 from solders.keypair import Keypair
 from solders.system_program import ID as SYS_PROGRAM_ID
 from solders.sysvar import RENT as SYSVAR_RENT_PUBKEY
 from spl.token.constants import TOKEN_PROGRAM_ID, TOKEN_2022_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID
+from spl.memo.constants import MEMO_PROGRAM_ID
 from anchorpy.coder.common import _sighash as sighash
-from borsh_construct import Bool, U8, U16, I32, U64, U128, CStruct
+from borsh_construct import Bool, U8, U16, U32, I32, U64, U128, CStruct
 
 from orca_whirlpool.internal.utils.pda_util import PDAUtil
 from orca_whirlpool.internal.constants import (
@@ -1651,24 +1653,720 @@ class WhirlpoolIxTestCase(unittest.TestCase):
         self.assertEqual(expected_data, ix.data)
 
     def test_collect_fees_v2_01(self):
-        # must: check remaining accounts info and accounts
-        self.assertTrue(False, "not implemented")
+        # without remaining accounts
+        program_id = rand_pubkey()
+        whirlpool = rand_pubkey()
+        position_authority = rand_pubkey()
+        position = rand_pubkey()
+        position_token_account = rand_pubkey()
+        token_mint_a = rand_pubkey()
+        token_mint_b = rand_pubkey()
+        token_owner_account_a = rand_pubkey()
+        token_vault_a = rand_pubkey()
+        token_owner_account_b = rand_pubkey()
+        token_vault_b = rand_pubkey()
+        token_program_a = rand_pubkey()
+        token_program_b = rand_pubkey()
+
+        result = WhirlpoolIx.collect_fees_v2(
+            program_id,
+            CollectFeesV2Params(
+                whirlpool=whirlpool,
+                position_authority=position_authority,
+                position=position,
+                position_token_account=position_token_account,
+                token_mint_a=token_mint_a,
+                token_mint_b=token_mint_b,
+                token_owner_account_a=token_owner_account_a,
+                token_vault_a=token_vault_a,
+                token_owner_account_b=token_owner_account_b,
+                token_vault_b=token_vault_b,
+                token_program_a=token_program_a,
+                token_program_b=token_program_b,
+            )
+        )
+        ix = result.instructions[0]
+
+        self.assertEqual(program_id, ix.program_id)
+
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
+        self.assertEqual(whirlpool, keys[0])
+        self.assertEqual(position_authority, keys[1])
+        self.assertEqual(position, keys[2])
+        self.assertEqual(position_token_account, keys[3])
+        self.assertEqual(token_mint_a, keys[4])
+        self.assertEqual(token_mint_b, keys[5])
+        self.assertEqual(token_owner_account_a, keys[6])
+        self.assertEqual(token_vault_a, keys[7])
+        self.assertEqual(token_owner_account_b, keys[8])
+        self.assertEqual(token_vault_b, keys[9])
+        self.assertEqual(token_program_a, keys[10])
+        self.assertEqual(token_program_b, keys[11])
+        self.assertEqual(MEMO_PROGRAM_ID, keys[12])
+
+        expected_data = build_ix_data("collectFeesV2", [
+            (U8, 0)  # None
+        ])
+        self.assertEqual(expected_data, ix.data)
+
+    def test_collect_fees_v2_02(self):
+        # with remaining accounts
+        program_id = rand_pubkey()
+        whirlpool = rand_pubkey()
+        position_authority = rand_pubkey()
+        position = rand_pubkey()
+        position_token_account = rand_pubkey()
+        token_mint_a = rand_pubkey()
+        token_mint_b = rand_pubkey()
+        token_owner_account_a = rand_pubkey()
+        token_vault_a = rand_pubkey()
+        token_owner_account_b = rand_pubkey()
+        token_vault_b = rand_pubkey()
+        token_program_a = rand_pubkey()
+        token_program_b = rand_pubkey()
+
+        token_transfer_hook_accounts_a = [
+            AccountMeta(rand_pubkey(), True, False),
+            AccountMeta(rand_pubkey(), False, True),
+        ]
+        token_transfer_hook_accounts_b = [
+            AccountMeta(rand_pubkey(), False, False),
+            AccountMeta(rand_pubkey(), True, True),
+        ]
+
+        result = WhirlpoolIx.collect_fees_v2(
+            program_id,
+            CollectFeesV2Params(
+                whirlpool=whirlpool,
+                position_authority=position_authority,
+                position=position,
+                position_token_account=position_token_account,
+                token_mint_a=token_mint_a,
+                token_mint_b=token_mint_b,
+                token_owner_account_a=token_owner_account_a,
+                token_vault_a=token_vault_a,
+                token_owner_account_b=token_owner_account_b,
+                token_vault_b=token_vault_b,
+                token_program_a=token_program_a,
+                token_program_b=token_program_b,
+                token_transfer_hook_accounts_a=token_transfer_hook_accounts_a,
+                token_transfer_hook_accounts_b=token_transfer_hook_accounts_b,
+            )
+        )
+        ix = result.instructions[0]
+
+        self.assertEqual(program_id, ix.program_id)
+
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
+        self.assertEqual(whirlpool, keys[0])
+        self.assertEqual(position_authority, keys[1])
+        self.assertEqual(position, keys[2])
+        self.assertEqual(position_token_account, keys[3])
+        self.assertEqual(token_mint_a, keys[4])
+        self.assertEqual(token_mint_b, keys[5])
+        self.assertEqual(token_owner_account_a, keys[6])
+        self.assertEqual(token_vault_a, keys[7])
+        self.assertEqual(token_owner_account_b, keys[8])
+        self.assertEqual(token_vault_b, keys[9])
+        self.assertEqual(token_program_a, keys[10])
+        self.assertEqual(token_program_b, keys[11])
+        self.assertEqual(MEMO_PROGRAM_ID, keys[12])
+        # remaining
+        self.assertEqual(token_transfer_hook_accounts_a[0], ix.accounts[13])
+        self.assertEqual(token_transfer_hook_accounts_a[1], ix.accounts[14])
+        self.assertEqual(token_transfer_hook_accounts_b[0], ix.accounts[15])
+        self.assertEqual(token_transfer_hook_accounts_b[1], ix.accounts[16])
+        self.assertEqual(len(ix.accounts), 17)
+
+        expected_data = build_ix_data("collectFeesV2", [
+            (U8, 1),  # Some
+            (U32, 2),  # the length of slice
+            (U8, 0), (U8, 2),  # TransferHookA len=2
+            (U8, 1), (U8, 2),  # TransferHookB len=2
+        ])
+        self.assertEqual(expected_data, ix.data)
 
     def test_collect_protocol_fees_v2_01(self):
-        # must: check remaining accounts info and accounts
-        self.assertTrue(False, "not implemented")
+        # without remaining accounts
+        program_id = rand_pubkey()
+        whirlpools_config = rand_pubkey()
+        whirlpool = rand_pubkey()
+        collect_protocol_fees_authority = rand_pubkey()
+        token_mint_a = rand_pubkey()
+        token_mint_b = rand_pubkey()
+        token_vault_a = rand_pubkey()
+        token_vault_b = rand_pubkey()
+        token_destination_a = rand_pubkey()
+        token_destination_b = rand_pubkey()
+        token_program_a = rand_pubkey()
+        token_program_b = rand_pubkey()
+
+        result = WhirlpoolIx.collect_protocol_fees_v2(
+            program_id,
+            CollectProtocolFeesV2Params(
+                whirlpools_config=whirlpools_config,
+                whirlpool=whirlpool,
+                collect_protocol_fees_authority=collect_protocol_fees_authority,
+                token_mint_a=token_mint_a,
+                token_mint_b=token_mint_b,
+                token_vault_a=token_vault_a,
+                token_vault_b=token_vault_b,
+                token_destination_a=token_destination_a,
+                token_destination_b=token_destination_b,
+                token_program_a=token_program_a,
+                token_program_b=token_program_b,
+            )
+        )
+        ix = result.instructions[0]
+
+        self.assertEqual(program_id, ix.program_id)
+
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
+        self.assertEqual(whirlpools_config, keys[0])
+        self.assertEqual(whirlpool, keys[1])
+        self.assertEqual(collect_protocol_fees_authority, keys[2])
+        self.assertEqual(token_mint_a, keys[3])
+        self.assertEqual(token_mint_b, keys[4])
+        self.assertEqual(token_vault_a, keys[5])
+        self.assertEqual(token_vault_b, keys[6])
+        self.assertEqual(token_destination_a, keys[7])
+        self.assertEqual(token_destination_b, keys[8])
+        self.assertEqual(token_program_a, keys[9])
+        self.assertEqual(token_program_b, keys[10])
+        self.assertEqual(MEMO_PROGRAM_ID, keys[11])
+
+        expected_data = build_ix_data("collectProtocolFeesV2", [
+            (U8, 0)  # None
+        ])
+        self.assertEqual(expected_data, ix.data)
+
+    def test_collect_protocol_fees_v2_02(self):
+        # with remaining accounts
+        program_id = rand_pubkey()
+        whirlpools_config = rand_pubkey()
+        whirlpool = rand_pubkey()
+        collect_protocol_fees_authority = rand_pubkey()
+        token_mint_a = rand_pubkey()
+        token_mint_b = rand_pubkey()
+        token_vault_a = rand_pubkey()
+        token_vault_b = rand_pubkey()
+        token_destination_a = rand_pubkey()
+        token_destination_b = rand_pubkey()
+        token_program_a = rand_pubkey()
+        token_program_b = rand_pubkey()
+
+        token_transfer_hook_accounts_a = [
+            AccountMeta(rand_pubkey(), True, False),
+            AccountMeta(rand_pubkey(), False, True),
+        ]
+        token_transfer_hook_accounts_b = [
+            AccountMeta(rand_pubkey(), False, False),
+            AccountMeta(rand_pubkey(), True, True),
+        ]
+
+        result = WhirlpoolIx.collect_protocol_fees_v2(
+            program_id,
+            CollectProtocolFeesV2Params(
+                whirlpools_config=whirlpools_config,
+                whirlpool=whirlpool,
+                collect_protocol_fees_authority=collect_protocol_fees_authority,
+                token_mint_a=token_mint_a,
+                token_mint_b=token_mint_b,
+                token_vault_a=token_vault_a,
+                token_vault_b=token_vault_b,
+                token_destination_a=token_destination_a,
+                token_destination_b=token_destination_b,
+                token_program_a=token_program_a,
+                token_program_b=token_program_b,
+                token_transfer_hook_accounts_a=token_transfer_hook_accounts_a,
+                token_transfer_hook_accounts_b=token_transfer_hook_accounts_b,
+            )
+        )
+        ix = result.instructions[0]
+
+        self.assertEqual(program_id, ix.program_id)
+
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
+        self.assertEqual(whirlpools_config, keys[0])
+        self.assertEqual(whirlpool, keys[1])
+        self.assertEqual(collect_protocol_fees_authority, keys[2])
+        self.assertEqual(token_mint_a, keys[3])
+        self.assertEqual(token_mint_b, keys[4])
+        self.assertEqual(token_vault_a, keys[5])
+        self.assertEqual(token_vault_b, keys[6])
+        self.assertEqual(token_destination_a, keys[7])
+        self.assertEqual(token_destination_b, keys[8])
+        self.assertEqual(token_program_a, keys[9])
+        self.assertEqual(token_program_b, keys[10])
+        self.assertEqual(MEMO_PROGRAM_ID, keys[11])
+        # remaining
+        self.assertEqual(token_transfer_hook_accounts_a[0], ix.accounts[12])
+        self.assertEqual(token_transfer_hook_accounts_a[1], ix.accounts[13])
+        self.assertEqual(token_transfer_hook_accounts_b[0], ix.accounts[14])
+        self.assertEqual(token_transfer_hook_accounts_b[1], ix.accounts[15])
+        self.assertEqual(len(ix.accounts), 16)
+
+        expected_data = build_ix_data("collectProtocolFeesV2", [
+            (U8, 1),  # Some
+            (U32, 2),  # the length of slice
+            (U8, 0), (U8, 2),  # TransferHookA len=2
+            (U8, 1), (U8, 2),  # TransferHookB len=2
+        ])
+        self.assertEqual(expected_data, ix.data)
 
     def test_collect_reward_v2_01(self):
-        # must: check remaining accounts info and accounts
-        self.assertTrue(False, "not implemented")
+        # without remaining accounts
+        reward_index = 2
 
-    def test_increase_liquiditiy_v2_01(self):
-        # must: check remaining accounts info and accounts
-        self.assertTrue(False, "not implemented")
+        program_id = rand_pubkey()
+        whirlpool = rand_pubkey()
+        position_authority = rand_pubkey()
+        position = rand_pubkey()
+        position_token_account = rand_pubkey()
+        reward_owner_account = rand_pubkey()
+        reward_mint = rand_pubkey()
+        reward_vault = rand_pubkey()
+        reward_token_program = rand_pubkey()
+
+        result = WhirlpoolIx.collect_reward_v2(
+            program_id,
+            CollectRewardV2Params(
+                reward_index=reward_index,
+                whirlpool=whirlpool,
+                position_authority=position_authority,
+                position=position,
+                position_token_account=position_token_account,
+                reward_owner_account=reward_owner_account,
+                reward_mint=reward_mint,
+                reward_vault=reward_vault,
+                reward_token_program=reward_token_program,
+            )
+        )
+        ix = result.instructions[0]
+
+        self.assertEqual(program_id, ix.program_id)
+
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
+        self.assertEqual(whirlpool, keys[0])
+        self.assertEqual(position_authority, keys[1])
+        self.assertEqual(position, keys[2])
+        self.assertEqual(position_token_account, keys[3])
+        self.assertEqual(reward_owner_account, keys[4])
+        self.assertEqual(reward_mint, keys[5])
+        self.assertEqual(reward_vault, keys[6])
+        self.assertEqual(reward_token_program, keys[7])
+        self.assertEqual(MEMO_PROGRAM_ID, keys[8])
+
+        expected_data = build_ix_data(
+            "collectRewardV2", [
+                (U8, reward_index),
+                (U8, 0)  # None
+            ]
+        )
+        self.assertEqual(expected_data, ix.data)
+
+    def test_collect_reward_v2_02(self):
+        # without remaining accounts
+        reward_index = 2
+
+        program_id = rand_pubkey()
+        whirlpool = rand_pubkey()
+        position_authority = rand_pubkey()
+        position = rand_pubkey()
+        position_token_account = rand_pubkey()
+        reward_owner_account = rand_pubkey()
+        reward_mint = rand_pubkey()
+        reward_vault = rand_pubkey()
+        reward_token_program = rand_pubkey()
+
+        reward_transfer_hook_accounts = [
+            AccountMeta(rand_pubkey(), False, False),
+            AccountMeta(rand_pubkey(), False, True),
+            AccountMeta(rand_pubkey(), True, True),
+        ]
+
+        result = WhirlpoolIx.collect_reward_v2(
+            program_id,
+            CollectRewardV2Params(
+                reward_index=reward_index,
+                whirlpool=whirlpool,
+                position_authority=position_authority,
+                position=position,
+                position_token_account=position_token_account,
+                reward_owner_account=reward_owner_account,
+                reward_mint=reward_mint,
+                reward_vault=reward_vault,
+                reward_token_program=reward_token_program,
+                reward_transfer_hook_accounts=reward_transfer_hook_accounts,
+            )
+        )
+        ix = result.instructions[0]
+
+        self.assertEqual(program_id, ix.program_id)
+
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
+        self.assertEqual(whirlpool, keys[0])
+        self.assertEqual(position_authority, keys[1])
+        self.assertEqual(position, keys[2])
+        self.assertEqual(position_token_account, keys[3])
+        self.assertEqual(reward_owner_account, keys[4])
+        self.assertEqual(reward_mint, keys[5])
+        self.assertEqual(reward_vault, keys[6])
+        self.assertEqual(reward_token_program, keys[7])
+        self.assertEqual(MEMO_PROGRAM_ID, keys[8])
+        # remaining
+        self.assertEqual(reward_transfer_hook_accounts[0], ix.accounts[9])
+        self.assertEqual(reward_transfer_hook_accounts[1], ix.accounts[10])
+        self.assertEqual(reward_transfer_hook_accounts[2], ix.accounts[11])
+        self.assertEqual(len(ix.accounts), 12)
+
+        expected_data = build_ix_data("collectRewardV2", [
+            (U8, reward_index),
+            (U8, 1),  # Some
+            (U32, 1),  # the length of slice
+            (U8, 2), (U8, 3),  # TransferHookReward len=3
+        ])
+        self.assertEqual(expected_data, ix.data)
+
+    def test_increase_liquidity_v2_01(self):
+        # without remaining accounts
+        liquidity_amount = rand_u128()
+        token_max_a = rand_u64()
+        token_max_b = rand_u64()
+
+        program_id = rand_pubkey()
+        whirlpool = rand_pubkey()
+        token_program_a = rand_pubkey()
+        token_program_b = rand_pubkey()
+        position_authority = rand_pubkey()
+        position = rand_pubkey()
+        position_token_account = rand_pubkey()
+        token_mint_a = rand_pubkey()
+        token_mint_b = rand_pubkey()
+        token_owner_account_a = rand_pubkey()
+        token_owner_account_b = rand_pubkey()
+        token_vault_a = rand_pubkey()
+        token_vault_b = rand_pubkey()
+        tick_array_lower = rand_pubkey()
+        tick_array_upper = rand_pubkey()
+
+        result = WhirlpoolIx.increase_liquidity_v2(
+            program_id,
+            IncreaseLiquidityV2Params(
+                liquidity_amount=liquidity_amount,
+                token_max_a=token_max_a,
+                token_max_b=token_max_b,
+                whirlpool=whirlpool,
+                token_program_a=token_program_a,
+                token_program_b=token_program_b,
+                position_authority=position_authority,
+                position=position,
+                position_token_account=position_token_account,
+                token_mint_a=token_mint_a,
+                token_mint_b=token_mint_b,
+                token_owner_account_a=token_owner_account_a,
+                token_owner_account_b=token_owner_account_b,
+                token_vault_a=token_vault_a,
+                token_vault_b=token_vault_b,
+                tick_array_lower=tick_array_lower,
+                tick_array_upper=tick_array_upper,
+            )
+        )
+        ix = result.instructions[0]
+
+        self.assertEqual(program_id, ix.program_id)
+
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
+        self.assertEqual(whirlpool, keys[0])
+        self.assertEqual(token_program_a, keys[1])
+        self.assertEqual(token_program_b, keys[2])
+        self.assertEqual(MEMO_PROGRAM_ID, keys[3])
+        self.assertEqual(position_authority, keys[4])
+        self.assertEqual(position, keys[5])
+        self.assertEqual(position_token_account, keys[6])
+        self.assertEqual(token_mint_a, keys[7])
+        self.assertEqual(token_mint_b, keys[8])
+        self.assertEqual(token_owner_account_a, keys[9])
+        self.assertEqual(token_owner_account_b, keys[10])
+        self.assertEqual(token_vault_a, keys[11])
+        self.assertEqual(token_vault_b, keys[12])
+        self.assertEqual(tick_array_lower, keys[13])
+        self.assertEqual(tick_array_upper, keys[14])
+
+        expected_data = build_ix_data(
+            "increaseLiquidityV2", [
+                (U128, liquidity_amount),
+                (U64, token_max_a),
+                (U64, token_max_b),
+                (U8, 0)  # None
+            ]
+        )
+        self.assertEqual(expected_data, ix.data)
+
+    def test_increase_liquidity_v2_02(self):
+        # with remaining accounts
+        liquidity_amount = rand_u128()
+        token_max_a = rand_u64()
+        token_max_b = rand_u64()
+
+        program_id = rand_pubkey()
+        whirlpool = rand_pubkey()
+        token_program_a = rand_pubkey()
+        token_program_b = rand_pubkey()
+        position_authority = rand_pubkey()
+        position = rand_pubkey()
+        position_token_account = rand_pubkey()
+        token_mint_a = rand_pubkey()
+        token_mint_b = rand_pubkey()
+        token_owner_account_a = rand_pubkey()
+        token_owner_account_b = rand_pubkey()
+        token_vault_a = rand_pubkey()
+        token_vault_b = rand_pubkey()
+        tick_array_lower = rand_pubkey()
+        tick_array_upper = rand_pubkey()
+
+        token_transfer_hook_accounts_a = [
+            AccountMeta(rand_pubkey(), True, False),
+            AccountMeta(rand_pubkey(), False, True),
+        ]
+        token_transfer_hook_accounts_b = [
+            AccountMeta(rand_pubkey(), False, False),
+            AccountMeta(rand_pubkey(), True, True),
+        ]
+
+        result = WhirlpoolIx.increase_liquidity_v2(
+            program_id,
+            IncreaseLiquidityV2Params(
+                liquidity_amount=liquidity_amount,
+                token_max_a=token_max_a,
+                token_max_b=token_max_b,
+                whirlpool=whirlpool,
+                token_program_a=token_program_a,
+                token_program_b=token_program_b,
+                position_authority=position_authority,
+                position=position,
+                position_token_account=position_token_account,
+                token_mint_a=token_mint_a,
+                token_mint_b=token_mint_b,
+                token_owner_account_a=token_owner_account_a,
+                token_owner_account_b=token_owner_account_b,
+                token_vault_a=token_vault_a,
+                token_vault_b=token_vault_b,
+                tick_array_lower=tick_array_lower,
+                tick_array_upper=tick_array_upper,
+                token_transfer_hook_accounts_a=token_transfer_hook_accounts_a,
+                token_transfer_hook_accounts_b=token_transfer_hook_accounts_b,
+            )
+        )
+        ix = result.instructions[0]
+
+        self.assertEqual(program_id, ix.program_id)
+
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
+        self.assertEqual(whirlpool, keys[0])
+        self.assertEqual(token_program_a, keys[1])
+        self.assertEqual(token_program_b, keys[2])
+        self.assertEqual(MEMO_PROGRAM_ID, keys[3])
+        self.assertEqual(position_authority, keys[4])
+        self.assertEqual(position, keys[5])
+        self.assertEqual(position_token_account, keys[6])
+        self.assertEqual(token_mint_a, keys[7])
+        self.assertEqual(token_mint_b, keys[8])
+        self.assertEqual(token_owner_account_a, keys[9])
+        self.assertEqual(token_owner_account_b, keys[10])
+        self.assertEqual(token_vault_a, keys[11])
+        self.assertEqual(token_vault_b, keys[12])
+        self.assertEqual(tick_array_lower, keys[13])
+        self.assertEqual(tick_array_upper, keys[14])
+        # remaining
+        self.assertEqual(token_transfer_hook_accounts_a[0], ix.accounts[15])
+        self.assertEqual(token_transfer_hook_accounts_a[1], ix.accounts[16])
+        self.assertEqual(token_transfer_hook_accounts_b[0], ix.accounts[17])
+        self.assertEqual(token_transfer_hook_accounts_b[1], ix.accounts[18])
+        self.assertEqual(len(ix.accounts), 19)
+
+        expected_data = build_ix_data(
+            "increaseLiquidityV2", [
+                (U128, liquidity_amount),
+                (U64, token_max_a),
+                (U64, token_max_b),
+                (U8, 1),  # Some
+                (U32, 2),  # the length of slice
+                (U8, 0), (U8, 2),  # TransferHookA len=2
+                (U8, 1), (U8, 2),  # TransferHookB len=2
+            ]
+        )
+        self.assertEqual(expected_data, ix.data)
 
     def test_decrease_liquidity_v2_01(self):
-        # must: check remaining accounts info and accounts
-        self.assertTrue(False, "not implemented")
+        # without remaining accounts
+        liquidity_amount = rand_u128()
+        token_min_a = rand_u64()
+        token_min_b = rand_u64()
+
+        program_id = rand_pubkey()
+        whirlpool = rand_pubkey()
+        token_program_a = rand_pubkey()
+        token_program_b = rand_pubkey()
+        position_authority = rand_pubkey()
+        position = rand_pubkey()
+        position_token_account = rand_pubkey()
+        token_mint_a = rand_pubkey()
+        token_mint_b = rand_pubkey()
+        token_owner_account_a = rand_pubkey()
+        token_owner_account_b = rand_pubkey()
+        token_vault_a = rand_pubkey()
+        token_vault_b = rand_pubkey()
+        tick_array_lower = rand_pubkey()
+        tick_array_upper = rand_pubkey()
+
+        result = WhirlpoolIx.decrease_liquidity_v2(
+            program_id,
+            DecreaseLiquidityV2Params(
+                liquidity_amount=liquidity_amount,
+                token_min_a=token_min_a,
+                token_min_b=token_min_b,
+                whirlpool=whirlpool,
+                token_program_a=token_program_a,
+                token_program_b=token_program_b,
+                position_authority=position_authority,
+                position=position,
+                position_token_account=position_token_account,
+                token_mint_a=token_mint_a,
+                token_mint_b=token_mint_b,
+                token_owner_account_a=token_owner_account_a,
+                token_owner_account_b=token_owner_account_b,
+                token_vault_a=token_vault_a,
+                token_vault_b=token_vault_b,
+                tick_array_lower=tick_array_lower,
+                tick_array_upper=tick_array_upper,
+            )
+        )
+        ix = result.instructions[0]
+
+        self.assertEqual(program_id, ix.program_id)
+
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
+        self.assertEqual(whirlpool, keys[0])
+        self.assertEqual(token_program_a, keys[1])
+        self.assertEqual(token_program_b, keys[2])
+        self.assertEqual(MEMO_PROGRAM_ID, keys[3])
+        self.assertEqual(position_authority, keys[4])
+        self.assertEqual(position, keys[5])
+        self.assertEqual(position_token_account, keys[6])
+        self.assertEqual(token_mint_a, keys[7])
+        self.assertEqual(token_mint_b, keys[8])
+        self.assertEqual(token_owner_account_a, keys[9])
+        self.assertEqual(token_owner_account_b, keys[10])
+        self.assertEqual(token_vault_a, keys[11])
+        self.assertEqual(token_vault_b, keys[12])
+        self.assertEqual(tick_array_lower, keys[13])
+        self.assertEqual(tick_array_upper, keys[14])
+
+        expected_data = build_ix_data(
+            "decreaseLiquidityV2", [
+                (U128, liquidity_amount),
+                (U64, token_min_a),
+                (U64, token_min_b),
+                (U8, 0)  # None
+            ]
+        )
+        self.assertEqual(expected_data, ix.data)
+
+    def test_decrease_liquidity_v2_02(self):
+        # with remaining accounts
+        liquidity_amount = rand_u128()
+        token_min_a = rand_u64()
+        token_min_b = rand_u64()
+
+        program_id = rand_pubkey()
+        whirlpool = rand_pubkey()
+        token_program_a = rand_pubkey()
+        token_program_b = rand_pubkey()
+        position_authority = rand_pubkey()
+        position = rand_pubkey()
+        position_token_account = rand_pubkey()
+        token_mint_a = rand_pubkey()
+        token_mint_b = rand_pubkey()
+        token_owner_account_a = rand_pubkey()
+        token_owner_account_b = rand_pubkey()
+        token_vault_a = rand_pubkey()
+        token_vault_b = rand_pubkey()
+        tick_array_lower = rand_pubkey()
+        tick_array_upper = rand_pubkey()
+
+        token_transfer_hook_accounts_a = [
+            AccountMeta(rand_pubkey(), True, False),
+            AccountMeta(rand_pubkey(), False, True),
+        ]
+        token_transfer_hook_accounts_b = [
+            AccountMeta(rand_pubkey(), False, False),
+            AccountMeta(rand_pubkey(), True, True),
+        ]
+
+        result = WhirlpoolIx.decrease_liquidity_v2(
+            program_id,
+            DecreaseLiquidityV2Params(
+                liquidity_amount=liquidity_amount,
+                token_min_a=token_min_a,
+                token_min_b=token_min_b,
+                whirlpool=whirlpool,
+                token_program_a=token_program_a,
+                token_program_b=token_program_b,
+                position_authority=position_authority,
+                position=position,
+                position_token_account=position_token_account,
+                token_mint_a=token_mint_a,
+                token_mint_b=token_mint_b,
+                token_owner_account_a=token_owner_account_a,
+                token_owner_account_b=token_owner_account_b,
+                token_vault_a=token_vault_a,
+                token_vault_b=token_vault_b,
+                tick_array_lower=tick_array_lower,
+                tick_array_upper=tick_array_upper,
+                token_transfer_hook_accounts_a=token_transfer_hook_accounts_a,
+                token_transfer_hook_accounts_b=token_transfer_hook_accounts_b,
+            )
+        )
+        ix = result.instructions[0]
+
+        self.assertEqual(program_id, ix.program_id)
+
+        keys = list(map(lambda k: k.pubkey, ix.accounts))
+        self.assertEqual(whirlpool, keys[0])
+        self.assertEqual(token_program_a, keys[1])
+        self.assertEqual(token_program_b, keys[2])
+        self.assertEqual(MEMO_PROGRAM_ID, keys[3])
+        self.assertEqual(position_authority, keys[4])
+        self.assertEqual(position, keys[5])
+        self.assertEqual(position_token_account, keys[6])
+        self.assertEqual(token_mint_a, keys[7])
+        self.assertEqual(token_mint_b, keys[8])
+        self.assertEqual(token_owner_account_a, keys[9])
+        self.assertEqual(token_owner_account_b, keys[10])
+        self.assertEqual(token_vault_a, keys[11])
+        self.assertEqual(token_vault_b, keys[12])
+        self.assertEqual(tick_array_lower, keys[13])
+        self.assertEqual(tick_array_upper, keys[14])
+        # remaining
+        self.assertEqual(token_transfer_hook_accounts_a[0], ix.accounts[15])
+        self.assertEqual(token_transfer_hook_accounts_a[1], ix.accounts[16])
+        self.assertEqual(token_transfer_hook_accounts_b[0], ix.accounts[17])
+        self.assertEqual(token_transfer_hook_accounts_b[1], ix.accounts[18])
+        self.assertEqual(len(ix.accounts), 19)
+
+        expected_data = build_ix_data(
+            "decreaseLiquidityV2", [
+                (U128, liquidity_amount),
+                (U64, token_min_a),
+                (U64, token_min_b),
+                (U8, 1),  # Some
+                (U32, 2),  # the length of slice
+                (U8, 0), (U8, 2),  # TransferHookA len=2
+                (U8, 1), (U8, 2),  # TransferHookB len=2
+            ]
+        )
+        self.assertEqual(expected_data, ix.data)
 
     def test_initialize_pool_v2_01(self):
         tick_spacing = random.randint(1, 255)

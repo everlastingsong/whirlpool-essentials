@@ -450,8 +450,8 @@ class CollectFeesV2Params:
     token_program_a: Pubkey
     token_program_b: Pubkey
     # remaining
-    token_transfer_hook_accounts_a: Optional[List[AccountMeta]]
-    token_transfer_hook_accounts_b: Optional[List[AccountMeta]]
+    token_transfer_hook_accounts_a: Optional[List[AccountMeta]] = None
+    token_transfer_hook_accounts_b: Optional[List[AccountMeta]] = None
 
 
 @dataclasses.dataclass(frozen=True)
@@ -468,8 +468,8 @@ class CollectProtocolFeesV2Params:
     token_program_a: Pubkey
     token_program_b: Pubkey
     # remaining
-    token_transfer_hook_accounts_a: Optional[List[AccountMeta]]
-    token_transfer_hook_accounts_b: Optional[List[AccountMeta]]
+    token_transfer_hook_accounts_a: Optional[List[AccountMeta]] = None
+    token_transfer_hook_accounts_b: Optional[List[AccountMeta]] = None
 
 
 @dataclasses.dataclass(frozen=True)
@@ -484,7 +484,7 @@ class CollectRewardV2Params:
     reward_vault: Pubkey
     reward_token_program: Pubkey
     # remaining
-    reward_transfer_hook_accounts: Optional[List[AccountMeta]]
+    reward_transfer_hook_accounts: Optional[List[AccountMeta]] = None
 
 
 @dataclasses.dataclass(frozen=True)
@@ -507,8 +507,8 @@ class IncreaseLiquidityV2Params:
     tick_array_lower: Pubkey
     tick_array_upper: Pubkey
     # remaining
-    token_transfer_hook_accounts_a: Optional[List[AccountMeta]]
-    token_transfer_hook_accounts_b: Optional[List[AccountMeta]]
+    token_transfer_hook_accounts_a: Optional[List[AccountMeta]] = None
+    token_transfer_hook_accounts_b: Optional[List[AccountMeta]] = None
 
 
 @dataclasses.dataclass(frozen=True)
@@ -531,8 +531,8 @@ class DecreaseLiquidityV2Params:
     tick_array_lower: Pubkey
     tick_array_upper: Pubkey
     # remaining
-    token_transfer_hook_accounts_a: Optional[List[AccountMeta]]
-    token_transfer_hook_accounts_b: Optional[List[AccountMeta]]
+    token_transfer_hook_accounts_a: Optional[List[AccountMeta]] = None
+    token_transfer_hook_accounts_b: Optional[List[AccountMeta]] = None
 
 
 @dataclasses.dataclass(frozen=True)
@@ -596,9 +596,9 @@ class SwapV2Params:
     tick_array_2: Pubkey
     oracle: Pubkey
     # remaining
-    supplemental_tick_arrays: Optional[List[Pubkey]]
-    token_transfer_hook_accounts_a: Optional[List[AccountMeta]]
-    token_transfer_hook_accounts_b: Optional[List[AccountMeta]]
+    supplemental_tick_arrays: Optional[List[Pubkey]] = None
+    token_transfer_hook_accounts_a: Optional[List[AccountMeta]] = None
+    token_transfer_hook_accounts_b: Optional[List[AccountMeta]] = None
 
 
 @dataclasses.dataclass(frozen=True)
@@ -634,11 +634,11 @@ class TwoHopSwapV2Params:
     oracle_one: Pubkey
     oracle_two: Pubkey
     # remaining
-    supplemental_tick_arrays_one: Optional[List[Pubkey]]
-    supplemental_tick_arrays_two: Optional[List[Pubkey]]
-    token_transfer_hook_accounts_input: Optional[List[AccountMeta]]
-    token_transfer_hook_accounts_intermediate: Optional[List[AccountMeta]]
-    token_transfer_hook_accounts_output: Optional[List[AccountMeta]]
+    supplemental_tick_arrays_one: Optional[List[Pubkey]] = None
+    supplemental_tick_arrays_two: Optional[List[Pubkey]] = None
+    token_transfer_hook_accounts_input: Optional[List[AccountMeta]] = None
+    token_transfer_hook_accounts_intermediate: Optional[List[AccountMeta]] = None
+    token_transfer_hook_accounts_output: Optional[List[AccountMeta]] = None
 
 
 class WhirlpoolIx:

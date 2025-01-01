@@ -3,6 +3,7 @@ from decimal import Decimal
 from solana.rpc.async_api import AsyncClient
 from solders.keypair import Keypair
 from solders.pubkey import Pubkey
+from solders.instruction import AccountMeta
 
 from orca_whirlpool.internal.constants import ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG, ORCA_WHIRLPOOLS_CONFIG_EXTENSION, MIN_TICK_INDEX, MAX_TICK_INDEX, MIN_SQRT_PRICE, MAX_SQRT_PRICE, U64_MAX, TICK_ARRAY_SIZE, FEE_RATE_MUL_VALUE, PROTOCOL_FEE_RATE_MUL_VALUE, NUM_REWARDS, MAX_SWAP_TICK_ARRAYS, METAPLEX_METADATA_PROGRAM_ID, ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY, DEFAULT_PUBKEY
 from orca_whirlpool.internal.utils.pool_util import PoolUtil
@@ -12,10 +13,11 @@ from orca_whirlpool.internal.utils.swap_util import SwapUtil
 from orca_whirlpool.internal.utils.pda_util import PDAUtil
 from orca_whirlpool.internal.utils.tick_util import TickUtil
 from orca_whirlpool.internal.utils.liquidity_math import LiquidityMath
+from orca_whirlpool.internal.utils.remaining_accounts_util import RemainingAccountsBuilder
 from orca_whirlpool.internal.context import WhirlpoolContext
 from orca_whirlpool.internal.accounts.account_fetcher import AccountFetcher
 from orca_whirlpool.internal.types.types import TokenAmounts
-from orca_whirlpool.internal.types.enums import PositionStatus, SpecifiedAmount, SwapDirection
+from orca_whirlpool.internal.types.enums import PositionStatus, SpecifiedAmount, SwapDirection, RemainingAccountsType
 from orca_whirlpool.internal.anchor.types import WhirlpoolRewardInfo
 
 
@@ -919,8 +921,49 @@ class SpecifiedAmountTestCase(unittest.TestCase):
 
 
 class RemainingAccountsUtilTestCase(unittest.TestCase):
-    def test_not_implemented(self):
-        self.assertTrue(False, "not implemented")
+    def test_add_slice_01(self):
+        builder = RemainingAccountsBuilder()
+        # ignore None
+        builder.add_slice(RemainingAccountsType.TransferHookA, None)
+        result = builder.build()
+        self.assertIsNone(result.remaining_accounts_info)
+        self.assertIsNone(result.remaining_accounts)
+
+    def test_add_slice_02(self):
+        builder = RemainingAccountsBuilder()
+        # ignore empty list
+        builder.add_slice(RemainingAccountsType.TransferHookA, [])
+        result = builder.build()
+        self.assertIsNone(result.remaining_accounts_info)
+        self.assertIsNone(result.remaining_accounts)
+
+    def test_add_slice_03(self):
+        first = [
+            AccountMeta(Keypair().pubkey(), True, False),
+            AccountMeta(Keypair().pubkey(), True, True),
+            AccountMeta(Keypair().pubkey(), False, False),
+        ]
+        second = [
+            AccountMeta(Keypair().pubkey(), False, True),
+            AccountMeta(Keypair().pubkey(), False, False),
+        ]
+
+        builder = RemainingAccountsBuilder()
+        # extend
+        builder.add_slice(RemainingAccountsType.TransferHookInput, first)
+        builder.add_slice(RemainingAccountsType.TransferHookIntermediate, [])
+        builder.add_slice(RemainingAccountsType.TransferHookOutput, second)
+        result = builder.build()
+        self.assertEqual(2, len(result.remaining_accounts_info.slices))
+        self.assertEqual("TransferHookInput()", str(result.remaining_accounts_info.slices[0].accounts_type))
+        self.assertEqual("TransferHookOutput()", str(result.remaining_accounts_info.slices[1].accounts_type))
+        self.assertEqual(3, result.remaining_accounts_info.slices[0].length)
+        self.assertEqual(2, result.remaining_accounts_info.slices[1].length)
+        self.assertEqual(first[0], result.remaining_accounts[0])
+        self.assertEqual(first[1], result.remaining_accounts[1])
+        self.assertEqual(first[2], result.remaining_accounts[2])
+        self.assertEqual(second[0], result.remaining_accounts[3])
+        self.assertEqual(second[1], result.remaining_accounts[4])
 
 
 if __name__ == "__main__":

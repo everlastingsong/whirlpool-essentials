@@ -75,8 +75,8 @@ async def main():
     print("max_token_a", quote.token_max_b)
 
     # get ATA (considering WSOL)
-    token_account_a = await TokenUtil.resolve_or_create_ata(ctx.connection, ctx.wallet.public_key, whirlpool.token_mint_a, quote.token_max_a)
-    token_account_b = await TokenUtil.resolve_or_create_ata(ctx.connection, ctx.wallet.public_key, whirlpool.token_mint_b, quote.token_max_b)
+    token_account_a = await TokenUtil.resolve_or_create_ata(ctx.connection, ctx.wallet.pubkey(), whirlpool.token_mint_a, quote.token_max_a)
+    token_account_b = await TokenUtil.resolve_or_create_ata(ctx.connection, ctx.wallet.pubkey(), whirlpool.token_mint_b, quote.token_max_b)
     print("token_account_a", token_account_a.pubkey)
     print("token_account_b", token_account_b.pubkey)
 
@@ -89,7 +89,7 @@ async def main():
 
     # open position
     position_mint = Keypair()
-    position_ata = TokenUtil.derive_ata(ctx.wallet.public_key, position_mint.pubkey())
+    position_ata = TokenUtil.derive_ata(ctx.wallet.pubkey(), position_mint.pubkey())
     position_pda = PDAUtil.get_position(ctx.program_id, position_mint.pubkey())
     open_position_ix = WhirlpoolIx.open_position(
         ctx.program_id,
@@ -100,8 +100,8 @@ async def main():
             position_pda=position_pda,
             position_mint=position_mint.pubkey(),
             position_token_account=position_ata,
-            funder=ctx.wallet.public_key,
-            owner=ctx.wallet.public_key,
+            funder=ctx.wallet.pubkey(),
+            owner=ctx.wallet.pubkey(),
         )
     )
     tx.add_instruction(open_position_ix)
@@ -116,7 +116,7 @@ async def main():
             whirlpool=whirlpool_pubkey,
             position=position_pda.pubkey,
             position_token_account=position_ata,
-            position_authority=ctx.wallet.public_key,
+            position_authority=ctx.wallet.pubkey(),
             liquidity_amount=quote.liquidity,
             token_max_a=quote.token_max_a,
             token_max_b=quote.token_max_b,

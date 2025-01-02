@@ -6,7 +6,7 @@ from spl.token.constants import TOKEN_PROGRAM_ID
 
 from .account_fetcher import AccountFetcher
 from ..constants import ACCOUNT_SIZE_WHIRLPOOL, ACCOUNT_SIZE_TICK_ARRAY, ACCOUNT_SIZE_POSITION, ACCOUNT_SIZE_FEE_TIER
-from .types import Whirlpool, TickArray, Position, PositionBundle
+from .types import Whirlpool, TickArray, Position, PositionBundle, FeeTier
 from .account_parser import AccountParser
 from .keyed_account_converter import KeyedAccountConverter
 from ..utils.pda_util import PDAUtil
@@ -82,7 +82,7 @@ class AccountFinder:
 
         candidates = []
         for token_account in accounts:
-            parsed = TokenUtil.deserialize_account(token_account.account.data)
+            parsed = TokenUtil.deserialize_account(token_account.account.data, token_program_id)
 
             # maybe NFT
             if parsed.amount == 1:
@@ -103,7 +103,7 @@ class AccountFinder:
 
         candidates = []
         for token_account in accounts:
-            parsed = TokenUtil.deserialize_account(token_account.account.data)
+            parsed = TokenUtil.deserialize_account(token_account.account.data, TOKEN_PROGRAM_ID)
 
             # maybe NFT
             if parsed.amount == 1:

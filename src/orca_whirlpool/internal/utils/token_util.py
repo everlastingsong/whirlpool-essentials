@@ -153,7 +153,8 @@ class TokenUtil:
         owner: Pubkey,
         mint: Pubkey,
         wrapped_sol_amount: int = 0,
-        funder: Pubkey = None
+        funder: Pubkey = None,
+        idempotent: bool = True,
     ) -> PublicKeyWithInstruction:
         if funder is None:
             funder = owner
@@ -194,7 +195,10 @@ class TokenUtil:
                 invariant(parsed_ata_2022.mint == mint, "parsed_account.mint == mint")
                 return PublicKeyWithInstruction(pubkey=ata_2022, instruction=EMPTY_INSTRUCTION)
 
-            create_ata_2022_ix = token_program.create_associated_token_account(funder, owner, mint, TOKEN_2022_PROGRAM_ID)
+            if idempotent:
+                create_ata_2022_ix = token_program.create_idempotent_associated_token_account(funder, owner, mint, TOKEN_2022_PROGRAM_ID)
+            else:
+                create_ata_2022_ix = token_program.create_associated_token_account(funder, owner, mint, TOKEN_2022_PROGRAM_ID)
             return PublicKeyWithInstruction(
                 pubkey=ata_2022,
                 instruction=Instruction(
@@ -214,7 +218,10 @@ class TokenUtil:
             invariant(parsed_ata.mint == mint, "parsed_account.mint == mint")
             return PublicKeyWithInstruction(pubkey=ata, instruction=EMPTY_INSTRUCTION)
 
-        create_ata_ix = token_program.create_associated_token_account(funder, owner, mint, TOKEN_PROGRAM_ID)
+        if idempotent:
+            create_ata_ix = token_program.create_idempotent_associated_token_account(funder, owner, mint, TOKEN_PROGRAM_ID)
+        else:
+            create_ata_ix = token_program.create_associated_token_account(funder, owner, mint, TOKEN_PROGRAM_ID)
         return PublicKeyWithInstruction(
             pubkey=ata,
             instruction=Instruction(

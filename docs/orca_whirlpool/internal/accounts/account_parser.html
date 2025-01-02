@@ -27,16 +27,21 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">from typing import Optional
+from solders.pubkey import Pubkey
 from spl.token.core import AccountInfo as SolanapyAccountInfo, MintInfo as SolanapyMintInfo
 from ..anchor.accounts import WhirlpoolsConfig as AnchorWhirlpoolsConfig, FeeTier as AnchorFeeTier
 from ..anchor.accounts import Whirlpool as AnchorWhirlpool, TickArray as AnchorTickArray, Position as AnchorPosition
 from ..anchor.accounts import PositionBundle as AnchorPositionBundle
+from ..anchor.accounts import WhirlpoolsConfigExtension as AnchorWhirlpoolsConfigExtension, TokenBadge as AnchorTokenBadge
 from ..utils.token_util import TokenUtil
 
 
-def safe_decode(decode, data):
+def safe_decode(decode, data, program_id: Optional[Pubkey] = None):
     try:
-        return decode(data)
+        if program_id is None:
+            return decode(data)
+        else:
+            return decode(data, program_id)
     # TODO: too broad exception catch
     except Exception:
         return None
@@ -68,12 +73,20 @@ class AccountParser:
         return safe_decode(AnchorPositionBundle.decode, data)
 
     @staticmethod
-    def parse_token_mint(data: bytes) -&gt; Optional[SolanapyMintInfo]:
-        return safe_decode(TokenUtil.deserialize_mint, data)
+    def parse_whirlpools_config_extension(data: bytes) -&gt; Optional[AnchorWhirlpoolsConfigExtension]:
+        return safe_decode(AnchorWhirlpoolsConfigExtension.decode, data)
 
     @staticmethod
-    def parse_token_account(data: bytes) -&gt; Optional[SolanapyAccountInfo]:
-        return safe_decode(TokenUtil.deserialize_account, data)</code></pre>
+    def parse_token_badge(data: bytes) -&gt; Optional[AnchorTokenBadge]:
+        return safe_decode(AnchorTokenBadge.decode, data)
+
+    @staticmethod
+    def parse_token_mint(data: bytes, program_id: Pubkey) -&gt; Optional[SolanapyMintInfo]:
+        return safe_decode(TokenUtil.deserialize_mint, data, program_id)
+
+    @staticmethod
+    def parse_token_account(data: bytes, program_id: Pubkey) -&gt; Optional[SolanapyAccountInfo]:
+        return safe_decode(TokenUtil.deserialize_account, data, program_id)</code></pre>
 </details>
 </section>
 <section>
@@ -84,7 +97,7 @@ class AccountParser:
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="orca_whirlpool.internal.accounts.account_parser.safe_decode"><code class="name flex">
-<span>def <span class="ident">safe_decode</span></span>(<span>decode, data)</span>
+<span>def <span class="ident">safe_decode</span></span>(<span>decode, data, program_id: Optional[solders.pubkey.Pubkey] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -92,9 +105,12 @@ class AccountParser:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def safe_decode(decode, data):
+<pre><code class="python">def safe_decode(decode, data, program_id: Optional[Pubkey] = None):
     try:
-        return decode(data)
+        if program_id is None:
+            return decode(data)
+        else:
+            return decode(data, program_id)
     # TODO: too broad exception catch
     except Exception:
         return None</code></pre>
@@ -140,12 +156,20 @@ class AccountParser:
         return safe_decode(AnchorPositionBundle.decode, data)
 
     @staticmethod
-    def parse_token_mint(data: bytes) -&gt; Optional[SolanapyMintInfo]:
-        return safe_decode(TokenUtil.deserialize_mint, data)
+    def parse_whirlpools_config_extension(data: bytes) -&gt; Optional[AnchorWhirlpoolsConfigExtension]:
+        return safe_decode(AnchorWhirlpoolsConfigExtension.decode, data)
 
     @staticmethod
-    def parse_token_account(data: bytes) -&gt; Optional[SolanapyAccountInfo]:
-        return safe_decode(TokenUtil.deserialize_account, data)</code></pre>
+    def parse_token_badge(data: bytes) -&gt; Optional[AnchorTokenBadge]:
+        return safe_decode(AnchorTokenBadge.decode, data)
+
+    @staticmethod
+    def parse_token_mint(data: bytes, program_id: Pubkey) -&gt; Optional[SolanapyMintInfo]:
+        return safe_decode(TokenUtil.deserialize_mint, data, program_id)
+
+    @staticmethod
+    def parse_token_account(data: bytes, program_id: Pubkey) -&gt; Optional[SolanapyAccountInfo]:
+        return safe_decode(TokenUtil.deserialize_account, data, program_id)</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
@@ -206,7 +230,7 @@ def parse_tick_array(data: bytes) -&gt; Optional[AnchorTickArray]:
 </details>
 </dd>
 <dt id="orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_token_account"><code class="name flex">
-<span>def <span class="ident">parse_token_account</span></span>(<span>data: bytes) ‑> Optional[spl.token.core.AccountInfo]</span>
+<span>def <span class="ident">parse_token_account</span></span>(<span>data: bytes, program_id: solders.pubkey.Pubkey) ‑> Optional[spl.token.core.AccountInfo]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -215,12 +239,26 @@ def parse_tick_array(data: bytes) -&gt; Optional[AnchorTickArray]:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def parse_token_account(data: bytes) -&gt; Optional[SolanapyAccountInfo]:
-    return safe_decode(TokenUtil.deserialize_account, data)</code></pre>
+def parse_token_account(data: bytes, program_id: Pubkey) -&gt; Optional[SolanapyAccountInfo]:
+    return safe_decode(TokenUtil.deserialize_account, data, program_id)</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_token_badge"><code class="name flex">
+<span>def <span class="ident">parse_token_badge</span></span>(<span>data: bytes) ‑> Optional[<a title="orca_whirlpool.internal.anchor.accounts.token_badge.TokenBadge" href="../anchor/accounts/token_badge.html#orca_whirlpool.internal.anchor.accounts.token_badge.TokenBadge">TokenBadge</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def parse_token_badge(data: bytes) -&gt; Optional[AnchorTokenBadge]:
+    return safe_decode(AnchorTokenBadge.decode, data)</code></pre>
 </details>
 </dd>
 <dt id="orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_token_mint"><code class="name flex">
-<span>def <span class="ident">parse_token_mint</span></span>(<span>data: bytes) ‑> Optional[spl.token.core.MintInfo]</span>
+<span>def <span class="ident">parse_token_mint</span></span>(<span>data: bytes, program_id: solders.pubkey.Pubkey) ‑> Optional[spl.token.core.MintInfo]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -229,8 +267,8 @@ def parse_token_account(data: bytes) -&gt; Optional[SolanapyAccountInfo]:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def parse_token_mint(data: bytes) -&gt; Optional[SolanapyMintInfo]:
-    return safe_decode(TokenUtil.deserialize_mint, data)</code></pre>
+def parse_token_mint(data: bytes, program_id: Pubkey) -&gt; Optional[SolanapyMintInfo]:
+    return safe_decode(TokenUtil.deserialize_mint, data, program_id)</code></pre>
 </details>
 </dd>
 <dt id="orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_whirlpool"><code class="name flex">
@@ -259,6 +297,20 @@ def parse_whirlpool(data: bytes) -&gt; Optional[AnchorWhirlpool]:
 <pre><code class="python">@staticmethod
 def parse_whirlpools_config(data: bytes) -&gt; Optional[AnchorWhirlpoolsConfig]:
     return safe_decode(AnchorWhirlpoolsConfig.decode, data)</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_whirlpools_config_extension"><code class="name flex">
+<span>def <span class="ident">parse_whirlpools_config_extension</span></span>(<span>data: bytes) ‑> Optional[<a title="orca_whirlpool.internal.anchor.accounts.whirlpools_config_extension.WhirlpoolsConfigExtension" href="../anchor/accounts/whirlpools_config_extension.html#orca_whirlpool.internal.anchor.accounts.whirlpools_config_extension.WhirlpoolsConfigExtension">WhirlpoolsConfigExtension</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def parse_whirlpools_config_extension(data: bytes) -&gt; Optional[AnchorWhirlpoolsConfigExtension]:
+    return safe_decode(AnchorWhirlpoolsConfigExtension.decode, data)</code></pre>
 </details>
 </dd>
 </dl>
@@ -292,9 +344,11 @@ def parse_whirlpools_config(data: bytes) -&gt; Optional[AnchorWhirlpoolsConfig]:
 <li><code><a title="orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_position_bundle" href="#orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_position_bundle">parse_position_bundle</a></code></li>
 <li><code><a title="orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_tick_array" href="#orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_tick_array">parse_tick_array</a></code></li>
 <li><code><a title="orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_token_account" href="#orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_token_account">parse_token_account</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_token_badge" href="#orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_token_badge">parse_token_badge</a></code></li>
 <li><code><a title="orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_token_mint" href="#orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_token_mint">parse_token_mint</a></code></li>
 <li><code><a title="orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_whirlpool" href="#orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_whirlpool">parse_whirlpool</a></code></li>
 <li><code><a title="orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_whirlpools_config" href="#orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_whirlpools_config">parse_whirlpools_config</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_whirlpools_config_extension" href="#orca_whirlpool.internal.accounts.account_parser.AccountParser.parse_whirlpools_config_extension">parse_whirlpools_config_extension</a></code></li>
 </ul>
 </li>
 </ul>

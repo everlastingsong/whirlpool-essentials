@@ -27,17 +27,19 @@ async def main():
     connection = AsyncClient(RPC_ENDPOINT_URL)
     ctx = WhirlpoolContext(ORCA_WHIRLPOOL_PROGRAM_ID, connection, Keypair())
 
+    token_program = TOKEN_PROGRAM_ID
+
     # list all token accounts
     res = await ctx.connection.get_token_accounts_by_owner(
         MY_WALLET_PUBKEY,
-        TokenAccountOpts(program_id=TOKEN_PROGRAM_ID, encoding="base64")
+        TokenAccountOpts(program_id=token_program, encoding="base64")
     )
     token_accounts = res.value
 
     candidates = []
     for token_account in token_accounts:
         pubkey = token_account.pubkey
-        parsed = TokenUtil.deserialize_account(token_account.account.data)
+        parsed = TokenUtil.deserialize_account(token_account.account.data, token_program)
 
         # maybe NFT
         if parsed.amount == 1:

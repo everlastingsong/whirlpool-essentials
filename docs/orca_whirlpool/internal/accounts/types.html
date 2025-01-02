@@ -116,9 +116,30 @@ class PositionBundle:
 
 
 @dataclasses.dataclass(frozen=True)
+class WhirlpoolsConfigExtension:
+    # keyed
+    pubkey: Pubkey
+    # WhirlpoolsConfigExtension
+    whirlpools_config: Pubkey
+    config_extension_authority: Pubkey
+    token_badge_authority: Pubkey
+
+
+@dataclasses.dataclass(frozen=True)
+class TokenBadge:
+    # keyed
+    pubkey: Pubkey
+    # TokenBadge
+    whirlpools_config: Pubkey
+    token_mint: Pubkey
+
+
+@dataclasses.dataclass(frozen=True)
 class AccountInfo:
     # keyed
     pubkey: Pubkey
+    # token program id
+    token_program_id: Pubkey
     # AccountInfo
     mint: Pubkey
     owner: Pubkey
@@ -128,20 +149,23 @@ class AccountInfo:
     is_initialized: bool
     is_frozen: bool
     is_native: bool
-    rent_exempt_reserve: Optional[int]
     close_authority: Optional[Pubkey]
+    tlv_data: bytes
 
 
 @dataclasses.dataclass(frozen=True)
 class MintInfo:
     # keyed
     pubkey: Pubkey
+    # token program id
+    token_program_id: Pubkey
     # MintInfo
     mint_authority: Optional[Pubkey]
     supply: int
     decimals: int
     is_initialized: bool
-    freeze_authority: Optional[Pubkey]</code></pre>
+    freeze_authority: Optional[Pubkey]
+    tlv_data: bytes</code></pre>
 </details>
 </section>
 <section>
@@ -155,10 +179,10 @@ class MintInfo:
 <dl>
 <dt id="orca_whirlpool.internal.accounts.types.AccountInfo"><code class="flex name class">
 <span>class <span class="ident">AccountInfo</span></span>
-<span>(</span><span>pubkey: solders.pubkey.Pubkey, mint: solders.pubkey.Pubkey, owner: solders.pubkey.Pubkey, amount: int, delegate: Optional[solders.pubkey.Pubkey], delegated_amount: int, is_initialized: bool, is_frozen: bool, is_native: bool, rent_exempt_reserve: Optional[int], close_authority: Optional[solders.pubkey.Pubkey])</span>
+<span>(</span><span>pubkey: solders.pubkey.Pubkey, token_program_id: solders.pubkey.Pubkey, mint: solders.pubkey.Pubkey, owner: solders.pubkey.Pubkey, amount: int, delegate: Optional[solders.pubkey.Pubkey], delegated_amount: int, is_initialized: bool, is_frozen: bool, is_native: bool, close_authority: Optional[solders.pubkey.Pubkey], tlv_data: bytes)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>AccountInfo(pubkey: solders.pubkey.Pubkey, mint: solders.pubkey.Pubkey, owner: solders.pubkey.Pubkey, amount: int, delegate: Optional[solders.pubkey.Pubkey], delegated_amount: int, is_initialized: bool, is_frozen: bool, is_native: bool, rent_exempt_reserve: Optional[int], close_authority: Optional[solders.pubkey.Pubkey])</p></div>
+<div class="desc"><p>AccountInfo(pubkey: solders.pubkey.Pubkey, token_program_id: solders.pubkey.Pubkey, mint: solders.pubkey.Pubkey, owner: solders.pubkey.Pubkey, amount: int, delegate: Optional[solders.pubkey.Pubkey], delegated_amount: int, is_initialized: bool, is_frozen: bool, is_native: bool, close_authority: Optional[solders.pubkey.Pubkey], tlv_data: bytes)</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -167,6 +191,8 @@ class MintInfo:
 class AccountInfo:
     # keyed
     pubkey: Pubkey
+    # token program id
+    token_program_id: Pubkey
     # AccountInfo
     mint: Pubkey
     owner: Pubkey
@@ -176,8 +202,8 @@ class AccountInfo:
     is_initialized: bool
     is_frozen: bool
     is_native: bool
-    rent_exempt_reserve: Optional[int]
-    close_authority: Optional[Pubkey]</code></pre>
+    close_authority: Optional[Pubkey]
+    tlv_data: bytes</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -221,7 +247,11 @@ class AccountInfo:
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="orca_whirlpool.internal.accounts.types.AccountInfo.rent_exempt_reserve"><code class="name">var <span class="ident">rent_exempt_reserve</span> : Optional[int]</code></dt>
+<dt id="orca_whirlpool.internal.accounts.types.AccountInfo.tlv_data"><code class="name">var <span class="ident">tlv_data</span> : bytes</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.types.AccountInfo.token_program_id"><code class="name">var <span class="ident">token_program_id</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -268,10 +298,10 @@ class FeeTier:
 </dd>
 <dt id="orca_whirlpool.internal.accounts.types.MintInfo"><code class="flex name class">
 <span>class <span class="ident">MintInfo</span></span>
-<span>(</span><span>pubkey: solders.pubkey.Pubkey, mint_authority: Optional[solders.pubkey.Pubkey], supply: int, decimals: int, is_initialized: bool, freeze_authority: Optional[solders.pubkey.Pubkey])</span>
+<span>(</span><span>pubkey: solders.pubkey.Pubkey, token_program_id: solders.pubkey.Pubkey, mint_authority: Optional[solders.pubkey.Pubkey], supply: int, decimals: int, is_initialized: bool, freeze_authority: Optional[solders.pubkey.Pubkey], tlv_data: bytes)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>MintInfo(pubkey: solders.pubkey.Pubkey, mint_authority: Optional[solders.pubkey.Pubkey], supply: int, decimals: int, is_initialized: bool, freeze_authority: Optional[solders.pubkey.Pubkey])</p></div>
+<div class="desc"><p>MintInfo(pubkey: solders.pubkey.Pubkey, token_program_id: solders.pubkey.Pubkey, mint_authority: Optional[solders.pubkey.Pubkey], supply: int, decimals: int, is_initialized: bool, freeze_authority: Optional[solders.pubkey.Pubkey], tlv_data: bytes)</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -280,12 +310,15 @@ class FeeTier:
 class MintInfo:
     # keyed
     pubkey: Pubkey
+    # token program id
+    token_program_id: Pubkey
     # MintInfo
     mint_authority: Optional[Pubkey]
     supply: int
     decimals: int
     is_initialized: bool
-    freeze_authority: Optional[Pubkey]</code></pre>
+    freeze_authority: Optional[Pubkey]
+    tlv_data: bytes</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -310,6 +343,14 @@ class MintInfo:
 <div class="desc"></div>
 </dd>
 <dt id="orca_whirlpool.internal.accounts.types.MintInfo.supply"><code class="name">var <span class="ident">supply</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.types.MintInfo.tlv_data"><code class="name">var <span class="ident">tlv_data</span> : bytes</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.types.MintInfo.token_program_id"><code class="name">var <span class="ident">token_program_id</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -457,6 +498,40 @@ class TickArray:
 <div class="desc"></div>
 </dd>
 <dt id="orca_whirlpool.internal.accounts.types.TickArray.whirlpool"><code class="name">var <span class="ident">whirlpool</span> : solders.pubkey.Pubkey</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.types.TokenBadge"><code class="flex name class">
+<span>class <span class="ident">TokenBadge</span></span>
+<span>(</span><span>pubkey: solders.pubkey.Pubkey, whirlpools_config: solders.pubkey.Pubkey, token_mint: solders.pubkey.Pubkey)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>TokenBadge(pubkey: solders.pubkey.Pubkey, whirlpools_config: solders.pubkey.Pubkey, token_mint: solders.pubkey.Pubkey)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclasses.dataclass(frozen=True)
+class TokenBadge:
+    # keyed
+    pubkey: Pubkey
+    # TokenBadge
+    whirlpools_config: Pubkey
+    token_mint: Pubkey</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.accounts.types.TokenBadge.pubkey"><code class="name">var <span class="ident">pubkey</span> : solders.pubkey.Pubkey</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.types.TokenBadge.token_mint"><code class="name">var <span class="ident">token_mint</span> : solders.pubkey.Pubkey</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.types.TokenBadge.whirlpools_config"><code class="name">var <span class="ident">whirlpools_config</span> : solders.pubkey.Pubkey</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -625,6 +700,45 @@ class WhirlpoolsConfig:
 </dd>
 </dl>
 </dd>
+<dt id="orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension"><code class="flex name class">
+<span>class <span class="ident">WhirlpoolsConfigExtension</span></span>
+<span>(</span><span>pubkey: solders.pubkey.Pubkey, whirlpools_config: solders.pubkey.Pubkey, config_extension_authority: solders.pubkey.Pubkey, token_badge_authority: solders.pubkey.Pubkey)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>WhirlpoolsConfigExtension(pubkey: solders.pubkey.Pubkey, whirlpools_config: solders.pubkey.Pubkey, config_extension_authority: solders.pubkey.Pubkey, token_badge_authority: solders.pubkey.Pubkey)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclasses.dataclass(frozen=True)
+class WhirlpoolsConfigExtension:
+    # keyed
+    pubkey: Pubkey
+    # WhirlpoolsConfigExtension
+    whirlpools_config: Pubkey
+    config_extension_authority: Pubkey
+    token_badge_authority: Pubkey</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension.config_extension_authority"><code class="name">var <span class="ident">config_extension_authority</span> : solders.pubkey.Pubkey</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension.pubkey"><code class="name">var <span class="ident">pubkey</span> : solders.pubkey.Pubkey</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension.token_badge_authority"><code class="name">var <span class="ident">token_badge_authority</span> : solders.pubkey.Pubkey</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension.whirlpools_config"><code class="name">var <span class="ident">whirlpools_config</span> : solders.pubkey.Pubkey</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
 </dl>
 </section>
 </article>
@@ -654,7 +768,8 @@ class WhirlpoolsConfig:
 <li><code><a title="orca_whirlpool.internal.accounts.types.AccountInfo.mint" href="#orca_whirlpool.internal.accounts.types.AccountInfo.mint">mint</a></code></li>
 <li><code><a title="orca_whirlpool.internal.accounts.types.AccountInfo.owner" href="#orca_whirlpool.internal.accounts.types.AccountInfo.owner">owner</a></code></li>
 <li><code><a title="orca_whirlpool.internal.accounts.types.AccountInfo.pubkey" href="#orca_whirlpool.internal.accounts.types.AccountInfo.pubkey">pubkey</a></code></li>
-<li><code><a title="orca_whirlpool.internal.accounts.types.AccountInfo.rent_exempt_reserve" href="#orca_whirlpool.internal.accounts.types.AccountInfo.rent_exempt_reserve">rent_exempt_reserve</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.types.AccountInfo.tlv_data" href="#orca_whirlpool.internal.accounts.types.AccountInfo.tlv_data">tlv_data</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.types.AccountInfo.token_program_id" href="#orca_whirlpool.internal.accounts.types.AccountInfo.token_program_id">token_program_id</a></code></li>
 </ul>
 </li>
 <li>
@@ -675,6 +790,8 @@ class WhirlpoolsConfig:
 <li><code><a title="orca_whirlpool.internal.accounts.types.MintInfo.mint_authority" href="#orca_whirlpool.internal.accounts.types.MintInfo.mint_authority">mint_authority</a></code></li>
 <li><code><a title="orca_whirlpool.internal.accounts.types.MintInfo.pubkey" href="#orca_whirlpool.internal.accounts.types.MintInfo.pubkey">pubkey</a></code></li>
 <li><code><a title="orca_whirlpool.internal.accounts.types.MintInfo.supply" href="#orca_whirlpool.internal.accounts.types.MintInfo.supply">supply</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.types.MintInfo.tlv_data" href="#orca_whirlpool.internal.accounts.types.MintInfo.tlv_data">tlv_data</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.types.MintInfo.token_program_id" href="#orca_whirlpool.internal.accounts.types.MintInfo.token_program_id">token_program_id</a></code></li>
 </ul>
 </li>
 <li>
@@ -711,6 +828,14 @@ class WhirlpoolsConfig:
 </ul>
 </li>
 <li>
+<h4><code><a title="orca_whirlpool.internal.accounts.types.TokenBadge" href="#orca_whirlpool.internal.accounts.types.TokenBadge">TokenBadge</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.accounts.types.TokenBadge.pubkey" href="#orca_whirlpool.internal.accounts.types.TokenBadge.pubkey">pubkey</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.types.TokenBadge.token_mint" href="#orca_whirlpool.internal.accounts.types.TokenBadge.token_mint">token_mint</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.types.TokenBadge.whirlpools_config" href="#orca_whirlpool.internal.accounts.types.TokenBadge.whirlpools_config">whirlpools_config</a></code></li>
+</ul>
+</li>
+<li>
 <h4><code><a title="orca_whirlpool.internal.accounts.types.Whirlpool" href="#orca_whirlpool.internal.accounts.types.Whirlpool">Whirlpool</a></code></h4>
 <ul class="">
 <li><code><a title="orca_whirlpool.internal.accounts.types.Whirlpool.fee_growth_global_a" href="#orca_whirlpool.internal.accounts.types.Whirlpool.fee_growth_global_a">fee_growth_global_a</a></code></li>
@@ -743,6 +868,15 @@ class WhirlpoolsConfig:
 <li><code><a title="orca_whirlpool.internal.accounts.types.WhirlpoolsConfig.fee_authority" href="#orca_whirlpool.internal.accounts.types.WhirlpoolsConfig.fee_authority">fee_authority</a></code></li>
 <li><code><a title="orca_whirlpool.internal.accounts.types.WhirlpoolsConfig.pubkey" href="#orca_whirlpool.internal.accounts.types.WhirlpoolsConfig.pubkey">pubkey</a></code></li>
 <li><code><a title="orca_whirlpool.internal.accounts.types.WhirlpoolsConfig.reward_emissions_super_authority" href="#orca_whirlpool.internal.accounts.types.WhirlpoolsConfig.reward_emissions_super_authority">reward_emissions_super_authority</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension" href="#orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension">WhirlpoolsConfigExtension</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension.config_extension_authority" href="#orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension.config_extension_authority">config_extension_authority</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension.pubkey" href="#orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension.pubkey">pubkey</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension.token_badge_authority" href="#orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension.token_badge_authority">token_badge_authority</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension.whirlpools_config" href="#orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension.whirlpools_config">whirlpools_config</a></code></li>
 </ul>
 </li>
 </ul>

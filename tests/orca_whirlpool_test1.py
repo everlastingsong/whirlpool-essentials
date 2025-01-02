@@ -3,8 +3,9 @@ from decimal import Decimal
 from solana.rpc.async_api import AsyncClient
 from solders.keypair import Keypair
 from solders.pubkey import Pubkey
+from solders.instruction import AccountMeta
 
-from orca_whirlpool.internal.constants import ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG, MIN_TICK_INDEX, MAX_TICK_INDEX, MIN_SQRT_PRICE, MAX_SQRT_PRICE, U64_MAX, TICK_ARRAY_SIZE, FEE_RATE_MUL_VALUE, PROTOCOL_FEE_RATE_MUL_VALUE, NUM_REWARDS, MAX_SWAP_TICK_ARRAYS, METAPLEX_METADATA_PROGRAM_ID, ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY, DEFAULT_PUBKEY
+from orca_whirlpool.internal.constants import ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG, ORCA_WHIRLPOOLS_CONFIG_EXTENSION, MIN_TICK_INDEX, MAX_TICK_INDEX, MIN_SQRT_PRICE, MAX_SQRT_PRICE, U64_MAX, TICK_ARRAY_SIZE, FEE_RATE_MUL_VALUE, PROTOCOL_FEE_RATE_MUL_VALUE, NUM_REWARDS, MAX_SWAP_TICK_ARRAYS, METAPLEX_METADATA_PROGRAM_ID, ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY, DEFAULT_PUBKEY
 from orca_whirlpool.internal.utils.pool_util import PoolUtil
 from orca_whirlpool.internal.utils.position_util import PositionUtil
 from orca_whirlpool.internal.utils.price_math import PriceMath
@@ -12,10 +13,11 @@ from orca_whirlpool.internal.utils.swap_util import SwapUtil
 from orca_whirlpool.internal.utils.pda_util import PDAUtil
 from orca_whirlpool.internal.utils.tick_util import TickUtil
 from orca_whirlpool.internal.utils.liquidity_math import LiquidityMath
+from orca_whirlpool.internal.utils.remaining_accounts_util import RemainingAccountsBuilder
 from orca_whirlpool.internal.context import WhirlpoolContext
 from orca_whirlpool.internal.accounts.account_fetcher import AccountFetcher
 from orca_whirlpool.internal.types.types import TokenAmounts
-from orca_whirlpool.internal.types.enums import PositionStatus, SpecifiedAmount, SwapDirection
+from orca_whirlpool.internal.types.enums import PositionStatus, SpecifiedAmount, SwapDirection, RemainingAccountsType
 from orca_whirlpool.internal.anchor.types import WhirlpoolRewardInfo
 
 
@@ -24,7 +26,16 @@ class ConstantsTestCase(unittest.TestCase):
         self.assertEqual(Pubkey.from_string("whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc"), ORCA_WHIRLPOOL_PROGRAM_ID)
 
     def test_ORCA_WHIRLPOOLS_CONFIG(self):
-        self.assertEqual(Pubkey.from_string("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ"), ORCA_WHIRLPOOLS_CONFIG)
+        self.assertEqual(Pubkey.from_string("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ"), ORCA_WHIRLPOOLS_CONFIG.SOLANA_MAINNET)
+        self.assertEqual(Pubkey.from_string("FcrweFY1G9HJAHG5inkGB6pKg1HZ6x9UC2WioAfWrGkR"), ORCA_WHIRLPOOLS_CONFIG.SOLANA_DEVNET)
+        self.assertEqual(Pubkey.from_string("FVG4oDbGv16hqTUbovjyGmtYikn6UBEnazz6RVDMEFwv"), ORCA_WHIRLPOOLS_CONFIG.ECLIPSE_MAINNET)
+        self.assertEqual(Pubkey.from_string("FPydDjRdZu9sT7HVd6ANhfjh85KLq21Pefr5YWWMRPFp"), ORCA_WHIRLPOOLS_CONFIG.ECLIPSE_TESTNET)
+
+    def test_ORCA_WHIRLPOOLS_CONFIG_EXTENSION(self):
+        self.assertEqual(Pubkey.from_string("777H5H3Tp9U11uRVRzFwM8BinfiakbaLT8vQpeuhvEiH"), ORCA_WHIRLPOOLS_CONFIG_EXTENSION.SOLANA_MAINNET)
+        self.assertEqual(Pubkey.from_string("475EJ7JqnRpVLoFVzp2ruEYvWWMCf6Z8KMWRujtXXNSU"), ORCA_WHIRLPOOLS_CONFIG_EXTENSION.SOLANA_DEVNET)
+        self.assertEqual(Pubkey.from_string("9VrJciULifYcwu2CL8nbXdw4deqQgmv7VTzidwgQYBmm"), ORCA_WHIRLPOOLS_CONFIG_EXTENSION.ECLIPSE_MAINNET)
+        self.assertEqual(Pubkey.from_string("6gUEB962oFdZtwoVyXNya9TfGWnBEbYNYt8UdvzT6PSf"), ORCA_WHIRLPOOLS_CONFIG_EXTENSION.ECLIPSE_TESTNET)
 
     def test_ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY(self):
         self.assertEqual(Pubkey.from_string("3axbTs2z5GBy6usVbNVoqEgZMng3vZvMnAoX29BFfwhr"), ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY)
@@ -71,14 +82,14 @@ class PDAUtilTestCase(unittest.TestCase):
         sol = Pubkey.from_string("So11111111111111111111111111111111111111112")
         usdc = Pubkey.from_string("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v")
         sol_usdc_64 = Pubkey.from_string("HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ")
-        result = PDAUtil.get_whirlpool(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG, sol, usdc, 64).pubkey
+        result = PDAUtil.get_whirlpool(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG.SOLANA_MAINNET, sol, usdc, 64).pubkey
         self.assertEqual(str(sol_usdc_64), str(result))
 
     def test_get_whirlpool_02(self):
         sol = Pubkey.from_string("So11111111111111111111111111111111111111112")
         stsol = Pubkey.from_string("7dHbWXmci3dT8UFYWYZweBLXgycu7Y3iL6trKn1Y7ARj")
         sol_stsol_1 = Pubkey.from_string("2AEWSvUds1wsufnsDPCXjFsJCMJH5SNNm7fSF4kxys9a")
-        result = PDAUtil.get_whirlpool(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG, sol, stsol, 1).pubkey
+        result = PDAUtil.get_whirlpool(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG.SOLANA_MAINNET, sol, stsol, 1).pubkey
         self.assertEqual(str(sol_stsol_1), str(result))
 
     def test_get_position_01(self):
@@ -132,6 +143,27 @@ class PDAUtilTestCase(unittest.TestCase):
         oracle = Pubkey.from_string("3NxDBWt55DZnEwwQ2bhQ3xWG8Jd18TdUXAG4Zdr7jDai")
         result = PDAUtil.get_oracle(ORCA_WHIRLPOOL_PROGRAM_ID, usdc_usdt_1).pubkey
         self.assertEqual(str(oracle), str(result))
+
+    def test_get_fee_tier_01(self):
+        fee_tier_1 = Pubkey.from_string("62dSkn5ktwY1PoKPNMArZA4bZsvyemuknWUnnQ2ATTuN")
+        result = PDAUtil.get_fee_tier(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG.SOLANA_MAINNET, 1).pubkey
+        self.assertEqual(str(fee_tier_1), str(result))
+
+    def test_get_fee_tier_02(self):
+        fee_tier_64 = Pubkey.from_string("HT55NVGVTjWmWLjV7BrSMPVZ7ppU8T2xE5nCAZ6YaGad")
+        result = PDAUtil.get_fee_tier(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG.SOLANA_MAINNET, 64).pubkey
+        self.assertEqual(str(fee_tier_64), str(result))
+
+    def test_get_whirlpools_config_extension_01(self):
+        config_extension = Pubkey.from_string("777H5H3Tp9U11uRVRzFwM8BinfiakbaLT8vQpeuhvEiH")
+        result = PDAUtil.get_whirlpools_config_extension(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG.SOLANA_MAINNET).pubkey
+        self.assertEqual(str(config_extension), str(result))
+
+    def test_get_token_badge_01(self):
+        pyusd = Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo")
+        pyusd_token_badge = Pubkey.from_string("HX5iftnCxhtu11ys3ZuWbvUqo7cyPYaVNZBrLL67Hrbm")
+        result = PDAUtil.get_token_badge(ORCA_WHIRLPOOL_PROGRAM_ID, ORCA_WHIRLPOOLS_CONFIG.SOLANA_MAINNET, pyusd).pubkey
+        self.assertEqual(str(pyusd_token_badge), str(result))
 
 
 class PriceMathTestCase(unittest.TestCase):
@@ -886,6 +918,52 @@ class SpecifiedAmountTestCase(unittest.TestCase):
         self.assertTrue(SpecifiedAmount.SwapOutput.is_b(SwapDirection.AtoB))
         self.assertTrue(SpecifiedAmount.SwapOutput.is_a(SwapDirection.BtoA))
         self.assertFalse(SpecifiedAmount.SwapOutput.is_b(SwapDirection.BtoA))
+
+
+class RemainingAccountsUtilTestCase(unittest.TestCase):
+    def test_add_slice_01(self):
+        builder = RemainingAccountsBuilder()
+        # ignore None
+        builder.add_slice(RemainingAccountsType.TransferHookA, None)
+        result = builder.build()
+        self.assertIsNone(result.remaining_accounts_info)
+        self.assertIsNone(result.remaining_accounts)
+
+    def test_add_slice_02(self):
+        builder = RemainingAccountsBuilder()
+        # ignore empty list
+        builder.add_slice(RemainingAccountsType.TransferHookA, [])
+        result = builder.build()
+        self.assertIsNone(result.remaining_accounts_info)
+        self.assertIsNone(result.remaining_accounts)
+
+    def test_add_slice_03(self):
+        first = [
+            AccountMeta(Keypair().pubkey(), True, False),
+            AccountMeta(Keypair().pubkey(), True, True),
+            AccountMeta(Keypair().pubkey(), False, False),
+        ]
+        second = [
+            AccountMeta(Keypair().pubkey(), False, True),
+            AccountMeta(Keypair().pubkey(), False, False),
+        ]
+
+        builder = RemainingAccountsBuilder()
+        # extend
+        builder.add_slice(RemainingAccountsType.TransferHookInput, first)
+        builder.add_slice(RemainingAccountsType.TransferHookIntermediate, [])
+        builder.add_slice(RemainingAccountsType.TransferHookOutput, second)
+        result = builder.build()
+        self.assertEqual(2, len(result.remaining_accounts_info.slices))
+        self.assertEqual("TransferHookInput()", str(result.remaining_accounts_info.slices[0].accounts_type))
+        self.assertEqual("TransferHookOutput()", str(result.remaining_accounts_info.slices[1].accounts_type))
+        self.assertEqual(3, result.remaining_accounts_info.slices[0].length)
+        self.assertEqual(2, result.remaining_accounts_info.slices[1].length)
+        self.assertEqual(first[0], result.remaining_accounts[0])
+        self.assertEqual(first[1], result.remaining_accounts[1])
+        self.assertEqual(first[2], result.remaining_accounts[2])
+        self.assertEqual(second[0], result.remaining_accounts[3])
+        self.assertEqual(second[1], result.remaining_accounts[4])
 
 
 if __name__ == "__main__":

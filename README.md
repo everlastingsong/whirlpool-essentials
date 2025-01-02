@@ -10,9 +10,9 @@ Whirlpool Essentials is a core library to interacting with Orca Whirlpool Progra
 This library have been tested in the following environment.
 
 * Python: 3.10.6
-* solders: 0.18.1
-* solana: 0.30.2
-* anchorpy: 0.18.0
+* solders: 0.21.0
+* solana: 0.35.1
+* anchorpy: 0.20.1
 
 ## Installation
 ```commandline
@@ -21,6 +21,17 @@ pip install solana solders anchorpy
 ```commandline
 pip install whirlpool-essentials
 ```
+
+## Important Notes
+### V2 instructions and TokenExtensions
+Whirlpool Essentials can handle v2 instructions with `WhirlpoolIx`.
+HOWEVER the quote functions cannot handle `TransferFee` extension yet.
+So please ensure that input and output token don't use `TransferFee` extension.
+If its fee rate is zero, it can be ignored. (e.g. `PYUSD`)
+
+### General topics
+- Whirlpool Essentials is NOT included in Orca's official SDK list, so the update may be delayed.
+- Please use this package at your own risk.
 
 ## Sample
 ### Get SOL/USDC Whirlpool Price

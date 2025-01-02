@@ -5,8 +5,8 @@ from solana.rpc.async_api import AsyncClient
 from spl.token.constants import TOKEN_PROGRAM_ID
 
 from .account_fetcher import AccountFetcher
-from ..constants import ACCOUNT_SIZE_WHIRLPOOL, ACCOUNT_SIZE_TICK_ARRAY, ACCOUNT_SIZE_POSITION
-from .types import Whirlpool, TickArray, Position, PositionBundle
+from ..constants import ACCOUNT_SIZE_WHIRLPOOL, ACCOUNT_SIZE_TICK_ARRAY, ACCOUNT_SIZE_POSITION, ACCOUNT_SIZE_FEE_TIER
+from .types import Whirlpool, TickArray, Position, PositionBundle, FeeTier
 from .account_parser import AccountParser
 from .keyed_account_converter import KeyedAccountConverter
 from ..utils.pda_util import PDAUtil
@@ -28,6 +28,20 @@ class AccountFinder:
 
         return list(map(
             lambda a: KeyedAccountConverter.to_keyed_whirlpool(a.pubkey, AccountParser.parse_whirlpool(a.account.data)),
+            accounts
+        ))
+
+    async def find_fee_tiers_by_whirlpools_config(self, program_id: Pubkey, whirlpools_config: Pubkey) -> List[FeeTier]:
+        accounts = (await self._connection.get_program_accounts(
+            program_id,
+            None,
+            "base64",
+            None,
+            [ACCOUNT_SIZE_FEE_TIER, MemcmpOpts(8, str(whirlpools_config))]
+        )).value
+
+        return list(map(
+            lambda a: KeyedAccountConverter.to_keyed_fee_tier(a.pubkey, AccountParser.parse_fee_tier(a.account.data)),
             accounts
         ))
 
@@ -59,16 +73,16 @@ class AccountFinder:
             accounts
         ))
 
-    async def find_positions_by_owner(self, program_id: Pubkey, owner: Pubkey) -> List[Position]:
+    async def find_positions_by_owner(self, program_id: Pubkey, owner: Pubkey, token_program_id: Pubkey) -> List[Position]:
         # list all token accounts
         accounts = (await self._connection.get_token_accounts_by_owner(
             owner,
-            TokenAccountOpts(program_id=TOKEN_PROGRAM_ID, encoding="base64")
+            TokenAccountOpts(program_id=token_program_id, encoding="base64")
         )).value
 
         candidates = []
         for token_account in accounts:
-            parsed = TokenUtil.deserialize_account(token_account.account.data)
+            parsed = TokenUtil.deserialize_account(token_account.account.data, token_program_id)
 
             # maybe NFT
             if parsed.amount == 1:
@@ -89,7 +103,7 @@ class AccountFinder:
 
         candidates = []
         for token_account in accounts:
-            parsed = TokenUtil.deserialize_account(token_account.account.data)
+            parsed = TokenUtil.deserialize_account(token_account.account.data, TOKEN_PROGRAM_ID)
 
             # maybe NFT
             if parsed.amount == 1:

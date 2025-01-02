@@ -12,3 +12,6 @@ def invariant(condition, message: str = None):
         return
     value = PREFIX if message is None else "{}: {}".format(PREFIX, message)
     raise InvaliantFailedError(value)
+
+def unreachable(message: str = None):
+    invariant(False, message)

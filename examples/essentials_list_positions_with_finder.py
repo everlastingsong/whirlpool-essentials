@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from solana.rpc.async_api import AsyncClient
 from solders.pubkey import Pubkey
+from spl.token.constants import TOKEN_PROGRAM_ID
 from orca_whirlpool.accounts import AccountFinder
 from orca_whirlpool.constants import ORCA_WHIRLPOOL_PROGRAM_ID
 
@@ -17,7 +18,8 @@ async def main():
     finder = AccountFinder(connection)
     positions = await finder.find_positions_by_owner(
         ORCA_WHIRLPOOL_PROGRAM_ID,
-        MY_WALLET_PUBKEY
+        MY_WALLET_PUBKEY,
+        token_program_id=TOKEN_PROGRAM_ID,
     )
 
     for p in positions:

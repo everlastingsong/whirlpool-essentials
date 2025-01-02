@@ -1,10 +1,10 @@
 wallet.json
 memo.txt
 examples/wallet.json
+examples/.env
 .idea
 tests/.pytest_cache
 __pycache__
-examples/.env
 requirements.txt.bk
 dist
 BUILD.md

@@ -28,11 +28,13 @@
 </summary>
 <pre><code class="python">from typing import Optional
 from solders.pubkey import Pubkey
-from spl.token.core import AccountInfo as SolanapyAccountInfo, MintInfo as SolanapyMintInfo
 from ..anchor.accounts import WhirlpoolsConfig as AnchorWhirlpoolsConfig, FeeTier as AnchorFeeTier
 from ..anchor.accounts import Whirlpool as AnchorWhirlpool, TickArray as AnchorTickArray, Position as AnchorPosition
-from ..anchor.accounts import PositionBundle as AnchorPositionBundle
-from .types import WhirlpoolsConfig, FeeTier, Whirlpool, TickArray, Position, PositionBundle, AccountInfo, MintInfo
+from ..anchor.accounts import PositionBundle as AnchorPositionBundle, TokenBadge as AnchorTokenBadge
+from ..anchor.accounts import WhirlpoolsConfigExtension as AnchorWhirlpoolsConfigExtension
+from .types import WhirlpoolsConfig, FeeTier, Whirlpool, TickArray, Position, PositionBundle, WhirlpoolsConfigExtension
+from .types import TokenBadge, AccountInfo, MintInfo
+from ..utils.token_util import RawMintInfo, RawAccountInfo
 
 
 class KeyedAccountConverter:
@@ -126,24 +128,48 @@ class KeyedAccountConverter:
         )
 
     @staticmethod
-    def to_keyed_token_mint(pubkey: Pubkey, account: Optional[SolanapyMintInfo]) -&gt; Optional[MintInfo]:
+    def to_keyed_whirlpools_config_extension(pubkey: Pubkey, account: Optional[AnchorWhirlpoolsConfigExtension]) -&gt; Optional[WhirlpoolsConfigExtension]:
+        if account is None:
+            return None
+        return WhirlpoolsConfigExtension(
+            pubkey=pubkey,
+            whirlpools_config=account.whirlpools_config,
+            config_extension_authority=account.config_extension_authority,
+            token_badge_authority=account.token_badge_authority,
+        )
+
+    @staticmethod
+    def to_keyed_token_badge(pubkey: Pubkey, account: Optional[AnchorTokenBadge]) -&gt; Optional[TokenBadge]:
+        if account is None:
+            return None
+        return TokenBadge(
+            pubkey=pubkey,
+            whirlpools_config=account.whirlpools_config,
+            token_mint=account.token_mint,
+        )
+
+    @staticmethod
+    def to_keyed_token_mint(pubkey: Pubkey, account: Optional[RawMintInfo]) -&gt; Optional[MintInfo]:
         if account is None:
             return None
         return MintInfo(
             pubkey=pubkey,
+            token_program_id=account.token_program_id,
             mint_authority=account.mint_authority,
             supply=account.supply,
             decimals=account.decimals,
             is_initialized=account.is_initialized,
             freeze_authority=account.freeze_authority,
+            tlv_data=account.tlv_data,
         )
 
     @staticmethod
-    def to_keyed_token_account(pubkey: Pubkey, account: Optional[SolanapyAccountInfo]) -&gt; Optional[AccountInfo]:
+    def to_keyed_token_account(pubkey: Pubkey, account: Optional[RawAccountInfo]) -&gt; Optional[AccountInfo]:
         if account is None:
             return None
         return AccountInfo(
             pubkey=pubkey,
+            token_program_id=account.token_program_id,
             mint=account.mint,
             owner=account.owner,
             amount=account.amount,
@@ -152,8 +178,8 @@ class KeyedAccountConverter:
             is_initialized=account.is_initialized,
             is_frozen=account.is_frozen,
             is_native=account.is_native,
-            rent_exempt_reserve=account.rent_exempt_reserve,
             close_authority=account.close_authority,
+            tlv_data=account.tlv_data,
         )</code></pre>
 </details>
 </section>
@@ -266,24 +292,48 @@ class KeyedAccountConverter:
         )
 
     @staticmethod
-    def to_keyed_token_mint(pubkey: Pubkey, account: Optional[SolanapyMintInfo]) -&gt; Optional[MintInfo]:
+    def to_keyed_whirlpools_config_extension(pubkey: Pubkey, account: Optional[AnchorWhirlpoolsConfigExtension]) -&gt; Optional[WhirlpoolsConfigExtension]:
+        if account is None:
+            return None
+        return WhirlpoolsConfigExtension(
+            pubkey=pubkey,
+            whirlpools_config=account.whirlpools_config,
+            config_extension_authority=account.config_extension_authority,
+            token_badge_authority=account.token_badge_authority,
+        )
+
+    @staticmethod
+    def to_keyed_token_badge(pubkey: Pubkey, account: Optional[AnchorTokenBadge]) -&gt; Optional[TokenBadge]:
+        if account is None:
+            return None
+        return TokenBadge(
+            pubkey=pubkey,
+            whirlpools_config=account.whirlpools_config,
+            token_mint=account.token_mint,
+        )
+
+    @staticmethod
+    def to_keyed_token_mint(pubkey: Pubkey, account: Optional[RawMintInfo]) -&gt; Optional[MintInfo]:
         if account is None:
             return None
         return MintInfo(
             pubkey=pubkey,
+            token_program_id=account.token_program_id,
             mint_authority=account.mint_authority,
             supply=account.supply,
             decimals=account.decimals,
             is_initialized=account.is_initialized,
             freeze_authority=account.freeze_authority,
+            tlv_data=account.tlv_data,
         )
 
     @staticmethod
-    def to_keyed_token_account(pubkey: Pubkey, account: Optional[SolanapyAccountInfo]) -&gt; Optional[AccountInfo]:
+    def to_keyed_token_account(pubkey: Pubkey, account: Optional[RawAccountInfo]) -&gt; Optional[AccountInfo]:
         if account is None:
             return None
         return AccountInfo(
             pubkey=pubkey,
+            token_program_id=account.token_program_id,
             mint=account.mint,
             owner=account.owner,
             amount=account.amount,
@@ -292,8 +342,8 @@ class KeyedAccountConverter:
             is_initialized=account.is_initialized,
             is_frozen=account.is_frozen,
             is_native=account.is_native,
-            rent_exempt_reserve=account.rent_exempt_reserve,
             close_authority=account.close_authority,
+            tlv_data=account.tlv_data,
         )</code></pre>
 </details>
 <h3>Static methods</h3>
@@ -389,7 +439,7 @@ def to_keyed_tick_array(pubkey: Pubkey, account: Optional[AnchorTickArray]) -&gt
 </details>
 </dd>
 <dt id="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_token_account"><code class="name flex">
-<span>def <span class="ident">to_keyed_token_account</span></span>(<span>pubkey: solders.pubkey.Pubkey, account: Optional[spl.token.core.AccountInfo]) ‑> Optional[<a title="orca_whirlpool.internal.accounts.types.AccountInfo" href="types.html#orca_whirlpool.internal.accounts.types.AccountInfo">AccountInfo</a>]</span>
+<span>def <span class="ident">to_keyed_token_account</span></span>(<span>pubkey: solders.pubkey.Pubkey, account: Optional[<a title="orca_whirlpool.internal.utils.token_util.RawAccountInfo" href="../utils/token_util.html#orca_whirlpool.internal.utils.token_util.RawAccountInfo">RawAccountInfo</a>]) ‑> Optional[<a title="orca_whirlpool.internal.accounts.types.AccountInfo" href="types.html#orca_whirlpool.internal.accounts.types.AccountInfo">AccountInfo</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -398,11 +448,12 @@ def to_keyed_tick_array(pubkey: Pubkey, account: Optional[AnchorTickArray]) -&gt
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def to_keyed_token_account(pubkey: Pubkey, account: Optional[SolanapyAccountInfo]) -&gt; Optional[AccountInfo]:
+def to_keyed_token_account(pubkey: Pubkey, account: Optional[RawAccountInfo]) -&gt; Optional[AccountInfo]:
     if account is None:
         return None
     return AccountInfo(
         pubkey=pubkey,
+        token_program_id=account.token_program_id,
         mint=account.mint,
         owner=account.owner,
         amount=account.amount,
@@ -411,13 +462,13 @@ def to_keyed_token_account(pubkey: Pubkey, account: Optional[SolanapyAccountInfo
         is_initialized=account.is_initialized,
         is_frozen=account.is_frozen,
         is_native=account.is_native,
-        rent_exempt_reserve=account.rent_exempt_reserve,
         close_authority=account.close_authority,
+        tlv_data=account.tlv_data,
     )</code></pre>
 </details>
 </dd>
-<dt id="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_token_mint"><code class="name flex">
-<span>def <span class="ident">to_keyed_token_mint</span></span>(<span>pubkey: solders.pubkey.Pubkey, account: Optional[spl.token.core.MintInfo]) ‑> Optional[<a title="orca_whirlpool.internal.accounts.types.MintInfo" href="types.html#orca_whirlpool.internal.accounts.types.MintInfo">MintInfo</a>]</span>
+<dt id="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_token_badge"><code class="name flex">
+<span>def <span class="ident">to_keyed_token_badge</span></span>(<span>pubkey: solders.pubkey.Pubkey, account: Optional[<a title="orca_whirlpool.internal.anchor.accounts.token_badge.TokenBadge" href="../anchor/accounts/token_badge.html#orca_whirlpool.internal.anchor.accounts.token_badge.TokenBadge">TokenBadge</a>]) ‑> Optional[<a title="orca_whirlpool.internal.accounts.types.TokenBadge" href="types.html#orca_whirlpool.internal.accounts.types.TokenBadge">TokenBadge</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -426,16 +477,38 @@ def to_keyed_token_account(pubkey: Pubkey, account: Optional[SolanapyAccountInfo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def to_keyed_token_mint(pubkey: Pubkey, account: Optional[SolanapyMintInfo]) -&gt; Optional[MintInfo]:
+def to_keyed_token_badge(pubkey: Pubkey, account: Optional[AnchorTokenBadge]) -&gt; Optional[TokenBadge]:
+    if account is None:
+        return None
+    return TokenBadge(
+        pubkey=pubkey,
+        whirlpools_config=account.whirlpools_config,
+        token_mint=account.token_mint,
+    )</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_token_mint"><code class="name flex">
+<span>def <span class="ident">to_keyed_token_mint</span></span>(<span>pubkey: solders.pubkey.Pubkey, account: Optional[<a title="orca_whirlpool.internal.utils.token_util.RawMintInfo" href="../utils/token_util.html#orca_whirlpool.internal.utils.token_util.RawMintInfo">RawMintInfo</a>]) ‑> Optional[<a title="orca_whirlpool.internal.accounts.types.MintInfo" href="types.html#orca_whirlpool.internal.accounts.types.MintInfo">MintInfo</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_keyed_token_mint(pubkey: Pubkey, account: Optional[RawMintInfo]) -&gt; Optional[MintInfo]:
     if account is None:
         return None
     return MintInfo(
         pubkey=pubkey,
+        token_program_id=account.token_program_id,
         mint_authority=account.mint_authority,
         supply=account.supply,
         decimals=account.decimals,
         is_initialized=account.is_initialized,
         freeze_authority=account.freeze_authority,
+        tlv_data=account.tlv_data,
     )</code></pre>
 </details>
 </dd>
@@ -498,6 +571,27 @@ def to_keyed_whirlpools_config(pubkey: Pubkey, account: Optional[AnchorWhirlpool
     )</code></pre>
 </details>
 </dd>
+<dt id="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_whirlpools_config_extension"><code class="name flex">
+<span>def <span class="ident">to_keyed_whirlpools_config_extension</span></span>(<span>pubkey: solders.pubkey.Pubkey, account: Optional[<a title="orca_whirlpool.internal.anchor.accounts.whirlpools_config_extension.WhirlpoolsConfigExtension" href="../anchor/accounts/whirlpools_config_extension.html#orca_whirlpool.internal.anchor.accounts.whirlpools_config_extension.WhirlpoolsConfigExtension">WhirlpoolsConfigExtension</a>]) ‑> Optional[<a title="orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension" href="types.html#orca_whirlpool.internal.accounts.types.WhirlpoolsConfigExtension">WhirlpoolsConfigExtension</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_keyed_whirlpools_config_extension(pubkey: Pubkey, account: Optional[AnchorWhirlpoolsConfigExtension]) -&gt; Optional[WhirlpoolsConfigExtension]:
+    if account is None:
+        return None
+    return WhirlpoolsConfigExtension(
+        pubkey=pubkey,
+        whirlpools_config=account.whirlpools_config,
+        config_extension_authority=account.config_extension_authority,
+        token_badge_authority=account.token_badge_authority,
+    )</code></pre>
+</details>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -524,9 +618,11 @@ def to_keyed_whirlpools_config(pubkey: Pubkey, account: Optional[AnchorWhirlpool
 <li><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_position_bundle" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_position_bundle">to_keyed_position_bundle</a></code></li>
 <li><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_tick_array" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_tick_array">to_keyed_tick_array</a></code></li>
 <li><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_token_account" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_token_account">to_keyed_token_account</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_token_badge" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_token_badge">to_keyed_token_badge</a></code></li>
 <li><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_token_mint" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_token_mint">to_keyed_token_mint</a></code></li>
 <li><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_whirlpool" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_whirlpool">to_keyed_whirlpool</a></code></li>
 <li><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_whirlpools_config" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_whirlpools_config">to_keyed_whirlpools_config</a></code></li>
+<li><code><a title="orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_whirlpools_config_extension" href="#orca_whirlpool.internal.accounts.keyed_account_converter.KeyedAccountConverter.to_keyed_whirlpools_config_extension">to_keyed_whirlpools_config_extension</a></code></li>
 </ul>
 </li>
 </ul>

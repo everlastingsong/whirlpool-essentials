@@ -1,10 +1,12 @@
 from typing import Optional
 from solders.pubkey import Pubkey
-from spl.token.core import AccountInfo as SolanapyAccountInfo, MintInfo as SolanapyMintInfo
 from ..anchor.accounts import WhirlpoolsConfig as AnchorWhirlpoolsConfig, FeeTier as AnchorFeeTier
 from ..anchor.accounts import Whirlpool as AnchorWhirlpool, TickArray as AnchorTickArray, Position as AnchorPosition
-from ..anchor.accounts import PositionBundle as AnchorPositionBundle
-from .types import WhirlpoolsConfig, FeeTier, Whirlpool, TickArray, Position, PositionBundle, AccountInfo, MintInfo
+from ..anchor.accounts import PositionBundle as AnchorPositionBundle, TokenBadge as AnchorTokenBadge
+from ..anchor.accounts import WhirlpoolsConfigExtension as AnchorWhirlpoolsConfigExtension
+from .types import WhirlpoolsConfig, FeeTier, Whirlpool, TickArray, Position, PositionBundle, WhirlpoolsConfigExtension
+from .types import TokenBadge, AccountInfo, MintInfo
+from ..utils.token_util import RawMintInfo, RawAccountInfo
 
 
 class KeyedAccountConverter:
@@ -98,24 +100,48 @@ class KeyedAccountConverter:
         )
 
     @staticmethod
-    def to_keyed_token_mint(pubkey: Pubkey, account: Optional[SolanapyMintInfo]) -> Optional[MintInfo]:
+    def to_keyed_whirlpools_config_extension(pubkey: Pubkey, account: Optional[AnchorWhirlpoolsConfigExtension]) -> Optional[WhirlpoolsConfigExtension]:
+        if account is None:
+            return None
+        return WhirlpoolsConfigExtension(
+            pubkey=pubkey,
+            whirlpools_config=account.whirlpools_config,
+            config_extension_authority=account.config_extension_authority,
+            token_badge_authority=account.token_badge_authority,
+        )
+
+    @staticmethod
+    def to_keyed_token_badge(pubkey: Pubkey, account: Optional[AnchorTokenBadge]) -> Optional[TokenBadge]:
+        if account is None:
+            return None
+        return TokenBadge(
+            pubkey=pubkey,
+            whirlpools_config=account.whirlpools_config,
+            token_mint=account.token_mint,
+        )
+
+    @staticmethod
+    def to_keyed_token_mint(pubkey: Pubkey, account: Optional[RawMintInfo]) -> Optional[MintInfo]:
         if account is None:
             return None
         return MintInfo(
             pubkey=pubkey,
+            token_program_id=account.token_program_id,
             mint_authority=account.mint_authority,
             supply=account.supply,
             decimals=account.decimals,
             is_initialized=account.is_initialized,
             freeze_authority=account.freeze_authority,
+            tlv_data=account.tlv_data,
         )
 
     @staticmethod
-    def to_keyed_token_account(pubkey: Pubkey, account: Optional[SolanapyAccountInfo]) -> Optional[AccountInfo]:
+    def to_keyed_token_account(pubkey: Pubkey, account: Optional[RawAccountInfo]) -> Optional[AccountInfo]:
         if account is None:
             return None
         return AccountInfo(
             pubkey=pubkey,
+            token_program_id=account.token_program_id,
             mint=account.mint,
             owner=account.owner,
             amount=account.amount,
@@ -124,6 +150,6 @@ class KeyedAccountConverter:
             is_initialized=account.is_initialized,
             is_frozen=account.is_frozen,
             is_native=account.is_native,
-            rent_exempt_reserve=account.rent_exempt_reserve,
             close_authority=account.close_authority,
+            tlv_data=account.tlv_data,
         )

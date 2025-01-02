@@ -22,6 +22,17 @@ pip install solana solders anchorpy
 pip install whirlpool-essentials
 ```
 
+## Important Notes
+### V2 instructions and TokenExtensions
+Whirlpool Essentials can handle v2 instructions with `WhirlpoolIx`.
+HOWEVER the quote functions cannot handle `TransferFee` extension yet.
+So please ensure that input and output token don't use `TransferFee` extension.
+If its fee rate is zero, it can be ignored. (e.g. `PYUSD`)
+
+### General topics
+- Whirlpool Essentials is NOT included in Orca's official SDK list, so the update may be delayed.
+- Please use this package at your own risk.
+
 ## Sample
 ### Get SOL/USDC Whirlpool Price
 ```

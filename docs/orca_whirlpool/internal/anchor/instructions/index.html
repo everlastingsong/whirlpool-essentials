@@ -131,7 +131,68 @@ from .close_bundled_position import (
     close_bundled_position,
     CloseBundledPositionArgs,
     CloseBundledPositionAccounts,
-)</code></pre>
+)
+from .open_position_with_token_extensions import (
+    open_position_with_token_extensions,
+    OpenPositionWithTokenExtensionsArgs,
+    OpenPositionWithTokenExtensionsAccounts,
+)
+from .close_position_with_token_extensions import (
+    close_position_with_token_extensions,
+    ClosePositionWithTokenExtensionsAccounts,
+)
+from .collect_fees_v2 import collect_fees_v2, CollectFeesV2Args, CollectFeesV2Accounts
+from .collect_protocol_fees_v2 import (
+    collect_protocol_fees_v2,
+    CollectProtocolFeesV2Args,
+    CollectProtocolFeesV2Accounts,
+)
+from .collect_reward_v2 import (
+    collect_reward_v2,
+    CollectRewardV2Args,
+    CollectRewardV2Accounts,
+)
+from .decrease_liquidity_v2 import (
+    decrease_liquidity_v2,
+    DecreaseLiquidityV2Args,
+    DecreaseLiquidityV2Accounts,
+)
+from .increase_liquidity_v2 import (
+    increase_liquidity_v2,
+    IncreaseLiquidityV2Args,
+    IncreaseLiquidityV2Accounts,
+)
+from .initialize_pool_v2 import (
+    initialize_pool_v2,
+    InitializePoolV2Args,
+    InitializePoolV2Accounts,
+)
+from .initialize_reward_v2 import (
+    initialize_reward_v2,
+    InitializeRewardV2Args,
+    InitializeRewardV2Accounts,
+)
+from .set_reward_emissions_v2 import (
+    set_reward_emissions_v2,
+    SetRewardEmissionsV2Args,
+    SetRewardEmissionsV2Accounts,
+)
+from .swap_v2 import swap_v2, SwapV2Args, SwapV2Accounts
+from .two_hop_swap_v2 import two_hop_swap_v2, TwoHopSwapV2Args, TwoHopSwapV2Accounts
+from .initialize_config_extension import (
+    initialize_config_extension,
+    InitializeConfigExtensionAccounts,
+)
+from .set_config_extension_authority import (
+    set_config_extension_authority,
+    SetConfigExtensionAuthorityAccounts,
+)
+from .set_token_badge_authority import (
+    set_token_badge_authority,
+    SetTokenBadgeAuthorityAccounts,
+)
+from .initialize_token_badge import initialize_token_badge, InitializeTokenBadgeAccounts
+from .delete_token_badge import delete_token_badge, DeleteTokenBadgeAccounts</code></pre>
 </details>
 </section>
 <section>
@@ -145,7 +206,15 @@ from .close_bundled_position import (
 <dd>
 <div class="desc"></div>
 </dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.close_position_with_token_extensions" href="close_position_with_token_extensions.html">orca_whirlpool.internal.anchor.instructions.close_position_with_token_extensions</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.collect_fees" href="collect_fees.html">orca_whirlpool.internal.anchor.instructions.collect_fees</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.collect_fees_v2" href="collect_fees_v2.html">orca_whirlpool.internal.anchor.instructions.collect_fees_v2</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -153,7 +222,15 @@ from .close_bundled_position import (
 <dd>
 <div class="desc"></div>
 </dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.collect_protocol_fees_v2" href="collect_protocol_fees_v2.html">orca_whirlpool.internal.anchor.instructions.collect_protocol_fees_v2</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.collect_reward" href="collect_reward.html">orca_whirlpool.internal.anchor.instructions.collect_reward</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.collect_reward_v2" href="collect_reward_v2.html">orca_whirlpool.internal.anchor.instructions.collect_reward_v2</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -161,7 +238,15 @@ from .close_bundled_position import (
 <dd>
 <div class="desc"></div>
 </dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.decrease_liquidity_v2" href="decrease_liquidity_v2.html">orca_whirlpool.internal.anchor.instructions.decrease_liquidity_v2</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.delete_position_bundle" href="delete_position_bundle.html">orca_whirlpool.internal.anchor.instructions.delete_position_bundle</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.delete_token_badge" href="delete_token_badge.html">orca_whirlpool.internal.anchor.instructions.delete_token_badge</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -169,7 +254,15 @@ from .close_bundled_position import (
 <dd>
 <div class="desc"></div>
 </dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.increase_liquidity_v2" href="increase_liquidity_v2.html">orca_whirlpool.internal.anchor.instructions.increase_liquidity_v2</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.initialize_config" href="initialize_config.html">orca_whirlpool.internal.anchor.instructions.initialize_config</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.initialize_config_extension" href="initialize_config_extension.html">orca_whirlpool.internal.anchor.instructions.initialize_config_extension</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -178,6 +271,10 @@ from .close_bundled_position import (
 <div class="desc"></div>
 </dd>
 <dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.initialize_pool" href="initialize_pool.html">orca_whirlpool.internal.anchor.instructions.initialize_pool</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.initialize_pool_v2" href="initialize_pool_v2.html">orca_whirlpool.internal.anchor.instructions.initialize_pool_v2</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -193,7 +290,15 @@ from .close_bundled_position import (
 <dd>
 <div class="desc"></div>
 </dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.initialize_reward_v2" href="initialize_reward_v2.html">orca_whirlpool.internal.anchor.instructions.initialize_reward_v2</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.initialize_tick_array" href="initialize_tick_array.html">orca_whirlpool.internal.anchor.instructions.initialize_tick_array</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.initialize_token_badge" href="initialize_token_badge.html">orca_whirlpool.internal.anchor.instructions.initialize_token_badge</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -209,7 +314,15 @@ from .close_bundled_position import (
 <dd>
 <div class="desc"></div>
 </dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.open_position_with_token_extensions" href="open_position_with_token_extensions.html">orca_whirlpool.internal.anchor.instructions.open_position_with_token_extensions</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.set_collect_protocol_fees_authority" href="set_collect_protocol_fees_authority.html">orca_whirlpool.internal.anchor.instructions.set_collect_protocol_fees_authority</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.set_config_extension_authority" href="set_config_extension_authority.html">orca_whirlpool.internal.anchor.instructions.set_config_extension_authority</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -249,11 +362,27 @@ from .close_bundled_position import (
 <dd>
 <div class="desc"></div>
 </dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.set_reward_emissions_v2" href="set_reward_emissions_v2.html">orca_whirlpool.internal.anchor.instructions.set_reward_emissions_v2</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.set_token_badge_authority" href="set_token_badge_authority.html">orca_whirlpool.internal.anchor.instructions.set_token_badge_authority</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.swap" href="swap.html">orca_whirlpool.internal.anchor.instructions.swap</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.swap_v2" href="swap_v2.html">orca_whirlpool.internal.anchor.instructions.swap_v2</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.two_hop_swap" href="two_hop_swap.html">orca_whirlpool.internal.anchor.instructions.two_hop_swap</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="orca_whirlpool.internal.anchor.instructions.two_hop_swap_v2" href="two_hop_swap_v2.html">orca_whirlpool.internal.anchor.instructions.two_hop_swap_v2</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -285,23 +414,36 @@ from .close_bundled_position import (
 <ul>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.close_bundled_position" href="close_bundled_position.html">orca_whirlpool.internal.anchor.instructions.close_bundled_position</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.close_position" href="close_position.html">orca_whirlpool.internal.anchor.instructions.close_position</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.close_position_with_token_extensions" href="close_position_with_token_extensions.html">orca_whirlpool.internal.anchor.instructions.close_position_with_token_extensions</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.collect_fees" href="collect_fees.html">orca_whirlpool.internal.anchor.instructions.collect_fees</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.collect_fees_v2" href="collect_fees_v2.html">orca_whirlpool.internal.anchor.instructions.collect_fees_v2</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.collect_protocol_fees" href="collect_protocol_fees.html">orca_whirlpool.internal.anchor.instructions.collect_protocol_fees</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.collect_protocol_fees_v2" href="collect_protocol_fees_v2.html">orca_whirlpool.internal.anchor.instructions.collect_protocol_fees_v2</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.collect_reward" href="collect_reward.html">orca_whirlpool.internal.anchor.instructions.collect_reward</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.collect_reward_v2" href="collect_reward_v2.html">orca_whirlpool.internal.anchor.instructions.collect_reward_v2</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.decrease_liquidity" href="decrease_liquidity.html">orca_whirlpool.internal.anchor.instructions.decrease_liquidity</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.decrease_liquidity_v2" href="decrease_liquidity_v2.html">orca_whirlpool.internal.anchor.instructions.decrease_liquidity_v2</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.delete_position_bundle" href="delete_position_bundle.html">orca_whirlpool.internal.anchor.instructions.delete_position_bundle</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.delete_token_badge" href="delete_token_badge.html">orca_whirlpool.internal.anchor.instructions.delete_token_badge</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.increase_liquidity" href="increase_liquidity.html">orca_whirlpool.internal.anchor.instructions.increase_liquidity</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.increase_liquidity_v2" href="increase_liquidity_v2.html">orca_whirlpool.internal.anchor.instructions.increase_liquidity_v2</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.initialize_config" href="initialize_config.html">orca_whirlpool.internal.anchor.instructions.initialize_config</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.initialize_config_extension" href="initialize_config_extension.html">orca_whirlpool.internal.anchor.instructions.initialize_config_extension</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.initialize_fee_tier" href="initialize_fee_tier.html">orca_whirlpool.internal.anchor.instructions.initialize_fee_tier</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.initialize_pool" href="initialize_pool.html">orca_whirlpool.internal.anchor.instructions.initialize_pool</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.initialize_pool_v2" href="initialize_pool_v2.html">orca_whirlpool.internal.anchor.instructions.initialize_pool_v2</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.initialize_position_bundle" href="initialize_position_bundle.html">orca_whirlpool.internal.anchor.instructions.initialize_position_bundle</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.initialize_position_bundle_with_metadata" href="initialize_position_bundle_with_metadata.html">orca_whirlpool.internal.anchor.instructions.initialize_position_bundle_with_metadata</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.initialize_reward" href="initialize_reward.html">orca_whirlpool.internal.anchor.instructions.initialize_reward</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.initialize_reward_v2" href="initialize_reward_v2.html">orca_whirlpool.internal.anchor.instructions.initialize_reward_v2</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.initialize_tick_array" href="initialize_tick_array.html">orca_whirlpool.internal.anchor.instructions.initialize_tick_array</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.initialize_token_badge" href="initialize_token_badge.html">orca_whirlpool.internal.anchor.instructions.initialize_token_badge</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.open_bundled_position" href="open_bundled_position.html">orca_whirlpool.internal.anchor.instructions.open_bundled_position</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.open_position" href="open_position.html">orca_whirlpool.internal.anchor.instructions.open_position</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.open_position_with_metadata" href="open_position_with_metadata.html">orca_whirlpool.internal.anchor.instructions.open_position_with_metadata</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.open_position_with_token_extensions" href="open_position_with_token_extensions.html">orca_whirlpool.internal.anchor.instructions.open_position_with_token_extensions</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.set_collect_protocol_fees_authority" href="set_collect_protocol_fees_authority.html">orca_whirlpool.internal.anchor.instructions.set_collect_protocol_fees_authority</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.set_config_extension_authority" href="set_config_extension_authority.html">orca_whirlpool.internal.anchor.instructions.set_config_extension_authority</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.set_default_fee_rate" href="set_default_fee_rate.html">orca_whirlpool.internal.anchor.instructions.set_default_fee_rate</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.set_default_protocol_fee_rate" href="set_default_protocol_fee_rate.html">orca_whirlpool.internal.anchor.instructions.set_default_protocol_fee_rate</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.set_fee_authority" href="set_fee_authority.html">orca_whirlpool.internal.anchor.instructions.set_fee_authority</a></code></li>
@@ -311,8 +453,12 @@ from .close_bundled_position import (
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.set_reward_authority_by_super_authority" href="set_reward_authority_by_super_authority.html">orca_whirlpool.internal.anchor.instructions.set_reward_authority_by_super_authority</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.set_reward_emissions" href="set_reward_emissions.html">orca_whirlpool.internal.anchor.instructions.set_reward_emissions</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.set_reward_emissions_super_authority" href="set_reward_emissions_super_authority.html">orca_whirlpool.internal.anchor.instructions.set_reward_emissions_super_authority</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.set_reward_emissions_v2" href="set_reward_emissions_v2.html">orca_whirlpool.internal.anchor.instructions.set_reward_emissions_v2</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.set_token_badge_authority" href="set_token_badge_authority.html">orca_whirlpool.internal.anchor.instructions.set_token_badge_authority</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.swap" href="swap.html">orca_whirlpool.internal.anchor.instructions.swap</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.swap_v2" href="swap_v2.html">orca_whirlpool.internal.anchor.instructions.swap_v2</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.two_hop_swap" href="two_hop_swap.html">orca_whirlpool.internal.anchor.instructions.two_hop_swap</a></code></li>
+<li><code><a title="orca_whirlpool.internal.anchor.instructions.two_hop_swap_v2" href="two_hop_swap_v2.html">orca_whirlpool.internal.anchor.instructions.two_hop_swap_v2</a></code></li>
 <li><code><a title="orca_whirlpool.internal.anchor.instructions.update_fees_and_rewards" href="update_fees_and_rewards.html">orca_whirlpool.internal.anchor.instructions.update_fees_and_rewards</a></code></li>
 </ul>
 </li>

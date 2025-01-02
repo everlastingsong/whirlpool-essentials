@@ -39,6 +39,8 @@ PDA_FEE_TIER_SEED = b&#34;fee_tier&#34;
 PDA_ORACLE_SEED = b&#34;oracle&#34;
 PDA_POSITION_BUNDLE_SEED = b&#34;position_bundle&#34;
 PDA_BUNDLED_POSITION_SEED = b&#34;bundled_position&#34;
+PDA_WHIRLPOOLS_CONFIG_EXTENSION_SEED = b&#34;config_extension&#34;
+PDA_TOKEN_BADGE_SEED = b&#34;token_badge&#34;
 
 
 class PDAUtil:
@@ -109,7 +111,7 @@ class PDAUtil:
         return PDA(pubkey, nonce)
 
     @staticmethod
-    def get_bundled_position(program_id: Pubkey, position_bundle_mint: Pubkey, bundle_index) -&gt; PDA:
+    def get_bundled_position(program_id: Pubkey, position_bundle_mint: Pubkey, bundle_index: int) -&gt; PDA:
         seeds = [
             PDA_BUNDLED_POSITION_SEED,
             bytes(position_bundle_mint),
@@ -135,6 +137,25 @@ class PDAUtil:
             bytes(position_bundle_mint)
         ]
         (pubkey, nonce) = Pubkey.find_program_address(seeds, METAPLEX_METADATA_PROGRAM_ID)
+        return PDA(pubkey, nonce)
+
+    @staticmethod
+    def get_whirlpools_config_extension(program_id: Pubkey, whirlpools_config_pubkey: Pubkey) -&gt; PDA:
+        seeds = [
+            PDA_WHIRLPOOLS_CONFIG_EXTENSION_SEED,
+            bytes(whirlpools_config_pubkey)
+        ]
+        (pubkey, nonce) = Pubkey.find_program_address(seeds, program_id)
+        return PDA(pubkey, nonce)
+
+    @staticmethod
+    def get_token_badge(program_id: Pubkey, whirlpools_config_pubkey: Pubkey, token_mint: Pubkey) -&gt; PDA:
+        seeds = [
+            PDA_TOKEN_BADGE_SEED,
+            bytes(whirlpools_config_pubkey),
+            bytes(token_mint)
+        ]
+        (pubkey, nonce) = Pubkey.find_program_address(seeds, program_id)
         return PDA(pubkey, nonce)</code></pre>
 </details>
 </section>
@@ -224,7 +245,7 @@ class PDAUtil:
         return PDA(pubkey, nonce)
 
     @staticmethod
-    def get_bundled_position(program_id: Pubkey, position_bundle_mint: Pubkey, bundle_index) -&gt; PDA:
+    def get_bundled_position(program_id: Pubkey, position_bundle_mint: Pubkey, bundle_index: int) -&gt; PDA:
         seeds = [
             PDA_BUNDLED_POSITION_SEED,
             bytes(position_bundle_mint),
@@ -250,12 +271,31 @@ class PDAUtil:
             bytes(position_bundle_mint)
         ]
         (pubkey, nonce) = Pubkey.find_program_address(seeds, METAPLEX_METADATA_PROGRAM_ID)
+        return PDA(pubkey, nonce)
+
+    @staticmethod
+    def get_whirlpools_config_extension(program_id: Pubkey, whirlpools_config_pubkey: Pubkey) -&gt; PDA:
+        seeds = [
+            PDA_WHIRLPOOLS_CONFIG_EXTENSION_SEED,
+            bytes(whirlpools_config_pubkey)
+        ]
+        (pubkey, nonce) = Pubkey.find_program_address(seeds, program_id)
+        return PDA(pubkey, nonce)
+
+    @staticmethod
+    def get_token_badge(program_id: Pubkey, whirlpools_config_pubkey: Pubkey, token_mint: Pubkey) -&gt; PDA:
+        seeds = [
+            PDA_TOKEN_BADGE_SEED,
+            bytes(whirlpools_config_pubkey),
+            bytes(token_mint)
+        ]
+        (pubkey, nonce) = Pubkey.find_program_address(seeds, program_id)
         return PDA(pubkey, nonce)</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
 <dt id="orca_whirlpool.internal.utils.pda_util.PDAUtil.get_bundled_position"><code class="name flex">
-<span>def <span class="ident">get_bundled_position</span></span>(<span>program_id: solders.pubkey.Pubkey, position_bundle_mint: solders.pubkey.Pubkey, bundle_index) ‑> <a title="orca_whirlpool.internal.types.types.PDA" href="../types/types.html#orca_whirlpool.internal.types.types.PDA">PDA</a></span>
+<span>def <span class="ident">get_bundled_position</span></span>(<span>program_id: solders.pubkey.Pubkey, position_bundle_mint: solders.pubkey.Pubkey, bundle_index: int) ‑> <a title="orca_whirlpool.internal.types.types.PDA" href="../types/types.html#orca_whirlpool.internal.types.types.PDA">PDA</a></span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -264,7 +304,7 @@ class PDAUtil:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def get_bundled_position(program_id: Pubkey, position_bundle_mint: Pubkey, bundle_index) -&gt; PDA:
+def get_bundled_position(program_id: Pubkey, position_bundle_mint: Pubkey, bundle_index: int) -&gt; PDA:
     seeds = [
         PDA_BUNDLED_POSITION_SEED,
         bytes(position_bundle_mint),
@@ -411,6 +451,26 @@ def get_tick_array(program_id: Pubkey, whirlpool_pubkey: Pubkey, start_tick_inde
     return PDA(pubkey, nonce)</code></pre>
 </details>
 </dd>
+<dt id="orca_whirlpool.internal.utils.pda_util.PDAUtil.get_token_badge"><code class="name flex">
+<span>def <span class="ident">get_token_badge</span></span>(<span>program_id: solders.pubkey.Pubkey, whirlpools_config_pubkey: solders.pubkey.Pubkey, token_mint: solders.pubkey.Pubkey) ‑> <a title="orca_whirlpool.internal.types.types.PDA" href="../types/types.html#orca_whirlpool.internal.types.types.PDA">PDA</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_token_badge(program_id: Pubkey, whirlpools_config_pubkey: Pubkey, token_mint: Pubkey) -&gt; PDA:
+    seeds = [
+        PDA_TOKEN_BADGE_SEED,
+        bytes(whirlpools_config_pubkey),
+        bytes(token_mint)
+    ]
+    (pubkey, nonce) = Pubkey.find_program_address(seeds, program_id)
+    return PDA(pubkey, nonce)</code></pre>
+</details>
+</dd>
 <dt id="orca_whirlpool.internal.utils.pda_util.PDAUtil.get_whirlpool"><code class="name flex">
 <span>def <span class="ident">get_whirlpool</span></span>(<span>program_id: solders.pubkey.Pubkey, whirlpools_config_pubkey: solders.pubkey.Pubkey, mint_a: solders.pubkey.Pubkey, mint_b: solders.pubkey.Pubkey, tick_spacing: int) ‑> <a title="orca_whirlpool.internal.types.types.PDA" href="../types/types.html#orca_whirlpool.internal.types.types.PDA">PDA</a></span>
 </code></dt>
@@ -434,6 +494,25 @@ def get_whirlpool(
         bytes(mint_a),
         bytes(mint_b),
         tick_spacing.to_bytes(2, &#34;little&#34;)
+    ]
+    (pubkey, nonce) = Pubkey.find_program_address(seeds, program_id)
+    return PDA(pubkey, nonce)</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.utils.pda_util.PDAUtil.get_whirlpools_config_extension"><code class="name flex">
+<span>def <span class="ident">get_whirlpools_config_extension</span></span>(<span>program_id: solders.pubkey.Pubkey, whirlpools_config_pubkey: solders.pubkey.Pubkey) ‑> <a title="orca_whirlpool.internal.types.types.PDA" href="../types/types.html#orca_whirlpool.internal.types.types.PDA">PDA</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_whirlpools_config_extension(program_id: Pubkey, whirlpools_config_pubkey: Pubkey) -&gt; PDA:
+    seeds = [
+        PDA_WHIRLPOOLS_CONFIG_EXTENSION_SEED,
+        bytes(whirlpools_config_pubkey)
     ]
     (pubkey, nonce) = Pubkey.find_program_address(seeds, program_id)
     return PDA(pubkey, nonce)</code></pre>
@@ -468,7 +547,9 @@ def get_whirlpool(
 <li><code><a title="orca_whirlpool.internal.utils.pda_util.PDAUtil.get_position_bundle_metadata" href="#orca_whirlpool.internal.utils.pda_util.PDAUtil.get_position_bundle_metadata">get_position_bundle_metadata</a></code></li>
 <li><code><a title="orca_whirlpool.internal.utils.pda_util.PDAUtil.get_position_metadata" href="#orca_whirlpool.internal.utils.pda_util.PDAUtil.get_position_metadata">get_position_metadata</a></code></li>
 <li><code><a title="orca_whirlpool.internal.utils.pda_util.PDAUtil.get_tick_array" href="#orca_whirlpool.internal.utils.pda_util.PDAUtil.get_tick_array">get_tick_array</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.pda_util.PDAUtil.get_token_badge" href="#orca_whirlpool.internal.utils.pda_util.PDAUtil.get_token_badge">get_token_badge</a></code></li>
 <li><code><a title="orca_whirlpool.internal.utils.pda_util.PDAUtil.get_whirlpool" href="#orca_whirlpool.internal.utils.pda_util.PDAUtil.get_whirlpool">get_whirlpool</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.pda_util.PDAUtil.get_whirlpools_config_extension" href="#orca_whirlpool.internal.utils.pda_util.PDAUtil.get_whirlpools_config_extension">get_whirlpools_config_extension</a></code></li>
 </ul>
 </li>
 </ul>

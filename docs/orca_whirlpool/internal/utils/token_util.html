@@ -26,14 +26,15 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from solana.rpc.async_api import AsyncClient
+<pre><code class="python">import dataclasses
+from typing import Optional
+from solana.rpc.async_api import AsyncClient
 from solders.pubkey import Pubkey
 from solders.keypair import Keypair
 from solders import system_program
 from spl.token.instructions import get_associated_token_address
-from spl.token.core import MintInfo, AccountInfo
 from spl.token._layouts import MINT_LAYOUT, ACCOUNT_LAYOUT
-from spl.token.constants import TOKEN_PROGRAM_ID, WRAPPED_SOL_MINT, ACCOUNT_LEN
+from spl.token.constants import TOKEN_PROGRAM_ID, TOKEN_2022_PROGRAM_ID, WRAPPED_SOL_MINT, ACCOUNT_LEN
 from spl.token import instructions as token_program
 from ..transaction.types import Instruction
 from ..transaction.transaction_builder import EMPTY_INSTRUCTION
@@ -41,10 +42,51 @@ from ..types.types import PublicKeyWithInstruction
 from ..invariant import invariant
 
 
+@dataclasses.dataclass(frozen=True)
+class RawMintInfo:
+    token_program_id: Pubkey
+    mint_authority: Optional[Pubkey]
+    supply: int
+    decimals: int
+    is_initialized: bool
+    freeze_authority: Pubkey
+    tlv_data: bytes
+
+
+@dataclasses.dataclass(frozen=True)
+class RawAccountInfo:
+    token_program_id: Pubkey
+    mint: Pubkey
+    owner: Pubkey
+    amount: int
+    delegate: Optional[Pubkey]
+    delegated_amount: int
+    is_initialized: bool
+    is_frozen: bool
+    is_native: bool
+    close_authority: Optional[Pubkey]
+    tlv_data: bytes
+
+
 class TokenUtil:
     # https://github.com/michaelhly/solana-py/blob/32119e6924d72cd2d605a949b28f2a366941d641/src/spl/token/core.py#L373
     @staticmethod
-    def deserialize_account(data: bytes):
+    def deserialize_account(data: bytes, program_id: Pubkey) -&gt; Optional[RawAccountInfo]:
+        if program_id == TOKEN_PROGRAM_ID:
+            if len(data) == 165:
+                pass
+            else:
+                return None
+        elif program_id == TOKEN_2022_PROGRAM_ID:
+            if len(data) == 165:
+                pass
+            elif len(data) &gt;= 165+1 and data[165] == 2:
+                pass
+            else:
+                return None
+        else:
+            return None
+
         decoded_data = ACCOUNT_LAYOUT.parse(data)
 
         mint = Pubkey(decoded_data.mint)
@@ -59,36 +101,48 @@ class TokenUtil:
             delegated_amount = decoded_data.delegated_amount
 
         is_initialized = decoded_data.state != 0
+        is_native = decoded_data.is_native_option == 1
         is_frozen = decoded_data.state == 2
-
-        if decoded_data.is_native_option == 1:
-            rent_exempt_reserve = decoded_data.is_native
-            is_native = True
-        else:
-            rent_exempt_reserve = None
-            is_native = False
 
         if decoded_data.close_authority_option == 0:
             close_authority = None
         else:
             close_authority = Pubkey(decoded_data.owner)
 
-        return AccountInfo(
-            mint,
-            owner,
-            amount,
-            delegate,
-            delegated_amount,
-            is_initialized,
-            is_frozen,
-            is_native,
-            rent_exempt_reserve,
-            close_authority,
+        tlv_data = data[166:] if len(data) &gt; 165+1 else b&#34;&#34;
+
+        return RawAccountInfo(
+            token_program_id=program_id,
+            mint=mint,
+            owner=owner,
+            amount=amount,
+            delegate=delegate,
+            delegated_amount=delegated_amount,
+            is_initialized=is_initialized,
+            is_frozen=is_frozen,
+            is_native=is_native,
+            close_authority=close_authority,
+            tlv_data=tlv_data,
         )
 
     # https://github.com/michaelhly/solana-py/blob/32119e6924d72cd2d605a949b28f2a366941d641/src/spl/token/core.py#L343
     @staticmethod
-    def deserialize_mint(data: bytes) -&gt; MintInfo:
+    def deserialize_mint(data: bytes, program_id: Pubkey) -&gt; Optional[RawMintInfo]:
+        if program_id == TOKEN_PROGRAM_ID:
+            if len(data) == 82:
+                pass
+            else:
+                return None
+        elif program_id == TOKEN_2022_PROGRAM_ID:
+            if len(data) == 82:
+                pass
+            elif len(data) &gt;= 165+1 and data[165] == 1:
+                pass
+            else:
+                return None
+        else:
+            return None
+
         decoded_data = MINT_LAYOUT.parse(data)
         decimals = decoded_data.decimals
 
@@ -105,11 +159,21 @@ class TokenUtil:
         else:
             freeze_authority = Pubkey(decoded_data.freeze_authority)
 
-        return MintInfo(mint_authority, supply, decimals, is_initialized, freeze_authority)
+        tlv_data = data[166:] if len(data) &gt; 165+1 else b&#34;&#34;
+
+        return RawMintInfo(
+            token_program_id=program_id,
+            mint_authority=mint_authority,
+            supply=supply,
+            decimals=decimals,
+            is_initialized=is_initialized,
+            freeze_authority=freeze_authority,
+            tlv_data=tlv_data,
+        )
 
     @staticmethod
-    def derive_ata(owner: Pubkey, mint: Pubkey) -&gt; Pubkey:
-        return get_associated_token_address(owner, mint)
+    def derive_ata(owner: Pubkey, mint: Pubkey, token_program_id: Pubkey = TOKEN_PROGRAM_ID) -&gt; Pubkey:
+        return get_associated_token_address(owner, mint, token_program_id)
 
     @staticmethod
     async def resolve_or_create_ata(
@@ -117,7 +181,8 @@ class TokenUtil:
         owner: Pubkey,
         mint: Pubkey,
         wrapped_sol_amount: int = 0,
-        funder: Pubkey = None
+        funder: Pubkey = None,
+        idempotent: bool = True,
     ) -&gt; PublicKeyWithInstruction:
         if funder is None:
             funder = owner
@@ -130,15 +195,61 @@ class TokenUtil:
                 funder,
             )
 
-        ata = TokenUtil.derive_ata(owner, mint)
-        res = await connection.get_account_info(ata)
-        if res.value is not None:
-            token_account = TokenUtil.deserialize_account(res.value.data)
-            invariant(token_account.owner == owner, &#34;token_account.owner == owner&#34;)
-            invariant(token_account.mint == mint, &#34;token_account.mint == mint&#34;)
+        ata = TokenUtil.derive_ata(owner, mint, TOKEN_PROGRAM_ID)
+        ata_2022 = TokenUtil.derive_ata(owner, mint, TOKEN_2022_PROGRAM_ID)
+
+        res = await connection.get_multiple_accounts([
+            mint,
+            ata,
+            ata_2022,
+        ])
+
+        fetched_mint = res.value[0]
+        invariant(fetched_mint is not None)
+        parsed_mint = TokenUtil.deserialize_mint(fetched_mint.data, fetched_mint.owner)
+        invariant(parsed_mint is not None)
+        token_program_id = parsed_mint.token_program_id
+
+        fetched_ata = res.value[1]
+        fetched_ata_2022 = res.value[2]
+
+        # Token-2022 Program
+        if token_program_id == TOKEN_2022_PROGRAM_ID:
+            invariant(fetched_ata is None)
+            if fetched_ata_2022 is not None:
+                parsed_ata_2022 = TokenUtil.deserialize_account(fetched_ata_2022.data, fetched_ata_2022.owner)
+                invariant(parsed_ata_2022.token_program_id == token_program_id, &#34;parsed_account.token_program_id must be Token-2022&#34;)
+                invariant(parsed_ata_2022.owner == owner, &#34;parsed_account.owner == owner&#34;)
+                invariant(parsed_ata_2022.mint == mint, &#34;parsed_account.mint == mint&#34;)
+                return PublicKeyWithInstruction(pubkey=ata_2022, instruction=EMPTY_INSTRUCTION)
+
+            if idempotent:
+                create_ata_2022_ix = token_program.create_idempotent_associated_token_account(funder, owner, mint, TOKEN_2022_PROGRAM_ID)
+            else:
+                create_ata_2022_ix = token_program.create_associated_token_account(funder, owner, mint, TOKEN_2022_PROGRAM_ID)
+            return PublicKeyWithInstruction(
+                pubkey=ata_2022,
+                instruction=Instruction(
+                    instructions=[create_ata_2022_ix],
+                    cleanup_instructions=[],
+                    signers=[],
+                )
+            )
+
+        # Token Program
+        invariant(token_program_id == TOKEN_PROGRAM_ID)
+        invariant(fetched_ata_2022 is None)
+        if fetched_ata is not None:
+            parsed_ata = TokenUtil.deserialize_account(fetched_ata.data, fetched_ata.owner)
+            invariant(parsed_ata.token_program_id == token_program_id, &#34;parsed_account.token_program_id must be Token&#34;)
+            invariant(parsed_ata.owner == owner, &#34;parsed_account.owner == owner&#34;)
+            invariant(parsed_ata.mint == mint, &#34;parsed_account.mint == mint&#34;)
             return PublicKeyWithInstruction(pubkey=ata, instruction=EMPTY_INSTRUCTION)
 
-        create_ata_ix = token_program.create_associated_token_account(funder, owner, mint)
+        if idempotent:
+            create_ata_ix = token_program.create_idempotent_associated_token_account(funder, owner, mint, TOKEN_PROGRAM_ID)
+        else:
+            create_ata_ix = token_program.create_associated_token_account(funder, owner, mint, TOKEN_PROGRAM_ID)
         return PublicKeyWithInstruction(
             pubkey=ata,
             instruction=Instruction(
@@ -203,6 +314,130 @@ class TokenUtil:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
+<dt id="orca_whirlpool.internal.utils.token_util.RawAccountInfo"><code class="flex name class">
+<span>class <span class="ident">RawAccountInfo</span></span>
+<span>(</span><span>token_program_id: solders.pubkey.Pubkey, mint: solders.pubkey.Pubkey, owner: solders.pubkey.Pubkey, amount: int, delegate: Optional[solders.pubkey.Pubkey], delegated_amount: int, is_initialized: bool, is_frozen: bool, is_native: bool, close_authority: Optional[solders.pubkey.Pubkey], tlv_data: bytes)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>RawAccountInfo(token_program_id: solders.pubkey.Pubkey, mint: solders.pubkey.Pubkey, owner: solders.pubkey.Pubkey, amount: int, delegate: Optional[solders.pubkey.Pubkey], delegated_amount: int, is_initialized: bool, is_frozen: bool, is_native: bool, close_authority: Optional[solders.pubkey.Pubkey], tlv_data: bytes)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclasses.dataclass(frozen=True)
+class RawAccountInfo:
+    token_program_id: Pubkey
+    mint: Pubkey
+    owner: Pubkey
+    amount: int
+    delegate: Optional[Pubkey]
+    delegated_amount: int
+    is_initialized: bool
+    is_frozen: bool
+    is_native: bool
+    close_authority: Optional[Pubkey]
+    tlv_data: bytes</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.utils.token_util.RawAccountInfo.amount"><code class="name">var <span class="ident">amount</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawAccountInfo.close_authority"><code class="name">var <span class="ident">close_authority</span> : Optional[solders.pubkey.Pubkey]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawAccountInfo.delegate"><code class="name">var <span class="ident">delegate</span> : Optional[solders.pubkey.Pubkey]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawAccountInfo.delegated_amount"><code class="name">var <span class="ident">delegated_amount</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawAccountInfo.is_frozen"><code class="name">var <span class="ident">is_frozen</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawAccountInfo.is_initialized"><code class="name">var <span class="ident">is_initialized</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawAccountInfo.is_native"><code class="name">var <span class="ident">is_native</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawAccountInfo.mint"><code class="name">var <span class="ident">mint</span> : solders.pubkey.Pubkey</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawAccountInfo.owner"><code class="name">var <span class="ident">owner</span> : solders.pubkey.Pubkey</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawAccountInfo.tlv_data"><code class="name">var <span class="ident">tlv_data</span> : bytes</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawAccountInfo.token_program_id"><code class="name">var <span class="ident">token_program_id</span> : solders.pubkey.Pubkey</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawMintInfo"><code class="flex name class">
+<span>class <span class="ident">RawMintInfo</span></span>
+<span>(</span><span>token_program_id: solders.pubkey.Pubkey, mint_authority: Optional[solders.pubkey.Pubkey], supply: int, decimals: int, is_initialized: bool, freeze_authority: solders.pubkey.Pubkey, tlv_data: bytes)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>RawMintInfo(token_program_id: solders.pubkey.Pubkey, mint_authority: Optional[solders.pubkey.Pubkey], supply: int, decimals: int, is_initialized: bool, freeze_authority: solders.pubkey.Pubkey, tlv_data: bytes)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclasses.dataclass(frozen=True)
+class RawMintInfo:
+    token_program_id: Pubkey
+    mint_authority: Optional[Pubkey]
+    supply: int
+    decimals: int
+    is_initialized: bool
+    freeze_authority: Pubkey
+    tlv_data: bytes</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.utils.token_util.RawMintInfo.decimals"><code class="name">var <span class="ident">decimals</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawMintInfo.freeze_authority"><code class="name">var <span class="ident">freeze_authority</span> : solders.pubkey.Pubkey</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawMintInfo.is_initialized"><code class="name">var <span class="ident">is_initialized</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawMintInfo.mint_authority"><code class="name">var <span class="ident">mint_authority</span> : Optional[solders.pubkey.Pubkey]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawMintInfo.supply"><code class="name">var <span class="ident">supply</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawMintInfo.tlv_data"><code class="name">var <span class="ident">tlv_data</span> : bytes</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.utils.token_util.RawMintInfo.token_program_id"><code class="name">var <span class="ident">token_program_id</span> : solders.pubkey.Pubkey</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
 <dt id="orca_whirlpool.internal.utils.token_util.TokenUtil"><code class="flex name class">
 <span>class <span class="ident">TokenUtil</span></span>
 </code></dt>
@@ -215,7 +450,22 @@ class TokenUtil:
 <pre><code class="python">class TokenUtil:
     # https://github.com/michaelhly/solana-py/blob/32119e6924d72cd2d605a949b28f2a366941d641/src/spl/token/core.py#L373
     @staticmethod
-    def deserialize_account(data: bytes):
+    def deserialize_account(data: bytes, program_id: Pubkey) -&gt; Optional[RawAccountInfo]:
+        if program_id == TOKEN_PROGRAM_ID:
+            if len(data) == 165:
+                pass
+            else:
+                return None
+        elif program_id == TOKEN_2022_PROGRAM_ID:
+            if len(data) == 165:
+                pass
+            elif len(data) &gt;= 165+1 and data[165] == 2:
+                pass
+            else:
+                return None
+        else:
+            return None
+
         decoded_data = ACCOUNT_LAYOUT.parse(data)
 
         mint = Pubkey(decoded_data.mint)
@@ -230,36 +480,48 @@ class TokenUtil:
             delegated_amount = decoded_data.delegated_amount
 
         is_initialized = decoded_data.state != 0
+        is_native = decoded_data.is_native_option == 1
         is_frozen = decoded_data.state == 2
-
-        if decoded_data.is_native_option == 1:
-            rent_exempt_reserve = decoded_data.is_native
-            is_native = True
-        else:
-            rent_exempt_reserve = None
-            is_native = False
 
         if decoded_data.close_authority_option == 0:
             close_authority = None
         else:
             close_authority = Pubkey(decoded_data.owner)
 
-        return AccountInfo(
-            mint,
-            owner,
-            amount,
-            delegate,
-            delegated_amount,
-            is_initialized,
-            is_frozen,
-            is_native,
-            rent_exempt_reserve,
-            close_authority,
+        tlv_data = data[166:] if len(data) &gt; 165+1 else b&#34;&#34;
+
+        return RawAccountInfo(
+            token_program_id=program_id,
+            mint=mint,
+            owner=owner,
+            amount=amount,
+            delegate=delegate,
+            delegated_amount=delegated_amount,
+            is_initialized=is_initialized,
+            is_frozen=is_frozen,
+            is_native=is_native,
+            close_authority=close_authority,
+            tlv_data=tlv_data,
         )
 
     # https://github.com/michaelhly/solana-py/blob/32119e6924d72cd2d605a949b28f2a366941d641/src/spl/token/core.py#L343
     @staticmethod
-    def deserialize_mint(data: bytes) -&gt; MintInfo:
+    def deserialize_mint(data: bytes, program_id: Pubkey) -&gt; Optional[RawMintInfo]:
+        if program_id == TOKEN_PROGRAM_ID:
+            if len(data) == 82:
+                pass
+            else:
+                return None
+        elif program_id == TOKEN_2022_PROGRAM_ID:
+            if len(data) == 82:
+                pass
+            elif len(data) &gt;= 165+1 and data[165] == 1:
+                pass
+            else:
+                return None
+        else:
+            return None
+
         decoded_data = MINT_LAYOUT.parse(data)
         decimals = decoded_data.decimals
 
@@ -276,11 +538,21 @@ class TokenUtil:
         else:
             freeze_authority = Pubkey(decoded_data.freeze_authority)
 
-        return MintInfo(mint_authority, supply, decimals, is_initialized, freeze_authority)
+        tlv_data = data[166:] if len(data) &gt; 165+1 else b&#34;&#34;
+
+        return RawMintInfo(
+            token_program_id=program_id,
+            mint_authority=mint_authority,
+            supply=supply,
+            decimals=decimals,
+            is_initialized=is_initialized,
+            freeze_authority=freeze_authority,
+            tlv_data=tlv_data,
+        )
 
     @staticmethod
-    def derive_ata(owner: Pubkey, mint: Pubkey) -&gt; Pubkey:
-        return get_associated_token_address(owner, mint)
+    def derive_ata(owner: Pubkey, mint: Pubkey, token_program_id: Pubkey = TOKEN_PROGRAM_ID) -&gt; Pubkey:
+        return get_associated_token_address(owner, mint, token_program_id)
 
     @staticmethod
     async def resolve_or_create_ata(
@@ -288,7 +560,8 @@ class TokenUtil:
         owner: Pubkey,
         mint: Pubkey,
         wrapped_sol_amount: int = 0,
-        funder: Pubkey = None
+        funder: Pubkey = None,
+        idempotent: bool = True,
     ) -&gt; PublicKeyWithInstruction:
         if funder is None:
             funder = owner
@@ -301,15 +574,61 @@ class TokenUtil:
                 funder,
             )
 
-        ata = TokenUtil.derive_ata(owner, mint)
-        res = await connection.get_account_info(ata)
-        if res.value is not None:
-            token_account = TokenUtil.deserialize_account(res.value.data)
-            invariant(token_account.owner == owner, &#34;token_account.owner == owner&#34;)
-            invariant(token_account.mint == mint, &#34;token_account.mint == mint&#34;)
+        ata = TokenUtil.derive_ata(owner, mint, TOKEN_PROGRAM_ID)
+        ata_2022 = TokenUtil.derive_ata(owner, mint, TOKEN_2022_PROGRAM_ID)
+
+        res = await connection.get_multiple_accounts([
+            mint,
+            ata,
+            ata_2022,
+        ])
+
+        fetched_mint = res.value[0]
+        invariant(fetched_mint is not None)
+        parsed_mint = TokenUtil.deserialize_mint(fetched_mint.data, fetched_mint.owner)
+        invariant(parsed_mint is not None)
+        token_program_id = parsed_mint.token_program_id
+
+        fetched_ata = res.value[1]
+        fetched_ata_2022 = res.value[2]
+
+        # Token-2022 Program
+        if token_program_id == TOKEN_2022_PROGRAM_ID:
+            invariant(fetched_ata is None)
+            if fetched_ata_2022 is not None:
+                parsed_ata_2022 = TokenUtil.deserialize_account(fetched_ata_2022.data, fetched_ata_2022.owner)
+                invariant(parsed_ata_2022.token_program_id == token_program_id, &#34;parsed_account.token_program_id must be Token-2022&#34;)
+                invariant(parsed_ata_2022.owner == owner, &#34;parsed_account.owner == owner&#34;)
+                invariant(parsed_ata_2022.mint == mint, &#34;parsed_account.mint == mint&#34;)
+                return PublicKeyWithInstruction(pubkey=ata_2022, instruction=EMPTY_INSTRUCTION)
+
+            if idempotent:
+                create_ata_2022_ix = token_program.create_idempotent_associated_token_account(funder, owner, mint, TOKEN_2022_PROGRAM_ID)
+            else:
+                create_ata_2022_ix = token_program.create_associated_token_account(funder, owner, mint, TOKEN_2022_PROGRAM_ID)
+            return PublicKeyWithInstruction(
+                pubkey=ata_2022,
+                instruction=Instruction(
+                    instructions=[create_ata_2022_ix],
+                    cleanup_instructions=[],
+                    signers=[],
+                )
+            )
+
+        # Token Program
+        invariant(token_program_id == TOKEN_PROGRAM_ID)
+        invariant(fetched_ata_2022 is None)
+        if fetched_ata is not None:
+            parsed_ata = TokenUtil.deserialize_account(fetched_ata.data, fetched_ata.owner)
+            invariant(parsed_ata.token_program_id == token_program_id, &#34;parsed_account.token_program_id must be Token&#34;)
+            invariant(parsed_ata.owner == owner, &#34;parsed_account.owner == owner&#34;)
+            invariant(parsed_ata.mint == mint, &#34;parsed_account.mint == mint&#34;)
             return PublicKeyWithInstruction(pubkey=ata, instruction=EMPTY_INSTRUCTION)
 
-        create_ata_ix = token_program.create_associated_token_account(funder, owner, mint)
+        if idempotent:
+            create_ata_ix = token_program.create_idempotent_associated_token_account(funder, owner, mint, TOKEN_PROGRAM_ID)
+        else:
+            create_ata_ix = token_program.create_associated_token_account(funder, owner, mint, TOKEN_PROGRAM_ID)
         return PublicKeyWithInstruction(
             pubkey=ata,
             instruction=Instruction(
@@ -367,7 +686,9 @@ class TokenUtil:
 <h3>Static methods</h3>
 <dl>
 <dt id="orca_whirlpool.internal.utils.token_util.TokenUtil.derive_ata"><code class="name flex">
-<span>def <span class="ident">derive_ata</span></span>(<span>owner: solders.pubkey.Pubkey, mint: solders.pubkey.Pubkey) ‑> solders.pubkey.Pubkey</span>
+<span>def <span class="ident">derive_ata</span></span>(<span>owner: solders.pubkey.Pubkey, mint: solders.pubkey.Pubkey, token_program_id: solders.pubkey.Pubkey = Pubkey(
+TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA,
+)) ‑> solders.pubkey.Pubkey</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -376,12 +697,12 @@ class TokenUtil:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def derive_ata(owner: Pubkey, mint: Pubkey) -&gt; Pubkey:
-    return get_associated_token_address(owner, mint)</code></pre>
+def derive_ata(owner: Pubkey, mint: Pubkey, token_program_id: Pubkey = TOKEN_PROGRAM_ID) -&gt; Pubkey:
+    return get_associated_token_address(owner, mint, token_program_id)</code></pre>
 </details>
 </dd>
 <dt id="orca_whirlpool.internal.utils.token_util.TokenUtil.deserialize_account"><code class="name flex">
-<span>def <span class="ident">deserialize_account</span></span>(<span>data: bytes)</span>
+<span>def <span class="ident">deserialize_account</span></span>(<span>data: bytes, program_id: solders.pubkey.Pubkey) ‑> Optional[<a title="orca_whirlpool.internal.utils.token_util.RawAccountInfo" href="#orca_whirlpool.internal.utils.token_util.RawAccountInfo">RawAccountInfo</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -390,7 +711,22 @@ def derive_ata(owner: Pubkey, mint: Pubkey) -&gt; Pubkey:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def deserialize_account(data: bytes):
+def deserialize_account(data: bytes, program_id: Pubkey) -&gt; Optional[RawAccountInfo]:
+    if program_id == TOKEN_PROGRAM_ID:
+        if len(data) == 165:
+            pass
+        else:
+            return None
+    elif program_id == TOKEN_2022_PROGRAM_ID:
+        if len(data) == 165:
+            pass
+        elif len(data) &gt;= 165+1 and data[165] == 2:
+            pass
+        else:
+            return None
+    else:
+        return None
+
     decoded_data = ACCOUNT_LAYOUT.parse(data)
 
     mint = Pubkey(decoded_data.mint)
@@ -405,36 +741,33 @@ def deserialize_account(data: bytes):
         delegated_amount = decoded_data.delegated_amount
 
     is_initialized = decoded_data.state != 0
+    is_native = decoded_data.is_native_option == 1
     is_frozen = decoded_data.state == 2
-
-    if decoded_data.is_native_option == 1:
-        rent_exempt_reserve = decoded_data.is_native
-        is_native = True
-    else:
-        rent_exempt_reserve = None
-        is_native = False
 
     if decoded_data.close_authority_option == 0:
         close_authority = None
     else:
         close_authority = Pubkey(decoded_data.owner)
 
-    return AccountInfo(
-        mint,
-        owner,
-        amount,
-        delegate,
-        delegated_amount,
-        is_initialized,
-        is_frozen,
-        is_native,
-        rent_exempt_reserve,
-        close_authority,
+    tlv_data = data[166:] if len(data) &gt; 165+1 else b&#34;&#34;
+
+    return RawAccountInfo(
+        token_program_id=program_id,
+        mint=mint,
+        owner=owner,
+        amount=amount,
+        delegate=delegate,
+        delegated_amount=delegated_amount,
+        is_initialized=is_initialized,
+        is_frozen=is_frozen,
+        is_native=is_native,
+        close_authority=close_authority,
+        tlv_data=tlv_data,
     )</code></pre>
 </details>
 </dd>
 <dt id="orca_whirlpool.internal.utils.token_util.TokenUtil.deserialize_mint"><code class="name flex">
-<span>def <span class="ident">deserialize_mint</span></span>(<span>data: bytes) ‑> spl.token.core.MintInfo</span>
+<span>def <span class="ident">deserialize_mint</span></span>(<span>data: bytes, program_id: solders.pubkey.Pubkey) ‑> Optional[<a title="orca_whirlpool.internal.utils.token_util.RawMintInfo" href="#orca_whirlpool.internal.utils.token_util.RawMintInfo">RawMintInfo</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -443,7 +776,22 @@ def deserialize_account(data: bytes):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def deserialize_mint(data: bytes) -&gt; MintInfo:
+def deserialize_mint(data: bytes, program_id: Pubkey) -&gt; Optional[RawMintInfo]:
+    if program_id == TOKEN_PROGRAM_ID:
+        if len(data) == 82:
+            pass
+        else:
+            return None
+    elif program_id == TOKEN_2022_PROGRAM_ID:
+        if len(data) == 82:
+            pass
+        elif len(data) &gt;= 165+1 and data[165] == 1:
+            pass
+        else:
+            return None
+    else:
+        return None
+
     decoded_data = MINT_LAYOUT.parse(data)
     decimals = decoded_data.decimals
 
@@ -460,7 +808,17 @@ def deserialize_mint(data: bytes) -&gt; MintInfo:
     else:
         freeze_authority = Pubkey(decoded_data.freeze_authority)
 
-    return MintInfo(mint_authority, supply, decimals, is_initialized, freeze_authority)</code></pre>
+    tlv_data = data[166:] if len(data) &gt; 165+1 else b&#34;&#34;
+
+    return RawMintInfo(
+        token_program_id=program_id,
+        mint_authority=mint_authority,
+        supply=supply,
+        decimals=decimals,
+        is_initialized=is_initialized,
+        freeze_authority=freeze_authority,
+        tlv_data=tlv_data,
+    )</code></pre>
 </details>
 </dd>
 <dt id="orca_whirlpool.internal.utils.token_util.TokenUtil.prepare_wrapped_sol_token_account"><code class="name flex">
@@ -519,7 +877,7 @@ async def prepare_wrapped_sol_token_account(
 </details>
 </dd>
 <dt id="orca_whirlpool.internal.utils.token_util.TokenUtil.resolve_or_create_ata"><code class="name flex">
-<span>async def <span class="ident">resolve_or_create_ata</span></span>(<span>connection: solana.rpc.async_api.AsyncClient, owner: solders.pubkey.Pubkey, mint: solders.pubkey.Pubkey, wrapped_sol_amount: int = 0, funder: solders.pubkey.Pubkey = None) ‑> <a title="orca_whirlpool.internal.types.types.PublicKeyWithInstruction" href="../types/types.html#orca_whirlpool.internal.types.types.PublicKeyWithInstruction">PublicKeyWithInstruction</a></span>
+<span>async def <span class="ident">resolve_or_create_ata</span></span>(<span>connection: solana.rpc.async_api.AsyncClient, owner: solders.pubkey.Pubkey, mint: solders.pubkey.Pubkey, wrapped_sol_amount: int = 0, funder: solders.pubkey.Pubkey = None, idempotent: bool = True) ‑> <a title="orca_whirlpool.internal.types.types.PublicKeyWithInstruction" href="../types/types.html#orca_whirlpool.internal.types.types.PublicKeyWithInstruction">PublicKeyWithInstruction</a></span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -533,7 +891,8 @@ async def resolve_or_create_ata(
     owner: Pubkey,
     mint: Pubkey,
     wrapped_sol_amount: int = 0,
-    funder: Pubkey = None
+    funder: Pubkey = None,
+    idempotent: bool = True,
 ) -&gt; PublicKeyWithInstruction:
     if funder is None:
         funder = owner
@@ -546,15 +905,61 @@ async def resolve_or_create_ata(
             funder,
         )
 
-    ata = TokenUtil.derive_ata(owner, mint)
-    res = await connection.get_account_info(ata)
-    if res.value is not None:
-        token_account = TokenUtil.deserialize_account(res.value.data)
-        invariant(token_account.owner == owner, &#34;token_account.owner == owner&#34;)
-        invariant(token_account.mint == mint, &#34;token_account.mint == mint&#34;)
+    ata = TokenUtil.derive_ata(owner, mint, TOKEN_PROGRAM_ID)
+    ata_2022 = TokenUtil.derive_ata(owner, mint, TOKEN_2022_PROGRAM_ID)
+
+    res = await connection.get_multiple_accounts([
+        mint,
+        ata,
+        ata_2022,
+    ])
+
+    fetched_mint = res.value[0]
+    invariant(fetched_mint is not None)
+    parsed_mint = TokenUtil.deserialize_mint(fetched_mint.data, fetched_mint.owner)
+    invariant(parsed_mint is not None)
+    token_program_id = parsed_mint.token_program_id
+
+    fetched_ata = res.value[1]
+    fetched_ata_2022 = res.value[2]
+
+    # Token-2022 Program
+    if token_program_id == TOKEN_2022_PROGRAM_ID:
+        invariant(fetched_ata is None)
+        if fetched_ata_2022 is not None:
+            parsed_ata_2022 = TokenUtil.deserialize_account(fetched_ata_2022.data, fetched_ata_2022.owner)
+            invariant(parsed_ata_2022.token_program_id == token_program_id, &#34;parsed_account.token_program_id must be Token-2022&#34;)
+            invariant(parsed_ata_2022.owner == owner, &#34;parsed_account.owner == owner&#34;)
+            invariant(parsed_ata_2022.mint == mint, &#34;parsed_account.mint == mint&#34;)
+            return PublicKeyWithInstruction(pubkey=ata_2022, instruction=EMPTY_INSTRUCTION)
+
+        if idempotent:
+            create_ata_2022_ix = token_program.create_idempotent_associated_token_account(funder, owner, mint, TOKEN_2022_PROGRAM_ID)
+        else:
+            create_ata_2022_ix = token_program.create_associated_token_account(funder, owner, mint, TOKEN_2022_PROGRAM_ID)
+        return PublicKeyWithInstruction(
+            pubkey=ata_2022,
+            instruction=Instruction(
+                instructions=[create_ata_2022_ix],
+                cleanup_instructions=[],
+                signers=[],
+            )
+        )
+
+    # Token Program
+    invariant(token_program_id == TOKEN_PROGRAM_ID)
+    invariant(fetched_ata_2022 is None)
+    if fetched_ata is not None:
+        parsed_ata = TokenUtil.deserialize_account(fetched_ata.data, fetched_ata.owner)
+        invariant(parsed_ata.token_program_id == token_program_id, &#34;parsed_account.token_program_id must be Token&#34;)
+        invariant(parsed_ata.owner == owner, &#34;parsed_account.owner == owner&#34;)
+        invariant(parsed_ata.mint == mint, &#34;parsed_account.mint == mint&#34;)
         return PublicKeyWithInstruction(pubkey=ata, instruction=EMPTY_INSTRUCTION)
 
-    create_ata_ix = token_program.create_associated_token_account(funder, owner, mint)
+    if idempotent:
+        create_ata_ix = token_program.create_idempotent_associated_token_account(funder, owner, mint, TOKEN_PROGRAM_ID)
+    else:
+        create_ata_ix = token_program.create_associated_token_account(funder, owner, mint, TOKEN_PROGRAM_ID)
     return PublicKeyWithInstruction(
         pubkey=ata,
         instruction=Instruction(
@@ -583,6 +988,34 @@ async def resolve_or_create_ata(
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
+<li>
+<h4><code><a title="orca_whirlpool.internal.utils.token_util.RawAccountInfo" href="#orca_whirlpool.internal.utils.token_util.RawAccountInfo">RawAccountInfo</a></code></h4>
+<ul class="two-column">
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawAccountInfo.amount" href="#orca_whirlpool.internal.utils.token_util.RawAccountInfo.amount">amount</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawAccountInfo.close_authority" href="#orca_whirlpool.internal.utils.token_util.RawAccountInfo.close_authority">close_authority</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawAccountInfo.delegate" href="#orca_whirlpool.internal.utils.token_util.RawAccountInfo.delegate">delegate</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawAccountInfo.delegated_amount" href="#orca_whirlpool.internal.utils.token_util.RawAccountInfo.delegated_amount">delegated_amount</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawAccountInfo.is_frozen" href="#orca_whirlpool.internal.utils.token_util.RawAccountInfo.is_frozen">is_frozen</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawAccountInfo.is_initialized" href="#orca_whirlpool.internal.utils.token_util.RawAccountInfo.is_initialized">is_initialized</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawAccountInfo.is_native" href="#orca_whirlpool.internal.utils.token_util.RawAccountInfo.is_native">is_native</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawAccountInfo.mint" href="#orca_whirlpool.internal.utils.token_util.RawAccountInfo.mint">mint</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawAccountInfo.owner" href="#orca_whirlpool.internal.utils.token_util.RawAccountInfo.owner">owner</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawAccountInfo.tlv_data" href="#orca_whirlpool.internal.utils.token_util.RawAccountInfo.tlv_data">tlv_data</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawAccountInfo.token_program_id" href="#orca_whirlpool.internal.utils.token_util.RawAccountInfo.token_program_id">token_program_id</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.utils.token_util.RawMintInfo" href="#orca_whirlpool.internal.utils.token_util.RawMintInfo">RawMintInfo</a></code></h4>
+<ul class="two-column">
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawMintInfo.decimals" href="#orca_whirlpool.internal.utils.token_util.RawMintInfo.decimals">decimals</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawMintInfo.freeze_authority" href="#orca_whirlpool.internal.utils.token_util.RawMintInfo.freeze_authority">freeze_authority</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawMintInfo.is_initialized" href="#orca_whirlpool.internal.utils.token_util.RawMintInfo.is_initialized">is_initialized</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawMintInfo.mint_authority" href="#orca_whirlpool.internal.utils.token_util.RawMintInfo.mint_authority">mint_authority</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawMintInfo.supply" href="#orca_whirlpool.internal.utils.token_util.RawMintInfo.supply">supply</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawMintInfo.tlv_data" href="#orca_whirlpool.internal.utils.token_util.RawMintInfo.tlv_data">tlv_data</a></code></li>
+<li><code><a title="orca_whirlpool.internal.utils.token_util.RawMintInfo.token_program_id" href="#orca_whirlpool.internal.utils.token_util.RawMintInfo.token_program_id">token_program_id</a></code></li>
+</ul>
+</li>
 <li>
 <h4><code><a title="orca_whirlpool.internal.utils.token_util.TokenUtil" href="#orca_whirlpool.internal.utils.token_util.TokenUtil">TokenUtil</a></code></h4>
 <ul class="">

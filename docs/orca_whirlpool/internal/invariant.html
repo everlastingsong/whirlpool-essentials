@@ -39,7 +39,10 @@ def invariant(condition, message: str = None):
     if condition:
         return
     value = PREFIX if message is None else &#34;{}: {}&#34;.format(PREFIX, message)
-    raise InvaliantFailedError(value)</code></pre>
+    raise InvaliantFailedError(value)
+
+def unreachable(message: str = None):
+    invariant(False, message)</code></pre>
 </details>
 </section>
 <section>
@@ -63,6 +66,19 @@ def invariant(condition, message: str = None):
         return
     value = PREFIX if message is None else &#34;{}: {}&#34;.format(PREFIX, message)
     raise InvaliantFailedError(value)</code></pre>
+</details>
+</dd>
+<dt id="orca_whirlpool.internal.invariant.unreachable"><code class="name flex">
+<span>def <span class="ident">unreachable</span></span>(<span>message: str = None)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def unreachable(message: str = None):
+    invariant(False, message)</code></pre>
 </details>
 </dd>
 </dl>
@@ -106,6 +122,7 @@ def invariant(condition, message: str = None):
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="orca_whirlpool.internal.invariant.invariant" href="#orca_whirlpool.internal.invariant.invariant">invariant</a></code></li>
+<li><code><a title="orca_whirlpool.internal.invariant.unreachable" href="#orca_whirlpool.internal.invariant.unreachable">unreachable</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>

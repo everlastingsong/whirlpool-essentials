@@ -28,13 +28,30 @@
 </summary>
 <pre><code class="python">from solders.pubkey import Pubkey
 
+
+class OrcaWhirlpoolsConfig:
+    SOLANA_MAINNET = Pubkey.from_string(&#34;2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ&#34;)
+    SOLANA_DEVNET = Pubkey.from_string(&#34;FcrweFY1G9HJAHG5inkGB6pKg1HZ6x9UC2WioAfWrGkR&#34;)
+    ECLIPSE_MAINNET = Pubkey.from_string(&#34;FVG4oDbGv16hqTUbovjyGmtYikn6UBEnazz6RVDMEFwv&#34;)
+    ECLIPSE_TESTNET = Pubkey.from_string(&#34;FPydDjRdZu9sT7HVd6ANhfjh85KLq21Pefr5YWWMRPFp&#34;)
+
+
+class OrcaWhirlpoolsConfigExtension:
+    SOLANA_MAINNET = Pubkey.from_string(&#34;777H5H3Tp9U11uRVRzFwM8BinfiakbaLT8vQpeuhvEiH&#34;)
+    SOLANA_DEVNET = Pubkey.from_string(&#34;475EJ7JqnRpVLoFVzp2ruEYvWWMCf6Z8KMWRujtXXNSU&#34;)
+    ECLIPSE_MAINNET = Pubkey.from_string(&#34;9VrJciULifYcwu2CL8nbXdw4deqQgmv7VTzidwgQYBmm&#34;)
+    ECLIPSE_TESTNET = Pubkey.from_string(&#34;6gUEB962oFdZtwoVyXNya9TfGWnBEbYNYt8UdvzT6PSf&#34;)
+
+
 DEFAULT_PUBKEY = Pubkey.from_string(&#34;11111111111111111111111111111111&#34;)
 
 # https://github.com/orca-so/whirlpools/blob/7b9ec35/sdk/src/types/public/constants.ts
 ORCA_WHIRLPOOL_PROGRAM_ID = Pubkey.from_string(&#34;whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc&#34;)
-ORCA_WHIRLPOOLS_CONFIG = Pubkey.from_string(&#34;2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ&#34;)
 ORCA_WHIRLPOOL_NFT_UPDATE_AUTHORITY = Pubkey.from_string(&#34;3axbTs2z5GBy6usVbNVoqEgZMng3vZvMnAoX29BFfwhr&#34;)
 METAPLEX_METADATA_PROGRAM_ID = Pubkey.from_string(&#34;metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s&#34;)
+
+ORCA_WHIRLPOOLS_CONFIG = OrcaWhirlpoolsConfig()
+ORCA_WHIRLPOOLS_CONFIG_EXTENSION = OrcaWhirlpoolsConfigExtension()
 
 NUM_REWARDS = 3
 TICK_ARRAY_SIZE = 88
@@ -57,7 +74,9 @@ ACCOUNT_SIZE_FEE_TIER = 44
 ACCOUNT_SIZE_WHIRLPOOL = 653
 ACCOUNT_SIZE_TICK_ARRAY = 9988
 ACCOUNT_SIZE_POSITION = 216
-ACCOUNT_SIZE_POSITION_BUNDLE = 136</code></pre>
+ACCOUNT_SIZE_POSITION_BUNDLE = 136
+ACCOUNT_SIZE_WHIRLPOOLS_CONFIG_EXTENSION = 616
+ACCOUNT_SIZE_TOKEN_BADGE = 200</code></pre>
 </details>
 </section>
 <section>
@@ -67,6 +86,79 @@ ACCOUNT_SIZE_POSITION_BUNDLE = 136</code></pre>
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfig"><code class="flex name class">
+<span>class <span class="ident">OrcaWhirlpoolsConfig</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class OrcaWhirlpoolsConfig:
+    SOLANA_MAINNET = Pubkey.from_string(&#34;2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ&#34;)
+    SOLANA_DEVNET = Pubkey.from_string(&#34;FcrweFY1G9HJAHG5inkGB6pKg1HZ6x9UC2WioAfWrGkR&#34;)
+    ECLIPSE_MAINNET = Pubkey.from_string(&#34;FVG4oDbGv16hqTUbovjyGmtYikn6UBEnazz6RVDMEFwv&#34;)
+    ECLIPSE_TESTNET = Pubkey.from_string(&#34;FPydDjRdZu9sT7HVd6ANhfjh85KLq21Pefr5YWWMRPFp&#34;)</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfig.ECLIPSE_MAINNET"><code class="name">var <span class="ident">ECLIPSE_MAINNET</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfig.ECLIPSE_TESTNET"><code class="name">var <span class="ident">ECLIPSE_TESTNET</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfig.SOLANA_DEVNET"><code class="name">var <span class="ident">SOLANA_DEVNET</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfig.SOLANA_MAINNET"><code class="name">var <span class="ident">SOLANA_MAINNET</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfigExtension"><code class="flex name class">
+<span>class <span class="ident">OrcaWhirlpoolsConfigExtension</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class OrcaWhirlpoolsConfigExtension:
+    SOLANA_MAINNET = Pubkey.from_string(&#34;777H5H3Tp9U11uRVRzFwM8BinfiakbaLT8vQpeuhvEiH&#34;)
+    SOLANA_DEVNET = Pubkey.from_string(&#34;475EJ7JqnRpVLoFVzp2ruEYvWWMCf6Z8KMWRujtXXNSU&#34;)
+    ECLIPSE_MAINNET = Pubkey.from_string(&#34;9VrJciULifYcwu2CL8nbXdw4deqQgmv7VTzidwgQYBmm&#34;)
+    ECLIPSE_TESTNET = Pubkey.from_string(&#34;6gUEB962oFdZtwoVyXNya9TfGWnBEbYNYt8UdvzT6PSf&#34;)</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfigExtension.ECLIPSE_MAINNET"><code class="name">var <span class="ident">ECLIPSE_MAINNET</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfigExtension.ECLIPSE_TESTNET"><code class="name">var <span class="ident">ECLIPSE_TESTNET</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfigExtension.SOLANA_DEVNET"><code class="name">var <span class="ident">SOLANA_DEVNET</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfigExtension.SOLANA_MAINNET"><code class="name">var <span class="ident">SOLANA_MAINNET</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -78,6 +170,28 @@ ACCOUNT_SIZE_POSITION_BUNDLE = 136</code></pre>
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="orca_whirlpool.internal" href="index.html">orca_whirlpool.internal</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfig" href="#orca_whirlpool.internal.constants.OrcaWhirlpoolsConfig">OrcaWhirlpoolsConfig</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfig.ECLIPSE_MAINNET" href="#orca_whirlpool.internal.constants.OrcaWhirlpoolsConfig.ECLIPSE_MAINNET">ECLIPSE_MAINNET</a></code></li>
+<li><code><a title="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfig.ECLIPSE_TESTNET" href="#orca_whirlpool.internal.constants.OrcaWhirlpoolsConfig.ECLIPSE_TESTNET">ECLIPSE_TESTNET</a></code></li>
+<li><code><a title="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfig.SOLANA_DEVNET" href="#orca_whirlpool.internal.constants.OrcaWhirlpoolsConfig.SOLANA_DEVNET">SOLANA_DEVNET</a></code></li>
+<li><code><a title="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfig.SOLANA_MAINNET" href="#orca_whirlpool.internal.constants.OrcaWhirlpoolsConfig.SOLANA_MAINNET">SOLANA_MAINNET</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfigExtension" href="#orca_whirlpool.internal.constants.OrcaWhirlpoolsConfigExtension">OrcaWhirlpoolsConfigExtension</a></code></h4>
+<ul class="">
+<li><code><a title="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfigExtension.ECLIPSE_MAINNET" href="#orca_whirlpool.internal.constants.OrcaWhirlpoolsConfigExtension.ECLIPSE_MAINNET">ECLIPSE_MAINNET</a></code></li>
+<li><code><a title="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfigExtension.ECLIPSE_TESTNET" href="#orca_whirlpool.internal.constants.OrcaWhirlpoolsConfigExtension.ECLIPSE_TESTNET">ECLIPSE_TESTNET</a></code></li>
+<li><code><a title="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfigExtension.SOLANA_DEVNET" href="#orca_whirlpool.internal.constants.OrcaWhirlpoolsConfigExtension.SOLANA_DEVNET">SOLANA_DEVNET</a></code></li>
+<li><code><a title="orca_whirlpool.internal.constants.OrcaWhirlpoolsConfigExtension.SOLANA_MAINNET" href="#orca_whirlpool.internal.constants.OrcaWhirlpoolsConfigExtension.SOLANA_MAINNET">SOLANA_MAINNET</a></code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

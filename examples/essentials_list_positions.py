@@ -6,7 +6,7 @@ from solana.rpc.async_api import AsyncClient
 from solana.rpc.types import TokenAccountOpts
 from solders.pubkey import Pubkey
 from solders.keypair import Keypair
-from spl.token.constants import TOKEN_PROGRAM_ID
+from spl.token.constants import TOKEN_PROGRAM_ID, TOKEN_2022_PROGRAM_ID
 
 from orca_whirlpool.constants import ORCA_WHIRLPOOL_PROGRAM_ID
 from orca_whirlpool.context import WhirlpoolContext
@@ -23,12 +23,7 @@ class PositionRelatedAccounts(NamedTuple):
     position: Pubkey
 
 
-async def main():
-    connection = AsyncClient(RPC_ENDPOINT_URL)
-    ctx = WhirlpoolContext(ORCA_WHIRLPOOL_PROGRAM_ID, connection, Keypair())
-
-    token_program = TOKEN_PROGRAM_ID
-
+async def list_positions(ctx: WhirlpoolContext, token_program: Pubkey):
     # list all token accounts
     res = await ctx.connection.get_token_accounts_by_owner(
         MY_WALLET_PUBKEY,
@@ -74,7 +69,6 @@ async def main():
             position.tick_upper_index
         )
 
-        print("POSITION")
         print("  mint:", accounts.mint)
         print("  token_account:", accounts.token_account)
         print("  position pubkey:", accounts.position)
@@ -85,6 +79,21 @@ async def main():
         print("  token_a(u64):", amounts.token_a)
         print("  token_b(u64):", amounts.token_b)
         print("  status:", status)
+        print("")
+
+
+async def main():
+    connection = AsyncClient(RPC_ENDPOINT_URL)
+    ctx = WhirlpoolContext(ORCA_WHIRLPOOL_PROGRAM_ID, connection, Keypair())
+
+    print("Old positions (Token program based NFT):")
+    await list_positions(ctx, TOKEN_PROGRAM_ID)
+
+    # now Orca UI create Token-2022 program based NFT
+    # In SDK, you need to use open_position_with_token_extensions and close_position_with_token_extensions
+    print("New positions (Token-2022 program based NFT):")
+    await list_positions(ctx, TOKEN_2022_PROGRAM_ID)
+
 
 asyncio.run(main())
 
@@ -92,34 +101,55 @@ asyncio.run(main())
 SAMPLE OUTPUT:
 
 $ python esseintials_list_positions.py
-POSITION
-  mint: EWMqkKRJfFd44493aGaz28V1evuVUmQhNKMkk45FieLK
-  token_account: EabX3H5z8UZhEXZUA4z1z1pSkE6xFcWaCHTEc9i9Exkq
-  position pubkey: FskauJ2rCscRCkeakA9btWjmr8CV4oU9xUePzQZhct7U
-  whirlpool: 7wp9f3smjBFGk9AAAZkLJUrSLq8p1SUQ4uuNKrAp75AV
-    token_a: SoLW9muuNQmEAoBws7CWfYQnXRXMVEG12cQhy6LE2Zf
+
+Old positions (Token program based NFT):
+  mint: 8dBM2MtusX9AM75LC71yfjGuiwg14zeyaRCq1GLNK66p
+  token_account: BdMLynUHb4PQJuDVujp8Yf1kuWi8dfwn1CMtQJkeZoYi
+  position pubkey: 2fcPp9nSnk5NHeHVrsEz3Kpv5QhcfPvMc4LgmajKpyz1
+  whirlpool: 58svAxgvgc9yuYMvfiUoDVCfqao51kxB1nHsoMUcErrX
+    token_a: 7TyWPxzcE3MD7wnL79g5aVWjSngUZSvu7brqkews3nVc
     token_b: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
-  liquidity: 1772979
-  token_a(u64): 936466
-  token_b(u64): 37117
-POSITION
-  mint: 7xL6mpE29vtLgntYEDEeawLm6WoeZMXKNYXZU7LGH2de
-  token_account: 7jTmCxHpoLitqGxPfRXMdoRQQQmKQbWrAgUKmBZXoxke
-  position pubkey: 9UP6D8rR9BVbVDqUkG8wkz9eZVBh69huKraaHehJyH3Z
-  whirlpool: HJPjoWUrhoZzkNfRpHuieeFk9WcZWjwy6PBjZ81ngndJ
+  liquidity: 179542253
+  token_a(u64): 0
+  token_b(u64): 9
+  status: PositionStatus.PriceIsAboveRange
+
+  mint: 9EerSewxNYNw6QjzdJg1qKL8ndr3ETn2ifEJbYahvr6w
+  token_account: Exz8b7fveyADrrTP7vScJ7953LLwJRn1k7HVXe8kgkuB
+  position pubkey: G3cVb8WfXoSNavoaZhXtAzfhNzyP7EfyvgXqhhuTBURA
+  whirlpool: 7qbRF6YsyGuLUVs6Y1q64bdVrfe4ZcUUz1JRdoVNUJnm
     token_a: So11111111111111111111111111111111111111112
     token_b: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
-  liquidity: 6638825
-  token_a(u64): 16705449
-  token_b(u64): 119665
-POSITION
-  mint: MTyuSRevzwnSLW9s9NFoGWViQ63hnk3uR7Z19rpQhZA
-  token_account: 69fd81NmuPnYSUe8UuQ7JtSU3xRoF7U5Q64ATfsbAmyY
-  position pubkey: EEcRB8qMfTJxQurGajobwBdF2r8wQBMqEpB73cvwM9yG
-  whirlpool: 2AEWSvUds1wsufnsDPCXjFsJCMJH5SNNm7fSF4kxys9a
+  liquidity: 68263
+  token_a(u64): 147740
+  token_b(u64): 31540
+  status: PositionStatus.PriceIsInRange
+
+  ...
+
+New positions (Token-2022 program based NFT):
+  mint: DrPMQFDLvvKKfYB1kcSPhELMYnyH6YzqnePwGkJ51QZp
+  token_account: FVGXmdLNPm5NpH7MaMNQbwXGkk8SEs3K8bnTXTHjrqKM
+  position pubkey: AmCrz7jWiywKtNiwJRp9vamTDHydRqbVHUqT977kdfEm
+  whirlpool: 5Z66YYYaTmmx1R4mATAGLSc8aV4Vfy5tNdJQzk1GP9RF
+    token_a: orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE
+    token_b: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+  liquidity: 18
+  token_a(u64): 8
+  token_b(u64): 36
+  status: PositionStatus.PriceIsInRange
+
+  mint: BtTcJahunGVVfkY4T81Vxk9Z9sB3yH1a7jR6LvXQcCjU
+  token_account: 3x6cYe1SasKGAZwx342Mp8pL6PbJrCYZjTR1MWk98ZP3
+  position pubkey: 3hY9guUxBLY4ZQDcybx3wkXER3mFRgjNpQa3agJ1Ufrt
+  whirlpool: CWjGo5jkduSW5LN5rxgiQ18vGnJJEKWPCXkpJGxKSQTH
     token_a: So11111111111111111111111111111111111111112
-    token_b: 7dHbWXmci3dT8UFYWYZweBLXgycu7Y3iL6trKn1Y7ARj
-  liquidity: 41191049234
-  token_a(u64): 6363474
-  token_b(u64): 0
+    token_b: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+  liquidity: 39483
+  token_a(u64): 85822
+  token_b(u64): 18164
+  status: PositionStatus.PriceIsInRange
+  
+  ...
+
 """
